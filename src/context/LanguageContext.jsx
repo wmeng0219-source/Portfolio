@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 import zh from '../locales/zh.json';
 import en from '../locales/en.json';
 
@@ -7,18 +7,29 @@ const translations = { zh, en };
 
 export const LanguageProvider = ({ children }) => {
   const [language, setLanguage] = useState(() => {
-    return localStorage.getItem('language') || 'zh';
+    const saved = localStorage.getItem('language');
+    return translations[saved] ? saved : 'zh';
   });
 
   useEffect(() => {
     localStorage.setItem('language', language);
   }, [language]);
 
-  const t = (key) => translations[language][key] || key;
-  const toggleLanguage = () => setLanguage(lang => lang === 'zh' ? 'en' : 'zh');
+  const toggleLanguage = useCallback(() => setLanguage(lang => lang === 'zh' ? 'en' : 'zh'), []);
+
+  const t = useCallback((key) => {
+    const translation = translations[language][key];
+    if (!translation) {
+      console.warn(`[i18n] Translation missing for key: "${key}" in language: "${language}"`);
+      return key;
+    }
+    return translation;
+  }, [language]);
+
+  const value = useMemo(() => ({ language, t, toggleLanguage }), [language, t, toggleLanguage]);
 
   return (
-    <LanguageContext.Provider value={{ language, t, toggleLanguage }}>
+    <LanguageContext.Provider value={value}>
       {children}
     </LanguageContext.Provider>
   );
