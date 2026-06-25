@@ -2,5 +2,11 @@
   "nav.about": "关于",
   "nav.experience": "经历",
   "nav.portfolio": "作品",
-  "nav.contact": "联系"
+  "nav.contact": "联系",
+  "hero.greeting": "你好，我是",
+  "hero.title": "Meng Wen",
+  "hero.subtitle": "产品设计师 · 数字化实践者",
+  "hero.quote": "\"用数字化释放人的精力，回归人文关怀\"",
+  "hero.btn.work": "查看作品",
+  "hero.btn.contact": "联系我"
 }

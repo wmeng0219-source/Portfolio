@@ -2,5 +2,11 @@
   "nav.about": "About",
   "nav.experience": "Experience",
   "nav.portfolio": "Portfolio",
-  "nav.contact": "Contact"
+  "nav.contact": "Contact",
+  "hero.greeting": "Hello, I am",
+  "hero.title": "Meng Wen",
+  "hero.subtitle": "Product Designer · Digital Practitioner",
+  "hero.quote": "\"Liberating human energy through digitalization, returning to human care\"",
+  "hero.btn.work": "View Work",
+  "hero.btn.contact": "Contact Me"
 }
