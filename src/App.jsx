@@ -1,11 +1,13 @@
-import React from 'react'
+import React from 'react';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
     <div>
-      <h1>Portfolio Init</h1>
+      <Navbar />
+      <div style={{ height: '200vh' }}></div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
