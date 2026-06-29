@@ -1,4 +1,4 @@
-# 项目结构说明
+# 站点结构说明
 
 ## 根目录
 
@@ -21,12 +21,16 @@
 
 ## `docs/`
 
+- `origin/`：项目原始材料、草稿和过程性整理。
 - `profile/`：个人背景资料、结构化总结与来源归档。
-- `project/`：项目结构与内容映射说明。
+- `project/`：已整理、可进入网页展示的项目案例。
+- `site/`：当前作品集网站的结构说明与内容映射。
 - `superpowers/`：AI 协作过程中的规格与计划文档。
 
 ## 当前整理原则
 
 - 运行相关文件尽量保持稳定，不因资料整理而变动。
-- 背景资料统一沉淀到 `docs/profile/`，避免继续散落在多个位置。
-- 页面内容开发前，优先参考 `docs/profile/` 与 `docs/project/content-map.md`。
+- 个人背景资料统一沉淀到 `docs/profile/`。
+- 原始项目材料保留在 `docs/origin/`。
+- 面向网页展示的项目内容统一沉淀到 `docs/project/`。
+- 页面内容开发前，优先参考 `docs/profile/`、`docs/project/` 与 `docs/site/content-map.md`。
