@@ -23,8 +23,8 @@
 
 - `origin/`：项目原始材料、草稿和过程性整理。
 - `profile/`：个人背景资料、结构化总结与来源归档。
-- `project/`：已整理、可进入网页展示的项目案例。
-- `site/`：当前作品集网站的结构说明与内容映射。
+- `project/`：已整理完成的项目事实文档，是项目内容的唯一整理入口。
+- `site/`：当前作品集网站的结构说明、内容映射与提炼规则。
 - `superpowers/`：AI 协作过程中的规格与计划文档。
 
 ## 当前整理原则
@@ -32,5 +32,6 @@
 - 运行相关文件尽量保持稳定，不因资料整理而变动。
 - 个人背景资料统一沉淀到 `docs/profile/`。
 - 原始项目材料保留在 `docs/origin/`。
-- 面向网页展示的项目内容统一沉淀到 `docs/project/`。
+- 整理后的项目事实统一沉淀到 `docs/project/`，不再新增 `docs/cases/`。
+- 面向网页展示的内容从 `docs/project/` 和 `docs/profile/` 提炼到 `docs/site/`。
 - 页面内容开发前，优先参考 `docs/profile/`、`docs/project/` 与 `docs/site/content-map.md`。
