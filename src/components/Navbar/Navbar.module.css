@@ -1,45 +1,170 @@
 .navbar {
   position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
-  padding: var(--spacing-sm) var(--spacing-md);
+  height: var(--header-height);
+  padding: 0.9rem clamp(1.25rem, 4vw, 2.5rem);
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 1000;
-  transition: background-color 0.3s, backdrop-filter 0.3s;
+  transition: background-color 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
+
 .scrolled {
   background-color: var(--color-glass);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-border-strong);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.16);
 }
+
 .logo {
-  font-weight: bold;
-  font-size: 1.2rem;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.2rem;
   color: var(--color-text-primary);
+  text-decoration: none;
 }
+
+.logoName {
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.logoMeta {
+  color: var(--color-text-muted);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .navLinks {
   display: flex;
-  gap: var(--spacing-md);
+  gap: 1.35rem;
   align-items: center;
 }
+
 .navLinks a {
   color: var(--color-text-primary);
-  transition: color 0.2s;
+  position: relative;
+  font-size: 0.84rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 0.2s ease, opacity 0.2s ease;
 }
+
+.navLinks a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -0.55rem;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-accent-start), transparent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.2s ease;
+}
+
 .navLinks a:hover {
   color: var(--color-accent-start);
 }
-.langBtn {
-  background: none;
-  border: 1px solid var(--color-border);
-  color: var(--color-text-primary);
-  padding: 4px 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s;
+
+.navLinks a:hover::after {
+  transform: scaleX(1);
 }
+
+.langBtn {
+  min-width: 4.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-text-primary);
+  padding: 0.52rem 0.9rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: border-color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+}
+
 .langBtn:hover {
   border-color: var(--color-accent-start);
+  background-color: rgba(99, 102, 241, 0.08);
+  transform: translateY(-1px);
+}
+
+.menuBtn {
+  display: none;
+  width: 3rem;
+  height: 3rem;
+  background: transparent;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 999px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.35rem;
+  cursor: pointer;
+}
+
+.menuBtn span {
+  display: block;
+  width: 1rem;
+  height: 1px;
+  background: var(--color-text-primary);
+}
+
+@media (max-width: 900px) {
+  .navbar {
+    padding: 0.85rem 1rem;
+  }
+
+  .menuBtn {
+    display: inline-flex;
+  }
+
+  .navLinks {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    right: 1rem;
+    min-width: min(18rem, calc(100vw - 2rem));
+    padding: 1rem;
+    gap: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    background: rgba(10, 10, 15, 0.92);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-lg);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-0.5rem);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .navLinks a,
+  .langBtn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .logoMeta {
+    display: none;
+  }
 }
