@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom/vitest'
+import { beforeEach } from 'vitest'
 
 if (!window.matchMedia) {
   window.matchMedia = (query) => ({
@@ -11,18 +12,6 @@ if (!window.matchMedia) {
     removeEventListener: () => {},
     dispatchEvent: () => false,
   })
-}
-
-if (!window.requestAnimationFrame) {
-  window.requestAnimationFrame = (callback) => window.setTimeout(callback, 16)
-}
-
-if (!window.cancelAnimationFrame) {
-  window.cancelAnimationFrame = (handle) => window.clearTimeout(handle)
-}
-
-if (!window.scrollTo) {
-  window.scrollTo = () => {}
 }
 
 const createStorage = () => {
@@ -42,16 +31,24 @@ const createStorage = () => {
   }
 }
 
+const localStorageShim = createStorage()
+const sessionStorageShim = createStorage()
+
 if (!window.localStorage || typeof window.localStorage.setItem !== 'function') {
   Object.defineProperty(window, 'localStorage', {
-    value: createStorage(),
+    value: localStorageShim,
     configurable: true,
   })
 }
 
 if (!window.sessionStorage || typeof window.sessionStorage.setItem !== 'function') {
   Object.defineProperty(window, 'sessionStorage', {
-    value: createStorage(),
+    value: sessionStorageShim,
     configurable: true,
   })
 }
+
+beforeEach(() => {
+  window.localStorage.clear()
+  window.sessionStorage.clear()
+})
