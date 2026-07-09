@@ -24,6 +24,7 @@ const Portfolio = () => {
             <p className="portfolio-tag">{t(`portfolio.item.${featuredItem}.tag`)}</p>
             <h3 className="portfolio-primary-title">{t(`portfolio.item.${featuredItem}.title`)}</h3>
             <p className="portfolio-primary-body">{t(`portfolio.item.${featuredItem}.body`)}</p>
+            <p className="portfolio-primary-body">{t(`portfolio.item.${featuredItem}.reframe`)}</p>
             <p className="portfolio-result">{t(`portfolio.item.${featuredItem}.result`)}</p>
           </article>
 
@@ -34,6 +35,7 @@ const Portfolio = () => {
                 <p className="portfolio-tag">{t(`portfolio.item.${item}.tag`)}</p>
                 <h3 className="portfolio-card-title">{t(`portfolio.item.${item}.title`)}</h3>
                 <p className="portfolio-card-body">{t(`portfolio.item.${item}.body`)}</p>
+                <p className="portfolio-card-body">{t(`portfolio.item.${item}.reframe`)}</p>
                 <p className="portfolio-result">{t(`portfolio.item.${item}.result`)}</p>
               </article>
             ))}
