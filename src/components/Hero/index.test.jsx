@@ -39,7 +39,7 @@ vi.mock('gsap/ScrollTrigger', () => ({
   ScrollTrigger: {},
 }));
 
-test('renders hero as a character introduction with name-first hierarchy', () => {
+test('renders hero as a lighter cover with a compact episode preview', () => {
   matchMediaAdd.mockImplementation((_queries, callback) => {
     callback({ conditions: { reduceMotion: false, isDesktop: true } });
   });
@@ -59,8 +59,9 @@ test('renders hero as a character introduction with name-first hierarchy', () =>
   ).toBeInTheDocument();
   expect(screen.getByText('我把复杂业务整理成团队能理解、能协作、能推进的产品结构。')).toBeInTheDocument();
   expect(
-    screen.queryByText('不是把页面做得更复杂，而是把复杂业务整理得更清楚。'),
+    screen.queryByText('从这里开始，你看到的不是一组模块，而是一个设计师如何进入复杂问题、建立协作、推动落地。'),
   ).not.toBeInTheDocument();
+  expect(screen.getByText('人物登场之后，再进入方法、能力与代表项目。')).toBeInTheDocument();
   expect(screen.getByRole('link', { name: '查看案例' })).toHaveAttribute('href', '#portfolio');
   expect(screen.getByRole('link', { name: '查看案例' })).toHaveAttribute('data-motion-hover', 'button');
   expect(screen.getByRole('link', { name: '联系我' })).toHaveAttribute('href', '#contact');

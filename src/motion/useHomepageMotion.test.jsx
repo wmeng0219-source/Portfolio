@@ -84,7 +84,7 @@ beforeEach(() => {
   registerPlugin.mockClear();
 });
 
-test('registers section reveal for marked motion items', () => {
+test('uses stronger reveal settings for proof chapter content', () => {
   matchMediaAdd.mockImplementation((_queries, callback) => {
     callback({ conditions: { reduceMotion: false, isDesktop: true } });
   });
@@ -93,10 +93,10 @@ test('registers section reveal for marked motion items', () => {
 
   expect(fromTo).toHaveBeenCalledWith(
     expect.arrayContaining([expect.any(HTMLElement)]),
-    expect.objectContaining({ y: 28, autoAlpha: 0 }),
+    expect.objectContaining({ y: 36, autoAlpha: 0 }),
     expect.objectContaining({
-      duration: 0.8,
-      scrollTrigger: expect.objectContaining({ start: 'top 82%' }),
+      stagger: 0.16,
+      scrollTrigger: expect.objectContaining({ start: 'top 78%' }),
     }),
   );
 });
@@ -130,7 +130,7 @@ test('registers desktop hover tweens for marked motion hover elements', () => {
   );
 });
 
-test('uses a tighter stagger for portfolio side episodes', () => {
+test('keeps lead episode ahead of side episodes in portfolio reveal', () => {
   matchMediaAdd.mockImplementation((_queries, callback) => {
     callback({ conditions: { reduceMotion: false, isDesktop: true } });
   });
@@ -139,9 +139,10 @@ test('uses a tighter stagger for portfolio side episodes', () => {
 
   expect(fromTo).toHaveBeenCalledWith(
     expect.arrayContaining([expect.any(HTMLElement), expect.any(HTMLElement), expect.any(HTMLElement)]),
-    expect.objectContaining({ y: 28, autoAlpha: 0 }),
+    expect.objectContaining({ y: 32, autoAlpha: 0 }),
     expect.objectContaining({
-      stagger: 0.08,
+      stagger: 0.1,
+      scrollTrigger: expect.objectContaining({ start: 'top 80%' }),
     }),
   );
 });

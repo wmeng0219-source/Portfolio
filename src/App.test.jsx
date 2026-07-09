@@ -78,10 +78,15 @@ test('renders homepage sections with updated responsibilities and portfolio emph
     name: '主线篇章：代表作',
   }).closest('section');
   expect(portfolioSection).toHaveAttribute('data-motion-section');
+  expect(within(portfolioSection).getByText('主篇章').closest('.portfolio-stage')).toHaveAttribute(
+    'data-motion-group',
+    'portfolio-stage',
+  );
   expect(within(portfolioSection).getByText('主篇章')).toBeInTheDocument();
   expect(within(portfolioSection).getByText('侧篇章')).toBeInTheDocument();
   const featuredCard = within(portfolioSection).getByText('主篇章').closest('article');
   expect(featuredCard).toHaveAttribute('data-motion-item', 'featured');
+  expect(within(featuredCard).getByText('主流程重构 / 筛查闭环')).toBeInTheDocument();
   expect(within(featuredCard).getByRole('heading', { name: '正畸筛查与状态管理' })).toBeInTheDocument();
   expect(within(portfolioSection).getByText('会员自动化与服务衔接')).toBeInTheDocument();
   expect(within(portfolioSection).getByText('PACS 读片与 AI 辅助判断')).toBeInTheDocument();
