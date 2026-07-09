@@ -1,7 +1,7 @@
 .hero {
   position: relative;
-  min-height: 100svh;
-  padding: calc(var(--header-height) + 3.5rem) clamp(1.25rem, 4vw, 2.5rem) 2.5rem;
+  min-height: 100dvh;
+  padding: calc(var(--header-height) + 2.5rem) clamp(1.25rem, 4vw, 2.5rem) 2rem;
   overflow: clip;
 }
 
@@ -31,15 +31,16 @@
   z-index: 1;
   width: min(100%, var(--content-max));
   margin: 0 auto;
-  min-height: calc(100svh - var(--header-height) - 6rem);
+  min-height: calc(100dvh - var(--header-height) - 4.5rem);
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(22rem, 0.95fr);
-  gap: clamp(2rem, 4vw, 4rem);
-  align-items: center;
+  grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.72fr);
+  gap: clamp(2.5rem, 5vw, 5.5rem);
+  align-items: end;
 }
 
 .copy {
-  width: min(100%, 42rem);
+  width: min(100%, 38rem);
+  padding-bottom: 0.5rem;
 }
 
 .kicker {
@@ -60,21 +61,22 @@
 }
 
 .roleTitle {
-  max-width: 10ch;
-  margin-top: 0.65rem;
+  max-width: 14ch;
+  margin-top: 0.8rem;
   font-family: var(--font-display);
-  font-size: clamp(1.8rem, 2.8vw, 2.85rem);
+  font-size: clamp(1.9rem, 2.8vw, 2.7rem);
   font-weight: 600;
-  line-height: 1.02;
-  letter-spacing: -0.05em;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
 }
 
 .body {
-  max-width: 27rem;
-  margin-top: 1.75rem;
+  max-width: 32rem;
+  margin-top: 1.4rem;
   color: rgba(243, 242, 239, 0.74);
-  font-size: clamp(1.02rem, 1.45vw, 1.12rem);
-  line-height: 1.78;
+  font-size: clamp(1.02rem, 1.35vw, 1.12rem);
+  line-height: 1.8;
+  letter-spacing: 0;
 }
 
 .actions {
@@ -120,30 +122,18 @@
   transform: translateY(-2px);
 }
 
-.metaStrip {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.8rem;
-  margin-top: 1.85rem;
-  color: rgba(243, 242, 239, 0.58);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
 .panel {
   position: relative;
   display: grid;
   gap: 1.35rem;
-  align-self: stretch;
-  min-height: 30rem;
-  padding: 1.55rem;
+  align-self: end;
+  min-height: 24rem;
+  padding: 1.35rem;
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-lg);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
-    rgba(9, 10, 15, 0.72);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
+    rgba(9, 10, 15, 0.56);
   box-shadow: 0 22px 60px rgba(0, 0, 0, 0.28);
   backdrop-filter: blur(18px);
   transform-origin: center center;
@@ -171,9 +161,9 @@
   position: relative;
   z-index: 1;
   margin: 0;
-  color: rgba(243, 242, 239, 0.18);
+  color: rgba(243, 242, 239, 0.12);
   font-family: var(--font-display);
-  font-size: clamp(4.5rem, 8vw, 7rem);
+  font-size: clamp(3.8rem, 6vw, 5.4rem);
   font-weight: 700;
   line-height: 0.88;
   letter-spacing: -0.08em;
@@ -186,10 +176,10 @@
 
 .panelLead {
   display: grid;
-  gap: 0.75rem;
+  gap: 0;
   align-content: end;
-  min-height: 11rem;
-  padding-top: 1rem;
+  min-height: auto;
+  padding-top: 0.9rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -209,27 +199,20 @@
 }
 
 .panelCaption {
-  max-width: 14ch;
+  max-width: 16ch;
   color: rgba(243, 242, 239, 0.72);
-  font-size: 1rem;
-  line-height: 1.5;
+  font-size: 0.95rem;
+  line-height: 1.55;
 }
 
 .panelLeadValue {
-  max-width: 11ch;
+  max-width: 12ch;
   color: var(--color-text-primary);
   font-family: var(--font-display);
-  font-size: clamp(1.7rem, 2.4vw, 2.35rem);
+  font-size: clamp(1.45rem, 2vw, 1.9rem);
   font-weight: 600;
-  line-height: 1;
+  line-height: 1.08;
   letter-spacing: -0.04em;
-}
-
-.panelLeadBody {
-  max-width: 24rem;
-  color: rgba(243, 242, 239, 0.66);
-  font-size: 0.98rem;
-  line-height: 1.68;
 }
 
 @media (max-width: 900px) {
@@ -245,6 +228,7 @@
 
   .copy {
     width: min(100%, 34rem);
+    padding-bottom: 0;
   }
 
   .nameplate {

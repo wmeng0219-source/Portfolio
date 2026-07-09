@@ -117,11 +117,6 @@ const Hero = () => {
               {t('hero.btn.contact')}
             </a>
           </div>
-          <div className={styles.metaStrip} data-hero-anim>
-            <span>{t('hero.signal.1')}</span>
-            <span>{t('hero.signal.2')}</span>
-            <span>{t('hero.signal.3')}</span>
-          </div>
         </div>
 
         <aside className={styles.panel} ref={visualRef} aria-label={t('hero.panel.label')}>
@@ -133,7 +128,6 @@ const Hero = () => {
 
           <div className={styles.panelLead}>
             <p className={styles.panelLeadValue}>{t('hero.title')}</p>
-            <p className={styles.panelLeadBody}>{t('hero.panel.body')}</p>
           </div>
         </aside>
       </div>
