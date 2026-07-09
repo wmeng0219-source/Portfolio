@@ -61,14 +61,16 @@ const PortfolioHarness = () => {
   return (
     <div ref={ref}>
       <section data-motion-section>
-        <div data-motion-item="featured">lead</div>
-        <div data-motion-group="portfolio-secondary">
-          <article data-motion-item data-motion-hover="card">
-            side-a
-          </article>
-          <article data-motion-item data-motion-hover="card">
-            side-b
-          </article>
+        <div data-motion-group="portfolio-stage">
+          <div data-motion-item="featured">lead</div>
+          <div data-motion-group="portfolio-secondary">
+            <article data-motion-item data-motion-hover="card">
+              side-a
+            </article>
+            <article data-motion-item data-motion-hover="card">
+              side-b
+            </article>
+          </div>
         </div>
       </section>
     </div>

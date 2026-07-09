@@ -18,7 +18,7 @@ const Portfolio = () => {
           <p className="section-intro">{t('portfolio.intro')}</p>
         </div>
 
-        <div className="portfolio-stage">
+        <div className="portfolio-stage" data-motion-group="portfolio-stage">
           <article className="portfolio-primary" data-motion-item="featured" data-motion-hover="card">
             <p className="portfolio-chapter-label">{t('portfolio.featured')}</p>
             <p className="portfolio-tag">{t(`portfolio.item.${featuredItem}.tag`)}</p>

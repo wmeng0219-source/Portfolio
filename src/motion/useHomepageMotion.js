@@ -29,26 +29,31 @@ export const useHomepageMotion = (rootRef) => {
             return;
           }
 
-          const staggerAmount = section.querySelector('[data-motion-group="portfolio-secondary"]')
-            ? 0.08
-            : 0.12;
+          const isProofSection = Boolean(section.querySelector('[data-motion-group="proof"]'));
+          const isPortfolioSection = Boolean(section.querySelector('[data-motion-group="portfolio-stage"]'));
+
+          const fromVars = reduceMotion
+            ? { autoAlpha: 0 }
+            : { y: isProofSection ? 36 : isPortfolioSection ? 32 : 24, autoAlpha: 0 };
+
+          const toVars = {
+            y: 0,
+            autoAlpha: 1,
+            duration: reduceMotion ? 0.01 : isProofSection ? 0.95 : isPortfolioSection ? 0.88 : 0.74,
+            stagger: reduceMotion ? 0 : isProofSection ? 0.16 : isPortfolioSection ? 0.1 : 0.08,
+            ease: 'power3.out',
+            overwrite: 'auto',
+            scrollTrigger: {
+              trigger: section,
+              start: isProofSection ? 'top 78%' : isPortfolioSection ? 'top 80%' : 'top 84%',
+              once: true,
+            },
+          };
 
           gsap.fromTo(
             items,
-            reduceMotion ? { autoAlpha: 0 } : { y: 28, autoAlpha: 0 },
-            {
-              y: 0,
-              autoAlpha: 1,
-              duration: reduceMotion ? 0.01 : 0.8,
-              stagger: reduceMotion ? 0 : staggerAmount,
-              ease: 'power3.out',
-              overwrite: 'auto',
-              scrollTrigger: {
-                trigger: section,
-                start: 'top 82%',
-                once: true,
-              },
-            },
+            fromVars,
+            toVars,
           );
         });
 

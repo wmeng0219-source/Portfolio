@@ -87,12 +87,12 @@ main {
 }
 
 .section-title {
-  max-width: 12ch;
+  max-width: 16ch;
   font-family: var(--font-display);
-  font-size: var(--text-h1);
+  font-size: clamp(2.4rem, 5vw, 4.8rem);
   font-weight: 700;
-  line-height: 0.94;
-  letter-spacing: -0.055em;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
 }
 
 .section-copy,
@@ -114,7 +114,10 @@ main {
 .section-copy p,
 .section-intro,
 .contact-intro {
-  max-width: var(--text-column-max);
+  max-width: 40rem;
+  font-size: clamp(1rem, 1.28vw, 1.08rem);
+  line-height: 1.82;
+  letter-spacing: 0;
 }
 
 .section-heading-block {
@@ -246,13 +249,15 @@ main {
 }
 
 .portfolio-primary-title {
-  max-width: 10ch;
+  max-width: 13ch;
   font-size: clamp(2rem, 3.6vw, 3.3rem);
+  line-height: 1.06;
 }
 
 .portfolio-card-title {
-  max-width: 13ch;
+  max-width: 16ch;
   font-size: clamp(1.45rem, 2vw, 1.9rem);
+  line-height: 1.08;
 }
 
 .portfolio-result {
