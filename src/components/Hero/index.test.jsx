@@ -23,13 +23,22 @@ vi.mock('gsap/ScrollTrigger', () => ({
   ScrollTrigger: {},
 }));
 
-test('shows the new homepage narrative copy', () => {
+test('renders the value proposition hero with new contract content', () => {
   render(
     <LanguageProvider>
       <Hero />
     </LanguageProvider>,
   );
 
-  expect(screen.getByText('把复杂业务整理成可理解、可协作、可落地的产品体验')).toBeInTheDocument();
+  expect(
+    screen.getByRole('heading', {
+      level: 1,
+      name: '把复杂业务整理成可理解、可协作、可落地的产品体验',
+    }),
+  ).toBeInTheDocument();
+  expect(screen.getByText('Meng Wen')).toBeInTheDocument();
+  expect(screen.getAllByText('产品设计师与数字化实践者')).toHaveLength(2);
   expect(screen.getByText('复杂业务梳理')).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: '查看案例' })).toHaveAttribute('href', '#portfolio');
+  expect(screen.getByRole('link', { name: '联系我' })).toHaveAttribute('href', '#contact');
 });
