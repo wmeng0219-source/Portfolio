@@ -6,10 +6,14 @@ const items = [1, 2, 3];
 
 const ProofStrip = () => {
   const { t } = useLanguage();
+  const headingId = 'proof-strip-title';
 
   return (
-    <section className={styles.section} aria-label="proof-strip">
+    <section className={styles.section} aria-labelledby={headingId}>
       <div className={styles.shell}>
+        <h2 className={styles.srOnly} id={headingId}>
+          {t('proof.title')}
+        </h2>
         {items.map((item) => (
           <article className={styles.card} key={item}>
             <p className={styles.title}>{t(`proof.item.${item}.title`)}</p>
