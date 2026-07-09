@@ -1,0 +1,3 @@
+{"type":"server-started","port":64493,"host":"0.0.0.0","url_host":"localhost","url":"http://localhost:64493/?key=f4eae9c3d16cb00fe1b75770ee86d3103d35d43b2f8ddd0eb847a7696a3d34a8","screen_dir":"/Users/wen/Desktop/Portfolio/.superpowers/brainstorm/69614-1783523687/content","state_dir":"/Users/wen/Desktop/Portfolio/.superpowers/brainstorm/69614-1783523687/state","idle_timeout_ms":14400000}
+{"type":"screen-added","file":"/Users/wen/Desktop/Portfolio/.superpowers/brainstorm/69614-1783523687/content/homepage-framework-options.html"}
+{"type":"server-stopped","reason":"owner process exited"}

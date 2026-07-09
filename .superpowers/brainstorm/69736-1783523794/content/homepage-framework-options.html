@@ -1,0 +1,120 @@
+<h2>首页整体框架方向</h2>
+<p class="subtitle">都基于你刚选的 C：专业克制，但在首屏和项目区拉出更强的视觉张力。你可以点选一个最接近的方向。</p>
+
+<div class="cards">
+  <div class="card" data-choice="framework-a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup">
+        <div class="mockup-header">方案 A - 编辑型首屏 + 项目剧场</div>
+        <div class="mockup-body" style="display:grid; gap:14px;">
+          <div style="display:grid; grid-template-columns: 1.2fr 0.8fr; gap:12px;">
+            <div style="min-height:160px; padding:18px; border-radius:16px; background:#171923;">
+              <div class="label">Hero</div>
+              <div style="margin-top:10px; font-size:32px; line-height:1; font-weight:700;">大标题<br>身份定位</div>
+              <div style="margin-top:12px; opacity:.7;">左侧强文字，右侧不是图片，而是数据式标签与方法论摘要。</div>
+            </div>
+            <div style="min-height:160px; padding:18px; border-radius:16px; background:linear-gradient(135deg,#2a3154,#12141b); display:grid; align-content:end;">
+              <div class="label">Method Block</div>
+              <div style="margin-top:10px; font-size:14px; opacity:.8;">Focus / System / Delivery</div>
+            </div>
+          </div>
+          <div style="display:grid; grid-template-columns: 0.9fr 1.1fr; gap:12px;">
+            <div style="min-height:110px; padding:16px; border-radius:16px; background:#13151d;">About</div>
+            <div style="min-height:110px; padding:16px; border-radius:16px; background:#13151d;">Experience</div>
+          </div>
+          <div style="min-height:150px; padding:16px; border-radius:16px; background:linear-gradient(135deg,#181d2f,#101118);">Portfolio 三个项目变成横向舞台，不再是普通列表。</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>方案 A</h3>
+      <p>更像个人品牌首页，冲击力来自强排版和项目舞台，适合你的专业叙事。</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="framework-b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup">
+        <div class="mockup-header">方案 B - 案例先行 + 能力折叠</div>
+        <div class="mockup-body" style="display:grid; gap:14px;">
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+            <div style="min-height:170px; padding:18px; border-radius:16px; background:linear-gradient(135deg,#1a2040,#0f1117);">
+              <div class="label">Hero</div>
+              <div style="margin-top:10px; font-size:28px; line-height:1.05; font-weight:700;">一句定位<br>一个主案例入口</div>
+            </div>
+            <div style="min-height:170px; padding:18px; border-radius:16px; background:#171923;">首屏直接出现代表项目预览</div>
+          </div>
+          <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px;">
+            <div style="min-height:120px; padding:14px; border-radius:16px; background:#13151d;">项目 1</div>
+            <div style="min-height:120px; padding:14px; border-radius:16px; background:#13151d;">项目 2</div>
+            <div style="min-height:120px; padding:14px; border-radius:16px; background:#13151d;">项目 3</div>
+          </div>
+          <div style="min-height:120px; padding:16px; border-radius:16px; background:#13151d;">About 和 Experience 下沉到后面，作为“为什么是你”的解释层。</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>方案 B</h3>
+      <p>更像 portfolio 展示页，首屏更直接，但会弱化你“复杂业务系统设计”的成长叙事。</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="framework-c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup">
+        <div class="mockup-header">方案 C - 叙事首屏 + 能力证据 + 项目入口</div>
+        <div class="mockup-body" style="display:grid; gap:14px;">
+          <div style="display:grid; grid-template-columns: 1.1fr 0.9fr; gap:12px;">
+            <div style="min-height:170px; padding:18px; border-radius:16px; background:#171923;">
+              <div class="label">Hero</div>
+              <div style="margin-top:10px; font-size:32px; line-height:1; font-weight:700;">身份定位<br>问题类型<br>工作方式</div>
+              <div style="margin-top:12px; opacity:.72;">首屏不是只讲“我是谁”，而是同时讲“我解决什么问题”。</div>
+            </div>
+            <div style="min-height:170px; padding:18px; border-radius:16px; background:linear-gradient(135deg,#23294a,#11141b); display:grid; gap:10px;">
+              <div style="height:34px; border-radius:999px; background:rgba(255,255,255,.07);"></div>
+              <div style="flex:1; min-height:54px; border-radius:14px; background:rgba(255,255,255,.06);"></div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                <div style="height:44px; border-radius:12px; background:rgba(255,255,255,.06);"></div>
+                <div style="height:44px; border-radius:12px; background:rgba(255,255,255,.06);"></div>
+              </div>
+            </div>
+          </div>
+          <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px;">
+            <div style="min-height:110px; padding:14px; border-radius:16px; background:#13151d;">能力证据 1</div>
+            <div style="min-height:110px; padding:14px; border-radius:16px; background:#13151d;">能力证据 2</div>
+            <div style="min-height:110px; padding:14px; border-radius:16px; background:#13151d;">能力证据 3</div>
+          </div>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+            <div style="min-height:140px; padding:16px; border-radius:16px; background:#13151d;">成长路径 Experience</div>
+            <div style="min-height:140px; padding:16px; border-radius:16px; background:linear-gradient(135deg,#181d2f,#101118);">Project Preview 舞台</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>方案 C</h3>
+      <p>先建立你的专业判断，再用能力证据和项目入口强化说服力，最适合你现在的内容结构。</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="pros-cons">
+    <div class="pros">
+      <h4>我推荐</h4>
+      <ul>
+        <li>优先走方案 C</li>
+        <li>保留专业克制，不会做成纯展示型炫技作品集</li>
+        <li>可以直接承接你现有 About、Experience、Portfolio 内容资产</li>
+      </ul>
+    </div>
+    <div class="cons">
+      <h4>需要注意</h4>
+      <ul>
+        <li>首屏文案要更像“价值主张”，不能继续只是自我介绍</li>
+        <li>项目区必须改成更像入口舞台，而不是列表</li>
+        <li>需要一个更强的结构化主视觉，而不是纯渐变背景</li>
+      </ul>
+    </div>
+  </div>
+</div>
