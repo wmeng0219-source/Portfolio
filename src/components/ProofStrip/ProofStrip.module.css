@@ -34,6 +34,15 @@
   border: 0;
 }
 
+.eyebrow {
+  margin-bottom: 0.95rem;
+  color: rgba(229, 233, 255, 0.58);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
 .title {
   margin-bottom: 0.7rem;
   color: var(--color-text-primary);

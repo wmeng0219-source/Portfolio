@@ -16,6 +16,7 @@ const ProofStrip = () => {
         </h2>
         {items.map((item) => (
           <article className={styles.card} key={item}>
+            <p className={styles.eyebrow}>{t(`proof.item.${item}.label`)}</p>
             <p className={styles.title}>{t(`proof.item.${item}.title`)}</p>
             <p className={styles.body}>{t(`proof.item.${item}.body`)}</p>
           </article>

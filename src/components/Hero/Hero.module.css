@@ -195,8 +195,7 @@
 
 .panelLeadLabel,
 .panelLeadValue,
-.panelCard span,
-.panelCard p {
+.panelLeadBody {
   margin: 0;
 }
 
@@ -218,43 +217,11 @@
   letter-spacing: -0.04em;
 }
 
-.panelGrid {
-  display: grid;
-  gap: 0.9rem;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.panelCard {
-  min-height: 8.5rem;
-  display: grid;
-  align-content: space-between;
-  gap: 1rem;
-  padding: 1.1rem;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: calc(var(--radius-lg) - 6px);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)),
-    rgba(255, 255, 255, 0.015);
-}
-
-.panelCard:last-child {
-  grid-column: 1 / -1;
-  min-height: 7rem;
-}
-
-.panelCard span {
-  color: rgba(243, 242, 239, 0.54);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.panelCard p {
-  max-width: 14ch;
-  color: rgba(243, 242, 239, 0.96);
-  font-size: 1rem;
-  line-height: 1.45;
+.panelLeadBody {
+  max-width: 28rem;
+  color: rgba(243, 242, 239, 0.66);
+  font-size: 0.98rem;
+  line-height: 1.68;
 }
 
 @media (max-width: 900px) {
@@ -280,13 +247,6 @@
     min-height: auto;
   }
 
-  .panelGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .panelCard:last-child {
-    grid-column: auto;
-  }
 }
 
 @media (max-width: 640px) {

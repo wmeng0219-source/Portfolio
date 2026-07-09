@@ -10,17 +10,15 @@ const Contact = () => {
         <p className="section-kicker">{t('contact.kicker')}</p>
         <h2 className="section-title">{t('contact.title')}</h2>
         <p className="section-intro contact-intro">{t('contact.body')}</p>
-        <a className="contact-email" href={`mailto:${t('contact.email')}`}>
-          {t('contact.email')}
-        </a>
         <div className="contact-actions">
           <a className="primary-link" href={`mailto:${t('contact.email')}`}>
             {t('contact.primary')}
           </a>
-          <a className="secondary-link" href="#hero">
-            {t('contact.secondary')}
-          </a>
         </div>
+        <span className="contact-email">{t('contact.email')}</span>
+        <a className="secondary-link contact-backlink" href="#hero">
+          {t('contact.secondary')}
+        </a>
       </div>
     </section>
   );

@@ -1,15 +1,15 @@
 :root {
-  --color-bg-primary: #090a0f;
-  --color-bg-secondary: #101118;
-  --color-bg-elevated: #171923;
-  --color-text-primary: #f3f2ef;
-  --color-text-secondary: #a2a0ad;
-  --color-text-muted: rgba(243, 242, 239, 0.66);
-  --color-accent-start: #6366f1;
-  --color-accent-end: #7c64ff;
+  --color-bg-primary: #0a0d14;
+  --color-bg-secondary: #10141d;
+  --color-bg-elevated: #171d27;
+  --color-text-primary: #f5f7fb;
+  --color-text-secondary: #b1bac9;
+  --color-text-muted: rgba(245, 247, 251, 0.68);
+  --color-accent-start: #5b8cff;
+  --color-accent-end: #7aa2ff;
   --color-border: rgba(255,255,255,0.08);
-  --color-border-strong: rgba(255,255,255,0.16);
-  --color-glass: rgba(9, 10, 15, 0.72);
+  --color-border-strong: rgba(255,255,255,0.14);
+  --color-glass: rgba(10, 13, 20, 0.72);
   
   --font-display: 'Inter Tight', 'Noto Sans SC', sans-serif;
   --font-body: 'Inter', 'Noto Sans SC', sans-serif;
@@ -24,11 +24,12 @@
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 20px;
+  --radius-xl: 28px;
   --radius-full: 9999px;
 
   --header-height: 84px;
   --content-max: 1240px;
-  --text-column-max: 37rem;
+  --text-column-max: 39rem;
   
   --text-hero: clamp(4.8rem, 11vw, 8.5rem);
   --text-h1: clamp(2.4rem, 4.3vw, 4rem);

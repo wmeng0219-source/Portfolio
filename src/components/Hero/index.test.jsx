@@ -37,8 +37,8 @@ test('renders the value proposition hero with new contract content', () => {
     }),
   ).toBeInTheDocument();
   expect(screen.getByText('Meng Wen')).toBeInTheDocument();
-  expect(screen.getAllByText('产品设计师与数字化实践者')).toHaveLength(2);
-  expect(screen.getByText('复杂业务梳理')).toBeInTheDocument();
+  expect(screen.getByText('产品设计师与数字化实践者')).toBeInTheDocument();
+  expect(screen.getByText('不是把页面做得更复杂，而是把复杂业务整理得更清楚。')).toBeInTheDocument();
   expect(screen.getByRole('link', { name: '查看案例' })).toHaveAttribute('href', '#portfolio');
   expect(screen.getByRole('link', { name: '联系我' })).toHaveAttribute('href', '#contact');
 });

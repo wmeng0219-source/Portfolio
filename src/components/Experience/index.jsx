@@ -15,14 +15,12 @@ const Experience = () => {
           <p className="section-intro">{t('experience.intro')}</p>
         </div>
 
-        <div className="timeline">
+        <div className="phase-grid">
           {items.map((item) => (
-            <article className="timeline-item" key={item}>
-              <p className="timeline-label">{t(`experience.item.${item}.period`)}</p>
-              <div>
-                <h3 className="timeline-title">{t(`experience.item.${item}.title`)}</h3>
-                <p className="timeline-body">{t(`experience.item.${item}.body`)}</p>
-              </div>
+            <article className="phase-card" key={item}>
+              <p className="phase-label">{t(`experience.item.${item}.period`)}</p>
+              <h3 className="phase-title">{t(`experience.item.${item}.title`)}</h3>
+              <p className="phase-body">{t(`experience.item.${item}.body`)}</p>
             </article>
           ))}
         </div>
