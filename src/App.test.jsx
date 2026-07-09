@@ -86,8 +86,29 @@ test('renders homepage sections with updated responsibilities and portfolio emph
   expect(within(portfolioSection).getByText('侧篇章')).toBeInTheDocument();
   const featuredCard = within(portfolioSection).getByText('主篇章').closest('article');
   expect(featuredCard).toHaveAttribute('data-motion-item', 'featured');
-  expect(within(featuredCard).getByText('主流程重构 / 筛查闭环')).toBeInTheDocument();
+  expect(within(featuredCard).getByText('主流程重构 / 筛查机制')).toBeInTheDocument();
   expect(within(featuredCard).getByRole('heading', { name: '正畸筛查与状态管理' })).toBeInTheDocument();
+  expect(
+    within(featuredCard).getByText('原有正畸前置管理依赖面评会与线下沟通，筛查、结论和后续推进缺少连续承接。'),
+  ).toBeInTheDocument();
+  expect(
+    within(featuredCard).getByText('我把推荐逻辑、再筛查机制、正畸状态与多角色协作整理进同一条系统流程。'),
+  ).toBeInTheDocument();
+  expect(
+    within(featuredCard).getByText('最终建立了从推荐到预约的可追踪漏斗，让前置管理第一次成为连续机制。'),
+  ).toBeInTheDocument();
+  expect(
+    within(portfolioSection).getByText('会员、卡券、收费和账单彼此独立，一线靠经验操作，财务靠人工核对。'),
+  ).toBeInTheDocument();
+  expect(
+    within(portfolioSection).getByText('我梳理会员卡、优惠、收费与对账关系，并把高频会员流程改成系统自动承接。'),
+  ).toBeInTheDocument();
+  expect(
+    within(portfolioSection).getByText('纯人工读片缺少系统留痕与质控，拍片利用率和诊断行为都无法追踪。'),
+  ).toBeInTheDocument();
+  expect(
+    within(portfolioSection).getByText('我先把读片变成结构化记录流程，再建立 AI 标记、医生复核、差异回收的人机协作机制。'),
+  ).toBeInTheDocument();
   expect(within(portfolioSection).getByText('会员自动化与服务衔接')).toBeInTheDocument();
   expect(within(portfolioSection).getByText('PACS 读片与 AI 辅助判断')).toBeInTheDocument();
 
