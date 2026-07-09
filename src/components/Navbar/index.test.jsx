@@ -50,6 +50,44 @@ test('removes closed mobile navigation links from the accessibility tree after s
   expect(document.getElementById('primary-navigation')).toHaveAttribute('aria-hidden', 'true');
 });
 
+test('returns focus to the menu button after activating a mobile navigation item', async () => {
+  const user = userEvent.setup();
+
+  render(
+    <LanguageProvider>
+      <Navbar />
+    </LanguageProvider>,
+  );
+
+  const menuButton = screen.getByRole('button', { name: '菜单' });
+  await user.click(menuButton);
+
+  await user.tab();
+
+  const aboutLink = screen.getByRole('link', { name: '关于' });
+  expect(aboutLink).toHaveFocus();
+
+  await user.keyboard('{Enter}');
+
+  expect(menuButton).toHaveFocus();
+  expect(menuButton).toHaveAttribute('aria-expanded', 'false');
+});
+
+test('marks navbar links and language button for motion hover hooks', async () => {
+  const user = userEvent.setup();
+
+  render(
+    <LanguageProvider>
+      <Navbar />
+    </LanguageProvider>,
+  );
+
+  await user.click(screen.getByRole('button', { name: '菜单' }));
+
+  expect(screen.getByRole('link', { name: '关于' })).toHaveAttribute('data-motion-hover', 'nav');
+  expect(screen.getByRole('button', { name: 'EN' })).toHaveAttribute('data-motion-hover', 'button');
+});
+
 test('defines a section anchor offset for the fixed navigation', () => {
   const globalStyles = readFileSync(path.resolve(process.cwd(), 'src/styles/global.css'), 'utf8');
 

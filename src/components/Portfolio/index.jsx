@@ -8,9 +8,9 @@ const Portfolio = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="page-section page-section-dark" id="portfolio">
+    <section className="page-section page-section-dark" id="portfolio" data-motion-section>
       <div className="section-shell">
-        <div className="section-heading">
+        <div className="section-heading section-heading-episodic" data-motion-item>
           <div>
             <p className="section-kicker">{t('portfolio.kicker')}</p>
             <h2 className="section-title">{t('portfolio.title')}</h2>
@@ -19,17 +19,18 @@ const Portfolio = () => {
         </div>
 
         <div className="portfolio-stage">
-          <article className="portfolio-primary">
-            <p className="eyebrow-label">{t('portfolio.featured')}</p>
+          <article className="portfolio-primary" data-motion-item="featured" data-motion-hover="card">
+            <p className="portfolio-chapter-label">{t('portfolio.featured')}</p>
             <p className="portfolio-tag">{t(`portfolio.item.${featuredItem}.tag`)}</p>
             <h3 className="portfolio-primary-title">{t(`portfolio.item.${featuredItem}.title`)}</h3>
             <p className="portfolio-primary-body">{t(`portfolio.item.${featuredItem}.body`)}</p>
             <p className="portfolio-result">{t(`portfolio.item.${featuredItem}.result`)}</p>
           </article>
 
-          <div className="portfolio-secondary">
+          <div className="portfolio-secondary" data-motion-group="portfolio-secondary">
+            <p className="portfolio-side-label">{t('portfolio.secondaryLabel')}</p>
             {secondaryItems.map((item) => (
-              <article className="portfolio-card" key={item}>
+              <article className="portfolio-card" key={item} data-motion-item data-motion-hover="card">
                 <p className="portfolio-tag">{t(`portfolio.item.${item}.tag`)}</p>
                 <h3 className="portfolio-card-title">{t(`portfolio.item.${item}.title`)}</h3>
                 <p className="portfolio-card-body">{t(`portfolio.item.${item}.body`)}</p>

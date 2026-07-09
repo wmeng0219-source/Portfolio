@@ -21,6 +21,9 @@
   background:
     radial-gradient(circle at center, rgba(99, 102, 241, 0.22), transparent 0 56%);
   filter: blur(10px);
+  opacity: 0.72;
+  transform-origin: center center;
+  will-change: transform, opacity;
 }
 
 .shell {
@@ -36,7 +39,7 @@
 }
 
 .copy {
-  width: min(100%, 39rem);
+  width: min(100%, 42rem);
 }
 
 .kicker {
@@ -48,18 +51,27 @@
   margin-bottom: 1.1rem;
 }
 
-.title {
+.nameplate {
   font-family: var(--font-display);
-  font-size: clamp(3.75rem, 7vw, 6.4rem);
-  font-weight: 800;
-  line-height: 0.92;
-  letter-spacing: -0.07em;
-  max-width: 8.4ch;
+  font-size: clamp(4.3rem, 10vw, 8.4rem);
+  font-weight: 700;
+  line-height: 0.88;
+  letter-spacing: -0.08em;
+}
+
+.roleTitle {
+  max-width: 10ch;
+  margin-top: 0.65rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 2.8vw, 2.85rem);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.05em;
 }
 
 .body {
-  max-width: 33rem;
-  margin-top: 1.5rem;
+  max-width: 27rem;
+  margin-top: 1.75rem;
   color: rgba(243, 242, 239, 0.74);
   font-size: clamp(1.02rem, 1.45vw, 1.12rem);
   line-height: 1.78;
@@ -86,6 +98,7 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  will-change: transform;
 }
 
 .btnPrimary {
@@ -107,36 +120,25 @@
   transform: translateY(-2px);
 }
 
-.meta {
-  display: grid;
-  gap: 0.25rem;
-  margin-top: 2rem;
-}
-
-.metaName,
-.metaRole {
-  display: block;
-}
-
-.metaName {
-  color: var(--color-text-primary);
-  font-size: 1rem;
+.metaStrip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.85rem;
+  color: rgba(243, 242, 239, 0.58);
+  font-size: 0.72rem;
   font-weight: 600;
-}
-
-.metaRole {
-  color: rgba(243, 242, 239, 0.62);
-  font-size: 0.92rem;
-  line-height: 1.5;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .panel {
   position: relative;
   display: grid;
-  gap: 1.15rem;
+  gap: 1.35rem;
   align-self: stretch;
-  min-height: 31rem;
-  padding: 1.45rem;
+  min-height: 30rem;
+  padding: 1.55rem;
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-lg);
   background:
@@ -145,6 +147,7 @@
   box-shadow: 0 22px 60px rgba(0, 0, 0, 0.28);
   backdrop-filter: blur(18px);
   transform-origin: center center;
+  will-change: transform;
 }
 
 .panel::before {
@@ -159,41 +162,39 @@
 }
 
 .panelTop,
-.panelLead,
-.panelGrid {
+.panelLead {
   position: relative;
   z-index: 1;
 }
 
-.panelTop {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
+.panelEpisode {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: rgba(243, 242, 239, 0.18);
+  font-family: var(--font-display);
+  font-size: clamp(4.5rem, 8vw, 7rem);
+  font-weight: 700;
+  line-height: 0.88;
+  letter-spacing: -0.08em;
 }
 
-.panelChip {
-  display: inline-flex;
-  align-items: center;
-  min-height: 2rem;
-  padding: 0.4rem 0.72rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-full);
-  color: rgba(243, 242, 239, 0.68);
-  background: rgba(255, 255, 255, 0.03);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+.panelTop {
+  display: grid;
+  gap: 0.45rem;
 }
 
 .panelLead {
   display: grid;
-  gap: 0.45rem;
-  padding: 1.4rem 0 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  gap: 0.75rem;
+  align-content: end;
+  min-height: 11rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .panelLeadLabel,
+.panelCaption,
 .panelLeadValue,
 .panelLeadBody {
   margin: 0;
@@ -207,18 +208,25 @@
   text-transform: uppercase;
 }
 
+.panelCaption {
+  max-width: 14ch;
+  color: rgba(243, 242, 239, 0.72);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
 .panelLeadValue {
-  max-width: 16ch;
+  max-width: 11ch;
   color: var(--color-text-primary);
   font-family: var(--font-display);
-  font-size: clamp(1.45rem, 2vw, 1.9rem);
+  font-size: clamp(1.7rem, 2.4vw, 2.35rem);
   font-weight: 600;
-  line-height: 1.12;
+  line-height: 1;
   letter-spacing: -0.04em;
 }
 
 .panelLeadBody {
-  max-width: 28rem;
+  max-width: 24rem;
   color: rgba(243, 242, 239, 0.66);
   font-size: 0.98rem;
   line-height: 1.68;
@@ -239,7 +247,7 @@
     width: min(100%, 34rem);
   }
 
-  .title {
+  .nameplate {
     max-width: none;
   }
 
@@ -259,8 +267,12 @@
     letter-spacing: 0.2em;
   }
 
-  .title {
-    font-size: clamp(3rem, 13vw, 4.2rem);
+  .nameplate {
+    font-size: clamp(3.4rem, 16vw, 5.1rem);
+  }
+
+  .roleTitle {
+    font-size: clamp(1.45rem, 7vw, 2rem);
   }
 
   .actions {
