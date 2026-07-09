@@ -1,15 +1,16 @@
 import React from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 
-const items = [1, 2, 3];
+const featuredItem = 2;
+const secondaryItems = [1, 3];
 
 const Portfolio = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="page-section page-section-dark" id="portfolio">
+    <section className="page-section page-section-dark" id="portfolio" data-motion-section>
       <div className="section-shell">
-        <div className="section-heading">
+        <div className="section-heading section-heading-episodic" data-motion-item>
           <div>
             <p className="section-kicker">{t('portfolio.kicker')}</p>
             <h2 className="section-title">{t('portfolio.title')}</h2>
@@ -17,16 +18,26 @@ const Portfolio = () => {
           <p className="section-intro">{t('portfolio.intro')}</p>
         </div>
 
-        <div className="work-list">
-          {items.map((item) => (
-            <article className="work-row" key={item}>
-              <p className="work-category">{t(`portfolio.item.${item}.category`)}</p>
-              <div className="work-body">
-                <h3 className="work-title">{t(`portfolio.item.${item}.title`)}</h3>
-                <p className="work-summary">{t(`portfolio.item.${item}.body`)}</p>
-              </div>
-            </article>
-          ))}
+        <div className="portfolio-stage">
+          <article className="portfolio-primary" data-motion-item="featured" data-motion-hover="card">
+            <p className="portfolio-chapter-label">{t('portfolio.featured')}</p>
+            <p className="portfolio-tag">{t(`portfolio.item.${featuredItem}.tag`)}</p>
+            <h3 className="portfolio-primary-title">{t(`portfolio.item.${featuredItem}.title`)}</h3>
+            <p className="portfolio-primary-body">{t(`portfolio.item.${featuredItem}.body`)}</p>
+            <p className="portfolio-result">{t(`portfolio.item.${featuredItem}.result`)}</p>
+          </article>
+
+          <div className="portfolio-secondary" data-motion-group="portfolio-secondary">
+            <p className="portfolio-side-label">{t('portfolio.secondaryLabel')}</p>
+            {secondaryItems.map((item) => (
+              <article className="portfolio-card" key={item} data-motion-item data-motion-hover="card">
+                <p className="portfolio-tag">{t(`portfolio.item.${item}.tag`)}</p>
+                <h3 className="portfolio-card-title">{t(`portfolio.item.${item}.title`)}</h3>
+                <p className="portfolio-card-body">{t(`portfolio.item.${item}.body`)}</p>
+                <p className="portfolio-result">{t(`portfolio.item.${item}.result`)}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>
