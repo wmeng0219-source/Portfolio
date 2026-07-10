@@ -31,9 +31,12 @@ jobs:
         with:
           node-version: '22'
           cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --registry https://registry.npmjs.org
+        env:
+          NODE_AUTH_TOKEN: ''
 
       - name: Build
         run: npm run build
