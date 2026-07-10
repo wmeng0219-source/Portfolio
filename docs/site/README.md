@@ -9,7 +9,7 @@
 ## 目录职责
 
 - 承担网站层面的结构说明、页面映射与表达边界定义。
-- 内容来源优先是 `docs/project/` 与 `docs/profile/`。
+- 内容来源优先是 `docs/project/` 与 `docs/profile/`，视觉素材可补充引用 `docs/design/`。
 - 不直接承担原始事实归档职责。
 
 ## 文件说明
@@ -21,5 +21,6 @@
 
 - 需要了解网站结构时，先看 `structure.md`。
 - 需要补充页面内容时，优先从 `docs/project/` 与 `docs/profile/` 提炼。
+- 需要补充项目展示图、流程图或设计说明时，可回看 `docs/design/`。
 - 不直接从 `docs/origin/` 抽取网页文案。
 - 需要查看设计与计划过程文档时，前往 `docs/superpowers/`。
