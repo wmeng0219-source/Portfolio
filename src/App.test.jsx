@@ -50,16 +50,20 @@ test('renders homepage sections with updated responsibilities and portfolio emph
     </LanguageProvider>,
   );
 
-  const proofSection = screen.getByRole('region', { name: '先给出你会继续往下看的理由' });
+  const proofSection = screen.getByRole('region', { name: '继续往下看的三个理由' });
   expect(proofSection).toHaveAttribute('data-motion-section');
   expect(within(proofSection).queryByRole('link')).not.toBeInTheDocument();
   expect(proofSection.querySelectorAll('[data-motion-item]')).toHaveLength(3);
+  expect(within(proofSection).getByText('先把复杂问题看清')).toBeInTheDocument();
+  expect(within(proofSection).getByText('让多角色协作真正推进')).toBeInTheDocument();
+  expect(within(proofSection).getByText('兼顾表达质量与真实交付')).toBeInTheDocument();
 
   const aboutSection = screen.getByRole('heading', {
     level: 2,
     name: '把业务理解、流程设计与协作推进放进同一套产品方法里',
   }).closest('section');
   expect(aboutSection).toHaveAttribute('data-motion-section');
+  expect(within(aboutSection).getByText('第三幕 / 方法')).toBeInTheDocument();
   expect(within(aboutSection).getByText('长期场景')).toBeInTheDocument();
   expect(within(aboutSection).getByText('工作方式')).toBeInTheDocument();
   expect(within(aboutSection).getByText('能力结构')).toBeInTheDocument();
@@ -69,14 +73,16 @@ test('renders homepage sections with updated responsibilities and portfolio emph
     name: '跨设计、产品与业务现场。',
   }).closest('section');
   expect(experienceSection).toHaveAttribute('data-motion-section');
+  expect(within(experienceSection).getByText('第四幕 / 路径')).toBeInTheDocument();
   expect(within(experienceSection).getByText('2019 - 2020')).toBeInTheDocument();
   expect(within(experienceSection).getByText('2023.04 - 至今')).toBeInTheDocument();
 
   const portfolioSection = screen.getByRole('heading', {
     level: 2,
-    name: '主线篇章：代表作',
+    name: '代表案例',
   }).closest('section');
   expect(portfolioSection).toHaveAttribute('data-motion-section');
+  expect(within(portfolioSection).getByText('主线篇章 / 案例')).toBeInTheDocument();
   expect(within(portfolioSection).getByText('主篇章').closest('.portfolio-stage')).toHaveAttribute(
     'data-motion-group',
     'portfolio-stage',
@@ -116,6 +122,7 @@ test('renders homepage sections with updated responsibilities and portfolio emph
     name: '如果你希望一起推进复杂业务产品，欢迎联系我。',
   }).closest('section');
   expect(contactSection).toHaveAttribute('data-motion-section');
+  expect(within(contactSection).getByText('尾声 / 联系')).toBeInTheDocument();
   expect(within(contactSection).getByText('主联系渠道')).toBeInTheDocument();
   const links = within(contactSection).getAllByRole('link');
   expect(links).toHaveLength(1);

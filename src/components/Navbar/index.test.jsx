@@ -36,16 +36,19 @@ test('removes closed mobile navigation links from the accessibility tree after s
     </LanguageProvider>,
   );
 
-  expect(screen.queryByRole('link', { name: '关于' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('link', { name: '方法' })).not.toBeInTheDocument();
 
   await user.click(screen.getByRole('button', { name: '菜单' }));
 
-  expect(screen.getByRole('link', { name: '关于' })).toHaveAttribute('href', '#about');
+  expect(screen.getByRole('link', { name: '方法' })).toHaveAttribute('href', '#about');
+  expect(screen.getByRole('link', { name: '路径' })).toHaveAttribute('href', '#experience');
+  expect(screen.getByRole('link', { name: '案例' })).toHaveAttribute('href', '#portfolio');
+  expect(screen.getByRole('link', { name: '联系' })).toHaveAttribute('href', '#contact');
 
-  await user.click(screen.getByRole('link', { name: '关于' }));
+  await user.click(screen.getByRole('link', { name: '方法' }));
 
   expect(screen.getByRole('button', { name: '菜单' })).toBeInTheDocument();
-  expect(screen.queryByRole('link', { name: '关于' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('link', { name: '方法' })).not.toBeInTheDocument();
   expect(document.getElementById('primary-navigation')).toHaveAttribute('hidden');
   expect(document.getElementById('primary-navigation')).toHaveAttribute('aria-hidden', 'true');
 });
@@ -64,7 +67,7 @@ test('returns focus to the menu button after activating a mobile navigation item
 
   await user.tab();
 
-  const aboutLink = screen.getByRole('link', { name: '关于' });
+  const aboutLink = screen.getByRole('link', { name: '方法' });
   expect(aboutLink).toHaveFocus();
 
   await user.keyboard('{Enter}');
@@ -84,7 +87,7 @@ test('marks navbar links and language button for motion hover hooks', async () =
 
   await user.click(screen.getByRole('button', { name: '菜单' }));
 
-  expect(screen.getByRole('link', { name: '关于' })).toHaveAttribute('data-motion-hover', 'nav');
+  expect(screen.getByRole('link', { name: '方法' })).toHaveAttribute('data-motion-hover', 'nav');
   expect(screen.getByRole('button', { name: 'EN' })).toHaveAttribute('data-motion-hover', 'button');
 });
 
