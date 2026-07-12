@@ -15,10 +15,8 @@ const Contact = () => {
             {t('contact.primary')}
           </a>
         </div>
+        <p className="contact-label" data-motion-item>{t('contact.secondary')}</p>
         <span className="contact-email" data-motion-item>{t('contact.email')}</span>
-        <a className="secondary-link contact-backlink" href="#hero" data-motion-hover="button">
-          {t('contact.secondary')}
-        </a>
       </div>
     </section>
   );
