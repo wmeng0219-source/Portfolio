@@ -54,10 +54,15 @@ test('renders hero as a lighter cover with a compact episode preview', () => {
   expect(
     screen.getByRole('heading', {
       level: 1,
-      name: '产品设计师与数字化实践者',
+      name: '产品经理与设计复合型实践者',
     }),
   ).toBeInTheDocument();
-  expect(screen.getByText('我把复杂业务整理成团队能理解、能协作、能推进的产品结构。')).toBeInTheDocument();
+  expect(
+    screen.getByText('从复杂 B 端产品设计出发，连接业务、产品、流程与数字化建设。'),
+  ).toBeInTheDocument();
+  expect(screen.getByText('医疗数字化')).toBeInTheDocument();
+  expect(screen.getByText('流程设计')).toBeInTheDocument();
+  expect(screen.getByText('AI 工作流实践')).toBeInTheDocument();
   expect(
     screen.queryByText('从这里开始，你看到的不是一组模块，而是一个设计师如何进入复杂问题、建立协作、推动落地。'),
   ).not.toBeInTheDocument();

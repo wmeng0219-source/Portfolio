@@ -57,21 +57,20 @@ test('renders homepage sections with updated responsibilities and portfolio emph
 
   const aboutSection = screen.getByRole('heading', {
     level: 2,
-    name: '把复杂业务翻译成团队可协作的产品结构',
+    name: '把业务理解、流程设计与协作推进放进同一套产品方法里',
   }).closest('section');
   expect(aboutSection).toHaveAttribute('data-motion-section');
-  expect(within(aboutSection).getByText('角色定位')).toBeInTheDocument();
-  expect(within(aboutSection).getByText('问题类型')).toBeInTheDocument();
+  expect(within(aboutSection).getByText('长期场景')).toBeInTheDocument();
   expect(within(aboutSection).getByText('工作方式')).toBeInTheDocument();
+  expect(within(aboutSection).getByText('能力结构')).toBeInTheDocument();
 
   const experienceSection = screen.getByRole('heading', {
     level: 2,
-    name: '从设计执行走到复杂业务协同。',
+    name: '跨设计、产品与业务现场。',
   }).closest('section');
   expect(experienceSection).toHaveAttribute('data-motion-section');
-  expect(within(experienceSection).getByText('设计基础')).toBeInTheDocument();
-  expect(within(experienceSection).getByText('复杂产品')).toBeInTheDocument();
-  expect(within(experienceSection).getByText('产品与落地')).toBeInTheDocument();
+  expect(within(experienceSection).getByText('2019 - 2020')).toBeInTheDocument();
+  expect(within(experienceSection).getByText('2023.04 - 至今')).toBeInTheDocument();
 
   const portfolioSection = screen.getByRole('heading', {
     level: 2,
@@ -114,17 +113,15 @@ test('renders homepage sections with updated responsibilities and portfolio emph
 
   const contactSection = screen.getByRole('heading', {
     level: 2,
-    name: '如果你正在推进复杂业务产品，我们可以聊聊。',
+    name: '如果你希望一起推进复杂业务产品，欢迎联系我。',
   }).closest('section');
   expect(contactSection).toHaveAttribute('data-motion-section');
+  expect(within(contactSection).getByText('主联系渠道')).toBeInTheDocument();
   const links = within(contactSection).getAllByRole('link');
-  expect(links).toHaveLength(2);
+  expect(links).toHaveLength(1);
   expect(within(contactSection).getByRole('link', { name: '发送邮件' })).toHaveAttribute(
     'href',
     'mailto:meng.wen@orangedental.cn',
   );
-  expect(within(contactSection).getByRole('link', { name: '回到顶部' })).toHaveAttribute(
-    'href',
-    '#hero',
-  );
+  expect(within(contactSection).queryByText('回到顶部')).not.toBeInTheDocument();
 });
