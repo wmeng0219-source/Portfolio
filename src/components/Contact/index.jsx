@@ -7,7 +7,6 @@ const Contact = () => {
   return (
     <section className="page-section contact-section" id="contact" data-motion-section>
       <div className="section-shell contact-shell">
-        <p className="section-kicker" data-motion-item>{t('contact.kicker')}</p>
         <h2 className="section-title" data-motion-item>{t('contact.title')}</h2>
         <p className="section-intro contact-intro" data-motion-item>{t('contact.body')}</p>
         <div className="contact-methods" data-motion-group="contact-methods">

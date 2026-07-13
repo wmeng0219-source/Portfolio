@@ -13,8 +13,9 @@ html {
 
 body {
   background:
-    radial-gradient(circle at top left, rgba(91, 140, 255, 0.1), transparent 0 28%),
-    linear-gradient(180deg, #0a0d14 0%, #0d1118 100%);
+    radial-gradient(circle at 15% 50%, rgba(255, 255, 255, 0.03), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(0, 229, 255, 0.02), transparent 25%),
+    var(--color-bg-primary);
   color: var(--color-text-primary);
   font-family: var(--font-body);
   line-height: 1.72;
@@ -92,7 +93,7 @@ main {
   font-size: clamp(2.4rem, 5vw, 4.8rem);
   font-weight: 700;
   line-height: 1.02;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.045em;
 }
 
 .section-copy,
@@ -155,16 +156,19 @@ main {
 .phase-card,
 .portfolio-card,
 .portfolio-primary {
-  border: 1px solid var(--color-border-strong);
+  border: 1px solid transparent;
   border-radius: var(--radius-xl);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
-    rgba(255, 255, 255, 0.02);
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.18);
+  background: rgba(15, 15, 15, 0.4);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 24px 48px rgba(0, 0, 0, 0.4);
   transform: translateY(0);
   transform-origin: center center;
   will-change: transform, box-shadow;
-  transition: box-shadow 0.24s ease, border-color 0.24s ease, background-color 0.24s ease;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, background-color 0.25s ease;
 }
 
 .about-card {
@@ -253,6 +257,7 @@ main {
   max-width: 13ch;
   font-size: clamp(2rem, 3.6vw, 3.3rem);
   line-height: 1.06;
+  letter-spacing: -0.03em;
 }
 
 .portfolio-card-title {
@@ -262,8 +267,8 @@ main {
 }
 
 .portfolio-result {
-  padding-top: 1rem;
-  border-top: 1px solid var(--color-border-strong);
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .portfolio-chapter-label,
@@ -362,9 +367,9 @@ a.contact-value:hover {
 }
 
 .primary-link {
-  background: linear-gradient(120deg, var(--color-accent-start), var(--color-accent-end));
-  color: #ffffff;
-  box-shadow: 0 18px 44px rgba(99, 102, 241, 0.16);
+  background: var(--color-text-primary);
+  color: var(--color-bg-primary);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.12);
 }
 
 .contact-backlink {
@@ -373,9 +378,12 @@ a.contact-value:hover {
 }
 
 .secondary-link {
-  border: 1px solid var(--color-border-strong);
+  border: 1px solid transparent;
   color: var(--color-text-primary);
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
 .primary-link:hover,
@@ -383,6 +391,24 @@ a.contact-value:hover {
 .contact-backlink:hover,
 .contact-email:hover {
   transform: translateY(-2px);
+}
+
+.primary-link:active,
+.secondary-link:active {
+  transform: scale(0.97);
+}
+
+.portfolio-link:hover {
+  background: rgba(25, 25, 25, 0.6);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 32px 64px rgba(0, 0, 0, 0.5);
+  transform: translateY(-4px);
+}
+
+.portfolio-link:active {
+  transform: scale(0.98);
 }
 
 @media (max-width: 900px) {

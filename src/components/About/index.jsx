@@ -9,7 +9,6 @@ const About = () => {
     <section className="page-section page-section-dark" id="about" data-motion-section>
       <div className="section-shell about-grid">
         <div className="section-heading-block" data-motion-item>
-          <p className="section-kicker">{t('about.kicker')}</p>
           <h2 className="section-title">{t('about.title')}</h2>
           <p className="section-lead">{t('about.lead')}</p>
           <p>{t('about.body')}</p>

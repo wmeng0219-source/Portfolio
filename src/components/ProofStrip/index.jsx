@@ -11,7 +11,6 @@ const ProofStrip = () => {
   return (
     <section className={styles.section} aria-labelledby={headingId} data-motion-section>
       <div className={styles.chapter}>
-        <p className={styles.chapterLabel}>{t('proof.chapter')}</p>
         <h2 className={styles.chapterTitle} id={headingId}>
           {t('proof.title')}
         </h2>

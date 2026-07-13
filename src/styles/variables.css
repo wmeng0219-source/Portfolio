@@ -1,17 +1,17 @@
 :root {
-  --color-bg-primary: #0a0d14;
-  --color-bg-secondary: #10141d;
-  --color-bg-elevated: #171d27;
-  --color-text-primary: #f5f7fb;
-  --color-text-secondary: #b1bac9;
-  --color-text-muted: rgba(245, 247, 251, 0.68);
-  --color-accent-start: #5b8cff;
-  --color-accent-end: #7aa2ff;
+  --color-bg-primary: #050505;
+  --color-bg-secondary: #0a0a0a;
+  --color-bg-elevated: #141414;
+  --color-text-primary: #fafafa;
+  --color-text-secondary: #a1a1aa;
+  --color-text-muted: rgba(255, 255, 255, 0.55);
+  --color-accent-start: #ffffff;
+  --color-accent-end: #e4e4e7;
   --color-border: rgba(255,255,255,0.08);
-  --color-border-strong: rgba(255,255,255,0.14);
-  --color-glass: rgba(10, 13, 20, 0.72);
+  --color-border-strong: rgba(255,255,255,0.16);
+  --color-glass: rgba(10, 10, 10, 0.65);
   
-  --font-display: 'Inter Tight', 'Noto Sans SC', sans-serif;
+  --font-display: 'Outfit', 'Noto Sans SC', sans-serif;
   --font-body: 'Inter', 'Noto Sans SC', sans-serif;
   
   --spacing-xs: 0.5rem;
