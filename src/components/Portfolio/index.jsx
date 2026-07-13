@@ -1,8 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
 
-const featuredItem = 2;
-const secondaryItems = [1, 3];
+const featuredItem = { id: 2, path: 'orthodontics' };
+const secondaryItems = [
+  { id: 1, path: 'member-automation' },
+  { id: 3, path: 'pacs-ai' },
+];
 
 const Portfolio = () => {
   const { t } = useLanguage();
@@ -19,25 +23,36 @@ const Portfolio = () => {
         </div>
 
         <div className="portfolio-stage" data-motion-group="portfolio-stage">
-          <article className="portfolio-primary" data-motion-item="featured" data-motion-hover="card">
+          <Link
+            to={`/project/${featuredItem.path}`}
+            className="portfolio-primary portfolio-link"
+            data-motion-item="featured"
+            data-motion-hover="card"
+          >
             <p className="portfolio-chapter-label">{t('portfolio.featured')}</p>
-            <p className="portfolio-tag">{t(`portfolio.item.${featuredItem}.tag`)}</p>
-            <h3 className="portfolio-primary-title">{t(`portfolio.item.${featuredItem}.title`)}</h3>
-            <p className="portfolio-primary-body">{t(`portfolio.item.${featuredItem}.body`)}</p>
-            <p className="portfolio-primary-body">{t(`portfolio.item.${featuredItem}.reframe`)}</p>
-            <p className="portfolio-result">{t(`portfolio.item.${featuredItem}.result`)}</p>
-          </article>
+            <p className="portfolio-tag">{t(`portfolio.item.${featuredItem.id}.tag`)}</p>
+            <h3 className="portfolio-primary-title">{t(`portfolio.item.${featuredItem.id}.title`)}</h3>
+            <p className="portfolio-primary-body">{t(`portfolio.item.${featuredItem.id}.body`)}</p>
+            <p className="portfolio-primary-body">{t(`portfolio.item.${featuredItem.id}.reframe`)}</p>
+            <p className="portfolio-result">{t(`portfolio.item.${featuredItem.id}.result`)}</p>
+          </Link>
 
           <div className="portfolio-secondary" data-motion-group="portfolio-secondary">
             <p className="portfolio-side-label">{t('portfolio.secondaryLabel')}</p>
             {secondaryItems.map((item) => (
-              <article className="portfolio-card" key={item} data-motion-item data-motion-hover="card">
-                <p className="portfolio-tag">{t(`portfolio.item.${item}.tag`)}</p>
-                <h3 className="portfolio-card-title">{t(`portfolio.item.${item}.title`)}</h3>
-                <p className="portfolio-card-body">{t(`portfolio.item.${item}.body`)}</p>
-                <p className="portfolio-card-body">{t(`portfolio.item.${item}.reframe`)}</p>
-                <p className="portfolio-result">{t(`portfolio.item.${item}.result`)}</p>
-              </article>
+              <Link
+                to={`/project/${item.path}`}
+                className="portfolio-card portfolio-link"
+                key={item.id}
+                data-motion-item
+                data-motion-hover="card"
+              >
+                <p className="portfolio-tag">{t(`portfolio.item.${item.id}.tag`)}</p>
+                <h3 className="portfolio-card-title">{t(`portfolio.item.${item.id}.title`)}</h3>
+                <p className="portfolio-card-body">{t(`portfolio.item.${item.id}.body`)}</p>
+                <p className="portfolio-card-body">{t(`portfolio.item.${item.id}.reframe`)}</p>
+                <p className="portfolio-result">{t(`portfolio.item.${item.id}.result`)}</p>
+              </Link>
             ))}
           </div>
         </div>

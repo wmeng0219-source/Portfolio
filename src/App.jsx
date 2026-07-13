@@ -1,29 +1,18 @@
-import React, { useRef } from 'react';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import ProofStrip from './components/ProofStrip';
-import About from './components/About';
-import Experience from './components/Experience';
-import Portfolio from './components/Portfolio';
-import Contact from './components/Contact';
-import { useHomepageMotion } from './motion/useHomepageMotion';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import ProjectDetail from './pages/ProjectDetail';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
-  const pageRef = useRef(null);
-  useHomepageMotion(pageRef);
-
   return (
-    <div ref={pageRef}>
-      <Navbar />
-      <main>
-        <Hero />
-        <ProofStrip />
-        <About />
-        <Experience />
-        <Portfolio />
-        <Contact />
-      </main>
-    </div>
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/project/:id" element={<ProjectDetail />} />
+      </Routes>
+    </>
   );
 }
 

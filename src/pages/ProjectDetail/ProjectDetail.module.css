@@ -1,0 +1,106 @@
+.page {
+  min-height: 100vh;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 4vw, 2.5rem);
+  max-width: var(--content-max);
+  margin: 0 auto;
+}
+
+.nav {
+  margin-bottom: 4rem;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.backLink:hover {
+  color: var(--color-text-primary);
+  transform: translateX(-4px);
+}
+
+.header {
+  margin-bottom: 4rem;
+}
+
+.tag {
+  color: var(--color-text-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  max-width: 20ch;
+}
+
+.section {
+  margin-bottom: 4rem;
+  max-width: 48rem;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--color-text-primary);
+}
+
+.text {
+  color: var(--color-text-muted);
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+.solutions {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.solutionCard {
+  padding: 1.5rem 1.75rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01)),
+    rgba(255, 255, 255, 0.01);
+}
+
+.solutionTitle {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--color-text-primary);
+}
+
+.resultCard {
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(120deg, rgba(91, 140, 255, 0.08), rgba(122, 162, 255, 0.02));
+  border: 1px solid rgba(91, 140, 255, 0.15);
+}
+
+.resultCard .text {
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+.notFound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  gap: 1.5rem;
+}
