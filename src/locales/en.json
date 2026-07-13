@@ -83,7 +83,8 @@
   "contact.kicker": "Epilogue / Contact",
   "contact.title": "If you want to move a complex product forward together, feel free to reach out.",
   "contact.body": "Best suited for conversations about workflow-heavy products, service collaboration, digital delivery, and helping teams form clearer alignment around hard problems.",
-  "contact.primary": "Send Email",
-  "contact.secondary": "Primary contact channel",
-  "contact.email": "meng.wen@orangedental.cn"
+  "contact.emailLabel": "Email",
+  "contact.email": "wmeng019@gmail.com",
+  "contact.wechatLabel": "WeChat / Phone",
+  "contact.wechat": "18638125465"
 }

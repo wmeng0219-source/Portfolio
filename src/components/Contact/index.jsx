@@ -10,13 +10,16 @@ const Contact = () => {
         <p className="section-kicker" data-motion-item>{t('contact.kicker')}</p>
         <h2 className="section-title" data-motion-item>{t('contact.title')}</h2>
         <p className="section-intro contact-intro" data-motion-item>{t('contact.body')}</p>
-        <div className="contact-actions" data-motion-item>
-          <a className="primary-link" href={`mailto:${t('contact.email')}`} data-motion-hover="button">
-            {t('contact.primary')}
-          </a>
+        <div className="contact-methods" data-motion-group="contact-methods">
+          <div className="contact-method" data-motion-item>
+            <p className="contact-label">{t('contact.emailLabel')}</p>
+            <a className="contact-value" href={`mailto:${t('contact.email')}`}>{t('contact.email')}</a>
+          </div>
+          <div className="contact-method" data-motion-item>
+            <p className="contact-label">{t('contact.wechatLabel')}</p>
+            <span className="contact-value">{t('contact.wechat')}</span>
+          </div>
         </div>
-        <p className="contact-label" data-motion-item>{t('contact.secondary')}</p>
-        <span className="contact-email" data-motion-item>{t('contact.email')}</span>
       </div>
     </section>
   );

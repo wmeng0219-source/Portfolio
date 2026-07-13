@@ -83,7 +83,8 @@
   "contact.kicker": "尾声 / 联系",
   "contact.title": "如果你希望一起推进复杂业务产品，欢迎联系我。",
   "contact.body": "适合讨论复杂流程产品、服务协同、数字化落地，以及如何让团队对问题形成更清晰的一致理解。",
-  "contact.primary": "发送邮件",
-  "contact.secondary": "主联系渠道",
-  "contact.email": "meng.wen@orangedental.cn"
+  "contact.emailLabel": "Email",
+  "contact.email": "wmeng019@gmail.com",
+  "contact.wechatLabel": "WeChat / Phone",
+  "contact.wechat": "18638125465"
 }
