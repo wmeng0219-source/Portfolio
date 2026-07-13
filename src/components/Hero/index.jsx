@@ -98,13 +98,10 @@ const Hero = () => {
       <div className={styles.shell}>
         <div className={styles.copy} ref={copyRef}>
           <p className={styles.kicker} data-hero-anim>
-            {t('hero.kicker')}
+            {t('hero.meta.name')} — {t('hero.meta.role')}
           </p>
-          <p className={styles.nameplate} data-hero-anim>
-            {t('hero.meta.name')}
-          </p>
-          <h1 className={styles.roleTitle} data-hero-anim>
-            {t('hero.meta.role')}
+          <h1 className={styles.mainTitle} data-hero-anim>
+            {t('hero.title')}
           </h1>
           <p className={styles.body} data-hero-anim>
             {t('hero.body')}
@@ -117,22 +114,17 @@ const Hero = () => {
               {t('hero.btn.contact')}
             </a>
           </div>
-          <div className={styles.metaStrip} data-hero-anim>
-            <span>{t('hero.signal.1')}</span>
-            <span>{t('hero.signal.2')}</span>
-            <span>{t('hero.signal.3')}</span>
-          </div>
         </div>
 
         <aside className={styles.panel} ref={visualRef} aria-label={t('hero.panel.label')}>
-          <p className={styles.panelEpisode}>{t('hero.panel.episode')}</p>
           <div className={styles.panelTop}>
             <p className={styles.panelLeadLabel}>{t('hero.panel.label')}</p>
-            <p className={styles.panelCaption}>{t('hero.panel.title')}</p>
+            <h2 className={styles.panelCaption}>{t('hero.panel.title')}</h2>
           </div>
-
-          <div className={styles.panelLead}>
-            <p className={styles.panelLeadValue}>{t('hero.title')}</p>
+          <div className={styles.panelSignals}>
+            <div className={styles.signalTag}>{t('hero.signal.1')}</div>
+            <div className={styles.signalTag}>{t('hero.signal.2')}</div>
+            <div className={styles.signalTag}>{t('hero.signal.3')}</div>
           </div>
         </aside>
       </div>

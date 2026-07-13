@@ -52,22 +52,14 @@
   margin-bottom: 1.1rem;
 }
 
-.nameplate {
+.mainTitle {
+  max-width: 18ch;
+  margin-top: 1.5rem;
   font-family: var(--font-display);
-  font-size: clamp(4.3rem, 10vw, 8.4rem);
+  font-size: clamp(2.4rem, 4.5vw, 4.4rem);
   font-weight: 700;
-  line-height: 0.88;
-  letter-spacing: -0.08em;
-}
-
-.roleTitle {
-  max-width: 14ch;
-  margin-top: 0.8rem;
-  font-family: var(--font-display);
-  font-size: clamp(1.9rem, 2.8vw, 2.7rem);
-  font-weight: 600;
-  line-height: 1.08;
-  letter-spacing: -0.03em;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
 }
 
 .body {
@@ -86,17 +78,6 @@
   flex-wrap: wrap;
 }
 
-.metaStrip {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 1.5rem;
-  color: rgba(243, 242, 239, 0.56);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
 
 .btnPrimary,
 .btnSecondary {
@@ -143,9 +124,9 @@
 
 .panel {
   position: relative;
-  display: grid;
-  gap: 1.35rem;
-  align-self: end;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   min-height: 24rem;
   padding: 1.35rem;
   border: 1px solid transparent;
@@ -178,62 +159,25 @@
   z-index: 1;
 }
 
-.panelEpisode {
-  position: relative;
-  z-index: 1;
-  margin: 0;
-  color: rgba(243, 242, 239, 0.12);
-  font-family: var(--font-display);
-  font-size: clamp(3.8rem, 6vw, 5.4rem);
-  font-weight: 700;
-  line-height: 0.88;
-  letter-spacing: -0.08em;
-}
-
-.panelTop {
-  display: grid;
-  gap: 0.45rem;
-}
-
-.panelLead {
-  display: grid;
-  gap: 0;
-  align-content: end;
-  min-height: auto;
-  padding-top: 0.9rem;
+.panelSignals {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 1.5rem;
 }
 
-.panelLeadLabel,
-.panelCaption,
-.panelLeadValue,
-.panelLeadBody {
-  margin: 0;
-}
-
-.panelLeadLabel {
-  color: rgba(243, 242, 239, 0.54);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.panelCaption {
-  max-width: 16ch;
-  color: rgba(243, 242, 239, 0.72);
+.signalTag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.8rem 1.2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
   font-size: 0.95rem;
-  line-height: 1.55;
-}
-
-.panelLeadValue {
-  max-width: 12ch;
   color: var(--color-text-primary);
-  font-family: var(--font-display);
-  font-size: clamp(1.45rem, 2vw, 1.9rem);
-  font-weight: 600;
-  line-height: 1.08;
-  letter-spacing: -0.04em;
+  font-weight: 500;
 }
 
 @media (max-width: 900px) {
@@ -252,7 +196,7 @@
     padding-bottom: 0;
   }
 
-  .nameplate {
+  .mainTitle {
     max-width: none;
   }
 
@@ -272,12 +216,8 @@
     letter-spacing: 0.2em;
   }
 
-  .nameplate {
-    font-size: clamp(3.4rem, 16vw, 5.1rem);
-  }
-
-  .roleTitle {
-    font-size: clamp(1.45rem, 7vw, 2rem);
+  .mainTitle {
+    font-size: clamp(2.2rem, 8vw, 3rem);
   }
 
   .actions {
