@@ -34,13 +34,13 @@
   min-height: calc(100dvh - var(--header-height) - 4.5rem);
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.72fr);
-  gap: clamp(2.5rem, 5vw, 5.5rem);
+  gap: clamp(4rem, 8vw, 10rem);
   align-items: end;
 }
 
 .copy {
   width: min(100%, 38rem);
-  padding-bottom: 0.5rem;
+  padding-bottom: 2rem;
 }
 
 .kicker {
@@ -72,17 +72,17 @@
 
 .body {
   max-width: 32rem;
-  margin-top: 1.4rem;
+  margin-top: 2rem;
   color: rgba(243, 242, 239, 0.74);
   font-size: clamp(1.02rem, 1.35vw, 1.12rem);
-  line-height: 1.8;
+  line-height: 1.9;
   letter-spacing: 0;
 }
 
 .actions {
   display: flex;
-  gap: 0.9rem;
-  margin-top: 2.25rem;
+  gap: 1.25rem;
+  margin-top: 3rem;
   flex-wrap: wrap;
 }
 
