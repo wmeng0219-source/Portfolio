@@ -16,10 +16,13 @@ const About = () => {
 
         <div className="about-points" data-motion-group="about-points">
           {items.map((item) => (
-            <article className="about-card" key={item} data-motion-item data-motion-hover="card">
-              <p className="eyebrow-label">{t(`about.point.${item}.label`)}</p>
-              <h3 className="about-card-title">{t(`about.point.${item}.title`)}</h3>
-              <p className="about-card-body">{t(`about.point.${item}.body`)}</p>
+            <article className="about-item" key={item} data-motion-item>
+              <div className="about-number">0{item}</div>
+              <div className="about-content">
+                <p className="eyebrow-label">{t(`about.point.${item}.label`)}</p>
+                <h3 className="about-title">{t(`about.point.${item}.title`)}</h3>
+                <p className="about-body">{t(`about.point.${item}.body`)}</p>
+              </div>
             </article>
           ))}
         </div>

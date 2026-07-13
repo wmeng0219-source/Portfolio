@@ -115,18 +115,6 @@ const Hero = () => {
             </a>
           </div>
         </div>
-
-        <aside className={styles.panel} ref={visualRef} aria-label={t('hero.panel.label')}>
-          <div className={styles.panelTop}>
-            <p className={styles.panelLeadLabel}>{t('hero.panel.label')}</p>
-            <h2 className={styles.panelCaption}>{t('hero.panel.title')}</h2>
-          </div>
-          <div className={styles.panelSignals}>
-            <div className={styles.signalTag}>{t('hero.signal.1')}</div>
-            <div className={styles.signalTag}>{t('hero.signal.2')}</div>
-            <div className={styles.signalTag}>{t('hero.signal.3')}</div>
-          </div>
-        </aside>
       </div>
     </section>
   );

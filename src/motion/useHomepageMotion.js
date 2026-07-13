@@ -29,23 +29,22 @@ export const useHomepageMotion = (rootRef) => {
             return;
           }
 
-          const isProofSection = Boolean(section.querySelector('[data-motion-group="proof"]'));
           const isPortfolioSection = Boolean(section.querySelector('[data-motion-group="portfolio-stage"]'));
 
           const fromVars = reduceMotion
             ? { autoAlpha: 0 }
-            : { y: isProofSection ? 36 : isPortfolioSection ? 32 : 24, autoAlpha: 0 };
+            : { y: isPortfolioSection ? 48 : 36, autoAlpha: 0 };
 
           const toVars = {
             y: 0,
             autoAlpha: 1,
-            duration: reduceMotion ? 0.01 : isProofSection ? 0.95 : isPortfolioSection ? 0.88 : 0.74,
-            stagger: reduceMotion ? 0 : isProofSection ? 0.16 : isPortfolioSection ? 0.1 : 0.08,
+            duration: reduceMotion ? 0.01 : isPortfolioSection ? 1.2 : 0.84,
+            stagger: reduceMotion ? 0 : isPortfolioSection ? 0.12 : 0.1,
             ease: 'power3.out',
             overwrite: 'auto',
             scrollTrigger: {
               trigger: section,
-              start: isProofSection ? 'top 78%' : isPortfolioSection ? 'top 80%' : 'top 84%',
+              start: isPortfolioSection ? 'top 80%' : 'top 85%',
               once: true,
             },
           };
@@ -58,6 +57,21 @@ export const useHomepageMotion = (rootRef) => {
         });
 
         if (isDesktop && !reduceMotion) {
+          // Massive Typography Parallax
+          const bigNumbers = Array.from(root.querySelectorAll('.about-number'));
+          bigNumbers.forEach(num => {
+            gsap.to(num, {
+              yPercent: 40,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: num.parentElement,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: true,
+              }
+            });
+          });
+
           const hoverTargets = Array.from(root.querySelectorAll('[data-motion-hover]'));
 
           hoverTargets.forEach((node) => {
