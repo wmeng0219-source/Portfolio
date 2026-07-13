@@ -77,6 +77,20 @@ export default function ProjectDetail() {
             <p className={styles.text}>{project.result[language]}</p>
           </div>
         </section>
+
+        {project.images && project.images.length > 0 && (
+          <section className={styles.imageSection} data-animate>
+            <h2 className={styles.sectionTitle}>{language === 'zh' ? '设计图与流程展示' : 'Design & Flow'}</h2>
+            <div className={styles.imageGallery}>
+              {project.images.map((img, idx) => (
+                <figure key={idx} className={styles.imageFigure}>
+                  <img src={img.src} alt={img.alt[language]} className={styles.projectImage} loading="lazy" />
+                  <figcaption className={styles.imageCaption}>{img.alt[language]}</figcaption>
+                </figure>
+              ))}
+            </div>
+          </section>
+        )}
       </main>
     </div>
   );
