@@ -4,6 +4,7 @@ import { useLanguage } from '../../context/LanguageContext';
 import { projects } from '../../data/projects';
 import styles from './ProjectDetail.module.css';
 import gsap from 'gsap';
+import OrthodonticsCase from './OrthodonticsCase';
 
 export default function ProjectDetail() {
   const { id } = useParams();
@@ -26,6 +27,19 @@ export default function ProjectDetail() {
       <div className={styles.notFound}>
         <h2>Project not found</h2>
         <Link to="/" className={styles.backLink}>← Back to Home</Link>
+      </div>
+    );
+  }
+
+  if (project.id === 'orthodontics') {
+    return (
+      <div className={styles.page}>
+        <nav className={styles.nav}>
+          <Link to="/" className={styles.backLink} data-animate>
+            ← {language === 'zh' ? '返回首页' : 'Back to Home'}
+          </Link>
+        </nav>
+        <OrthodonticsCase project={project} />
       </div>
     );
   }

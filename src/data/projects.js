@@ -98,6 +98,47 @@ export const projects = [
       zh: '建立了从推荐到预约的可追踪漏斗。矫正率从改版前的 30-40% 提升至 50-60% 左右，漏斗链路的建立使团队第一次能够观察每个环节的转化情况。',
       en: 'Built a traceable funnel from recommendation to appointment. Orthodontic conversion rate rose from 30–40% to 50–60%, with each stage of the funnel now observable for the first time.',
     },
+    heroMetrics: {
+      title: { zh: '破除运营黑盒，建立全链路状态机追踪', en: 'From Operational Black Box to Full-Funnel Tracking' },
+      conversionBefore: '30-40%',
+      conversionAfter: '50-60%',
+    },
+    timelineSteps: [
+      { step: 1, title: { zh: '恒牙列', en: 'Permanent' }, desc: { zh: '最高优：发育关键期', en: 'Highest Priority' } },
+      { step: 2, title: { zh: '余四颗乳牙', en: '4 Primary Left' }, desc: { zh: '次高优：即将换牙', en: 'High Priority' } },
+      { step: 3, title: { zh: '2-2 萌出', en: '2-2 Erupted' }, desc: { zh: '中优：前牙区评估', en: 'Medium Priority' } },
+      { step: 4, title: { zh: '上 1 萌出', en: 'Upper 1 Erupted' }, desc: { zh: '中低优：初期替牙', en: 'Low Priority' } },
+      { step: 5, title: { zh: '其余替牙期', en: 'Other Mixed' }, desc: { zh: '常规跟进', en: 'Standard Follow-up' } },
+    ],
+    roleTabs: [
+      { 
+        id: 'nurse', 
+        role: { zh: '护士', en: 'Nurse' }, 
+        duty: { zh: '负责资料采集与前置准备，为后续筛查提供基础影像与信息。', en: 'Collects imaging and foundational records for screening.' }
+      },
+      { 
+        id: 'pedo', 
+        role: { zh: '儿牙医生', en: 'Pedodontist' }, 
+        duty: { zh: '前置筛查链路的核心。通过系统的精准留痕，系统为儿牙医生的“转诊费激励”提供确凿的财务结算依据。', en: 'Core of the upstream screening. System tracking guarantees their referral fee incentive is accurately recorded.' }
+      },
+      { 
+        id: 'ortho', 
+        role: { zh: '正畸医生', en: 'Orthodontist' }, 
+        duty: { zh: '负责专业结论确认与最终把关，承接进一步的矫正判断和治疗计划。', en: 'Provides professional conclusions and takes over the long-term treatment plan.' }
+      },
+      { 
+        id: 'ops', 
+        role: { zh: '运营', en: 'Operations' }, 
+        duty: { zh: '负责推动流程并建立后续预约，通过系统看板实时跟进转化漏斗。', en: 'Drives the workflow forward and manages follow-up appointments via real-time dashboard.' }
+      }
+    ],
+    funnelData: [
+      { stage: { zh: '系统推荐目标', en: 'System Recommended' }, value: 9274, percentage: 100 },
+      { stage: { zh: '筛查转交', en: 'Screening Handoff' }, value: 4579, percentage: 49.37 },
+      { stage: { zh: '提交结论', en: 'Conclusion Reached' }, value: 4110, percentage: 44.31 },
+      { stage: { zh: '识别需矫', en: 'Ortho Required' }, value: 2466, percentage: 26.59 },
+      { stage: { zh: '矫正跟进预约', en: 'Follow-up Booked' }, value: 1239, percentage: 13.36 },
+    ],
   },
   {
     id: 'pacs-ai',
