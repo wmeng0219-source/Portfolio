@@ -12,6 +12,16 @@ const getIsMobileViewport = () => {
   return window.matchMedia(MOBILE_NAV_MEDIA_QUERY).matches;
 };
 
+const scrollToHashTarget = (href) => {
+  if (!href || !href.startsWith('#')) {
+    return;
+  }
+  const target = document.getElementById(href.slice(1));
+  if (target) {
+    target.scrollIntoView({ behavior: 'smooth' });
+  }
+};
+
 const Navbar = () => {
   const { t, language, toggleLanguage } = useLanguage();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -54,11 +64,16 @@ const Navbar = () => {
     return () => mediaQueryList.removeListener(handleViewportChange);
   }, []);
 
-  const handleLogoClick = () => {
+  const handleLogoClick = (event) => {
+    event.preventDefault();
+    scrollToHashTarget(event.currentTarget.getAttribute('href'));
     setMenuOpen(false);
   };
 
-  const handleMenuItemClick = () => {
+  const handleMenuItemClick = (event) => {
+    event.preventDefault();
+    scrollToHashTarget(event.currentTarget.getAttribute('href'));
+
     if (isMobileViewport) {
       shouldRestoreFocusRef.current = true;
     }

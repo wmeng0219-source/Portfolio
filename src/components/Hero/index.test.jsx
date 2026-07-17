@@ -50,11 +50,11 @@ test('renders hero as a gsap-inspired brand stage with a single primary entry', 
     </LanguageProvider>,
   );
 
-  expect(screen.getByText('DIGITAL PRODUCT SYSTEMS / 2025')).toBeInTheDocument();
+  expect(screen.getByText('数字化产品系统 / 2025')).toBeInTheDocument();
   expect(
     screen.getByRole('heading', {
       level: 1,
-      name: /Complex.*Systems.*Into Clear.*Execution/i,
+      name: /让复杂.*业务系统.*变得清晰.*可被落地/,
     }),
   ).toBeInTheDocument();
   expect(screen.getByText('为复杂业务构建清晰、可执行、可扩展的产品系统。')).toBeInTheDocument();

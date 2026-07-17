@@ -7,7 +7,7 @@ const Contact = () => {
   return (
     <section className="page-section contact-stage-section" id="contact" data-motion-section>
       <div className="section-shell">
-        <div className="contact-stage-shell" data-motion-item data-motion-hover="card">
+        <div className="contact-stage-shell" data-motion-item>
           <p className="contact-stage-kicker">{t('contact.stage.kicker')}</p>
           <h2 className="contact-stage-title">{t('contact.stage.title')}</h2>
           <p className="contact-stage-intro">{t('contact.stage.body')}</p>

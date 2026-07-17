@@ -6,6 +6,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const scrollToSection = (event, id) => {
+  event.preventDefault();
+  const target = document.getElementById(id);
+  if (target) {
+    target.scrollIntoView({ behavior: 'smooth' });
+  }
+};
+
 const Hero = () => {
   const { t } = useLanguage();
   const sectionRef = useRef(null);
@@ -122,9 +130,9 @@ const Hero = () => {
   }, []);
 
   const visualInnerStyle = {
-    transform: `translate3d(${(mouse.x - 0.5) * -32}px, ${(mouse.y - 0.5) * -24}px, 0) rotateY(${
-      (mouse.x - 0.5) * 10
-    }deg) rotateX(${(mouse.y - 0.5) * -8}deg)`,
+    transform: `translate3d(${(mouse.x - 0.5) * -16}px, ${(mouse.y - 0.5) * -12}px, 0) rotateY(${
+      (mouse.x - 0.5) * 6
+    }deg) rotateX(${(mouse.y - 0.5) * -4}deg)`,
   };
 
   return (
@@ -138,13 +146,12 @@ const Hero = () => {
           <div className={styles.visualInner} style={visualInnerStyle}>
             <div className={styles.orbitalField}>
               <div className={styles.orbitalHalo} />
-              <div className={styles.orbitalRing} />
-              <div className={styles.orbitalRingSoft} />
-              <div className={styles.orbitalBeam} />
+              <div className={styles.orbitalRingOuter} />
+              <div className={styles.orbitalRingInner} />
+              <div className={styles.orbitalTickOrbit}>
+                <div className={styles.orbitalTick} />
+              </div>
               <div className={styles.orbitalCore} />
-              <div className={styles.orbitalShardA} />
-              <div className={styles.orbitalShardB} />
-              <div className={styles.orbitalPulse} />
             </div>
           </div>
         </div>
@@ -184,7 +191,12 @@ const Hero = () => {
           </p>
 
           <div className={styles.actions} data-hero-anim="support">
-            <a className={styles.btnPrimary} href="#portfolio" data-motion-hover="button">
+            <a
+              className={styles.btnPrimary}
+              href="#portfolio"
+              data-motion-hover="button"
+              onClick={(event) => scrollToSection(event, 'portfolio')}
+            >
               <span>{t('hero.stage.cta')}</span>
               <span className={styles.btnArrow} aria-hidden="true">
                 ↘

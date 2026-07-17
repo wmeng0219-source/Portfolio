@@ -21,7 +21,6 @@ const Experience = () => {
               className={`experience-stage-card experience-stage-card-${item}`}
               key={item}
               data-motion-item
-              data-motion-hover="card"
             >
               <div className="experience-stage-card-shell">
                 <div className="experience-stage-card-topline">

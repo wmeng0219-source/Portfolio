@@ -1,39 +1,51 @@
 :root {
-  --color-bg-primary: #050505;
-  --color-bg-secondary: #0a0a0a;
-  --color-bg-elevated: #141414;
-  --color-text-primary: #fafafa;
-  --color-text-secondary: #a1a1aa;
-  --color-text-muted: rgba(255, 255, 255, 0.55);
-  --color-accent-start: #ffffff;
-  --color-accent-end: #e4e4e7;
-  --color-border: rgba(255,255,255,0.08);
-  --color-border-strong: rgba(255,255,255,0.16);
-  --color-glass: rgba(10, 10, 10, 0.65);
-  
+  --color-bg-primary: #050608;
+  --color-bg-secondary: #08090c;
+  --color-bg-elevated: #0e1014;
+  --color-text-primary: #f4f6f8;
+  --color-text-secondary: #a8aeb8;
+  --color-text-muted: rgba(244, 246, 248, 0.56);
+  --color-text-faint: rgba(244, 246, 248, 0.32);
+  --color-accent: #b8ff4d;
+  --color-accent-dim: rgba(184, 255, 77, 0.16);
+  --color-accent-soft: rgba(184, 255, 77, 0.08);
+  --color-border: rgba(255, 255, 255, 0.06);
+  --color-border-strong: rgba(255, 255, 255, 0.14);
+  --color-border-accent: rgba(184, 255, 77, 0.32);
+  --color-glass: rgba(8, 9, 12, 0.7);
+
+  --surface-warm: rgba(255, 245, 230, 0.012);
+  --surface-cool: rgba(140, 180, 255, 0.014);
+  --surface-neutral: rgba(255, 255, 255, 0.018);
+
   --font-display: 'Outfit', 'Noto Sans SC', sans-serif;
   --font-body: 'Inter', 'Noto Sans SC', sans-serif;
-  
+
   --spacing-xs: 0.5rem;
   --spacing-sm: 1rem;
   --spacing-md: 2rem;
   --spacing-lg: 4rem;
   --spacing-xl: 6rem;
-  --spacing-section: clamp(8rem, 14vw, 14rem);
 
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
-  --radius-full: 9999px;
+  --section-pad-y: clamp(6rem, 9.5vw, 10rem);
+  --section-pad-y-tight: clamp(5rem, 8vw, 8rem);
+  --section-pad-x: clamp(1.25rem, 4vw, 2.5rem);
 
-  --header-height: 84px;
+  --radius-sm: 4px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 9999px;
+
+  --header-height: 72px;
   --content-max: 1240px;
   --text-column-max: 39rem;
-  
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
   --text-hero: clamp(4.8rem, 11vw, 8.5rem);
   --text-h1: clamp(2.4rem, 4.3vw, 4rem);
   --text-h2: clamp(1.35rem, 2vw, 1.8rem);
-  --text-body: 1.08rem;
-  --text-small: 0.86rem;
+  --text-body: 1.05rem;
+  --text-small: 0.84rem;
 }

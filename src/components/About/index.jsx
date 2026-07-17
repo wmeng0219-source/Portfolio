@@ -16,7 +16,7 @@ const About = () => {
 
         <div className="about-stage-grid" data-motion-group="about-stage-grid">
           {items.map((item) => (
-            <article className="about-stage-card" key={item} data-motion-item data-motion-hover="card">
+            <article className="about-stage-card" key={item} data-motion-item>
               <div className="about-stage-card-shell">
                 <p className="about-stage-card-label">{t(`about.stage.card.${item}.label`)}</p>
                 <h3 className="about-stage-card-title">{t(`about.stage.card.${item}.title`)}</h3>
