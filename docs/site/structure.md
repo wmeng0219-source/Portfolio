@@ -12,12 +12,30 @@
 
 ## `src/`
 
-- `components/`：页面区块组件，目前包含 `Navbar`、`Hero`、`About`、`Experience`、`Portfolio`、`Contact`。
+- `components/`：页面区块组件，目前包含 `Navbar`、`Hero`、`Portfolio`、`About`、`Experience`、`Contact` 等首页区块。
 - `context/`：语言上下文。
 - `locales/`：中英文文案。
 - `styles/`：全局样式与变量。
-- `App.jsx`：页面主装配文件。
+- `App.jsx`：页面路由装配文件，当前包含首页和项目详情页两类入口。
 - `main.jsx`：应用入口。
+
+## 当前页面结构
+
+### 首页
+
+当前首页的主要顺序为：
+
+1. `Hero`
+2. `Portfolio`
+3. `About`
+4. `Experience`
+5. `Contact`
+
+其中：
+
+- `Hero + Portfolio` 已完成品牌舞台化重构。
+- `About + Experience + Contact` 已完成后半页系统化收口。
+- 区块文案与结构已经整合到页面，`docs/site/` 当前主要负责维护映射关系和结构说明。
 
 ## `docs/`
 
