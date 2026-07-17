@@ -7,21 +7,32 @@ const Experience = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="page-section" id="experience" data-motion-section>
+    <section className="page-section experience-stage-section" id="experience" data-motion-section>
       <div className="section-shell">
-        <p className="section-kicker" data-motion-item>{t('experience.kicker')}</p>
-        <div className="section-heading" data-motion-item>
-          <h2 className="section-title">{t('experience.title')}</h2>
-          <p className="section-intro">{t('experience.intro')}</p>
+        <div className="experience-stage-head" data-motion-item>
+          <p className="experience-stage-kicker">{t('experience.stage.kicker')}</p>
+          <h2 className="experience-stage-title">{t('experience.stage.title')}</h2>
+          <p className="experience-stage-intro">{t('experience.stage.intro')}</p>
         </div>
 
-        <div className="phase-list" data-motion-group="experience-phases">
+        <div className="experience-stage-grid" data-motion-group="experience-stage-grid">
           {items.map((item) => (
-            <article className="phase-item" key={item} data-motion-item>
-              <div className="phase-period">{t(`experience.item.${item}.period`)}</div>
-              <div className="phase-content">
-                <h3 className="phase-title">{t(`experience.item.${item}.title`)}</h3>
-                <p className="phase-body">{t(`experience.item.${item}.body`)}</p>
+            <article
+              className={`experience-stage-card experience-stage-card-${item}`}
+              key={item}
+              data-motion-item
+              data-motion-hover="card"
+            >
+              <div className="experience-stage-card-shell">
+                <div className="experience-stage-card-topline">
+                  <p className="experience-stage-card-index">0{item}</p>
+                  <p className="experience-stage-card-period">{t(`experience.item.${item}.period`)}</p>
+                </div>
+                <div className="experience-stage-card-copy">
+                  <p className="experience-stage-card-tag">{t(`experience.stage.item.${item}.short`)}</p>
+                  <h3 className="experience-stage-card-title">{t(`experience.item.${item}.title`)}</h3>
+                  <p className="experience-stage-card-body">{t(`experience.item.${item}.body`)}</p>
+                </div>
               </div>
             </article>
           ))}

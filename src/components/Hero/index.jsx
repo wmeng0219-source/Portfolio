@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './Hero.module.css';
 import { useLanguage } from '../../context/LanguageContext';
 import gsap from 'gsap';
@@ -10,13 +10,17 @@ const Hero = () => {
   const { t } = useLanguage();
   const sectionRef = useRef(null);
   const copyRef = useRef(null);
-  const visualRef = useRef(null);
+  const visualStageRef = useRef(null);
   const glowRef = useRef(null);
+  const [mouse, setMouse] = useState({ x: 0.5, y: 0.5 });
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const copyNodes = copyRef.current
-        ? Array.from(copyRef.current.querySelectorAll('[data-hero-anim]'))
+      const titleNodes = copyRef.current
+        ? Array.from(copyRef.current.querySelectorAll('[data-hero-anim="title"]'))
+        : [];
+      const supportNodes = copyRef.current
+        ? Array.from(copyRef.current.querySelectorAll('[data-hero-anim="support"]'))
         : [];
       const mm = gsap.matchMedia();
 
@@ -28,29 +32,46 @@ const Hero = () => {
         (context) => {
           const { isDesktop, reduceMotion } = context.conditions;
 
-          if (copyNodes.length) {
+          if (titleNodes.length) {
             gsap.fromTo(
-              copyNodes,
+              titleNodes,
+              reduceMotion ? { autoAlpha: 0 } : { yPercent: 110, autoAlpha: 0 },
+              {
+                yPercent: 0,
+                autoAlpha: 1,
+                duration: reduceMotion ? 0.01 : 1.08,
+                stagger: reduceMotion ? 0 : 0.06,
+                ease: 'power4.out',
+              },
+            );
+          }
+
+          if (supportNodes.length) {
+            gsap.fromTo(
+              supportNodes,
               reduceMotion ? { autoAlpha: 0 } : { y: 32, autoAlpha: 0 },
               {
                 y: 0,
                 autoAlpha: 1,
-                duration: reduceMotion ? 0.01 : 0.82,
-                stagger: reduceMotion ? 0 : 0.1,
+                duration: reduceMotion ? 0.01 : 0.84,
+                stagger: reduceMotion ? 0 : 0.06,
+                delay: reduceMotion ? 0 : 0.28,
                 ease: 'power3.out',
               },
             );
           }
 
-          if (visualRef.current) {
+          if (visualStageRef.current) {
             gsap.fromTo(
-              visualRef.current,
-              reduceMotion ? { autoAlpha: 0 } : { y: 28, autoAlpha: 0.01 },
+              visualStageRef.current,
+              reduceMotion ? { autoAlpha: 0 } : { y: 42, autoAlpha: 0.01, scale: 0.92, rotate: -4 },
               {
                 y: 0,
                 autoAlpha: 1,
-                duration: reduceMotion ? 0.01 : 0.92,
-                delay: reduceMotion ? 0 : 0.18,
+                scale: 1,
+                rotate: 0,
+                duration: reduceMotion ? 0.01 : 1.16,
+                delay: reduceMotion ? 0 : 0.14,
                 ease: 'power3.out',
               },
             );
@@ -58,19 +79,18 @@ const Hero = () => {
 
           if (glowRef.current && !reduceMotion) {
             gsap.to(glowRef.current, {
-              scale: 1.06,
-              autoAlpha: 0.88,
-              duration: 2.8,
+              scale: 1.14,
+              autoAlpha: 0.92,
+              duration: 4.4,
               repeat: -1,
               yoyo: true,
               ease: 'sine.inOut',
             });
           }
 
-          if (visualRef.current && isDesktop && !reduceMotion) {
-            gsap.to(visualRef.current, {
-              yPercent: -8,
-              scale: 1.03,
+          if (visualStageRef.current && isDesktop && !reduceMotion) {
+            gsap.to(visualStageRef.current, {
+              yPercent: -10,
               ease: 'none',
               scrollTrigger: {
                 trigger: sectionRef.current,
@@ -89,29 +109,86 @@ const Hero = () => {
     return () => ctx.revert();
   }, []);
 
+  useEffect(() => {
+    const handleMouseMove = (event) => {
+      setMouse({
+        x: event.clientX / window.innerWidth,
+        y: event.clientY / window.innerHeight,
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  const visualInnerStyle = {
+    transform: `translate3d(${(mouse.x - 0.5) * -32}px, ${(mouse.y - 0.5) * -24}px, 0) rotateY(${
+      (mouse.x - 0.5) * 10
+    }deg) rotateX(${(mouse.y - 0.5) * -8}deg)`,
+  };
+
   return (
-    <section className={styles.hero} id="hero" ref={sectionRef}>
-      <div className={styles.backdrop} aria-hidden="true">
-        <div className={styles.glow} ref={glowRef} />
+    <section className={styles.hero} id="hero" ref={sectionRef} data-hero-stage>
+      <div className={styles.stageBackdrop} aria-hidden="true">
+        <div className={styles.stageGlow} ref={glowRef} />
+        <div className={styles.stageNoise} />
+        <div className={styles.stageGrid} />
+
+        <div className={styles.visualStage} ref={visualStageRef}>
+          <div className={styles.visualInner} style={visualInnerStyle}>
+            <div className={styles.orbitalField}>
+              <div className={styles.orbitalHalo} />
+              <div className={styles.orbitalRing} />
+              <div className={styles.orbitalRingSoft} />
+              <div className={styles.orbitalBeam} />
+              <div className={styles.orbitalCore} />
+              <div className={styles.orbitalShardA} />
+              <div className={styles.orbitalShardB} />
+              <div className={styles.orbitalPulse} />
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className={styles.shell}>
+        <p className={styles.metaLine} data-hero-anim="support">
+          {t('hero.stage.kicker')}
+        </p>
+
         <div className={styles.copy} ref={copyRef}>
-          <p className={styles.kicker} data-hero-anim>
-            {t('hero.meta.name')} — {t('hero.meta.role')}
-          </p>
-          <h1 className={styles.mainTitle} data-hero-anim>
-            {t('hero.title')}
+          <h1 className={styles.mainTitle}>
+            <span className={styles.titleRow}>
+              <span className={styles.titleInner} data-hero-anim="title">
+                {t('hero.stage.title.1')}
+              </span>
+            </span>
+            <span className={styles.titleRow}>
+              <span className={styles.titleInner} data-hero-anim="title">
+                {t('hero.stage.title.2')}
+              </span>
+            </span>
+            <span className={styles.titleRow}>
+              <span className={styles.titleInner} data-hero-anim="title">
+                {t('hero.stage.title.3')}
+              </span>
+            </span>
+            <span className={styles.titleRow}>
+              <span className={styles.titleInner} data-hero-anim="title">
+                <span className={styles.titleAccent}>{t('hero.stage.title.4')}</span>
+              </span>
+            </span>
           </h1>
-          <p className={styles.body} data-hero-anim>
-            {t('hero.body')}
+
+          <p className={styles.body} data-hero-anim="support">
+            {t('hero.stage.body')}
           </p>
-          <div className={styles.actions} data-hero-anim>
+
+          <div className={styles.actions} data-hero-anim="support">
             <a className={styles.btnPrimary} href="#portfolio" data-motion-hover="button">
-              {t('hero.btn.work')}
-            </a>
-            <a className={styles.btnSecondary} href="#contact" data-motion-hover="button">
-              {t('hero.btn.contact')}
+              <span>{t('hero.stage.cta')}</span>
+              <span className={styles.btnArrow} aria-hidden="true">
+                ↘
+              </span>
             </a>
           </div>
         </div>

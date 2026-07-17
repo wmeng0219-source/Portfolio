@@ -30,21 +30,24 @@ export const useHomepageMotion = (rootRef) => {
           }
 
           const isPortfolioSection = Boolean(section.querySelector('[data-motion-group="portfolio-stage"]'));
+          const isStageDenseSection = Boolean(
+            section.querySelector('.about-stage-grid, .experience-stage-grid, .contact-stage-actions'),
+          );
 
           const fromVars = reduceMotion
             ? { autoAlpha: 0 }
-            : { y: isPortfolioSection ? 48 : 36, autoAlpha: 0 };
+            : { y: isPortfolioSection ? 64 : isStageDenseSection ? 48 : 36, autoAlpha: 0 };
 
           const toVars = {
             y: 0,
             autoAlpha: 1,
-            duration: reduceMotion ? 0.01 : isPortfolioSection ? 1.2 : 0.84,
-            stagger: reduceMotion ? 0 : isPortfolioSection ? 0.12 : 0.1,
+            duration: reduceMotion ? 0.01 : isPortfolioSection ? 1.12 : isStageDenseSection ? 0.92 : 0.8,
+            stagger: reduceMotion ? 0 : isPortfolioSection ? 0.12 : isStageDenseSection ? 0.1 : 0.08,
             ease: 'power3.out',
             overwrite: 'auto',
             scrollTrigger: {
               trigger: section,
-              start: isPortfolioSection ? 'top 80%' : 'top 85%',
+              start: isPortfolioSection ? 'top 78%' : isStageDenseSection ? 'top 84%' : 'top 88%',
               once: true,
             },
           };
@@ -77,9 +80,9 @@ export const useHomepageMotion = (rootRef) => {
           hoverTargets.forEach((node) => {
             const enter = () => {
               gsap.to(node, {
-                y: -4,
-                scale: node.dataset.motionHover === 'button' ? 1.01 : 1,
-                duration: 0.26,
+                y: -6,
+                scale: node.dataset.motionHover === 'button' ? 1.015 : 1.01,
+                duration: 0.24,
                 ease: 'power2.out',
                 overwrite: 'auto',
               });
@@ -89,7 +92,7 @@ export const useHomepageMotion = (rootRef) => {
               gsap.to(node, {
                 y: 0,
                 scale: 1,
-                duration: 0.24,
+                duration: 0.22,
                 ease: 'power2.out',
                 overwrite: 'auto',
               });

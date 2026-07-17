@@ -54,6 +54,26 @@ const Harness = () => {
   );
 };
 
+const DenseStageHarness = () => {
+  const ref = useRef(null);
+  useHomepageMotion(ref);
+
+  return (
+    <div ref={ref}>
+      <section data-motion-section>
+        <div className="about-stage-grid" data-motion-group="about-stage-grid">
+          <article data-motion-item data-motion-hover="card">
+            context
+          </article>
+          <article data-motion-item data-motion-hover="card">
+            structure
+          </article>
+        </div>
+      </section>
+    </div>
+  );
+};
+
 const PortfolioHarness = () => {
   const ref = useRef(null);
   useHomepageMotion(ref);
@@ -97,8 +117,26 @@ test('uses stronger reveal settings for proof chapter content', () => {
     expect.arrayContaining([expect.any(HTMLElement)]),
     expect.objectContaining({ y: 36, autoAlpha: 0 }),
     expect.objectContaining({
-      stagger: 0.16,
-      scrollTrigger: expect.objectContaining({ start: 'top 78%' }),
+      stagger: 0.08,
+      scrollTrigger: expect.objectContaining({ start: 'top 88%' }),
+    }),
+  );
+});
+
+test('uses denser reveal settings for stage-based secondary sections', () => {
+  matchMediaAdd.mockImplementation((_queries, callback) => {
+    callback({ conditions: { reduceMotion: false, isDesktop: true } });
+  });
+
+  render(<DenseStageHarness />);
+
+  expect(fromTo).toHaveBeenCalledWith(
+    expect.arrayContaining([expect.any(HTMLElement), expect.any(HTMLElement)]),
+    expect.objectContaining({ y: 48, autoAlpha: 0 }),
+    expect.objectContaining({
+      duration: 0.92,
+      stagger: 0.1,
+      scrollTrigger: expect.objectContaining({ start: 'top 84%' }),
     }),
   );
 });
@@ -117,8 +155,8 @@ test('registers desktop hover tweens for marked motion hover elements', () => {
   expect(to).toHaveBeenCalledWith(
     hoverTarget,
     expect.objectContaining({
-      y: -4,
-      duration: 0.26,
+      y: -6,
+      duration: 0.24,
       ease: 'power2.out',
     }),
   );
@@ -126,7 +164,7 @@ test('registers desktop hover tweens for marked motion hover elements', () => {
     hoverTarget,
     expect.objectContaining({
       y: 0,
-      duration: 0.24,
+      duration: 0.22,
       ease: 'power2.out',
     }),
   );
@@ -141,10 +179,10 @@ test('keeps lead episode ahead of side episodes in portfolio reveal', () => {
 
   expect(fromTo).toHaveBeenCalledWith(
     expect.arrayContaining([expect.any(HTMLElement), expect.any(HTMLElement), expect.any(HTMLElement)]),
-    expect.objectContaining({ y: 32, autoAlpha: 0 }),
+    expect.objectContaining({ y: 64, autoAlpha: 0 }),
     expect.objectContaining({
-      stagger: 0.1,
-      scrollTrigger: expect.objectContaining({ start: 'top 80%' }),
+      stagger: 0.12,
+      scrollTrigger: expect.objectContaining({ start: 'top 78%' }),
     }),
   );
 });

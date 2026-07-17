@@ -14,6 +14,12 @@ if (!window.matchMedia) {
   })
 }
 
+Object.defineProperty(window, 'scrollTo', {
+  value: () => {},
+  writable: true,
+  configurable: true,
+})
+
 const createStorage = () => {
   const store = new Map()
 

@@ -5,18 +5,27 @@ const Contact = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="page-section contact-section" id="contact" data-motion-section>
-      <div className="section-shell contact-shell">
-        <h2 className="section-title" data-motion-item>{t('contact.title')}</h2>
-        <p className="section-intro contact-intro" data-motion-item>{t('contact.body')}</p>
-        <div className="contact-methods" data-motion-group="contact-methods">
-          <div className="contact-method" data-motion-item>
-            <p className="contact-label">{t('contact.emailLabel')}</p>
-            <a className="contact-value" href={`mailto:${t('contact.email')}`}>{t('contact.email')}</a>
-          </div>
-          <div className="contact-method" data-motion-item>
-            <p className="contact-label">{t('contact.wechatLabel')}</p>
-            <span className="contact-value">{t('contact.wechat')}</span>
+    <section className="page-section contact-stage-section" id="contact" data-motion-section>
+      <div className="section-shell">
+        <div className="contact-stage-shell" data-motion-item data-motion-hover="card">
+          <p className="contact-stage-kicker">{t('contact.stage.kicker')}</p>
+          <h2 className="contact-stage-title">{t('contact.stage.title')}</h2>
+          <p className="contact-stage-intro">{t('contact.stage.body')}</p>
+
+          <div className="contact-stage-actions" data-motion-group="contact-stage-actions">
+            <a
+              className="contact-stage-link"
+              data-motion-item
+              href={`mailto:${t('contact.email')}`}
+              aria-label={t('contact.email')}
+            >
+              <span className="contact-stage-link-label">{t('contact.stage.emailLabel')}</span>
+              <span className="contact-stage-link-value">{t('contact.email')}</span>
+            </a>
+            <div className="contact-stage-link" data-motion-item>
+              <span className="contact-stage-link-label">{t('contact.stage.wechatLabel')}</span>
+              <span className="contact-stage-link-value">{t('contact.wechat')}</span>
+            </div>
           </div>
         </div>
       </div>
