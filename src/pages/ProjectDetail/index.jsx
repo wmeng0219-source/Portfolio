@@ -5,6 +5,7 @@ import { projects } from '../../data/projects';
 import styles from './ProjectDetail.module.css';
 import gsap from 'gsap';
 import OrthodonticsCase from './OrthodonticsCase';
+import PacsCase from './PacsCase';
 
 export default function ProjectDetail() {
   const { id } = useParams();
@@ -33,23 +34,42 @@ export default function ProjectDetail() {
 
   if (project.id === 'orthodontics') {
     return (
-      <div className={styles.page}>
+      <>
         <nav className={styles.nav}>
-          <Link to="/" className={styles.backLink} data-animate>
-            ← {language === 'zh' ? '返回首页' : 'Back to Home'}
-          </Link>
+          <div className={styles.navInner}>
+            <Link to="/" className={styles.backLink} data-animate>
+              ← {language === 'zh' ? '返回首页' : 'Back to Home'}
+            </Link>
+          </div>
         </nav>
         <OrthodonticsCase project={project} />
-      </div>
+      </>
+    );
+  }
+
+  if (project.id === 'pacs-ai') {
+    return (
+      <>
+        <nav className={styles.nav}>
+          <div className={styles.navInner}>
+            <Link to="/" className={styles.backLink} data-animate>
+              ← {language === 'zh' ? '返回首页' : 'Back to Home'}
+            </Link>
+          </div>
+        </nav>
+        <PacsCase project={project} />
+      </>
     );
   }
 
   return (
-    <div className={styles.page}>
+    <div className={styles.page} style={{ paddingTop: 'calc(var(--header-height, 4rem) + 2rem)' }}>
       <nav className={styles.nav}>
-        <Link to="/" className={styles.backLink} data-animate>
-          ← {language === 'zh' ? '返回首页' : 'Back to Home'}
-        </Link>
+        <div className={styles.navInner}>
+          <Link to="/" className={styles.backLink} data-animate>
+            ← {language === 'zh' ? '返回首页' : 'Back to Home'}
+          </Link>
+        </div>
       </nav>
 
       <main className={styles.main}>

@@ -10,9 +10,13 @@ const Experience = () => {
     <section className="page-section experience-stage-section" id="experience" data-motion-section>
       <div className="section-shell">
         <div className="experience-stage-head" data-motion-item>
-          <p className="experience-stage-kicker">{t('experience.stage.kicker')}</p>
-          <h2 className="experience-stage-title">{t('experience.stage.title')}</h2>
-          <p className="experience-stage-intro">{t('experience.stage.intro')}</p>
+          <div className="experience-stage-head-top">
+            <p className="experience-stage-kicker">03 / Path</p>
+          </div>
+          <div className="experience-stage-head-body">
+            <h2 className="experience-stage-title">{t('experience.stage.title')}</h2>
+            <p className="experience-stage-intro">{t('experience.stage.intro')}</p>
+          </div>
         </div>
 
         <div className="experience-stage-grid" data-motion-group="experience-stage-grid">

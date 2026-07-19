@@ -6,7 +6,24 @@
 }
 
 .nav {
-  margin-bottom: 4rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  padding: 1rem clamp(1.25rem, 4vw, 2.5rem);
+  background: rgba(9, 9, 9, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+  margin: 0;
+  display: flex;
+  justify-content: flex-start;
+}
+.navInner {
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
 }
 
 .backLink {
@@ -51,16 +68,18 @@
 }
 
 .sectionTitle {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.5vw, 1.8rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
   margin-bottom: 1.5rem;
   color: var(--color-text-primary);
 }
 
 .text {
-  color: var(--color-text-muted);
-  font-size: 1.05rem;
-  line-height: 1.8;
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  line-height: 1.78;
 }
 
 .solutions {

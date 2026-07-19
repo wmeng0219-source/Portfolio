@@ -1,0 +1,550 @@
+.page {
+  padding-top: calc(var(--header-height, 4rem) + 2rem);
+  background: var(--color-bg-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Hero ──────────────────────────────────────────── */
+.hero {
+  padding: clamp(3rem, 5vw, 6rem) var(--section-pad-x);
+  max-width: calc(var(--content-max) + 2 * var(--section-pad-x));
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(3rem, 6vw, 6rem);
+  align-items: center;
+}
+
+.heroInner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.kickerIndex {
+  color: var(--color-text-faint);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 4.5vw, 4.2rem);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+  color: var(--color-text-primary);
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.heroVisual {
+  position: relative;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  box-shadow: 0 24px 64px -16px rgba(0,0,0,0.4);
+}
+
+.heroVisualImg {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  display: block;
+}
+
+.heroMetricFloating {
+  position: absolute;
+  bottom: -2rem;
+  left: -2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem 2rem;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-xl);
+  background: rgba(20, 20, 25, 0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 16px 32px rgba(0,0,0,0.3);
+}
+
+.metricBlock {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.metricBefore {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-faint);
+  letter-spacing: -0.04em;
+  text-decoration: line-through;
+  text-decoration-color: rgba(168, 138, 223, 0.4);
+}
+
+.metricArrow {
+  font-size: 1rem;
+  color: var(--color-text-faint);
+}
+
+.metricAfter {
+  font-family: var(--font-mono);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  letter-spacing: -0.04em;
+}
+
+.metricLabel {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+/* ── Generic section ───────────────────────────────── */
+.section {
+  padding: clamp(3rem, 5vw, 6rem) var(--section-pad-x);
+  border-top: 1px solid var(--color-border);
+  max-width: calc(var(--content-max) + 2 * var(--section-pad-x));
+  margin: 0 auto;
+}
+
+.sectionGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: center;
+}
+
+.sectionKicker {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  text-transform: none;
+  color: var(--color-text-primary);
+  margin-bottom: 1.5rem;
+}
+
+.bodyText {
+  font-size: 1.125rem;
+  line-height: 1.78;
+  color: var(--color-text-secondary);
+  max-width: 65ch;
+}
+
+/* Role chip */
+.roleChip {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.02);
+  margin-top: 2rem;
+}
+
+.roleChipLabel {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+.roleChipValue {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-primary);
+}
+
+/* ── GSAP Horizontal Pan (Iterations) ─────────────── */
+.panWrapper {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-bg-elevated);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.panHeader {
+  position: absolute;
+  top: 4rem;
+  left: clamp(2rem, 5vw, 4rem);
+  z-index: 10;
+}
+
+.panTrack {
+  display: flex;
+  height: 100dvh;
+  align-items: center;
+  padding: 0 50vw 0 clamp(2rem, 5vw, 4rem);
+  gap: 4rem;
+  width: fit-content;
+}
+
+.iterCard {
+  width: clamp(300px, 40vw, 600px);
+  padding: 3rem;
+  border: 1px solid var(--color-border-accent);
+  border-radius: var(--radius-2xl);
+  background: rgba(20, 20, 25, 0.5);
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex-shrink: 0;
+}
+
+.iterationHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.iterationBadge {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-bg-primary);
+  background: var(--color-accent);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-sm);
+}
+
+.iterationLabel {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.iterationTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+}
+
+/* ── Bento Grid (Solutions) ───────────────────────── */
+.bentoGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.bentoCell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+  aspect-ratio: 4/5;
+}
+
+.bentoCell:nth-child(1) {
+  grid-column: span 2;
+  aspect-ratio: auto;
+}
+
+.bentoImg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.4;
+  transition: opacity 0.5s ease;
+}
+
+.bentoCell:hover .bentoImg {
+  opacity: 0.7;
+}
+
+.bentoGradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--color-bg-elevated) 10%, transparent 80%);
+}
+
+.bentoContent {
+  position: relative;
+  z-index: 2;
+  margin-top: auto;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.solutionIndex {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.solutionTitle {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+/* ── GSAP Sticky Stack (Decisions) ────────────────── */
+.stackWrapper {
+  position: relative;
+  background: var(--color-bg-primary);
+  padding: 4rem 0;
+}
+
+.stackHeader {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 4rem;
+}
+
+.decisionSubtitle {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--color-text-muted);
+  margin-top: 1rem;
+}
+
+.stackContainer {
+  position: relative;
+}
+
+.stackCard {
+  position: sticky;
+  top: 0;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.stackCardInner {
+  width: 100%;
+  max-width: 800px;
+  background: rgba(30, 30, 35, 0.6);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-2xl);
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  box-shadow: 0 24px 64px -16px rgba(0,0,0,0.5);
+}
+
+.decisionTabNum {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  letter-spacing: 0.1em;
+}
+
+.decisionQuestion {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+}
+
+.decisionAnswerLabel {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.decisionAnswerText {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--color-text-secondary);
+}
+
+/* ── Results & Masonry ─────────────────────────────── */
+.resultHeadline {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+  margin-bottom: 2rem;
+}
+
+.metricRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: var(--color-border);
+}
+
+.metricCell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 2rem;
+  background: var(--color-bg-elevated);
+}
+
+.metricCellAccent { background: rgba(168, 138, 223, 0.06); }
+.metricCellDelta { background: rgba(168, 138, 223, 0.04); }
+
+.metricCellValue {
+  font-family: var(--font-mono);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--color-text-primary);
+}
+
+.metricCellAccent .metricCellValue,
+.metricCellDelta .metricCellValue {
+  color: var(--color-accent);
+}
+
+.metricCellLabel {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+.imageSection {
+  padding: clamp(3rem, 5vw, 6rem) var(--section-pad-x);
+  border-top: 1px solid var(--color-border);
+  max-width: calc(var(--content-max) + 2 * var(--section-pad-x));
+  margin: 0 auto;
+}
+
+.masonryGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.imageFigure {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0;
+}
+
+.imageFigure:nth-child(3n+1) {
+  grid-column: span 2;
+}
+
+.imageFigure:nth-child(3n+1) .image {
+  aspect-ratio: 21 / 9;
+}
+
+.image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius-xl);
+  background: var(--color-bg-elevated);
+}
+
+.imageCaption {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: var(--color-text-faint);
+  text-transform: uppercase;
+}
+
+/* ── Responsive ────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .bentoGrid {
+    grid-template-columns: 1fr;
+  }
+  .bentoCell:nth-child(1) {
+    grid-column: span 1;
+    aspect-ratio: 4/3;
+  }
+}
+
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+  .heroVisual {
+    order: -1;
+  }
+  .heroMetricFloating {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    margin-top: 1rem;
+  }
+  .sectionGrid {
+    grid-template-columns: 1fr;
+  }
+  .metricRow {
+    grid-template-columns: 1fr;
+  }
+  .masonryGrid {
+    grid-template-columns: 1fr;
+  }
+  .imageFigure:nth-child(3n+1) {
+    grid-column: span 1;
+  }
+  .imageFigure:nth-child(3n+1) .image {
+    aspect-ratio: 4/3;
+  }
+  .stackCardInner {
+    padding: 2rem;
+  }
+}
