@@ -22,17 +22,20 @@ vi.mock('gsap', () => {
     return { revert: () => {} };
   };
 
+  const gsapMock = {
+    registerPlugin: () => {},
+    context,
+    fromTo,
+    to,
+    matchMedia: () => ({
+      add: matchMediaAdd,
+      revert: matchMediaRevert,
+    }),
+  };
+
   return {
-    default: {
-      registerPlugin: () => {},
-      context,
-      fromTo,
-      to,
-      matchMedia: () => ({
-        add: matchMediaAdd,
-        revert: matchMediaRevert,
-      }),
-    },
+    default: gsapMock,
+    gsap: gsapMock,
   };
 });
 
@@ -59,8 +62,12 @@ test('renders homepage sections with updated responsibilities and portfolio emph
       name: /让复杂.*业务系统.*变得清晰.*可被落地/,
     }),
   ).toBeInTheDocument();
+  const heroSection = screen.getByRole('heading', {
+    level: 1,
+    name: /让复杂.*业务系统.*变得清晰.*可被落地/,
+  }).closest('section');
   expect(screen.getByRole('link', { name: '查看精选案例' })).toHaveAttribute('href', '#portfolio');
-  expect(screen.getByText('数字化产品系统 / 2025')).toBeInTheDocument();
+  expect(within(heroSection).getByText('数字化产品系统 / 2025')).toBeInTheDocument();
   expect(screen.getByText('为复杂业务构建清晰、可执行、可扩展的产品系统。')).toBeInTheDocument();
 
   const aboutSection = screen.getByRole('heading', {
@@ -68,7 +75,7 @@ test('renders homepage sections with updated responsibilities and portfolio emph
     name: '把复杂业务变成可执行系统',
   }).closest('section');
   expect(aboutSection).toHaveAttribute('data-motion-section');
-  expect(within(aboutSection).getByText('METHOD SYSTEM')).toBeInTheDocument();
+  expect(within(aboutSection).getByText('01 / Method')).toBeInTheDocument();
   expect(within(aboutSection).getByText('Context')).toBeInTheDocument();
   expect(within(aboutSection).getByText('Structure')).toBeInTheDocument();
   expect(within(aboutSection).getByText('AI Workflow')).toBeInTheDocument();
@@ -78,11 +85,13 @@ test('renders homepage sections with updated responsibilities and portfolio emph
     name: '从设计执行到系统判断',
   }).closest('section');
   expect(experienceSection).toHaveAttribute('data-motion-section');
-  expect(within(experienceSection).getByText('PHASE SHOWCASE')).toBeInTheDocument();
+  expect(within(experienceSection).getByText('03 / Path')).toBeInTheDocument();
   expect(within(experienceSection).getByText('2019 - 2020')).toBeInTheDocument();
   expect(within(experienceSection).getByText('2023.04 - 至今')).toBeInTheDocument();
   expect(within(experienceSection).getByText('界面与系统基础')).toBeInTheDocument();
   expect(within(experienceSection).getByText('连接业务与交付')).toBeInTheDocument();
+  expect(experienceSection.querySelector('.experience-timeline')).not.toBeNull();
+  expect(experienceSection.querySelector('.experience-stage-card')).toBeNull();
 
   const portfolioSection = screen.getByRole('heading', {
     level: 2,
@@ -90,7 +99,7 @@ test('renders homepage sections with updated responsibilities and portfolio emph
   }).closest('section');
   expect(portfolioSection).toHaveAttribute('data-motion-section');
   expect(within(portfolioSection).getByText('SELECTED WORK')).toBeInTheDocument();
-  expect(portfolioSection.querySelector('.portfolio-stage')).toHaveAttribute('data-motion-group', 'portfolio-stage');
+  expect(portfolioSection.querySelector('.portfolio-stage-grid')).toHaveAttribute('data-motion-group', 'portfolio-stage');
   const caseLinks = within(portfolioSection).getAllByRole('link');
   expect(caseLinks).toHaveLength(3);
   expect(within(portfolioSection).getByText('会员自动化与服务衔接')).toBeInTheDocument();
@@ -111,7 +120,8 @@ test('renders homepage sections with updated responsibilities and portfolio emph
     name: '如果你要推进复杂产品，就来联系我。',
   }).closest('section');
   expect(contactSection).toHaveAttribute('data-motion-section');
-  expect(within(contactSection).getByText("LET'S BUILD")).toBeInTheDocument();
+  expect(within(contactSection).getByText('04 / Contact')).toBeInTheDocument();
+  expect(within(contactSection).getByText('数字化产品系统 / 2025')).toBeInTheDocument();
   const links = within(contactSection).getAllByRole('link');
   expect(links).toHaveLength(1);
   expect(within(contactSection).getByRole('link', { name: 'wmeng0219@gmail.com' })).toHaveAttribute(

@@ -1,79 +1,16 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { useLanguage } from '../../context/LanguageContext';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './PacsCase.module.css';
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function PacsCase({ project }) {
   const { language } = useLanguage();
   const t = (obj) => (obj ? (obj[language] ?? obj.zh) : '');
-
-  // Refs for Horizontal Pan
-  const panWrapRef = useRef(null);
-  const panTrackRef = useRef(null);
-
-  // Refs for Sticky Stack
-  const stackWrapRef = useRef(null);
-
-  useEffect(() => {
-    // Media query to disable complex scroll animations on mobile for better UX
-    const mm = gsap.matchMedia();
-
-    mm.add("(min-width: 901px)", () => {
-      // 1. Horizontal Pan
-      if (panWrapRef.current && panTrackRef.current) {
-        const distance = panTrackRef.current.scrollWidth - window.innerWidth;
-        gsap.to(panTrackRef.current, {
-          x: -distance,
-          ease: "none",
-          scrollTrigger: {
-            trigger: panWrapRef.current,
-            start: "top top",
-            end: () => `+=${distance}`,
-            pin: true,
-            scrub: 1,
-            invalidateOnRefresh: true,
-          }
-        });
-      }
-
-      // 2. Sticky Stack
-      if (stackWrapRef.current) {
-        const cards = gsap.utils.toArray(stackWrapRef.current.querySelectorAll(`.${styles.stackCard}`));
-        cards.forEach((card, i) => {
-          if (i === cards.length - 1) return;
-          ScrollTrigger.create({
-            trigger: card,
-            start: "top top",
-            endTrigger: cards[cards.length - 1],
-            end: "top top",
-            pin: true,
-            pinSpacing: false,
-          });
-          gsap.to(card, {
-            scale: 0.92,
-            opacity: 0.4,
-            ease: "none",
-            scrollTrigger: {
-              trigger: cards[i + 1],
-              start: "top bottom",
-              end: "top top",
-              scrub: true,
-            }
-          });
-        });
-      }
-    });
-
-    return () => mm.revert(); // cleanup
-  }, []);
+  const withBasePath = (path) => `${import.meta.env.BASE_URL ?? '/'}${path}`.replace(/\/{2,}/g, '/');
 
   const bentoImages = [
-    '/Portfolio/images/pacs/generated/pacs_trace_1784477779066.jpg',
-    '/Portfolio/images/pacs/generated/pacs_loop_1784477797633.jpg',
-    '/Portfolio/images/pacs/generated/pacs_boundary_1784477816064.jpg'
+    withBasePath('images/pacs/generated/pacs_trace_1784477779066.jpg'),
+    withBasePath('images/pacs/generated/pacs_loop_1784477797633.jpg'),
+    withBasePath('images/pacs/generated/pacs_boundary_1784477816064.jpg'),
   ];
 
   return (
@@ -86,13 +23,18 @@ export default function PacsCase({ project }) {
           </p>
           <h1 className={styles.title}>{t(project.title)}</h1>
           <p className={styles.tag}>{t(project.tag)}</p>
+          <p className={styles.heroSummary}>{t(project.background)}</p>
         </div>
 
         <div className={styles.heroVisual} data-animate>
-          <img 
-            src="/Portfolio/images/pacs/generated/pacs_hero_1784477678972.jpg" 
-            alt="PACS AI UI" 
+          <img
+            src={withBasePath('images/pacs/generated/pacs_hero_1784477678972.jpg')}
+            alt="PACS AI UI"
             className={styles.heroVisualImg}
+            width="1600"
+            height="900"
+            loading="eager"
+            fetchpriority="high"
           />
           <div className={styles.heroMetricFloating}>
             <div className={styles.metricBlock}>
@@ -116,7 +58,7 @@ export default function PacsCase({ project }) {
             <p className={styles.sectionKicker}>
               {language === 'zh' ? '项目背景与挑战' : 'Background & Challenge'}
             </p>
-            <p className={styles.bodyText}>{t(project.background)}</p>
+            <p className={styles.bodyText}>{t(project.challenge)}</p>
           </div>
           <div>
             <div className={styles.roleChip}>
@@ -129,94 +71,88 @@ export default function PacsCase({ project }) {
         </div>
       </section>
 
-      {/* ── Iterations (GSAP Horizontal Pan) ──────────────── */}
+      {/* ── Iterations ───────────────────────────────────── */}
       {project.process && (
-        <section ref={panWrapRef} className={styles.panWrapper}>
-          <div className={styles.panHeader} data-animate>
-            <p className={styles.kicker}>
-              {language === 'zh' ? '迭代路径' : 'Iterations'}
-            </p>
-          </div>
-          <div ref={panTrackRef} className={styles.panTrack}>
+        <section className={styles.section} data-animate>
+          <p className={styles.sectionKicker}>
+            {language === 'zh' ? '迭代路径' : 'Iterations'}
+          </p>
+          <div className={styles.iterationList}>
             {project.process.map((iter, i) => (
-              <div key={i} className={styles.iterCard}>
-                <div className={styles.iterationHeader}>
+              <article key={i} className={styles.iterationRow}>
+                <div className={styles.iterationMeta}>
                   <span className={styles.iterationBadge}>{iter.version}</span>
                   <span className={styles.iterationLabel}>{t(iter.label)}</span>
                 </div>
-                <h3 className={styles.iterationTitle}>{t(iter.title)}</h3>
-                <p className={styles.bodyText}>{t(iter.desc)}</p>
-              </div>
+                <div className={styles.iterationBody}>
+                  <h3 className={styles.iterationTitle}>{t(iter.title)}</h3>
+                  <p className={styles.bodyText}>{t(iter.desc)}</p>
+                </div>
+              </article>
             ))}
           </div>
         </section>
       )}
 
-      {/* ── Solutions (Bento Grid) ────────────────────────── */}
+      {/* ── Solutions ────────────────────────────────────── */}
       <section className={styles.section} data-animate>
-        <p className={styles.kicker}>
+        <p className={styles.sectionKicker}>
           {language === 'zh' ? '关键方案' : 'Key Solutions'}
         </p>
-        <div className={styles.bentoGrid}>
+        <div className={styles.solutionList}>
           {project.solution.map((sol, i) => (
-            <div key={i} className={styles.bentoCell}>
-              <img 
-                src={bentoImages[i % bentoImages.length]} 
-                alt="Solution graphic"
-                className={styles.bentoImg}
+            <article key={i} className={styles.solutionRow}>
+              <img
+                src={bentoImages[i % bentoImages.length]}
+                alt={t(sol.title)}
+                className={styles.solutionImage}
                 loading="lazy"
+                width="1024"
+                height="768"
               />
-              <div className={styles.bentoGradient} />
-              <div className={styles.bentoContent}>
+              <div className={styles.solutionCopy}>
                 <span className={styles.solutionIndex}>0{i + 1}</span>
                 <h3 className={styles.solutionTitle}>{t(sol.title)}</h3>
-                <p className={styles.bodyText} style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem' }}>
-                  {t(sol.desc)}
-                </p>
+                <p className={styles.bodyText}>{t(sol.desc)}</p>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </section>
 
-      {/* ── Design Decisions (GSAP Sticky Stack) ──────────── */}
+      {/* ── Design Decisions ─────────────────────────────── */}
       {project.decisions && (
-        <section className={styles.stackWrapper}>
-          <div className={styles.stackHeader} data-animate>
-            <p className={styles.sectionKicker} style={{ marginBottom: 0 }}>
-              {language === 'zh' ? '关键设计判断' : 'Key Design Decisions'}
-            </p>
-            <p className={styles.decisionSubtitle}>
-              {language === 'zh'
-                ? '每一个看似微小的交互决策背后，都有具体的临床场景和数据质量考量'
-                : 'Behind each interaction decision is a specific clinical context and data quality consideration'}
-            </p>
-          </div>
-          
-          <div ref={stackWrapRef} className={styles.stackContainer}>
+        <section className={styles.section} data-animate>
+          <p className={styles.sectionKicker}>
+            {language === 'zh' ? '关键设计判断' : 'Key Design Decisions'}
+          </p>
+          <p className={styles.decisionSubtitle}>
+            {language === 'zh'
+              ? '每一个看似微小的交互决策背后，都有具体的临床场景和数据质量考量'
+              : 'Each interaction decision reflects a clinical context and data-quality tradeoff'}
+          </p>
+          <div className={styles.decisionList}>
             {project.decisions.map((d, i) => (
-              <div key={i} className={styles.stackCard}>
-                <div className={styles.stackCardInner}>
-                  <span className={styles.decisionTabNum}>0{i + 1}</span>
+              <article key={i} className={styles.decisionRow}>
+                <span className={styles.decisionIndex}>0{i + 1}</span>
+                <div className={styles.decisionMain}>
                   <h3 className={styles.decisionQuestion}>{t(d.question)}</h3>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                    <span className={styles.decisionAnswerLabel}>
-                      {language === 'zh' ? '决策' : 'Decision'}
-                    </span>
-                    <p className={styles.decisionAnswerText}>{t(d.choice)}</p>
-                  </div>
+                  <span className={styles.decisionAnswerLabel}>
+                    {language === 'zh' ? '决策' : 'Decision'}
+                  </span>
+                  <p className={styles.decisionAnswerText}>{t(d.choice)}</p>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         </section>
       )}
 
-      {/* ── Results & Masonry ─────────────────────────────── */}
+      {/* ── Results & Interface ─────────────────────────── */}
       {project.detailMetrics && (
         <section className={styles.section} data-animate>
           <p className={styles.resultHeadline}>{t(project.detailMetrics.headline)}</p>
-          
+
           <div className={styles.metricRow}>
             <div className={styles.metricCell}>
               <span className={styles.metricCellValue}>{project.detailMetrics.before.value}</span>
@@ -236,17 +172,19 @@ export default function PacsCase({ project }) {
 
       {project.images && project.images.length > 0 && (
         <section className={styles.imageSection} data-animate>
-          <p className={styles.kicker}>
+          <p className={styles.sectionKicker}>
             {language === 'zh' ? '流程展示' : 'Interface Flow'}
           </p>
-          <div className={styles.masonryGrid}>
+          <div className={styles.imageList}>
             {project.images.map((img, i) => (
-              <figure key={i} className={styles.imageFigure}>
+              <figure key={i} className={styles.imageRow}>
                 <img
                   src={img.src}
                   alt={t(img.alt)}
                   className={styles.image}
                   loading="lazy"
+                  width="1024"
+                  height="768"
                 />
                 <figcaption className={styles.imageCaption}>{t(img.alt)}</figcaption>
               </figure>

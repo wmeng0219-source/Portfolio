@@ -57,77 +57,134 @@
 .visualInner {
   width: 100%;
   height: 100%;
-  transform-style: preserve-3d;
-  transition: transform 0.18s linear;
+  transition: transform 0.24s ease-out;
   will-change: transform;
 }
 
-.orbitalField {
+.diagramFrame {
   position: relative;
   width: 100%;
   height: 100%;
 }
 
-.orbitalHalo,
-.orbitalRingOuter,
-.orbitalRingInner,
-.orbitalCore {
+.diagramPlanePrimary,
+.diagramPlaneSecondary,
+.diagramPlaneTertiary {
   position: absolute;
-  inset: 50%;
-  border-radius: 999px;
-  transform: translate(-50%, -50%);
-}
-
-.orbitalHalo {
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at center, rgba(168, 138, 223, 0.08), transparent 70%);
-  filter: blur(36px);
-}
-
-.orbitalRingOuter {
-  width: 88%;
-  height: 88%;
-  border: 1px solid rgba(168, 138, 223, 0.22);
-  animation: orbitalSpin 36s linear infinite;
-}
-
-.orbitalRingInner {
-  width: 52%;
-  height: 52%;
+  border-radius: 1.75rem;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  animation: orbitalSpinReverse 52s linear infinite;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
+    rgba(12, 12, 18, 0.28);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
-.orbitalTickOrbit {
+.diagramPlanePrimary {
+  left: 11%;
+  top: 12%;
+  width: 60%;
+  height: 42%;
+}
+
+.diagramPlaneSecondary {
+  right: 8%;
+  top: 31%;
+  width: 44%;
+  height: 24%;
+}
+
+.diagramPlaneTertiary {
+  left: 23%;
+  bottom: 13%;
+  width: 50%;
+  height: 18%;
+}
+
+.diagramTrackA,
+.diagramTrackB,
+.diagramTrackC {
   position: absolute;
-  inset: 50%;
-  width: 88%;
-  height: 88%;
-  transform: translate(-50%, -50%);
-  animation: orbitalSpin 36s linear infinite;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(168, 138, 223, 0.34), transparent);
   pointer-events: none;
 }
 
-.orbitalTick {
-  position: absolute;
-  left: 50%;
-  top: -3px;
-  width: 6px;
-  height: 6px;
-  background: var(--color-accent);
-  border-radius: 999px;
-  box-shadow: 0 0 12px rgba(168, 138, 223, 0.8);
-  transform: translateX(-50%);
+.diagramTrackA {
+  left: 8%;
+  top: 24%;
+  width: 74%;
 }
 
-.orbitalCore {
-  width: 4.5rem;
-  height: 4.5rem;
-  background:
-    radial-gradient(circle at 38% 35%, rgba(255, 255, 255, 0.95), rgba(168, 138, 223, 0.7) 32%, rgba(168, 138, 223, 0.08) 64%, transparent 74%);
-  filter: blur(0.4px);
-  animation: coreBreath 6s ease-in-out infinite;
+.diagramTrackB {
+  left: 26%;
+  top: 52%;
+  width: 56%;
+}
+
+.diagramTrackC {
+  left: 18%;
+  bottom: 24%;
+  width: 62%;
+}
+
+.diagramNode,
+.diagramNodeAlt,
+.diagramNodeSoft {
+  position: absolute;
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 999px;
+  background: var(--color-accent);
+  box-shadow: 0 0 20px rgba(168, 138, 223, 0.32);
+}
+
+.diagramNode {
+  left: 30%;
+  top: 22%;
+}
+
+.diagramNodeAlt {
+  right: 23%;
+  top: 49%;
+}
+
+.diagramNodeSoft {
+  left: 40%;
+  bottom: 21%;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: none;
+}
+
+.diagramLabel,
+.diagramLabelAlt,
+.diagramLabelSoft {
+  position: absolute;
+  color: rgba(239, 246, 249, 0.7);
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.diagramLabel {
+  left: 13%;
+  top: 7%;
+}
+
+.diagramLabelAlt {
+  right: 9%;
+  top: 25%;
+}
+
+.diagramLabelSoft {
+  left: 27%;
+  bottom: 8%;
+  color: rgba(168, 138, 223, 0.72);
 }
 
 .shell {
@@ -188,7 +245,6 @@
 .titleAccent {
   color: var(--color-accent);
   font-weight: 800;
-  font-style: italic;
   letter-spacing: -0.03em;
 }
 
@@ -298,43 +354,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .orbitalRingOuter,
-  .orbitalRingInner,
-  .orbitalTickOrbit,
-  .orbitalCore {
-    animation: none;
-  }
-}
-
-@keyframes orbitalSpin {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
-
-@keyframes orbitalSpinReverse {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-
-  to {
-    transform: translate(-50%, -50%) rotate(-360deg);
-  }
-}
-
-@keyframes coreBreath {
-  0%,
-  100% {
-    opacity: 0.82;
-    transform: translate(-50%, -50%) scale(1);
-  }
-
-  50% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.04);
+  .visualInner {
+    transition: none;
   }
 }

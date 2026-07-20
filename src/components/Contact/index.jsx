@@ -8,20 +8,16 @@ const Contact = () => {
     <section className="page-section contact-stage-section" id="contact" data-motion-section>
       <div className="section-shell">
         <div className="contact-stage-grid" data-motion-item>
-          {/* Left — big headline */}
           <div className="contact-stage-headline">
             <p className="contact-stage-kicker-new">04 / Contact</p>
-            <h2 className="contact-stage-title-new">
-              {t('contact.stage.title')}
-            </h2>
+            <h2 className="contact-stage-title-new">{t('contact.stage.title')}</h2>
+            <p className="contact-stage-role">数字化产品系统 / 2025</p>
           </div>
 
-          {/* Right — intro + contact methods */}
           <div className="contact-stage-right">
             <p className="contact-stage-intro-new">{t('contact.stage.body')}</p>
 
             <div className="contact-stage-methods">
-              {/* Email */}
               <div className="contact-method-block">
                 <p className="contact-method-label">{t('contact.stage.emailLabel')}</p>
                 <a
@@ -33,7 +29,6 @@ const Contact = () => {
                 </a>
               </div>
 
-              {/* WeChat */}
               <div className="contact-method-block">
                 <p className="contact-method-label">{t('contact.stage.wechatLabel')}</p>
                 <p className="contact-method-value">{t('contact.wechat')}</p>

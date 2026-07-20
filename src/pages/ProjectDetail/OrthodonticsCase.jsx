@@ -9,6 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function OrthodonticsCase({ project }) {
   const { language } = useLanguage();
   const [activeTab, setActiveTab] = useState(project.roleTabs[0].id);
+  const activeRoleData = project.roleTabs.find((t) => t.id === activeTab);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -59,8 +60,6 @@ export default function OrthodonticsCase({ project }) {
 
     return () => ctx.revert();
   }, []);
-
-  const activeRoleData = project.roleTabs.find((t) => t.id === activeTab);
 
   return (
     <div className={styles.caseContainer}>
@@ -113,18 +112,31 @@ export default function OrthodonticsCase({ project }) {
             : 'Breaking the black box of multi-role collaboration to track referral fee incentives accurately. Click roles below:'}
         </p>
         <div className={styles.roleContainer}>
-          <div className={styles.roleTabs}>
+          <div className={styles.roleTabs} role="tablist" aria-label={language === 'zh' ? '角色职责切换' : 'Role duties'}>
             {project.roleTabs.map((tab) => (
               <button
                 key={tab.id}
+                type="button"
                 onClick={() => setActiveTab(tab.id)}
                 className={`${styles.roleTab} ${activeTab === tab.id ? styles.activeTab : ''} ${tab.id === 'pedo' ? styles.specialTab : ''}`}
+                role="tab"
+                id={`role-tab-${tab.id}`}
+                aria-controls={`role-panel-${tab.id}`}
+                aria-selected={activeTab === tab.id}
+                aria-pressed={activeTab === tab.id}
+                tabIndex={activeTab === tab.id ? 0 : -1}
               >
                 {tab.role[language]}
               </button>
             ))}
           </div>
-          <div className={styles.roleContent}>
+          <div
+            className={styles.roleContent}
+            role="tabpanel"
+            id={`role-panel-${activeRoleData.id}`}
+            aria-labelledby={`role-tab-${activeRoleData.id}`}
+            tabIndex={0}
+          >
             <h3 className={styles.roleTitle}>
               {activeRoleData.role[language]}
               {activeRoleData.id === 'pedo' && (

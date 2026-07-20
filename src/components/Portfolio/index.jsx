@@ -49,47 +49,32 @@ const cardMeta = [
 ];
 
 const PortfolioCard = ({ card }) => {
-  const cardClassName = card.featured ? 'portfolio-feature-card' : 'portfolio-side-card';
-
   return (
     <Link
       to={card.href}
-      className={`portfolio-link ${cardClassName} ${card.toneClass}`}
+      className={`portfolio-entry ${card.featured ? 'portfolio-entry-featured' : ''} ${card.toneClass}`}
       data-motion-item
       data-motion-hover="card"
     >
-      <div className="portfolio-card-sheen" aria-hidden="true" />
-      <div className="portfolio-card-grid" aria-hidden="true" />
-
-      <div className="portfolio-card-shell">
-        <div className="portfolio-card-topline">
-          <span className="portfolio-card-id">{card.id}</span>
-          <span className="portfolio-card-label">{card.label}</span>
+      <div className="portfolio-entry-meta">
+        <span className="portfolio-entry-id">{card.id}</span>
+        <span className="portfolio-entry-label">{card.label}</span>
+      </div>
+      <div className="portfolio-entry-body">
+        <p className="portfolio-entry-tag">{card.shortLabel}</p>
+        <h3 className="portfolio-entry-title">{card.title}</h3>
+        <p className="portfolio-entry-summary">{card.result}</p>
+      </div>
+      <div className="portfolio-entry-footer">
+        <div className="portfolio-entry-metric">
+          <span className="portfolio-entry-metricValue">{card.metric}</span>
+          <span className="portfolio-entry-metricLabel">{card.metricLabel}</span>
         </div>
-
-        <div className="portfolio-card-copy">
-          <p className="portfolio-card-tag">{card.shortLabel}</p>
-          <h3 className="portfolio-card-title">{card.title}</h3>
+        <div className="portfolio-entry-phase">
+          <span className="portfolio-entry-phaseValue">{card.phase}</span>
+          <span className="portfolio-entry-phaseLabel">Core Direction</span>
         </div>
-
-        <div className="portfolio-card-bottom">
-          <div className="portfolio-card-metricBlock">
-            <span className="portfolio-card-metric-value">{card.metric}</span>
-            <span className="portfolio-card-metric-label">{card.metricLabel}</span>
-          </div>
-
-          <div className="portfolio-card-phaseBlock">
-            <span className="portfolio-card-phase-value">{card.phase}</span>
-            <span className="portfolio-card-phase-label">Core Direction</span>
-          </div>
-
-          <div className="portfolio-card-action">
-            <span className="portfolio-card-action-label">VIEW CASE</span>
-            <span className="portfolio-card-action-icon" aria-hidden="true">
-              ↗
-            </span>
-          </div>
-        </div>
+        <span className="portfolio-entry-action">VIEW CASE ↗</span>
       </div>
     </Link>
   );
@@ -128,14 +113,10 @@ const Portfolio = () => {
           <p className="portfolio-stage-intro">{t('portfolio.stage.intro')}</p>
         </div>
 
-        <div className="portfolio-stage" data-motion-group="portfolio-stage">
-          <PortfolioCard card={cards[0]} key={cards[0].key} />
-
-          <div className="portfolio-side-stack">
-            {cards.slice(1).map((card) => (
-              <PortfolioCard card={card} key={card.key} />
-            ))}
-          </div>
+        <div className="portfolio-stage-grid" data-motion-group="portfolio-stage">
+          {cards.map((card) => (
+            <PortfolioCard card={card} key={card.key} />
+          ))}
         </div>
       </div>
     </section>

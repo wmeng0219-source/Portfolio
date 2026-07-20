@@ -14,13 +14,13 @@ const About = () => {
           <p className="about-stage-intro">{t('about.stage.intro')}</p>
         </div>
 
-        <div className="about-stage-grid" data-motion-group="about-stage-grid">
+        <div className="about-stage-list" data-motion-group="about-stage-list">
           {items.map((item) => (
-            <article className="about-stage-card" key={item} data-motion-item>
-              <div className="about-stage-card-shell">
-                <p className="about-stage-card-label">{t(`about.stage.card.${item}.label`)}</p>
-                <h3 className="about-stage-card-title">{t(`about.stage.card.${item}.title`)}</h3>
-                <p className="about-stage-card-body">{t(`about.stage.card.${item}.body`)}</p>
+            <article className="about-stage-row" key={item} data-motion-item>
+              <p className="about-stage-row-label">{t(`about.stage.card.${item}.label`)}</p>
+              <div className="about-stage-row-main">
+                <h3 className="about-stage-row-title">{t(`about.stage.card.${item}.title`)}</h3>
+                <p className="about-stage-row-body">{t(`about.stage.card.${item}.body`)}</p>
               </div>
             </article>
           ))}

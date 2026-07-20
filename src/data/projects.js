@@ -1,3 +1,6 @@
+const baseUrl = import.meta.env.BASE_URL ?? '/';
+const withBasePath = (path) => `${baseUrl}${path}`.replace(/\/{2,}/g, '/');
+
 export const projects = [
   {
     id: 'member-automation',
@@ -287,19 +290,19 @@ export const projects = [
 
     images: [
       {
-        src: '/Portfolio/images/pacs/entry-synced.jpg',
+        src: withBasePath('images/pacs/entry-synced.jpg'),
         alt: { zh: '读片状态与病历同步', en: 'Reading status and chart sync' }
       },
       {
-        src: '/Portfolio/images/pacs/manual-annotation.jpg',
+        src: withBasePath('images/pacs/manual-annotation.jpg'),
         alt: { zh: '医生手动框选与结构化标注', en: 'Manual annotation and structured marking' }
       },
       {
-        src: '/Portfolio/images/pacs/ai-recognition.jpg',
+        src: withBasePath('images/pacs/ai-recognition.jpg'),
         alt: { zh: 'AI 自动识别异常区域', en: 'AI automatic anomaly recognition' }
       },
       {
-        src: '/Portfolio/images/pacs/ai-confirm.jpg',
+        src: withBasePath('images/pacs/ai-confirm.jpg'),
         alt: { zh: '人机协作：医生复核 AI 结果', en: 'Human-AI Collaboration: Doctor reviews AI results' }
       }
     ]

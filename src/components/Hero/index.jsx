@@ -87,9 +87,9 @@ const Hero = () => {
 
           if (glowRef.current && !reduceMotion) {
             gsap.to(glowRef.current, {
-              scale: 1.14,
-              autoAlpha: 0.92,
-              duration: 4.4,
+              scale: 1.06,
+              autoAlpha: 0.72,
+              duration: 5.8,
               repeat: -1,
               yoyo: true,
               ease: 'sine.inOut',
@@ -98,14 +98,11 @@ const Hero = () => {
 
           if (visualStageRef.current && isDesktop && !reduceMotion) {
             gsap.to(visualStageRef.current, {
-              yPercent: -10,
-              ease: 'none',
-              scrollTrigger: {
-                trigger: sectionRef.current,
-                start: 'top top',
-                end: 'bottom top',
-                scrub: true,
-              },
+              y: -10,
+              duration: 5.6,
+              repeat: -1,
+              yoyo: true,
+              ease: 'sine.inOut',
             });
           }
         },
@@ -130,9 +127,7 @@ const Hero = () => {
   }, []);
 
   const visualInnerStyle = {
-    transform: `translate3d(${(mouse.x - 0.5) * -16}px, ${(mouse.y - 0.5) * -12}px, 0) rotateY(${
-      (mouse.x - 0.5) * 6
-    }deg) rotateX(${(mouse.y - 0.5) * -4}deg)`,
+    transform: `translate3d(${(mouse.x - 0.5) * -10}px, ${(mouse.y - 0.5) * -8}px, 0)`,
   };
 
   return (
@@ -144,14 +139,19 @@ const Hero = () => {
 
         <div className={styles.visualStage} ref={visualStageRef}>
           <div className={styles.visualInner} style={visualInnerStyle}>
-            <div className={styles.orbitalField}>
-              <div className={styles.orbitalHalo} />
-              <div className={styles.orbitalRingOuter} />
-              <div className={styles.orbitalRingInner} />
-              <div className={styles.orbitalTickOrbit}>
-                <div className={styles.orbitalTick} />
-              </div>
-              <div className={styles.orbitalCore} />
+            <div className={styles.diagramFrame}>
+              <div className={styles.diagramPlanePrimary} />
+              <div className={styles.diagramPlaneSecondary} />
+              <div className={styles.diagramPlaneTertiary} />
+              <div className={styles.diagramTrackA} />
+              <div className={styles.diagramTrackB} />
+              <div className={styles.diagramTrackC} />
+              <span className={styles.diagramNode} />
+              <span className={styles.diagramNodeAlt} />
+              <span className={styles.diagramNodeSoft} />
+              <span className={styles.diagramLabel}>FLOW</span>
+              <span className={styles.diagramLabelAlt}>RULES</span>
+              <span className={styles.diagramLabelSoft}>ROLE MAP</span>
             </div>
           </div>
         </div>

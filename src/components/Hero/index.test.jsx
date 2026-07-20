@@ -60,15 +60,17 @@ test('renders hero as a gsap-inspired brand stage with a single primary entry', 
   expect(screen.getByText('为复杂业务构建清晰、可执行、可扩展的产品系统。')).toBeInTheDocument();
   expect(screen.getByRole('link', { name: '查看精选案例' })).toHaveAttribute('href', '#portfolio');
   expect(screen.getByRole('link', { name: '查看精选案例' })).toHaveAttribute('data-motion-hover', 'button');
+  expect(screen.getByText('FLOW')).toBeInTheDocument();
+  expect(screen.getByText('RULES')).toBeInTheDocument();
+  expect(screen.getByText('ROLE MAP')).toBeInTheDocument();
   expect(fromTo).toHaveBeenCalled();
-  expect(to).toHaveBeenCalledWith(
-    expect.any(HTMLElement),
+  expect(to).toHaveBeenCalledTimes(2);
+  expect(to.mock.calls[1][1]).toEqual(
     expect.objectContaining({
-      yPercent: -10,
-      scrollTrigger: expect.objectContaining({
-        start: 'top top',
-        end: 'bottom top',
-      }),
+      y: -10,
+      duration: 5.6,
+      repeat: -1,
+      yoyo: true,
     }),
   );
 });

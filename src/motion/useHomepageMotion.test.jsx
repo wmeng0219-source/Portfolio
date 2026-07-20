@@ -45,9 +45,9 @@ const Harness = () => {
     <div ref={ref}>
       <section data-motion-section>
         <div data-motion-group="proof">
-          <article data-motion-item data-motion-hover="card">
+          <a href="#proof" data-motion-item data-motion-hover="card">
             proof
-          </article>
+          </a>
         </div>
       </section>
     </div>
@@ -61,13 +61,13 @@ const DenseStageHarness = () => {
   return (
     <div ref={ref}>
       <section data-motion-section>
-        <div className="about-stage-grid" data-motion-group="about-stage-grid">
-          <article data-motion-item data-motion-hover="card">
+        <div className="about-stage-list" data-motion-group="about-stage-list">
+          <a href="#context" data-motion-item data-motion-hover="card">
             context
-          </article>
-          <article data-motion-item data-motion-hover="card">
+          </a>
+          <a href="#structure" data-motion-item data-motion-hover="card">
             structure
-          </article>
+          </a>
         </div>
       </section>
     </div>
@@ -84,12 +84,12 @@ const PortfolioHarness = () => {
         <div data-motion-group="portfolio-stage">
           <div data-motion-item="featured">lead</div>
           <div data-motion-group="portfolio-secondary">
-            <article data-motion-item data-motion-hover="card">
+            <a href="#side-a" data-motion-item data-motion-hover="card">
               side-a
-            </article>
-            <article data-motion-item data-motion-hover="card">
+            </a>
+            <a href="#side-b" data-motion-item data-motion-hover="card">
               side-b
-            </article>
+            </a>
           </div>
         </div>
       </section>
@@ -115,9 +115,9 @@ test('uses stronger reveal settings for proof chapter content', () => {
 
   expect(fromTo).toHaveBeenCalledWith(
     expect.arrayContaining([expect.any(HTMLElement)]),
-    expect.objectContaining({ y: 36, autoAlpha: 0 }),
+    expect.objectContaining({ y: 18, autoAlpha: 0 }),
     expect.objectContaining({
-      stagger: 0.08,
+      stagger: 0.05,
       scrollTrigger: expect.objectContaining({ start: 'top 88%' }),
     }),
   );
@@ -132,11 +132,11 @@ test('uses denser reveal settings for stage-based secondary sections', () => {
 
   expect(fromTo).toHaveBeenCalledWith(
     expect.arrayContaining([expect.any(HTMLElement), expect.any(HTMLElement)]),
-    expect.objectContaining({ y: 48, autoAlpha: 0 }),
+    expect.objectContaining({ y: 20, autoAlpha: 0 }),
     expect.objectContaining({
-      duration: 0.92,
-      stagger: 0.1,
-      scrollTrigger: expect.objectContaining({ start: 'top 84%' }),
+      duration: 0.62,
+      stagger: 0.05,
+      scrollTrigger: expect.objectContaining({ start: 'top 86%' }),
     }),
   );
 });
@@ -155,8 +155,8 @@ test('registers desktop hover tweens for marked motion hover elements', () => {
   expect(to).toHaveBeenCalledWith(
     hoverTarget,
     expect.objectContaining({
-      y: -6,
-      duration: 0.24,
+      y: -2,
+      duration: 0.18,
       ease: 'power2.out',
     }),
   );
@@ -179,10 +179,10 @@ test('keeps lead episode ahead of side episodes in portfolio reveal', () => {
 
   expect(fromTo).toHaveBeenCalledWith(
     expect.arrayContaining([expect.any(HTMLElement), expect.any(HTMLElement), expect.any(HTMLElement)]),
-    expect.objectContaining({ y: 64, autoAlpha: 0 }),
+    expect.objectContaining({ y: 28, autoAlpha: 0 }),
     expect.objectContaining({
-      stagger: 0.12,
-      scrollTrigger: expect.objectContaining({ start: 'top 78%' }),
+      stagger: 0.06,
+      scrollTrigger: expect.objectContaining({ start: 'top 84%' }),
     }),
   );
 });
