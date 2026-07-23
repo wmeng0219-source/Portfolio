@@ -416,6 +416,138 @@
   text-transform: uppercase;
 }
 
+/* ── Design Craft Section ──────────────────────────── */
+.craftGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  margin-top: 2.5rem;
+}
+
+.craftCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2.5rem;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+}
+
+.craftHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.craftTag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.craftTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.2vw, 1.8rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+}
+
+/* Swatches */
+.swatchGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-top: 0.5rem;
+}
+
+.swatchCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+}
+
+.swatchChip {
+  width: 100%;
+  height: 3.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.15);
+}
+
+.swatchMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.swatchNameRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.swatchName {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.swatchHex {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-text-faint);
+}
+
+.swatchRole {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+/* Specs Badges */
+.specRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.specItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1.25rem;
+  background: rgba(168, 138, 223, 0.04);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+}
+
+.specValue {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  letter-spacing: -0.03em;
+}
+
+.specLabel {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
 /* ── Responsive ────────────────────────────────────── */
 @media (max-width: 1024px) {
   .solutionRow {

@@ -193,6 +193,73 @@ export const projects = [
       en: 'After AI launch, average cavity findings per X-ray rose from 1.43 to 3.46, a detection rate improvement of over 140%. Reading status became fully trackable.',
     },
 
+    // ── 设计体系与 UI/UX 手艺 ────────────────────────────
+    designCraft: {
+      title: { zh: '设计体系与交互策略', en: 'Design System & UX Craft' },
+      subtitle: {
+        zh: '从人机权责色彩系统到诊室环境下的视线聚焦设计',
+        en: 'From human-AI role semantics to clinical visual hierarchy design',
+      },
+      pillars: [
+        {
+          tag: { zh: '色彩与权责语义', en: 'Color & Role Semantics' },
+          title: { zh: '人机权责的视觉隐喻系统', en: 'Visual Metaphor for Human-AI Liability' },
+          desc: {
+            zh: '在医疗辅助场景中，混淆算法推断与临床确诊是危险的。我们建立了一套清晰的色彩与权责暗示体系，符合 WCAG 4.5:1 / 7:1 暗光诊室对比度标准：',
+            en: 'In clinical AI assist, confusing algorithmic inference with human diagnosis is hazardous. We established a color semantic hierarchy compliant with WCAG AAA darkroom standards:',
+          },
+          swatches: [
+            {
+              color: '#A88ADF',
+              name: { zh: 'AI 推断紫', en: 'AI Inference Purple' },
+              role: { zh: '算法初步病灶高亮 / 非阻断提示', en: 'Algorithm anomaly highlights / Non-blocking' },
+            },
+            {
+              color: '#34D399',
+              name: { zh: '临床确诊绿', en: 'Doctor Confirmed Green' },
+              role: { zh: '医生确认覆核 / 正式写入病历', en: 'Human verified / Chart sync' },
+            },
+            {
+              color: '#F87171',
+              name: { zh: '标注纠偏红', en: 'Label Rejection Red' },
+              role: { zh: '发现识别错误 / 收集飞轮训练数据', en: 'Diagnostic override / Training data feedback' },
+            },
+            {
+              color: '#121318',
+              name: { zh: '诊室暗光基底', en: 'Dark Slate Base' },
+              role: { zh: '降低放射科/暗光诊室看片视觉疲劳', en: 'Minimizes eye fatigue in dark room' },
+            },
+          ],
+        },
+        {
+          tag: { zh: '视线引导与认知负荷', en: 'Visual Hierarchy & Cognitive Load' },
+          title: { zh: '暗光诊室环境下的 F 型高效扫描', en: 'F-Pattern Efficient Scanning for Clinical Rooms' },
+          desc: {
+            zh: '医生看片需要在几秒内做出精准判断。采用左侧 X 光大图画布 + 右侧 AI 诊断卡片的双栏固定布局。卡片默认按置信度与病灶严重程度降序排列，并通过渐进式暴露（Progressive Disclosure）隐藏复杂的 DICOM 切片数据，确保核心信息一眼即达。',
+            en: 'Doctors require accurate decisions within seconds. We implemented a fixed two-pane layout (left image canvas + right AI cards sorted by confidence). Advanced DICOM metrics are hidden behind progressive disclosure to reduce cognitive fatigue.',
+          },
+          specs: [
+            { label: { zh: '扫视响应', en: 'Scan Speed' }, value: '< 2.5s' },
+            { label: { zh: '展开级数', en: 'Disclosure Depth' }, value: '2 Levels' },
+            { label: { zh: '对比度级别', en: 'Contrast Level' }, value: 'WCAG AAA' },
+          ],
+        },
+        {
+          tag: { zh: '交互细节与兜底机制', en: 'Interaction Craft & Edge Cases' },
+          title: { zh: '一键同步与降级容错机制', en: 'One-click Charting & Graceful Degradation' },
+          desc: {
+            zh: '设计了结构化病历一键同步机制，将医生复核后的标记秒级转化为标准化文字规整录入。当 AI 网关出现网络波动或超时（>3s）时，界面自动切入手动读片兜底模式，手动标注工具始终可直达，确保诊疗流程绝不被技术不确定性卡顿。',
+            en: 'Single-click EHR synchronization converts reviewed marks into structured text instantly. If AI gateway times out (>3s), the interface gracefully degrades to manual reading mode, guaranteeing uninterrupted clinical care.',
+          },
+          specs: [
+            { label: { zh: '超时阈值', en: 'Timeout Threshold' }, value: '3.0s' },
+            { label: { zh: '同步效率', en: 'Sync Latency' }, value: '< 100ms' },
+            { label: { zh: '兜底可用率', en: 'Fallback Availability' }, value: '100%' },
+          ],
+        },
+      ],
+    },
+
     // ── 迭代过程 ─────────────────────────────────────────
     process: [
       {
