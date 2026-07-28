@@ -762,8 +762,8 @@ main {
 
 .contact-method-value {
   font-family: var(--font-display);
-  font-size: clamp(1.1rem, 2vw, 1.5rem);
-  font-weight: 700;
+  font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+  font-weight: 500;
   letter-spacing: -0.02em;
   color: var(--color-text-primary);
   display: flex;
@@ -797,9 +797,10 @@ main {
   display: grid;
   gap: 0.5rem;
   min-height: auto;
-  padding: 1.5rem 1.6rem;
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--color-border);
+  padding: 1.5rem 0;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
   background: transparent;
   overflow: hidden;
   transition:
@@ -808,16 +809,7 @@ main {
 }
 
 .contact-stage-link::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 1px;
-  background: var(--color-accent);
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 0.5s var(--ease-out);
+  display: none;
 }
 
 .contact-stage-link-label {
@@ -830,21 +822,21 @@ main {
 
 .contact-stage-link-value {
   font-family: var(--font-display);
-  font-size: clamp(1.15rem, 1.8vw, 1.55rem);
-  font-weight: 600;
+  font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+  font-weight: 500;
   line-height: 1.1;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
   word-break: break-word;
   transition: color 0.3s ease;
 }
 
 a.contact-stage-link:hover {
-  background: rgba(184, 255, 77, 0.025);
-  border-color: var(--color-border-accent);
+  background: transparent;
+  border-color: var(--color-border-strong);
 }
 
 a.contact-stage-link:hover::after {
-  transform: scaleX(1);
+  display: none;
 }
 
 a.contact-stage-link:hover .contact-stage-link-value {
