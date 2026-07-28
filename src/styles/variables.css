@@ -31,8 +31,8 @@
   --surface-neutral: rgba(31, 29, 38, 0.5);
 
   /* ── Typography ── */
-  --font-display: 'Manrope', 'Noto Sans SC', sans-serif;
-  --font-body:    'Manrope', 'Noto Sans SC', sans-serif;
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  --font-body:    'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
   --font-mono:    'DM Mono', monospace;
 
   /* ── Spacing ── */
@@ -64,9 +64,9 @@
   --ease-spring: cubic-bezier(0.25, 0.1, 0.25, 1);
 
   /* ── Text scale ── */
-  --text-hero: clamp(4.2rem, 9vw, 8.5rem);
-  --text-h1:   clamp(2.4rem, 4.3vw, 4rem);
-  --text-h2:   clamp(1.35rem, 2vw, 1.8rem);
-  --text-body: 1.05rem;
-  --text-small: 0.84rem;
+  --text-hero: clamp(4.5rem, 10vw, 9rem);
+  --text-h1:   clamp(2.8rem, 5vw, 4.8rem);
+  --text-h2:   clamp(1.5rem, 2.5vw, 2.2rem);
+  --text-body: 1.1rem;
+  --text-small: 0.85rem;
 }
