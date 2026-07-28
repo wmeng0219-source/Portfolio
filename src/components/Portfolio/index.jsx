@@ -58,9 +58,6 @@ const PortfolioCard = ({ card }) => {
       data-motion-item
       data-motion-hover="card"
     >
-      <div className="portfolio-card-sheen" aria-hidden="true" />
-      <div className="portfolio-card-grid" aria-hidden="true" />
-
       <div className="portfolio-card-shell">
         <div className="portfolio-card-topline">
           <span className="portfolio-card-id">{card.id}</span>
