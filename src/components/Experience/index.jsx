@@ -28,12 +28,13 @@ const Experience = () => {
             >
               <div className="experience-stage-card-shell">
                 <div className="experience-stage-card-topline">
-                  <p className="experience-stage-card-index">0{item}</p>
                   <p className="experience-stage-card-period">{t(`experience.item.${item}.period`)}</p>
                 </div>
                 <div className="experience-stage-card-copy">
-                  <p className="experience-stage-card-tag">{t(`experience.stage.item.${item}.short`)}</p>
-                  <h3 className="experience-stage-card-title">{t(`experience.item.${item}.title`)}</h3>
+                  <h3 className="experience-stage-card-title">
+                    {t(`experience.item.${item}.title`)}
+                    {t(`experience.stage.item.${item}.short`) && <span style={{ color: 'var(--color-text-secondary)', fontWeight: 400 }}> at {t(`experience.stage.item.${item}.short`)}</span>}
+                  </h3>
                   <p className="experience-stage-card-body">{t(`experience.item.${item}.body`)}</p>
                 </div>
               </div>
