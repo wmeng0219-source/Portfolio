@@ -30,7 +30,13 @@
   --surface-warm:    rgba(22, 21, 28, 0.5);
   --surface-neutral: rgba(31, 29, 38, 0.5);
 
+  /* ── Figma Hero Tokens ── */
+  --color-hero-bg:          #06070B;
+  --color-hero-purple:      #C8B6FF;
+  --color-hero-dark-purple: #352564;
+
   /* ── Typography ── */
+  --font-title:   'Anton', 'Inter', sans-serif;
   --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
   --font-body:    'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
   --font-mono:    'DM Mono', monospace;

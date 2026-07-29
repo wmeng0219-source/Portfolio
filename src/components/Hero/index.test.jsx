@@ -39,7 +39,7 @@ vi.mock('gsap/ScrollTrigger', () => ({
   ScrollTrigger: {},
 }));
 
-test('renders hero as a gsap-inspired brand stage with a single primary entry', () => {
+test('renders hero with MENG WEN title and dual action buttons matching Figma design', () => {
   matchMediaAdd.mockImplementation((_queries, callback) => {
     callback({ conditions: { reduceMotion: false, isDesktop: true } });
   });
@@ -50,25 +50,14 @@ test('renders hero as a gsap-inspired brand stage with a single primary entry', 
     </LanguageProvider>,
   );
 
-  expect(screen.getByText('数字化产品系统 / 2025')).toBeInTheDocument();
   expect(
     screen.getByRole('heading', {
       level: 1,
-      name: /让复杂.*业务系统.*变得清晰.*可被落地/,
+      name: 'MENG WEN',
     }),
   ).toBeInTheDocument();
-  expect(screen.getByText('为复杂业务构建清晰、可执行、可扩展的产品系统。')).toBeInTheDocument();
-  expect(screen.getByRole('link', { name: '查看精选案例' })).toHaveAttribute('href', '#portfolio');
-  expect(screen.getByRole('link', { name: '查看精选案例' })).toHaveAttribute('data-motion-hover', 'button');
+  expect(screen.getByText('产品经理与设计复合型实践者。聚焦医疗数字化、流程重构与AI协作，在混乱的真实业务现场中，建立可执行、可观察的系统闭环。')).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: '查看项目' })).toHaveAttribute('href', '#portfolio');
+  expect(screen.getByRole('link', { name: '联系我' })).toHaveAttribute('href', '#contact');
   expect(fromTo).toHaveBeenCalled();
-  expect(to).toHaveBeenCalledWith(
-    expect.any(HTMLElement),
-    expect.objectContaining({
-      yPercent: -10,
-      scrollTrigger: expect.objectContaining({
-        start: 'top top',
-        end: 'bottom top',
-      }),
-    }),
-  );
 });

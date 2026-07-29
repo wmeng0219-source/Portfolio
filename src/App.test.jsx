@@ -22,17 +22,20 @@ vi.mock('gsap', () => {
     return { revert: () => {} };
   };
 
+  const mockGsap = {
+    registerPlugin: () => {},
+    context,
+    fromTo,
+    to,
+    matchMedia: () => ({
+      add: matchMediaAdd,
+      revert: matchMediaRevert,
+    }),
+  };
+
   return {
-    default: {
-      registerPlugin: () => {},
-      context,
-      fromTo,
-      to,
-      matchMedia: () => ({
-        add: matchMediaAdd,
-        revert: matchMediaRevert,
-      }),
-    },
+    default: mockGsap,
+    gsap: mockGsap,
   };
 });
 
@@ -56,19 +59,18 @@ test('renders homepage sections with updated responsibilities and portfolio emph
   expect(
     screen.getByRole('heading', {
       level: 1,
-      name: /让复杂.*业务系统.*变得清晰.*可被落地/,
+      name: 'MENG WEN',
     }),
   ).toBeInTheDocument();
-  expect(screen.getByRole('link', { name: '查看精选案例' })).toHaveAttribute('href', '#portfolio');
-  expect(screen.getByText('数字化产品系统 / 2025')).toBeInTheDocument();
-  expect(screen.getByText('为复杂业务构建清晰、可执行、可扩展的产品系统。')).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: '查看项目' })).toHaveAttribute('href', '#portfolio');
+  expect(screen.getByText('产品经理与设计复合型实践者。聚焦医疗数字化、流程重构与AI协作，在混乱的真实业务现场中，建立可执行、可观察的系统闭环。')).toBeInTheDocument();
 
   const aboutSection = screen.getByRole('heading', {
     level: 2,
     name: '把复杂业务变成可执行系统',
   }).closest('section');
   expect(aboutSection).toHaveAttribute('data-motion-section');
-  expect(within(aboutSection).getByText('METHOD SYSTEM')).toBeInTheDocument();
+  expect(within(aboutSection).getByText('01 / Method')).toBeInTheDocument();
   expect(within(aboutSection).getByText('Context')).toBeInTheDocument();
   expect(within(aboutSection).getByText('Structure')).toBeInTheDocument();
   expect(within(aboutSection).getByText('AI Workflow')).toBeInTheDocument();
@@ -78,11 +80,11 @@ test('renders homepage sections with updated responsibilities and portfolio emph
     name: '从设计执行到系统判断',
   }).closest('section');
   expect(experienceSection).toHaveAttribute('data-motion-section');
-  expect(within(experienceSection).getByText('PHASE SHOWCASE')).toBeInTheDocument();
+  expect(within(experienceSection).getByText('03 / Path')).toBeInTheDocument();
   expect(within(experienceSection).getByText('2019 - 2020')).toBeInTheDocument();
   expect(within(experienceSection).getByText('2023.04 - 至今')).toBeInTheDocument();
-  expect(within(experienceSection).getByText('界面与系统基础')).toBeInTheDocument();
-  expect(within(experienceSection).getByText('连接业务与交付')).toBeInTheDocument();
+  expect(within(experienceSection).getByText(/界面与系统基础/)).toBeInTheDocument();
+  expect(within(experienceSection).getByText(/连接业务与交付/)).toBeInTheDocument();
 
   const portfolioSection = screen.getByRole('heading', {
     level: 2,
@@ -111,7 +113,7 @@ test('renders homepage sections with updated responsibilities and portfolio emph
     name: '如果你要推进复杂产品，就来联系我。',
   }).closest('section');
   expect(contactSection).toHaveAttribute('data-motion-section');
-  expect(within(contactSection).getByText("LET'S BUILD")).toBeInTheDocument();
+  expect(within(contactSection).getByText('04 / Contact')).toBeInTheDocument();
   const links = within(contactSection).getAllByRole('link');
   expect(links).toHaveLength(1);
   expect(within(contactSection).getByRole('link', { name: 'wmeng0219@gmail.com' })).toHaveAttribute(
