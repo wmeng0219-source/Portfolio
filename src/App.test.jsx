@@ -59,16 +59,15 @@ test('renders homepage sections with updated responsibilities and portfolio emph
   expect(
     screen.getByRole('heading', {
       level: 1,
-      name: /让复杂.*业务系统.*变得清晰.*可被落地/,
+      name: /MENG WEN/i,
     }),
   ).toBeInTheDocument();
   const heroSection = screen.getByRole('heading', {
     level: 1,
-    name: /让复杂.*业务系统.*变得清晰.*可被落地/,
+    name: /MENG WEN/i,
   }).closest('section');
   expect(screen.getByRole('link', { name: '查看精选案例' })).toHaveAttribute('href', '#portfolio');
-  expect(within(heroSection).getByText('数字化产品系统 / 2025')).toBeInTheDocument();
-  expect(screen.getByText('为复杂业务构建清晰、可执行、可扩展的产品系统。')).toBeInTheDocument();
+  expect(screen.getByText(/产品经理与设计复合型实践者/)).toBeInTheDocument();
 
   const aboutSection = screen.getByRole('heading', {
     level: 2,
