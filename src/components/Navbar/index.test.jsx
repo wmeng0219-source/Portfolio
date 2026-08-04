@@ -67,8 +67,8 @@ test('returns focus to the menu button after activating a mobile navigation item
 
   await user.tab();
 
-  const homeLink = screen.getByRole('link', { name: '关于我' });
-  expect(homeLink).toHaveFocus();
+  const firstLink = screen.getByRole('link', { name: '项目' });
+  expect(firstLink).toHaveFocus();
 
   await user.keyboard('{Enter}');
 

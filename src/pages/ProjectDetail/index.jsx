@@ -13,6 +13,7 @@ export default function ProjectDetail() {
   const project = projects.find((p) => p.id === id);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const ctx = gsap.context(() => {
       gsap.fromTo(
         '[data-animate]',

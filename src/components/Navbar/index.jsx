@@ -30,9 +30,9 @@ const Navbar = () => {
 
   const navItems = useMemo(
     () => [
-      { key: 'nav.about', href: '#about', label: 'Work' },
-      { key: 'nav.experience', href: '#experience', label: 'About' },
-      { key: 'nav.portfolio', href: '#portfolio', label: 'Resume' },
+      { key: 'nav.portfolio', href: '#portfolio', label: 'Work' },
+      { key: 'nav.about', href: '#about', label: 'Method' },
+      { key: 'nav.experience', href: '#experience', label: 'Path' },
       { key: 'nav.contact', href: '#contact', label: 'Contact' },
     ],
     [],
@@ -62,9 +62,21 @@ const Navbar = () => {
     return () => mediaQueryList.removeListener(handleViewportChange);
   }, []);
 
+  // Prevent background scroll when mobile drawer is open
+  useEffect(() => {
+    if (isMobileViewport && menuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileViewport, menuOpen]);
+
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['hero', 'portfolio', 'experience', 'about'];
+      const sections = ['hero', 'portfolio', 'about', 'experience', 'contact'];
       const scrollPosition = window.scrollY + 250;
 
       for (let i = sections.length - 1; i >= 0; i--) {
@@ -147,17 +159,22 @@ const Navbar = () => {
           hidden={hideNavLinks}
           aria-hidden={hideNavLinks}
         >
-          {navItems.map((item) => (
-            <a
-              key={item.key}
-              href={item.href}
-              onClick={handleMenuItemClick}
-              data-motion-hover="nav"
-              className="font-label-caps text-[14px] text-[#a39fb0] hover:text-[#d0bcff] transition-all duration-300 no-underline uppercase tracking-wider"
-            >
-              {t(item.key)}
-            </a>
-          ))}
+          {navItems.map((item) => {
+            const isActive = activeSection === item.href.slice(1);
+            return (
+              <a
+                key={item.key}
+                href={item.href}
+                onClick={handleMenuItemClick}
+                data-motion-hover="nav"
+                className={`font-label-caps text-[14px] transition-all duration-300 no-underline uppercase tracking-wider ${
+                  isActive ? 'text-[#C8B6FF] font-semibold' : 'text-[#a39fb0] hover:text-[#d0bcff]'
+                }`}
+              >
+                {t(item.key)}
+              </a>
+            );
+          })}
           <button
             className="text-xs font-label-caps border border-[#2a2833] px-3.5 py-1 rounded-full text-[#a39fb0] hover:text-[#d0bcff] transition-all"
             type="button"
