@@ -8,8 +8,8 @@
   padding: 8rem 2rem 5rem;
   text-align: center;
   overflow: hidden;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  background-color: #080808;
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-bg-primary);
   transition: background-position 0.1s ease-out;
 }
 
@@ -28,7 +28,7 @@
   font-family: 'Anton', sans-serif;
   font-size: 20vw;
   text-transform: uppercase;
-  color: #ffffff;
+  color: var(--color-text-primary);
   opacity: 0.03;
   line-height: 1;
   white-space: nowrap;
@@ -37,7 +37,7 @@
 .heroContent {
   position: relative;
   z-index: 10;
-  max-width: 64rem;
+  max-width: var(--content-max);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -47,10 +47,10 @@
 .kickerBadge {
   margin-bottom: 1.5rem;
   padding: 0.35rem 1rem;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(200, 182, 255, 0.8);
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-soft);
+  border: 1px solid var(--color-border);
+  color: var(--color-accent);
   font-size: 0.75rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -58,29 +58,29 @@
 
 .heroTitle {
   font-family: 'Anton', sans-serif;
-  font-size: clamp(3.5rem, 10vw, 9rem);
+  font-size: var(--text-hero);
   line-height: 0.85;
-  color: #e5e2e1;
+  color: var(--color-text-primary);
   text-transform: uppercase;
   letter-spacing: -0.04em;
   margin: 0;
 }
 
 .heroSubtitle {
-  font-family: 'Hanken Grotesk', sans-serif;
+  font-family: var(--font-body);
   font-size: clamp(1.8rem, 4vw, 3.5rem);
   font-weight: 600;
-  color: #B7E4C7;
+  color: var(--color-system-green);
   margin-top: 2rem;
   line-height: 1.25;
 }
 
 .heroBio {
-  font-family: 'Hanken Grotesk', sans-serif;
+  font-family: var(--font-body);
   font-size: clamp(1rem, 1.5vw, 1.25rem);
-  color: #cac4d1;
+  color: var(--color-text-secondary);
   max-width: 42rem;
-  opacity: 0.75;
+  opacity: 0.85;
   margin-top: 1.5rem;
   line-height: 1.6;
 }
@@ -94,44 +94,45 @@
 }
 
 .btnPrimary {
-  padding: 1rem 2.25rem;
-  background-color: #C8B6FF;
+  padding: 0.85rem 2.25rem;
+  background-color: var(--color-accent);
   color: #352564;
-  border-radius: 9999px;
-  font-family: 'Hanken Grotesk', sans-serif;
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
   font-size: 1.1rem;
   font-weight: 600;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  transition: all 0.3s ease;
+  transition: transform 200ms var(--ease-out), box-shadow 200ms ease;
   box-shadow: 0 0 0 rgba(200, 182, 255, 0);
 }
 
 .btnPrimary:hover {
-  box-shadow: 0 0 40px rgba(200, 182, 255, 0.35);
-  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+  transform: translateY(-4px);
 }
 
 .btnSecondary {
-  padding: 1rem 2.25rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #e5e2e1;
-  border-radius: 9999px;
-  font-family: 'Hanken Grotesk', sans-serif;
+  padding: 0.85rem 2.25rem;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
   font-size: 1.1rem;
   font-weight: 600;
   text-decoration: none;
-  transition: all 0.3s ease;
-  background: rgba(255, 255, 255, 0.02);
+  transition: transform 200ms var(--ease-out), border-color 200ms ease, background 200ms ease;
+  background: var(--color-bg-elevated);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
 
 .btnSecondary:hover {
   background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.4);
+  border-color: var(--color-border-strong);
+  transform: translateY(-4px);
 }
 
 .scrollIndicator {
@@ -147,7 +148,7 @@
 .scrollLine {
   height: 3rem;
   width: 1px;
-  background-color: #e5e2e1;
+  background-color: var(--color-text-primary);
 }
 
 @media (max-width: 768px) {
