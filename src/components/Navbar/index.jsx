@@ -23,6 +23,7 @@ const scrollToHashTarget = (href) => {
 const Navbar = () => {
   const { t, language, toggleLanguage } = useLanguage();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('hero');
   const [isMobileViewport, setIsMobileViewport] = useState(getIsMobileViewport);
   const menuButtonRef = useRef(null);
   const shouldRestoreFocusRef = useRef(false);
@@ -61,13 +62,26 @@ const Navbar = () => {
     return () => mediaQueryList.removeListener(handleViewportChange);
   }, []);
 
-  const handleLogoClick = (event) => {
-    event.preventDefault();
-    scrollToHashTarget(event.currentTarget.getAttribute('href'));
-    setMenuOpen(false);
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['hero', 'portfolio', 'experience', 'about'];
+      const scrollPosition = window.scrollY + 250;
 
-  const handleMenuItemClick = (event) => {
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const element = document.getElementById(sections[i]);
+        if (element && element.offsetTop <= scrollPosition) {
+          setActiveSection(sections[i]);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleMenuItemClick = (event, href, id) => {
     event.preventDefault();
     scrollToHashTarget(event.currentTarget.getAttribute('href'));
     if (isMobileViewport) {

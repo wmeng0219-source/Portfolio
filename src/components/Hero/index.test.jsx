@@ -39,7 +39,7 @@ vi.mock('gsap/ScrollTrigger', () => ({
   ScrollTrigger: {},
 }));
 
-test('renders hero as a gsap-inspired brand stage with a single primary entry', () => {
+test('renders hero with MENG WEN title and dual action buttons matching Figma design', () => {
   matchMediaAdd.mockImplementation((_queries, callback) => {
     callback({ conditions: { reduceMotion: false, isDesktop: true } });
   });

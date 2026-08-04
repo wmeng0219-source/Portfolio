@@ -1,6 +1,6 @@
 .navbarContainer {
   position: fixed;
-  top: 0;
+  top: 1.25rem;
   left: 0;
   width: 100%;
   z-index: 1000;
@@ -118,6 +118,8 @@
   flex-direction: column;
   gap: 0.35rem;
   cursor: pointer;
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
   transition: border-color 0.25s ease;
 }
 
