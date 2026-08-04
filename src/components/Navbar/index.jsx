@@ -90,6 +90,15 @@ const Navbar = () => {
     setMenuOpen(false);
   };
 
+  const handleLogoClick = (event) => {
+    event.preventDefault();
+    scrollToHashTarget('#hero');
+    if (isMobileViewport) {
+      shouldRestoreFocusRef.current = true;
+    }
+    setMenuOpen(false);
+  };
+
   const hideNavLinks = isMobileViewport && !menuOpen;
 
   useEffect(() => {

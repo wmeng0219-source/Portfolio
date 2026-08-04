@@ -319,8 +319,22 @@ main {
 }
 
 .portfolio-entry:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px);
   border-color: var(--color-border-accent);
+}
+
+.portfolio-link {
+  transition: transform 200ms var(--ease-out), border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.portfolio-link:hover .portfolio-card-sheen {
+  opacity: 1;
+}
+
+.portfolio-link:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-card);
 }
 
 .portfolio-entry:hover .portfolio-entry-title,

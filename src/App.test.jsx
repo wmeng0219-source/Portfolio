@@ -66,7 +66,7 @@ test('renders homepage sections with updated responsibilities and portfolio emph
     level: 1,
     name: /MENG WEN/i,
   }).closest('section');
-  expect(screen.getByRole('link', { name: '查看精选案例' })).toHaveAttribute('href', '#portfolio');
+  expect(screen.getByRole('link', { name: /查看项目/ })).toHaveAttribute('href', '#portfolio');
   expect(screen.getByText(/产品经理与设计复合型实践者/)).toBeInTheDocument();
 
   const aboutSection = screen.getByRole('heading', {

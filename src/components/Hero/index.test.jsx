@@ -57,7 +57,7 @@ test('renders hero with MENG WEN title and dual action buttons matching Figma de
     }),
   ).toBeInTheDocument();
   expect(screen.getByText(/产品经理与设计复合型实践者/)).toBeInTheDocument();
-  expect(screen.getByRole('link', { name: '查看精选案例' })).toHaveAttribute('href', '#portfolio');
-  expect(screen.getByRole('link', { name: '查看精选案例' })).toHaveAttribute('data-motion-hover', 'button');
+  expect(screen.getByRole('link', { name: /查看项目/ })).toHaveAttribute('href', '#portfolio');
+  expect(screen.getByRole('link', { name: /查看项目/ })).toHaveAttribute('data-motion-hover', 'button');
   expect(fromTo).toHaveBeenCalled();
 });

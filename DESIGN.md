@@ -1,234 +1,406 @@
-# Design System: Harrison Wheeler Portfolio
+# Design System：Product System Designer Portfolio
 
-## 1. Visual Theme & Atmosphere
+# 产品系统设计师作品集设计系统
 
-Harrison Wheeler's personal portfolio website presents a high-end, dark editorial design leader aesthetic. The overall mood is sophisticated, architectural, and deeply atmospheric—combining ultra-dark charcoal surfaces with crisp, fluid typography and soft pastel accent pops (lavender, mint green, and soft pink).
+---
 
-- Overall feeling: Architectural, editorial, dark, refined design leadership
-- Visual density: Generous whitespace, slide-deck layout feel, uncluttered editorial blocks
-- Brand posture: Experienced Product Design Executive / Design Director (ex-Base CRM, ex-Zendesk, LeadCraft)
-- Signature motifs: Full-bleed deck slides, SVG architecture diagrams, fluid responsive clamps, pastel tag badges
+# 1. 视觉主题与品牌气质（Visual Theme & Atmosphere）
 
-### Key Characteristics
+## 整体风格
 
-- Midnight Dark Base (`#0d0c11`) with layered obsidian surfaces (`#16151c`, `#1f1d26`) and hairline borders (`#2a2833`)
-- Fluid Display Typography using `Neudron` display sans, paired with `GT America` body and `IBM Plex Mono` code/label specs
-- Pastel Accent System introducing soft lavender (`#d0bcff`), mint green (`#b9f2c8`), and blush pink (`#ffd8e4`)
-- Deck Slide Architecture utilizing presentation-style case study cards with phone mockups and custom SVG diagrams
+高级暗色编辑型设计风格。
 
-## 2. Color Palette & Roles
+整体视觉融合：
 
-| Role | Semantic Name | Value | Usage |
+- 产品设计作品集
+- 企业级软件产品
+- 数字化系统
+- 设计咨询品牌
+
+视觉关键词：
+
+- 高级（Premium）
+- 克制（Minimal）
+- 专业（Professional）
+- 理性（Rational）
+- 系统化（Systematic）
+- 建筑感（Architectural）
+- 科技感（Technology）
+
+---
+
+## 整体氛围
+
+网站应该呈现：
+
+一个成熟产品设计者的数字空间。
+
+类似：
+
+- Apple 发布会
+- Linear 官网
+- 高端设计咨询公司
+- 企业级产品展示页面
+
+避免：
+
+- 普通模板网站
+- Dribbble 展示风格
+- 过度装饰
+- 娱乐化视觉效果
+
+---
+
+## 核心视觉特征
+
+### 1. 深色编辑空间
+
+使用深色背景建立高级感。
+
+特点：
+
+- 大面积留白
+- 强视觉层级
+- 内容聚焦
+
+---
+
+### 2. 演示文稿式布局
+
+页面结构类似：
+
+高级 Keynote 演示。
+
+特点：
+
+- 大标题
+- 大间距
+- 单一视觉焦点
+- 清晰的信息节奏
+
+---
+
+### 3. 建筑化设计语言
+
+通过：
+
+- 网格
+- 模块
+- 线条
+- 节点
+- 系统图形
+
+表达结构感。
+
+---
+
+# 2. 色彩系统（Color System）
+
+## 基础色板
+
+| 类型 | 名称 | 色值 | 用途 |
 | --- | --- | --- | --- |
-| Primary action | Soft Lavender | `#d0bcff` | Primary CTA, focus state, active highlights |
-| Accent | Pastel Mint Green | `#b9f2c8` | Status pills, highlight tags, secondary callouts |
-| Accent | Soft Powder Pink | `#ffd8e4` | Decorative tags, subtle category badges |
-| Surface | Midnight Base | `#0d0c11` | Main page background |
-| Surface | Obsidian Card | `#16151c` | Primary container surface |
-| Surface | Surface Elevated | `#1f1d26` | Secondary cards, dropdowns, code blocks |
-| Text | Crisp Off-White | `#ece9f1` | Primary headings and body copy |
-| Text | Lavender Grey | `#a39fb0` | Muted text, subtitles, meta labels |
-| Text | Dim Grey | `#75717f` | Footers, captions, minor metadata |
-| Border | Soft Charcoal | `#2a2833` | Card outlines, dividers, structural lines |
+| 背景色 | Midnight Base | #0B0F14 | 页面主背景 |
+| 一级表面 | Dark Surface | #141922 | 卡片、内容区域 |
+| 二级表面 | Elevated Surface | #1C2330 | 高亮模块、浮层 |
+| 主强调色 | Digital Lavender | #C8B6FF | 重点信息、按钮、交互 |
+| 辅助强调色 | System Green | #B8E6D0 | 成果、状态、积极反馈 |
+| 温暖强调色 | Human Orange | #FFD6A5 | 人文节点、特殊强调 |
+| 主文字 | Soft White | #F2F2F5 | 标题、核心内容 |
+| 次文字 | Cool Grey | #A7ADB8 | 正文、描述 |
+| 辅助文字 | Dim Grey | #707784 | 标签、辅助信息 |
+| 边框 | Soft Border | rgba(255,255,255,0.12) | 分割线、卡片边界 |
 
-### Primary
+---
 
-- Base Background (`--bg`): `#0d0c11`
-- Primary Text (`--text`): `#ece9f1`
-- Accent Primary (`--primary`): `#d0bcff` (Hover: `#e3d6ff`)
+# 色彩使用原则
 
-### Interactive
+## 背景原则
 
-- Links & CTAs: `#d0bcff` with `hover { transform: translateY(-1px); color: #e3d6ff; }`
-- Focus Rings: `2px solid #d0bcff` with `rgba(208, 188, 255, 0.24)` glow shadow
+避免使用纯黑：
 
-### Neutral Scale
+不要：`#000000`
 
-- Midnight Base: `#0d0c11`
-- Dark Surface 1: `#16151c`
-- Dark Surface 2: `#1f1d26`
-- Muted Grey: `#a39fb0`
-- Dimmed Grey: `#75717f`
+使用：`#0B0F14`
 
-### Surface & Overlay
+原因：
 
-- Card Surface: `#16151c` with 1px border `#2a2833`
-- Diagram Node Background: `rgba(208, 188, 255, 0.12)` with border `rgba(208, 188, 255, 0.34)`
+- 降低视觉刺激
+- 增强空间层次
+- 提升高级感
 
-### Theme Modes
+---
 
-#### Dark Mode (Primary Default)
+## 强调色原则
 
-- Background: `#0d0c11`
-- Surface: `#16151c`
-- Text: `#ece9f1`
-- Accent: `#d0bcff` / `#b9f2c8`
-- Notes: Deep dark theme designed for high-contrast viewing of design portfolios and case studies.
+强调色用于：
 
-### Shadows & Depth
+- 重点内容
+- 核心操作
+- 数据突出
+- 状态表达
 
-- Soft Panel Shadow: `0 8px 32px rgba(0, 0, 0, 0.36)`
-- Card Hover Elevation: `translateY(-2px)` with border color shift from `#2a2833` to `rgba(208, 188, 255, 0.4)`
+不要：
 
-## 3. Typography Rules
+- 大面积铺色
+- 装饰性使用
+- 同时使用过多强调色
 
-### Font Family
+规则：
 
-- Primary: `'Neudron', 'GT America', 'Helvetica Neue', Helvetica, Arial, sans-serif`
-- Monospace: `'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace`
-- OpenType Features: `ss01`, `cv01`, tabular numbers for stat metrics
+单个区域最多使用 1-2 个强调色。
 
-### Hierarchy
+---
 
-| Role | Font | Size | Weight | Line Height | Letter Spacing | Notes |
-| --- | --- | --- | --- | --- | --- | --- |
-| Hero headline | Neudron | `clamp(2.6rem, 14.5vw, 13rem)` | 700 | 0.92 | `-0.03em` | Massive architectural display title |
-| Section heading | Neudron | `clamp(2.8rem, 7.6vw, 6.4rem)` | 600 | 1.05 | `-0.01em` | H2 section titles |
-| Body | GT America | `clamp(1rem, 1.6vw, 1.55rem)` | 400 | 1.6 | `normal` | Main narrative copy |
-| Label / Eyebrow | IBM Plex Mono | `clamp(0.8rem, 1.1vw, 1.05rem)` | 500 | 1.2 | `0.08em` | Uppercase metadata pills & tags |
-| Caption / Meta | IBM Plex Mono | `clamp(0.62rem, 0.88vw, 0.85rem)` | 500 | 1.2 | `0.05em` | Tech stack & metric tags |
+# 3. 字体系统（Typography System）
 
-### Principles
+## 字体理念
 
-- Fluid CSS Clamp Sizing ensuring text scales seamlessly across screen widths from 320px to 2560px.
-- Typographic Contrast between ultra-heavy custom display sans (`Neudron`) and technical monospace labels (`IBM Plex Mono`).
-- Expressive Quote Treatment using serif italic (`Reckless`) for editorial weight.
+通过：
 
-## 4. Component Stylings
+表现型标题字体 + 技术型信息字体
 
-### Buttons and Links
+形成：
 
-- Primary CTA: Solid background `#d0bcff`, dark text `#381e72`, font weight 600, border radius `10px`.
-- Secondary CTA: Ghost surface `#1f1d26` with hairline border `#2a2833`, light text `#ece9f1`.
-- Text links: Lavender color `#d0bcff` with subtle underline hover animation.
-- Hover and active feel: Smooth `transform: translateY(-2px)` with subtle color transition over 200ms.
+设计感 + 系统感。
 
-### Cards and Containers
+---
 
-- Surface style: `#16151c`
-- Radius: `16px`
-- Border: `1px solid #2a2833`
-- Shadow or elevation: Inset border + drop shadow `0 8px 24px rgba(0, 0, 0, 0.4)`
-- Internal spacing: `clamp(28px, 5vw, 64px)`
+## 标题字体（Display Typography）
 
-### Navigation
+风格：现代几何无衬线字体。
 
-- Structure: Top header with fixed logo left, link items right.
-- Background treatment: Glassmorphism blur `backdrop-filter: blur(16px)` on background `rgba(13, 12, 17, 0.82)`.
-- Link style: `IBM Plex Mono` uppercase font size `14px`, text color `#a39fb0`.
-- Sticky or scroll behavior: Fixed top with subtle background opacity shift on scroll.
+特点：
+- 粗体
+- 大字号
+- 强视觉冲击
+- 建筑感
 
-### Image Treatment
+用途：
+- 首页标题
+- 页面大标题
+- 核心数字
 
-- Screenshot treatment: Dark-framed phone mockups with rounded corners `12px`.
-- Photography style: High-contrast product UI screenshots and vector architectural diagrams.
-- Border and radius treatment: `1px solid #2a2833` with `16px` container radius.
+推荐尺寸：
+```css
+clamp(48px, 8vw, 140px)
+```
+字重：`600-800`
 
-### Distinctive Components
+---
 
-- Deck Slide Layout: Full-width presentation slide unit featuring side-by-side case study title, specs, and interactive media/mockups.
-- Interactive Metric Callouts: Large `Neudron` stat numbers next to `IBM Plex Mono` descriptive captions.
-- Architectural Process Diagrams: Custom SVG node-and-connector flowcharts using `#545260` stroke lines and `#d0bcff` nodes.
+## 正文字体（Body Typography）
 
-## 5. Layout Principles
+风格：现代、中性、易阅读。
 
-### Spacing System
+用途：
+- 描述文字
+- 信息说明
+- 内容解释
 
-- Base unit: `8px`
-- Repeated spacing values: `8px`, `16px`, `24px`, `32px`, `48px`, `80px`
+字号：`18px-24px`  
+行高：`1.5-1.7`
 
-### Grid & Container
+---
 
-- Grid logic: 2-column split layout, max-width `1320px`.
-- Max content width: `1320px`
-- Section spacing: `clamp(72px, 12vh, 160px)`
+## 技术字体（Technical Typography）
 
-### Whitespace Philosophy
+风格：等宽字体（Monospace）。
 
-- Whitespace philosophy: Generous slide-by-slide vertical cadence giving every case study dedicated focal area.
-- Alignment tendencies: Left-aligned titles and narrative copy with right-aligned process diagrams or phone mockups.
-- Content width behavior: Max content width restricted to 1320px, centered horizontally.
+用途：
+- 标签
+- 编号
+- 分类
+- 数据
+- 技术信息
 
-### Border Radius Scale
+示例：
+```
+PROJECT_01
+SYSTEM_DESIGN
+2026
+```
 
-- Micro: `4px`
-- Standard: `10px`
-- Large: `16px`
-- Pill: `999px`
+---
 
-## 6. Depth & Elevation
+# 4. 布局系统（Layout System）
 
-| Level | Treatment | Use |
+## 布局理念
+
+整体布局应该像：一个数字化产品演示空间。
+
+核心原则：
+- 留白优先
+- 层级清晰
+- 内容聚焦
+- 节奏舒缓
+
+---
+
+## 容器系统
+
+最大内容宽度：`1280px`  
+页面：居中布局。
+
+---
+
+## 网格系统
+
+推荐：双栏布局。  
+比例：`60%` 内容区域 | `40%` 展示区域
+
+适用于：文字、图片、数据、图表、架构图
+
+---
+
+## 间距系统
+
+基础单位：`8px`  
+推荐阶梯：`8px`, `16px`, `24px`, `32px`, `48px`, `80px`, `120px`
+
+---
+
+## 页面间距
+
+区块之间保持大间距（推荐：`80px-160px`），目的在于创造演示文稿般的浏览节奏。
+
+---
+
+# 5. 圆角系统（Border Radius）
+
+| 类型 | 数值 | 使用 |
 | --- | --- | --- |
-| Flat | `#0d0c11` (No border) | Main canvas background |
-| Ring | Hairline `1px solid #2a2833` | Component dividers and card outlines |
-| Card | `#16151c` + shadow `0 8px 24px rgba(0,0,0,0.4)` | Presentation slide cards & case studies |
-| Focus | Outline `2px solid #d0bcff` | Keyboard navigation & focus state |
+| 小型元素 | 4px | 小标签 |
+| 标准组件 | 12px | 按钮 |
+| 大型容器 | 16px | 卡片 |
+| 胶囊标签 | 999px | Badge |
 
-## 7. Do's and Don'ts
+---
 
-### Do
+# 6. 组件设计（Component System）
 
-- Use fluid `clamp()` sizing for all heading and body font rules.
-- Maintain high contrast between dark background surfaces and bright pastel accent badges.
-- Keep structural elements aligned to an 8px spatial grid.
+## 卡片组件（Cards）
 
-### Don't
+视觉：安静、结构化、有层次。
 
-- Don't use harsh pure black (`#000000`) or pure white (`#ffffff`) for main background and text.
-- Don't overcrowd cards—preserve slide-deck whitespace proportions.
-- Don't mix more than 3 accent colors in a single card module.
+样式：
+- 背景：`#141922`
+- 边框：`1px solid rgba(255,255,255,0.12)`
+- 圆角：`16px`
+- 阴影：`0 8px 32px rgba(0,0,0,0.35)`
+- 内部间距：`32px-64px`
 
-## 8. Responsive Behavior
+---
 
-### Breakpoints
+## 按钮组件（Buttons）
 
-| Name | Width | Key Changes |
+### 主按钮
+- 特点：强调色背景、高对比文字、清晰行动指引
+- 样式：背景 `#C8B6FF`，圆角 `12px`
+- Hover：轻微上浮
+
+### 次按钮
+- 特点：深色背景、边框、低强调
+- 样式：背景 `#1C2330`，边框 `rgba(255,255,255,0.12)`
+
+---
+
+## 标签组件（Tags）
+- 字体：等宽字体
+- 样式：小字号、胶囊形、低饱和颜色
+- 用途：分类、状态、元数据
+
+---
+
+## 数据展示组件（Metrics）
+- 设计原则：数据优先
+- 特点：超大数字、简短说明、强视觉层级
+- 避免：复杂图表
+
+---
+
+## 图形组件（Diagram）
+- 用于：流程、系统关系、架构、信息结构
+- 视觉：简洁、技术化
+- 元素：节点（`#C8B6FF`）、连接线（`rgba(255,255,255,0.25)`）、标签
+
+---
+
+# 7. 图片与视觉素材规范（Image Style）
+
+## 图片类型
+- 推荐：产品截图、UI界面展示、系统架构图、数据可视化、设备 Mockup
+
+## 图片处理
+- 圆角：`16px`
+- 边框：`1px rgba(255,255,255,0.12)`
+
+## 避免
+- 普通商业图库照片
+- 过度装饰插画
+- 花哨背景
+
+---
+
+# 8. 层级与深度系统（Depth & Elevation）
+
+| 层级 | 样式 | 用途 |
 | --- | --- | --- |
-| Mobile | `< 768px` | Single-column stack, navigation collapses, clamp text scales down dynamically |
-| Tablet | `768px - 1024px` | 2-column grid with reduced gap (`40px`), medium clamp sizes |
-| Desktop | `> 1024px` | Full 2-column split deck view, gap 80px, max-width 1320px |
+| Background | #0B0F14 | 页面背景 |
+| Surface | #141922 | 内容区域 |
+| Elevated | #1C2330 | 重点模块 |
+| Border | 半透明边框 | 结构分割 |
+| Focus | 紫色描边 | 交互状态 |
 
-### Touch Targets
+---
 
-- Minimum touch target height: `44px` for interactive CTAs and navigation items.
+# 9. 动效系统（Motion System）
 
-### Collapsing Strategy
+## 动效理念
+整体感觉：平稳、专业、有目的。  
+避免：炫技动画、快速跳动、装饰性效果。
 
-- Desktop behavior: Side-by-side 2-column split layout with full interactive deck slides.
-- Tablet behavior: Grid gap reduces from 80px to 40px; typography scales down via fluid clamp.
-- Mobile behavior: All multi-column cards collapse into a single vertical scroll stack.
+## 页面进入动画
+- 透明度：`0 → 1`
+- 位移：`30px → 0`
+- 时间：`600ms`
 
-## 9. Agent Prompt Guide
+## Hover动画
+- 效果：`translateY(-4px)`
+- 时间：`200ms`
 
-### Quick Color Reference
+---
 
-- Primary CTA: `#d0bcff`
-- Background: `#0d0c11`
-- Heading text: `#ece9f1`
-- Body text: `#a39fb0`
-- Border or ring: `#2a2833`
-- Accent: `#b9f2c8`
+# 10. 响应式系统（Responsive System）
 
-### Quick Summary
+## Desktop (> 1024px)
+大标题、大留白、多栏布局
 
-Harrison Wheeler's portfolio design system is built on a midnight obsidian base (`#0d0c11`) with layered surface cards (`#16151c`), crisp high-contrast display typography (`Neudron`), technical monospace labels (`IBM Plex Mono`), and pastel accent highlights (`#d0bcff`, `#b9f2c8`). Layouts feel like a polished executive slide deck with generous spacing, fluid text scaling, and architectural case study mockups.
+## Tablet (768px - 1024px)
+减少间距、缩小字体、简化组件
 
-### Example Component Prompts
+## Mobile (< 768px)
+内容优先、单栏布局、保持信息层级
 
-- Hero: "Build a dark editorial portfolio hero with a massive Neudron display heading, IBM Plex Mono uppercase eyebrow tag in lavender (#d0bcff), and obsidian surface card."
-- Card: "Create a case study card with background #16151c, border 1px solid #2a2833, border-radius 16px, featuring a mint green badge (#b9f2c8) and large stat metric."
+---
 
-### Ready-to-Use Prompt
+# 11. AI生成设计提示词（AI Design Prompt）
 
-"Design a high-end product design portfolio UI in Dark Mode. Use background #0d0c11, surface cards #16151c with 1px border #2a2833 and 16px radius. Set titles in bold display sans with off-white text #ece9f1, subtitles in muted lavender-grey #a39fb0, and tag pills in soft lavender #d0bcff or mint green #b9f2c8. Layout should feel like an executive presentation slide deck with fluid typography."
+设计一个高级产品系统设计师个人作品集网站。
 
-### Iteration Guide
+视觉方向：高级暗色编辑设计。  
+参考：Apple Keynote × Linear × 企业级产品设计。
 
-1. Start with the midnight background `#0d0c11` and obsidian surface `#16151c`.
-2. Apply `Neudron` for high-impact display titles and `IBM Plex Mono` for technical tags.
-3. Accentuate key interactive elements with lavender `#d0bcff` and mint green `#b9f2c8`.
+设计特点：
+- 深色背景 (`#0B0F14`)
+- 分层暗色表面 (`#141922` / `#1C2330`)
+- 大尺寸现代字体
+- 技术型等宽标签
+- 少量高亮颜色
+- 大量留白
 
-## Optional Appendix: Observed Pages
+整体感觉：专业、战略、智能、系统化。
 
-- https://www.harrisonwheeler.com/ : Homepage slide-deck portfolio showcasing Base CRM, LeadCraft, and Holiday case studies.
+避免：普通作品集模板、Dribbble风格页面、大量渐变、过度动画、装饰性设计。
+
+重点体现：高级视觉层级、信息结构、系统化设计语言、产品设计专业感。
