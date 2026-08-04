@@ -157,7 +157,7 @@ test('detail page styles include visible focus treatment for back link and role 
     'utf8',
   );
   const orthodonticsStyles = readFileSync(
-    path.resolve(process.cwd(), 'src/pages/ProjectDetail/OrthodonticsCase.module.css'),
+    path.resolve(process.cwd(), 'src/pages/cases/Orthodontics/Orthodontics.module.css'),
     'utf8',
   );
 

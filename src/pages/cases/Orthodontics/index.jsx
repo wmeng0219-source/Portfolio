@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useLanguage } from '../../context/LanguageContext';
-import styles from './OrthodonticsCase.module.css';
+import { Link } from 'react-router-dom';
+import { useLanguage } from '../../../context/LanguageContext';
+import styles from './Orthodontics.module.css';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -8,10 +9,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function OrthodonticsCase({ project }) {
   const { language } = useLanguage();
-  const [activeTab, setActiveTab] = useState(project.roleTabs[0].id);
-  const activeRoleData = project.roleTabs.find((t) => t.id === activeTab);
+  const [activeTab, setActiveTab] = useState(project?.roleTabs?.[0]?.id || 'pedo');
+  const activeRoleData = project?.roleTabs?.find((t) => t.id === activeTab);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const ctx = gsap.context(() => {
       // Hero animations
       gsap.fromTo(
@@ -39,8 +41,9 @@ export default function OrthodonticsCase({ project }) {
       });
 
       // Funnel bars animation
-      gsap.utils.toArray('.funnelBarTrigger').forEach((bar, i) => {
+      gsap.utils.toArray('.funnelBarTrigger').forEach((bar) => {
         const fill = bar.querySelector(`.${styles.funnelBarFill}`);
+        if (!fill) return;
         const percentage = fill.getAttribute('data-percentage');
         gsap.fromTo(
           fill,
@@ -61,9 +64,18 @@ export default function OrthodonticsCase({ project }) {
     return () => ctx.revert();
   }, []);
 
+  if (!project) return null;
+
   return (
     <div className={styles.caseContainer}>
-      
+      <nav className={styles.nav}>
+        <div className={styles.navInner}>
+          <Link to="/" className={styles.backLink}>
+            ← {language === 'zh' ? '返回首页' : 'Back to Home'}
+          </Link>
+        </div>
+      </nav>
+
       {/* Hero Section */}
       <section className={styles.hero}>
         <h1 className={styles.heroTitle} data-animate-hero>
@@ -77,7 +89,7 @@ export default function OrthodonticsCase({ project }) {
           <div className={styles.metricArrow}>→</div>
           <div className={styles.metricBox}>
             <span className={styles.metricLabel}>{language === 'zh' ? '改版后转化' : 'After'}</span>
-            <span className={styles.metricValue} style={{ color: '#10b981' }}>
+            <span className={styles.metricValue} style={{ color: 'var(--color-system-green)' }}>
               {project.heroMetrics.conversionAfter}
             </span>
           </div>
@@ -130,23 +142,25 @@ export default function OrthodonticsCase({ project }) {
               </button>
             ))}
           </div>
-          <div
-            className={styles.roleContent}
-            role="tabpanel"
-            id={`role-panel-${activeRoleData.id}`}
-            aria-labelledby={`role-tab-${activeRoleData.id}`}
-            tabIndex={0}
-          >
-            <h3 className={styles.roleTitle}>
-              {activeRoleData.role[language]}
-              {activeRoleData.id === 'pedo' && (
-                <span className={styles.itbpBadge}>ITBP Core Value</span>
-              )}
-            </h3>
-            <p className={`${styles.roleDuty} ${activeRoleData.id === 'pedo' ? styles.specialDuty : ''}`}>
-              {activeRoleData.duty[language]}
-            </p>
-          </div>
+          {activeRoleData && (
+            <div
+              className={styles.roleContent}
+              role="tabpanel"
+              id={`role-panel-${activeRoleData.id}`}
+              aria-labelledby={`role-tab-${activeRoleData.id}`}
+              tabIndex={0}
+            >
+              <h3 className={styles.roleTitle}>
+                {activeRoleData.role[language]}
+                {activeRoleData.id === 'pedo' && (
+                  <span className={styles.itbpBadge}>ITBP Core Value</span>
+                )}
+              </h3>
+              <p className={`${styles.roleDuty} ${activeRoleData.id === 'pedo' ? styles.specialDuty : ''}`}>
+                {activeRoleData.duty[language]}
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -166,7 +180,7 @@ export default function OrthodonticsCase({ project }) {
                 <div 
                   className={styles.funnelBarFill} 
                   data-percentage={item.percentage}
-                  style={{ width: '0%' }} // Initial state for GSAP
+                  style={{ width: '0%' }}
                 >
                   {item.percentage}%
                 </div>
@@ -176,7 +190,6 @@ export default function OrthodonticsCase({ project }) {
           ))}
         </div>
       </section>
-      
     </div>
   );
 }

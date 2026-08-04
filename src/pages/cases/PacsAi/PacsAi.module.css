@@ -1,3 +1,40 @@
+.container {
+  min-height: 100vh;
+  background: var(--color-bg-primary);
+}
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  padding: 1.25rem clamp(1rem, 4vw, 4rem);
+  background: var(--color-glass);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.navInner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.backLink {
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: opacity 200ms ease;
+}
+
+.backLink:hover {
+  opacity: 0.8;
+}
+
 .page {
   padding-top: calc(var(--header-height, 4rem) + 2rem);
   background: var(--color-bg-primary);
@@ -191,7 +228,7 @@
   color: var(--color-text-primary);
 }
 
-/* ── GSAP Horizontal Pan (Iterations) ─────────────── */
+/* ── Iterations & Solutions ────────────────────────── */
 .iterationList,
 .solutionList,
 .decisionList,
@@ -219,12 +256,6 @@
 .decisionMain {
   display: grid;
   gap: 0.85rem;
-}
-
-.iterationHeader {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
 }
 
 .iterationBadge {
@@ -457,7 +488,6 @@
   color: var(--color-text-primary);
 }
 
-/* Swatches */
 .swatchGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -513,7 +543,6 @@
   color: var(--color-text-muted);
 }
 
-/* Specs Badges */
 .specRow {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -548,7 +577,6 @@
   color: var(--color-text-faint);
 }
 
-/* ── Responsive ────────────────────────────────────── */
 @media (max-width: 1024px) {
   .solutionRow {
     grid-template-columns: 1fr;
@@ -581,11 +609,5 @@
   }
   .metricRow {
     grid-template-columns: 1fr;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .heroMetricFloating {
-    transition: none;
   }
 }
