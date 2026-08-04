@@ -10,6 +10,7 @@
 4. **验证先于完成** — 声称完成前必须运行验证命令
 5. **UI与前端视觉规范** — 任何前端页面、UI 组件或视觉样式的开发与修改，必须严格遵循项目根目录下的 `DESIGN.md`（Product System Designer Portfolio 规范）
 6. **单分支工作流规范（Single Branch Workflow）** — 本项目保持单一主分支 `main` 开发模式。后续所有的代码提交、拉取与更新，必须统一在 `main` 分支上直接进行，禁止创建或切入多余的特性分支。
+7. **自包含案例模块架构规范（Self-contained Case Module Architecture）** — 所有的案例详情页必须按自包含模块在 `src/pages/cases/<CaseName>/` 中独立组织，每个案例拥有独立的 `index.jsx` 组件与 CSS Module 样式，严禁在 `ProjectDetail` 父目录中进行业务耦合堆砌。
 
 ## 可用 Skills
 
