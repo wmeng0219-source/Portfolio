@@ -20,9 +20,10 @@ export default function MemberAutomationCase({ project }) {
   }, []);
 
   if (!project) return null;
+  const t = (obj) => (obj ? (obj[language] ?? obj.zh) : '');
 
   return (
-    <div className={styles.page}>
+    <div className={styles.container}>
       <nav className={styles.nav}>
         <div className={styles.navInner}>
           <Link to="/" className={styles.backLink} data-animate>
@@ -31,61 +32,168 @@ export default function MemberAutomationCase({ project }) {
         </div>
       </nav>
 
-      <main className={styles.main}>
-        <header className={styles.header}>
-          <p className={styles.tag} data-animate>{project.tag?.[language] || project.tag}</p>
-          <h1 className={styles.title} data-animate>{project.title?.[language] || project.title}</h1>
-        </header>
+      <main className={styles.page}>
+        {/* ── Hero (Split Screen) ──────────────────────────── */}
+        <section className={styles.hero} data-animate>
+          <div className={styles.heroInner}>
+            <p className={styles.kicker}>
+              <span className={styles.kickerIndex}>01</span> / MEMBER AUTOMATION
+            </p>
+            <h1 className={styles.title}>{t(project.title)}</h1>
+            <p className={styles.tag}>{t(project.tag)}</p>
+            <p className={styles.heroSummary}>{t(project.background)}</p>
+          </div>
 
-        <section className={styles.section} data-animate>
-          <h2 className={styles.sectionTitle}>{language === 'zh' ? '项目背景' : 'Background'}</h2>
-          <p className={styles.text}>{project.background?.[language] || project.background}</p>
-        </section>
-
-        <section className={styles.section} data-animate>
-          <h2 className={styles.sectionTitle}>{language === 'zh' ? '我的角色' : 'My Role'}</h2>
-          <p className={styles.text}>{project.role?.[language] || project.role}</p>
-        </section>
-
-        <section className={styles.section} data-animate>
-          <h2 className={styles.sectionTitle}>{language === 'zh' ? '核心问题' : 'Core Problem'}</h2>
-          <p className={styles.text}>{project.problem?.[language] || project.problem}</p>
-        </section>
-
-        <section className={styles.section} data-animate>
-          <h2 className={styles.sectionTitle}>{language === 'zh' ? '关键方案' : 'Key Solutions'}</h2>
-          <div className={styles.solutions}>
-            {project.solution?.map((sol, idx) => (
-              <div key={idx} className={styles.solutionCard}>
-                <h3 className={styles.solutionTitle}>{sol.title?.[language] || sol.title}</h3>
-                <p className={styles.text}>{sol.desc?.[language] || sol.desc}</p>
+          <div className={styles.heroVisual} data-animate>
+            {project.images && project.images[0] && (
+              <img
+                src={project.images[0].src}
+                alt={t(project.images[0].alt)}
+                className={styles.heroVisualImg}
+                width="1600"
+                height="900"
+                loading="eager"
+              />
+            )}
+            {project.heroMetrics && (
+              <div className={styles.heroMetricFloating}>
+                <div className={styles.metricBlock}>
+                  <span className={styles.metricBefore}>{project.heroMetrics.opTimeBefore}</span>
+                  <span className={styles.metricArrow}>→</span>
+                  <span className={styles.metricAfter}>{project.heroMetrics.opTimeAfter}</span>
+                </div>
+                <p className={styles.metricLabel}>
+                  {language === 'zh' ? '单笔高复杂度交易处理时间（降低 75%）' : 'Single high-complexity checkout time (-75%)'}
+                </p>
               </div>
+            )}
+          </div>
+        </section>
+
+        {/* ── Background & System Identity ─────────────────────── */}
+        <section className={styles.section} data-animate>
+          <div className={styles.sectionGrid}>
+            <div>
+              <p className={styles.sectionKicker}>
+                {language === 'zh' ? '项目背景与定位' : 'Background & Scope'}
+              </p>
+              <p className={styles.bodyText}>{t(project.problem)}</p>
+            </div>
+            <div>
+              <div className={styles.roleChip}>
+                <span className={styles.roleChipLabel}>
+                  {language === 'zh' ? '我的角色' : 'My Role'}
+                </span>
+                <span className={styles.roleChipValue}>{t(project.role)}</span>
+                {project.sysVer && (
+                  <code className={styles.sysCode}>{project.sysVer}</code>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Iteration Path ───────────────────────────────────── */}
+        {project.process && (
+          <section className={styles.section} data-animate>
+            <p className={styles.sectionKicker}>
+              {language === 'zh' ? '迭代路径' : 'Iteration Path'}
+            </p>
+            <div className={styles.iterationList}>
+              {project.process.map((iter, i) => (
+                <article key={i} className={styles.iterationRow}>
+                  <div className={styles.iterationMeta}>
+                    <span className={styles.iterationBadge}>{iter.version}</span>
+                    <span className={styles.iterationLabel}>{t(iter.label)}</span>
+                  </div>
+                  <div className={styles.iterationBody}>
+                    <h3 className={styles.iterationTitle}>{t(iter.title)}</h3>
+                    <p className={styles.bodyText}>{t(iter.desc)}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* ── Solutions ────────────────────────────────────── */}
+        <section className={styles.section} data-animate>
+          <p className={styles.sectionKicker}>
+            {language === 'zh' ? '关键系统架构方案' : 'Key Solutions'}
+          </p>
+          <div className={styles.solutionList}>
+            {project.solution.map((sol, i) => (
+              <article key={i} className={styles.solutionRow}>
+                {project.images && project.images[i + 1] && (
+                  <img
+                    src={project.images[i + 1].src}
+                    alt={t(sol.title)}
+                    className={styles.solutionImage}
+                    loading="lazy"
+                    width="1024"
+                    height="768"
+                  />
+                )}
+                <div className={styles.solutionCopy}>
+                  <span className={styles.solutionIndex}>0{i + 1}</span>
+                  <h3 className={styles.solutionTitle}>{t(sol.title)}</h3>
+                  <p className={styles.bodyText}>{t(sol.desc)}</p>
+                </div>
+              </article>
             ))}
           </div>
         </section>
 
+        {/* ── Design Decisions ─────────────────────────────── */}
+        {project.decisions && (
+          <section className={styles.section} data-animate>
+            <p className={styles.sectionKicker}>
+              {language === 'zh' ? '关键设计决策' : 'Key Design Decisions'}
+            </p>
+            <div className={styles.decisionList}>
+              {project.decisions.map((d, i) => (
+                <article key={i} className={styles.decisionRow}>
+                  <span className={styles.decisionIndex}>Q{i + 1}</span>
+                  <div className={styles.decisionMain}>
+                    <h3 className={styles.decisionQuestion}>{t(d.question)}</h3>
+                    <span className={styles.decisionAnswerLabel}>
+                      {language === 'zh' ? '决策推演' : 'Decision Rationale'}
+                    </span>
+                    <p className={styles.decisionAnswerText}>{t(d.choice)}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* ── Results & Interface Flow ─────────────────────────── */}
         <section className={styles.section} data-animate>
-          <h2 className={styles.sectionTitle}>{language === 'zh' ? '项目结果' : 'Result'}</h2>
+          <p className={styles.resultHeadline}>
+            {language === 'zh' ? '项目落地成果' : 'Project Results'}
+          </p>
           <div className={styles.resultCard}>
-            <p className={styles.text}>{project.result?.[language] || project.result}</p>
+            <p className={styles.bodyText}>{t(project.result)}</p>
           </div>
         </section>
 
         {project.images && project.images.length > 0 && (
           <section className={styles.imageSection} data-animate>
-            <h2 className={styles.sectionTitle}>{language === 'zh' ? '设计图与流程展示' : 'Design & Flow'}</h2>
-            <div className={styles.imageGallery}>
-              {project.images.map((img, idx) => (
-                <figure key={idx} className={styles.imageFigure}>
+            <p className={styles.sectionKicker}>
+              {language === 'zh' ? '界面流程与架构视图' : 'Interface Flow'}
+            </p>
+            <div className={styles.imageList}>
+              {project.images.map((img, i) => (
+                <figure key={i} className={styles.imageRow}>
                   <img
                     src={img.src}
-                    alt={img.alt?.[language] || img.alt}
-                    className={styles.projectImage}
+                    alt={t(img.alt)}
+                    className={styles.image}
                     loading="lazy"
                     width="1024"
                     height="768"
                   />
-                  <figcaption className={styles.imageCaption}>{img.alt?.[language] || img.alt}</figcaption>
+                  <figcaption className={styles.imageCaption}>{t(img.alt)}</figcaption>
                 </figure>
               ))}
             </div>

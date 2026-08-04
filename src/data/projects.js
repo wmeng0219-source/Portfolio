@@ -13,44 +13,113 @@ export const projects = [
       en: 'Rule System / Member Automation',
     },
     background: {
-      zh: '在系统中，会员、卡券权益、收费彼此独立，缺少自动对应关系。对一线来说，这意味着收银流程繁琐、容易出错；对财务来说，这意味着月底核对收入、优惠和会员权益时需要大量人工比对，管理成本高。',
-      en: 'Membership, coupons, payments, and billing were disconnected, leaving frontline teams to improvise and finance to reconcile manually.',
+      zh: '旧有的会员系统由于数据结构碎片化，导致会员卡、优惠券与结算流程之间缺乏有效联动。由于 20 多家门店每天产生数千笔交易，高昂的人工核对成本导致财务差异显著，同时也严重拖慢了前台的收银效率。',
+      en: 'Membership, coupons, payments, and billing were disconnected across 20+ stores, creating heavy manual audit costs for finance and slowing frontline checkout.',
     },
     role: {
-      zh: '产品经理，负责方案输出、规则确认、开发推进与上线跟进。',
-      en: 'Product Manager, responsible for solution design, rule definition, and delivery.',
+      zh: '产品经理 / 系统架构师，负责规则逻辑解耦、结算引擎方案设计与全量落地推进。',
+      en: 'Product Manager / System Architect, responsible for rule decoupling, settlement engine design, and clinic rollout.',
     },
+    sysVer: 'SYS_MA_VER_3.2_STABLE',
     problem: {
-      zh: '会员收银流程不规范，高频操作步骤多易错，跨门店升级处理成本高。财务需人工核对大量数据。',
-      en: 'Frontline operations were slow and error-prone, while finance spent days manually reconciling disconnected records.',
+      zh: '会员收银流程不规范，高频操作步骤多易错，跨门店结算需大量人工介入。数据同步延迟导致资金合规隐患。',
+      en: 'Frontline operations were slow and error-prone, while finance spent days manually reconciling disconnected records across stores.',
     },
     solution: [
       {
         title: { zh: '规则系统化', en: 'Systematizing Rules' },
         desc: {
-          zh: '重新梳理会员卡、卡券、收费、优惠、账单之间的关系与对应规则，让原本分散的对象被系统统一承接。',
-          en: 'Reorganized the relationships between cards, discounts, payments, and reconciliation.',
+          zh: '将复杂的优惠叠加规则转化为层级清晰的逻辑判定树，消除歧义，统一管理卡券与权益资产。',
+          en: 'Converted complex stacking discount rules into a clear hierarchy logic tree, eliminating ambiguity.',
         },
       },
       {
         title: { zh: '流程自动化', en: 'Workflow Automation' },
         desc: {
-          zh: '把开卡、升续卡、退卡、冻结、囤卡等高频流程从多步人工操作改成系统自动承接，减少一线处理时间与误操作。',
-          en: 'Automated high-frequency workflows to reduce frontline processing time and manual errors.',
+          zh: '一键式极速收银，后台自动匹配会员身份与最优卡券组合，大幅减少前台人工干预。',
+          en: 'Single-click rapid checkout; backend automatically matches member identities and optimal coupon combinations.',
         },
       },
       {
         title: { zh: '合规与财务治理', en: 'Compliance & Governance' },
         desc: {
-          zh: '引入优惠额度建立更明确的优惠边界，通过系统留痕和自动对应关系减少违规操作。',
-          en: 'Introduced discount limits and systemic traceability to reduce uncompliant operations.',
+          zh: '每笔交易生成不可篡改的链式审计记录，引入优惠额度边界，保障大宗会员交易资金安全。',
+          en: 'Generates immutable audit logs for every transaction, establishing clear discount limits for security.',
         },
       },
     ],
     result: {
-      zh: '系统目前在 20+ 家门店落地使用。门店操作时间从平均 4-5 分钟缩短到 1 分钟左右。财务月底对账从全量人工核对 3 天缩短至异常抽检 1 天。',
-      en: 'Deployed across 20+ clinics. Member upgrade time dropped from 4–5 min to 1 min. Month-end reconciliation cut from 3 days to 1 day.',
+      zh: '系统已成功覆盖品牌旗下 20+ 高端零售与医疗门店。单笔高复杂度交易时间降低 75%（4-5 分钟 ➔ 1 分钟）；财务月底对账周期缩短 66.7%（3 天 ➔ 1 天）。',
+      en: 'Deployed across 20+ clinics. Transaction processing time reduced by 75% (4-5 min to 1 min). Month-end reconciliation cut by 66.7% (3 days to 1 day).',
     },
+    heroMetrics: {
+      opTimeBefore: '4-5m',
+      opTimeAfter: '1m',
+      reconcileBefore: '3d',
+      reconcileAfter: '1d',
+      deployment: '20+ 家门店',
+    },
+    process: [
+      {
+        version: 'V1',
+        label: { zh: '阶段 01: 规则统一', en: 'Phase 01: Rule Unification' },
+        title: { zh: '逻辑解耦与中心化管理', en: 'Logic Decoupling & Central Management' },
+        desc: {
+          zh: '建立统一的规则配置引擎，将卡券逻辑与业务实体解耦，实现跨 20 多家实体的会员逻辑全局一致应用。',
+          en: 'Built a unified rule engine decoupling coupon logic from entities, establishing global consistency.',
+        },
+      },
+      {
+        version: 'V2',
+        label: { zh: '阶段 02: 流程自动化', en: 'Phase 02: Flow Automation' },
+        title: { zh: '极速收银与合规审计', en: 'Express Checkout & Compliance Audit' },
+        desc: {
+          zh: '部署“极速收银”流程，通过后台静默验证和详尽的审计日志，确保财务治理的透明度与交易安全。',
+          en: 'Deployed express checkout with silent validation and detailed audit logs for financial security.',
+        },
+      },
+    ],
+    decisions: [
+      {
+        question: { zh: '自动匹配还是手动选择？', en: 'Automatic matching or manual choice?' },
+        choice: {
+          zh: '优先采用“强制自动匹配”覆盖 95% 的高频场景，仅针对验证过的异常情况开放手动干预。这让收银员的角色从“数据输入员”转变为“异常处理器”。',
+          en: 'Prioritized forced auto-matching for 95% of cases, reserving manual overrides only for verified anomalies.',
+        },
+      },
+      {
+        question: { zh: '状态机驱动的界面设计？', en: 'State-machine driven interface?' },
+        choice: {
+          zh: '基于状态的 UI 转换。界面根据会员画像和规则命中情况动态调整，隐藏无关选项，降低前台人员的认知负担。',
+          en: 'State-based UI transitions dynamically show relevant options, eliminating cognitive load.',
+        },
+      },
+      {
+        question: { zh: '异常审计抽样逻辑？', en: 'Exception-based audit logic?' },
+        choice: {
+          zh: '基于异常的审计机制。系统自动标记异常差异，使财务部门能够专注于处理“离群交易”，而非逐一核对全量流水。',
+          en: 'System flags anomalies automatically so finance focuses on outliers rather than line-by-line checks.',
+        },
+      },
+    ],
+    images: [
+      {
+        src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBvF_aIq_oQrmAGS0GNHu0ZE0jMYLfEN29hDX_zfO6jRFHQUkcIJKZ_T3QW7l7QtVFMzvKeHQb9Oaq8G7kigfaFBPJtU67CkBt59pXr1JqPbRf0MRSZG6f8aK4l1hhoY4bJoX9qlGouzNr55llLitRZrPiggcOt5_LB_sWMWPeOKjrabb9ZAjuY2ZQPZzzfZvhNqocDQkidTP1XvLgHcStgqVOrLtB3vQHNlg7a75IFA0fDEo7ZDI6l8g',
+        alt: { zh: '核心模块 01：中央规则配置引擎', en: 'Core Module 01: Central Rule Configuration Engine' },
+      },
+      {
+        src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAYZhP-F0BgUJt5DeX_l-aLKYiKQf2wbanzTEElRMY4KIGjMqK9PmfEIId34gY7XQAMG3GoUkb_e4fq7Qb-0Y13bZ2qq8s2VPSXhx3AFwA5VNMxy-djlRKlQxgML9XC5ofNvDtuz_qT9OAg-qRg22Ny_APDHrM3O4ZDHQOb1Yf4EUKOYBpypP9b0Uf0eTmLfyl2IIUydx6_YdW2tDM9dysHxeILniiyICGbmbmyA89hdYD0Y-TY5sBYPg',
+        alt: { zh: '核心模块 02：前台极速收银终端', en: 'Core Module 02: Frontline Express POS Terminal' },
+      },
+      {
+        src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDS-o4y-NAz5XbhC24xJ8dRgnllJm7yJyf5V9x8IamHhiXKK2EpNF6D0FO1q9lQhOpfXwLd04KVFc4bYH9AufC0eyBmYTOK5KtJvHT75kLof8xES2iP-FqY8R5oH2pXcB62f0j4QDQ9zl2aKwjaPj-sRxqqDXEv6dR-S9tfqJRRtcZhmGXxZBITrtVvrMqP0Z7UxDVTdhbuDqI_bEHYyUu1As9gCDcXBcrwtjm2lvdha-3hxslsE4QzxA',
+        alt: { zh: '核心模块 03：全渠道会员数据流转', en: 'Core Module 03: Omni-channel Member Data Stream' },
+      },
+      {
+        src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDBCkvjhQCnNNV1KBwSpKEfjCU-T8xPZJtUhMWUVRERKKm-i31_EYk8uPZEjOW6Pq5yuoBflzld4pBqK3S3lZmYo-R568qiZNQzFAL25-Se7Z3bb7nm3b-3N8Hwrkjsm54OXFrWjiIc7vXLSIeoLWJCmwcR9AHMceRDdb46mTq5z_OerARCI2FlcVqFMzbCd8OW4OEeh0NxgnJ2qVp_bd7tM5nBbfXmf2rajrxlJ4yi7_QNd6XMYmSo3Q',
+        alt: { zh: '核心模块 04：合规治理与财务看板', en: 'Core Module 04: Compliance & Financial Audit Dashboard' },
+      },
+    ],
   },
   {
     id: 'orthodontics',
