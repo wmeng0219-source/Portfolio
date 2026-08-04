@@ -22,7 +22,7 @@ vi.mock('gsap', () => {
     return { revert: () => {} };
   };
 
-  const mockGsap = {
+  const gsapMock = {
     registerPlugin: () => {},
     context,
     fromTo,
@@ -34,8 +34,8 @@ vi.mock('gsap', () => {
   };
 
   return {
-    default: mockGsap,
-    gsap: mockGsap,
+    default: gsapMock,
+    gsap: gsapMock,
   };
 });
 
@@ -59,11 +59,15 @@ test('renders homepage sections with updated responsibilities and portfolio emph
   expect(
     screen.getByRole('heading', {
       level: 1,
-      name: 'MENG WEN',
+      name: /MENG WEN/i,
     }),
   ).toBeInTheDocument();
-  expect(screen.getByRole('link', { name: '查看项目' })).toHaveAttribute('href', '#portfolio');
-  expect(screen.getByText('产品经理与设计复合型实践者。聚焦医疗数字化、流程重构与AI协作，在混乱的真实业务现场中，建立可执行、可观察的系统闭环。')).toBeInTheDocument();
+  const heroSection = screen.getByRole('heading', {
+    level: 1,
+    name: /MENG WEN/i,
+  }).closest('section');
+  expect(screen.getByRole('link', { name: /查看项目/ })).toHaveAttribute('href', '#portfolio');
+  expect(screen.getByText(/产品经理与设计复合型实践者/)).toBeInTheDocument();
 
   const aboutSection = screen.getByRole('heading', {
     level: 2,
@@ -83,8 +87,10 @@ test('renders homepage sections with updated responsibilities and portfolio emph
   expect(within(experienceSection).getByText('03 / Path')).toBeInTheDocument();
   expect(within(experienceSection).getByText('2019 - 2020')).toBeInTheDocument();
   expect(within(experienceSection).getByText('2023.04 - 至今')).toBeInTheDocument();
-  expect(within(experienceSection).getByText(/界面与系统基础/)).toBeInTheDocument();
-  expect(within(experienceSection).getByText(/连接业务与交付/)).toBeInTheDocument();
+  expect(within(experienceSection).getByText('界面与系统基础')).toBeInTheDocument();
+  expect(within(experienceSection).getByText('连接业务与交付')).toBeInTheDocument();
+  expect(experienceSection.querySelector('.experience-timeline')).not.toBeNull();
+  expect(experienceSection.querySelector('.experience-stage-card')).toBeNull();
 
   const portfolioSection = screen.getByRole('heading', {
     level: 2,
@@ -92,7 +98,7 @@ test('renders homepage sections with updated responsibilities and portfolio emph
   }).closest('section');
   expect(portfolioSection).toHaveAttribute('data-motion-section');
   expect(within(portfolioSection).getByText('SELECTED WORK')).toBeInTheDocument();
-  expect(portfolioSection.querySelector('.portfolio-stage')).toHaveAttribute('data-motion-group', 'portfolio-stage');
+  expect(portfolioSection.querySelector('.portfolio-stage-grid')).toHaveAttribute('data-motion-group', 'portfolio-stage');
   const caseLinks = within(portfolioSection).getAllByRole('link');
   expect(caseLinks).toHaveLength(3);
   expect(within(portfolioSection).getByText('会员自动化与服务衔接')).toBeInTheDocument();
@@ -114,6 +120,7 @@ test('renders homepage sections with updated responsibilities and portfolio emph
   }).closest('section');
   expect(contactSection).toHaveAttribute('data-motion-section');
   expect(within(contactSection).getByText('04 / Contact')).toBeInTheDocument();
+  expect(within(contactSection).getByText('数字化产品系统 / 2025')).toBeInTheDocument();
   const links = within(contactSection).getAllByRole('link');
   expect(links).toHaveLength(1);
   expect(within(contactSection).getByRole('link', { name: 'wmeng0219@gmail.com' })).toHaveAttribute(

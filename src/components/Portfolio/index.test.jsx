@@ -18,7 +18,7 @@ test('renders portfolio as a showcase stage with one lead card and two supportin
   }).closest('section');
 
   expect(section).toHaveAttribute('data-motion-section');
-  expect(section.querySelector('.portfolio-stage')).toHaveAttribute('data-motion-group', 'portfolio-stage');
+  expect(section.querySelector('.portfolio-stage-grid')).toHaveAttribute('data-motion-group', 'portfolio-stage');
   expect(within(section).getByText('SELECTED WORK')).toBeInTheDocument();
   expect(
     within(section).getByText('三个复杂系统案例，展示我如何把流程、规则与协作重组为可执行产品。'),
@@ -45,5 +45,5 @@ test('renders portfolio as a showcase stage with one lead card and two supportin
   expect(cards[0]).toHaveAttribute('href', '#/project/member-automation');
   expect(cards[1]).toHaveAttribute('href', '#/project/orthodontics');
   expect(cards[2]).toHaveAttribute('href', '#/project/pacs-ai');
-  expect(within(section).getAllByText('VIEW CASE')).toHaveLength(3);
+  expect(within(section).getAllByText(/VIEW CASE/i)).toHaveLength(3);
 });

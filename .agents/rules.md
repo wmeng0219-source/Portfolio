@@ -8,6 +8,7 @@
 2. **设计先于编码** — 收到功能需求时，先用 brainstorming skill 做需求分析
 3. **测试先于实现** — 写代码前先写测试（TDD）
 4. **验证先于完成** — 声称完成前必须运行验证命令
+5. **UI与前端视觉规范** — 任何前端页面、UI 组件或视觉样式的开发与修改，必须严格遵循项目根目录下的 `DESIGN.md`（Product System Designer Portfolio 规范）
 
 ## 可用 Skills
 

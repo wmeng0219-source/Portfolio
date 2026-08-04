@@ -19,24 +19,17 @@ const Experience = () => {
           </div>
         </div>
 
-        <div className="experience-stage-grid" data-motion-group="experience-stage-grid">
+        <div className="experience-timeline" data-motion-group="experience-timeline">
           {items.map((item) => (
-            <article
-              className={`experience-stage-card experience-stage-card-${item}`}
-              key={item}
-              data-motion-item
-            >
-              <div className="experience-stage-card-shell">
-                <div className="experience-stage-card-topline">
-                  <p className="experience-stage-card-period">{t(`experience.item.${item}.period`)}</p>
-                </div>
-                <div className="experience-stage-card-copy">
-                  <h3 className="experience-stage-card-title">
-                    {t(`experience.item.${item}.title`)}
-                    {t(`experience.stage.item.${item}.short`) && <span style={{ color: 'var(--color-text-secondary)', fontWeight: 400 }}> at {t(`experience.stage.item.${item}.short`)}</span>}
-                  </h3>
-                  <p className="experience-stage-card-body">{t(`experience.item.${item}.body`)}</p>
-                </div>
+            <article className="experience-timeline-row" key={item} data-motion-item>
+              <div className="experience-timeline-meta">
+                <p className="experience-timeline-index">0{item}</p>
+                <p className="experience-timeline-period">{t(`experience.item.${item}.period`)}</p>
+              </div>
+              <div className="experience-timeline-content">
+                <p className="experience-timeline-tag">{t(`experience.stage.item.${item}.short`)}</p>
+                <h3 className="experience-timeline-title">{t(`experience.item.${item}.title`)}</h3>
+                <p className="experience-timeline-body">{t(`experience.item.${item}.body`)}</p>
               </div>
             </article>
           ))}

@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import styles from './Navbar.module.css';
 import { useLanguage } from '../../context/LanguageContext';
 
 const MOBILE_NAV_MEDIA_QUERY = '(max-width: 900px)';
@@ -31,10 +30,10 @@ const Navbar = () => {
 
   const navItems = useMemo(
     () => [
-      { key: 'nav.home', href: '#hero', id: 'hero' },
-      { key: 'nav.portfolio', href: '#portfolio', id: 'portfolio' },
-      { key: 'nav.experience', href: '#experience', id: 'experience' },
-      { key: 'nav.about', href: '#about', id: 'about' },
+      { key: 'nav.about', href: '#about', label: 'Work' },
+      { key: 'nav.experience', href: '#experience', label: 'About' },
+      { key: 'nav.portfolio', href: '#portfolio', label: 'Resume' },
+      { key: 'nav.contact', href: '#contact', label: 'Contact' },
     ],
     [],
   );
@@ -84,13 +83,19 @@ const Navbar = () => {
 
   const handleMenuItemClick = (event, href, id) => {
     event.preventDefault();
-    scrollToHashTarget(href);
-    setActiveSection(id);
-
+    scrollToHashTarget(event.currentTarget.getAttribute('href'));
     if (isMobileViewport) {
       shouldRestoreFocusRef.current = true;
     }
+    setMenuOpen(false);
+  };
 
+  const handleLogoClick = (event) => {
+    event.preventDefault();
+    scrollToHashTarget('#hero');
+    if (isMobileViewport) {
+      shouldRestoreFocusRef.current = true;
+    }
     setMenuOpen(false);
   };
 
@@ -104,11 +109,19 @@ const Navbar = () => {
   }, [hideNavLinks]);
 
   return (
-    <header className={styles.header}>
-      <nav className={styles.navbar} aria-label="Main Navigation">
+    <header className="fixed top-0 left-0 w-full z-50 px-margin-mobile md:px-margin-desktop py-8 pointer-events-none">
+      <div className="max-w-container-max mx-auto flex items-center justify-center relative">
+        {/* Left MW Badge */}
+        <div className="absolute left-0 pointer-events-auto bg-[rgba(13,12,17,0.82)] backdrop-blur-[16px] border border-[#2a2833] px-4 py-2 rounded-full hidden md:block">
+          <a href="#hero" onClick={handleLogoClick} className="font-label-caps text-[14px] tracking-widest text-[#ece9f1] no-underline">
+            MW
+          </a>
+        </div>
+
+        {/* Mobile Toggle Button */}
         <button
           ref={menuButtonRef}
-          className={styles.menuBtn}
+          className="pointer-events-auto md:hidden absolute right-0 bg-[rgba(13,12,17,0.82)] backdrop-blur-[16px] border border-[#2a2833] p-2.5 rounded-full text-[#ece9f1]"
           type="button"
           aria-controls="primary-navigation"
           aria-expanded={menuOpen}
@@ -118,35 +131,43 @@ const Navbar = () => {
             setMenuOpen((current) => !current);
           }}
         >
-          <span />
-          <span />
+          <span className="material-symbols-outlined text-lg">{menuOpen ? 'close' : 'menu'}</span>
         </button>
 
-        <div
+        {/* Centered Desktop Nav Pill / Mobile Nav Drawer */}
+        <nav
           id="primary-navigation"
-          className={`${styles.navPill} ${menuOpen ? styles.open : ''}`}
+          className={`pointer-events-auto bg-[rgba(13,12,17,0.82)] backdrop-blur-[16px] border border-[#2a2833] rounded-full px-8 py-2.5 flex items-center gap-8 ${
+            isMobileViewport
+              ? `fixed top-24 right-6 flex-col items-start p-6 bg-[#16151c]/95 rounded-[16px] ${
+                  menuOpen ? 'flex' : 'hidden'
+                }`
+              : 'flex'
+          }`}
           hidden={hideNavLinks}
           aria-hidden={hideNavLinks}
         >
-          {navItems.map((item) => {
-            const isActive = activeSection === item.id;
-            return (
-              <a
-                key={item.key}
-                href={item.href}
-                className={`${styles.navItem} ${isActive ? styles.active : ''}`}
-                onClick={(e) => handleMenuItemClick(e, item.href, item.id)}
-                data-motion-hover="nav"
-              >
-                {t(item.key)}
-              </a>
-            );
-          })}
-          <button className={styles.langBtn} type="button" onClick={toggleLanguage} data-motion-hover="button">
+          {navItems.map((item) => (
+            <a
+              key={item.key}
+              href={item.href}
+              onClick={handleMenuItemClick}
+              data-motion-hover="nav"
+              className="font-label-caps text-[14px] text-[#a39fb0] hover:text-[#d0bcff] transition-all duration-300 no-underline uppercase tracking-wider"
+            >
+              {t(item.key)}
+            </a>
+          ))}
+          <button
+            className="text-xs font-label-caps border border-[#2a2833] px-3.5 py-1 rounded-full text-[#a39fb0] hover:text-[#d0bcff] transition-all"
+            type="button"
+            onClick={toggleLanguage}
+            data-motion-hover="button"
+          >
             {language === 'zh' ? 'EN' : '中文'}
           </button>
-        </div>
-      </nav>
+        </nav>
+      </div>
     </header>
   );
 };

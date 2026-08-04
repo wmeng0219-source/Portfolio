@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Harrison Wheeler Portfolio Preview</title>
+    <meta name="color-scheme" content="light" />
+    <style>
+      :root {
+        --page-bg: #0d0c11;
+        --page-bg-muted: rgb(13, 12, 17);
+        --surface-bg: #0d0c11;
+        --surface-bg-muted: rgb(13, 12, 17);
+        --surface-border: #2a2833;
+        --surface-border-strong: rgb(44, 43, 48);
+        --surface-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 2px 2px rgba(0, 0, 0, 0.04), 0 8px 8px -8px rgba(0, 0, 0, 0.04);
+        --surface-shadow-soft: 0 0 0 1px #2a2833;
+        --ink: #ece9f1;
+        --muted: #a39fb0;
+        --subtle: rgb(116, 114, 120);
+        --accent: #d0bcff;
+        --font-body: Neudron, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+        --font-display: Neudron, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+        --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", "SF Mono", Menlo, monospace;
+        --body-size: 14px;
+        --body-line: 20px;
+        --body-weight: 400;
+        --label-size: 12px;
+        --label-line: 16px;
+        --label-track: 0.08em;
+        --title-size: 24px;
+        --title-line: 28px;
+        --title-track: -0.01em;
+        --section-size: 20px;
+        --section-line: 24px;
+        --section-track: -0.01em;
+        --source-size: 13px;
+        --source-line: 20px;
+        --space-1: 8px;
+        --space-2: 12px;
+        --space-3: 16px;
+        --space-4: 24px;
+        --space-5: 32px;
+        --space-6: 40px;
+        --radius-panel: 10px;
+        --radius-card: 10px;
+        --radius-micro: 4px;
+        --radius-pill: 999px;
+        --button-height: 40px;
+        --button-font-size: 12px;
+        --button-weight: 500;
+        --button-radius: 999px;
+        --secondary-button-radius: 999px;
+        --layout-gap: 24px;
+        --page-padding: 24px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-width: 320px;
+        color: var(--ink);
+        font-family: var(--font-body);
+        font-size: var(--body-size);
+        font-weight: var(--body-weight);
+        line-height: var(--body-line);
+        background:
+          radial-gradient(circle at top, color-mix(in srgb, var(--accent) 8%, transparent), transparent 30%),
+          linear-gradient(180deg, var(--page-bg) 0%, var(--page-bg-muted) 100%);
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background-image:
+          linear-gradient(color-mix(in srgb, var(--surface-border) 56%, transparent) 1px, transparent 1px),
+          linear-gradient(90deg, color-mix(in srgb, var(--surface-border) 56%, transparent) 1px, transparent 1px);
+        background-size: 100% calc(48px), calc(48px) 100%;
+        mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.3), transparent 88%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .shell {
+        width: min(1440px, calc(100vw - (var(--page-padding) * 2)));
+        margin: 0 auto;
+        padding: var(--page-padding) 0 calc(var(--page-padding) * 1.2);
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(340px, 0.92fr) minmax(420px, 1fr);
+        gap: var(--layout-gap);
+        align-items: start;
+      }
+
+      .stack {
+        display: grid;
+        gap: var(--space-4);
+      }
+
+      .panel {
+        overflow: hidden;
+        border: 1px solid var(--surface-border);
+        border-radius: var(--radius-panel);
+        background: linear-gradient(180deg, color-mix(in srgb, var(--surface-bg) 88%, white) 0%, var(--surface-bg) 100%);
+        box-shadow: var(--surface-shadow);
+      }
+
+      .panel-inner {
+        padding: var(--space-4);
+      }
+
+      .hero-card {
+        position: relative;
+      }
+
+      .hero-card::before {
+        content: "";
+        position: absolute;
+        left: var(--space-4);
+        right: var(--space-4);
+        top: 0;
+        height: 3px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #d0bcff 0%, #b9f2c8 33%, #ffd8e4 67%, #0d0c11 100%);
+      }
+
+      .eyebrow {
+        margin-bottom: var(--space-2);
+        color: var(--muted);
+        font-size: var(--label-size);
+        line-height: var(--label-line);
+        letter-spacing: var(--label-track);
+        text-transform: uppercase;
+      }
+
+      .site-title,
+      .section-title {
+        margin: 0;
+        color: var(--ink);
+        font-family: var(--font-display);
+        font-weight: 600;
+      }
+
+      .site-title {
+        font-size: var(--title-size);
+        line-height: var(--title-line);
+        letter-spacing: var(--title-track);
+      }
+
+      .descriptor {
+        margin: var(--space-2) 0 0;
+        max-width: 42ch;
+        color: var(--muted);
+        font-size: var(--body-size);
+        line-height: var(--body-line);
+      }
+
+      .summary {
+        margin: var(--space-3) 0 0;
+        max-width: 56ch;
+        color: var(--muted);
+        font-size: var(--body-size);
+        line-height: var(--body-line);
+      }
+
+      .chip-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+        margin: var(--space-3) 0 0;
+      }
+
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        min-height: calc(8px * 3);
+        padding: 0 var(--space-2);
+        border: 1px solid var(--surface-border);
+        border-radius: var(--radius-pill);
+        background: var(--surface-bg);
+        color: var(--ink);
+        font-size: var(--label-size);
+        line-height: var(--label-line);
+        box-shadow: var(--surface-shadow-soft);
+      }
+
+      .observed-link {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        margin-top: var(--space-4);
+        padding-top: var(--space-3);
+        border-top: 1px solid var(--surface-border);
+        color: var(--muted);
+        font-size: var(--label-size);
+        overflow-wrap: anywhere;
+      }
+
+      .observed-link::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: var(--accent);
+        box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 16%, transparent);
+      }
+
+      .section-title {
+        font-size: var(--section-size);
+        line-height: var(--section-line);
+        letter-spacing: var(--section-track);
+      }
+
+      .section-subtitle {
+        margin: var(--space-2) 0 var(--space-4);
+        color: var(--muted);
+        font-size: var(--body-size);
+        line-height: var(--body-line);
+      }
+
+      .palette-grid,
+      .theme-mode-grid,
+      .type-list,
+      .component-card,
+      .prompt-list,
+      .mini-grid,
+      .token-table {
+        display: grid;
+        gap: var(--space-2);
+      }
+
+      .palette-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-2);
+      }
+
+      .palette-row.neutral-row {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .theme-mode-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--space-3);
+      }
+
+      .theme-mode-card {
+        display: grid;
+        gap: var(--space-2);
+        padding: var(--space-3);
+        border: 1px solid var(--surface-border);
+        border-radius: var(--radius-card);
+        background: color-mix(in srgb, var(--surface-bg) 92%, white);
+      }
+
+      .theme-mode-card.is-dark {
+        background: #111111;
+        color: #f4f4f4;
+        border-color: rgba(255, 255, 255, 0.12);
+      }
+
+      .theme-mode-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-2);
+      }
+
+      .theme-mode-label {
+        color: var(--subtle);
+        font-size: var(--label-size);
+        line-height: var(--label-line);
+        letter-spacing: var(--label-track);
+        text-transform: uppercase;
+      }
+
+      .theme-mode-card.is-dark .theme-mode-label {
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .theme-mode-note {
+        margin: 0;
+        color: var(--muted);
+        font-size: calc(var(--body-size) - 1px);
+        line-height: calc(var(--body-line) - 4px);
+      }
+
+      .theme-mode-card.is-dark .theme-mode-note {
+        color: rgba(255, 255, 255, 0.82);
+      }
+
+      .theme-swatch-row {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: var(--space-2);
+      }
+
+      .theme-swatch {
+        display: grid;
+        gap: 6px;
+      }
+
+      .theme-swatch-box {
+        height: 72px;
+        border-radius: calc(var(--radius-card) - 4px);
+        border: 1px solid color-mix(in srgb, var(--surface-border-strong) 75%, transparent);
+      }
+
+      .theme-mode-card.is-dark .theme-swatch-box {
+        border-color: rgba(255, 255, 255, 0.14);
+      }
+
+      .theme-swatch-name {
+        color: inherit;
+        font-size: 12px;
+        line-height: 1.3;
+      }
+
+      .theme-swatch-value {
+        color: var(--subtle);
+        font-size: 11px;
+        line-height: 1.3;
+      }
+
+      .theme-mode-card.is-dark .theme-swatch-value {
+        color: rgba(255, 255, 255, 0.62);
+      }
+
+      .swatch {
+        display: grid;
+        gap: var(--space-2);
+      }
+
+      .swatch-box {
+        min-height: calc(8px * 12);
+        border-radius: var(--radius-card);
+        border: 1px solid color-mix(in srgb, var(--surface-border-strong) 75%, transparent);
+        box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 4%, transparent);
+      }
+
+      .swatch-label,
+      .token-heading,
+      .prompt-card strong,
+      .card-preview h4 {
+        color: var(--ink);
+        font-family: var(--font-display);
+        font-size: var(--body-size);
+        line-height: var(--body-line);
+        font-weight: 600;
+      }
+
+      .swatch-meta,
+      .type-metrics,
+      .mini-label,
+      .copy-state,
+      .file-tab,
+      .ghost-button,
+      .segmented button {
+        color: var(--muted);
+        font-size: var(--label-size);
+        line-height: var(--label-line);
+      }
+
+      .type-row {
+        display: grid;
+        grid-template-columns: 72px minmax(0, 1fr) auto;
+        gap: var(--space-2);
+        align-items: baseline;
+        padding: var(--space-2) 0;
+        border-top: 1px solid var(--surface-border);
+      }
+
+      .type-row:first-child,
+      .mini-row:first-child,
+      .token-row:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+
+      .type-role {
+        color: var(--muted);
+        font-size: var(--label-size);
+        line-height: var(--label-line);
+        letter-spacing: var(--label-track);
+        text-transform: uppercase;
+      }
+
+      .type-sample {
+        color: var(--ink);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .split-card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-4);
+      }
+
+      .token-row,
+      .mini-row {
+        display: grid;
+        gap: var(--space-2);
+        align-items: start;
+        padding-top: var(--space-2);
+        border-top: 1px solid var(--surface-border);
+      }
+
+      .token-row {
+        grid-template-columns: 1fr auto;
+      }
+
+      .mini-row {
+        grid-template-columns: 88px minmax(0, 1fr);
+      }
+
+      .mini-content,
+      .prompt-card p,
+      .card-preview p {
+        color: var(--muted);
+        font-size: var(--body-size);
+        line-height: var(--body-line);
+      }
+
+      .radius-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--space-2);
+      }
+
+      .radius-card,
+      .prompt-card {
+        padding: var(--space-3);
+        border: 1px solid var(--surface-border);
+        border-radius: var(--radius-card);
+        background: var(--surface-bg-muted);
+        box-shadow: var(--surface-shadow-soft);
+      }
+
+      .radius-demo {
+        aspect-ratio: 1;
+        width: 100%;
+        border: 1px solid var(--surface-border-strong);
+        background: var(--surface-bg);
+      }
+
+      .radius-name {
+        margin-top: var(--space-2);
+        color: var(--ink);
+        font-size: var(--body-size);
+        line-height: var(--body-line);
+        font-weight: 600;
+      }
+
+      .radius-value {
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: var(--label-size);
+      }
+
+      .button-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+      }
+
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: var(--button-height);
+        padding: 0 var(--space-3);
+        border-radius: var(--button-radius);
+        font-family: var(--font-body);
+        font-size: var(--button-font-size);
+        font-weight: var(--button-weight);
+        line-height: 1;
+        letter-spacing: normal;
+      }
+
+      .cta-primary {
+        border: 1px solid transparent;
+        background: #171717;
+        color: #ffffff;
+        border-radius: 999px;
+      }
+
+      .cta-secondary {
+        border: 1px solid #171717;
+        background: #ffffff;
+        color: #171717;
+        border-radius: 999px;
+        box-shadow: var(--surface-shadow-soft);
+      }
+
+      .card-preview {
+        padding: 16px;
+        border-radius: 10px;
+        border: 1px solid color-mix(in srgb, var(--surface-border-strong) 72%, transparent);
+        background: var(--surface-bg);
+        color: var(--ink);
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 2px 2px rgba(0, 0, 0, 0.04), 0 8px 8px -8px rgba(0, 0, 0, 0.04);
+      }
+
+      .card-preview h4 {
+        margin: 0 0 var(--space-1);
+      }
+
+      .source-shell {
+        position: sticky;
+        top: var(--page-padding);
+      }
+
+      .source-header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-2);
+        padding: var(--space-3) var(--space-4) var(--space-2);
+        border-bottom: 1px solid var(--surface-border);
+      }
+
+      .file-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2px var(--space-3);
+      }
+
+      .file-tab {
+        padding: 0 0 var(--space-2);
+        border-bottom: 2px solid transparent;
+      }
+
+      .file-tab.active {
+        color: var(--ink);
+        border-bottom-color: var(--ink);
+        font-weight: 600;
+      }
+
+      .source-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--space-2);
+        padding: var(--space-2) var(--space-4);
+        border-bottom: 1px solid var(--surface-border);
+      }
+
+      .segmented {
+        display: inline-flex;
+        padding: 3px;
+        border: 1px solid var(--surface-border);
+        border-radius: var(--radius-pill);
+        background: var(--surface-bg-muted);
+      }
+
+      .segmented button {
+        border: 0;
+        border-radius: var(--radius-pill);
+        background: transparent;
+        padding: 6px 12px;
+        cursor: pointer;
+      }
+
+      .segmented button.is-active {
+        background: var(--surface-bg);
+        color: var(--ink);
+        box-shadow: var(--surface-shadow-soft);
+      }
+
+      .toolbar-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+        margin-left: auto;
+      }
+
+      .ghost-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 12px;
+        border: 1px solid var(--surface-border);
+        border-radius: 4px;
+        background: var(--surface-bg);
+        box-shadow: var(--surface-shadow-soft);
+        cursor: pointer;
+      }
+
+      .source-body {
+        max-height: calc(100vh - (var(--page-padding) * 2) - 120px);
+        overflow: auto;
+      }
+
+      .source-view,
+      .rendered-view {
+        margin: 0;
+        padding: var(--space-4);
+      }
+
+      .source-view {
+        color: var(--ink);
+        font-family: var(--font-mono);
+        font-size: var(--source-size);
+        line-height: var(--source-line);
+        white-space: pre-wrap;
+        word-break: break-word;
+        background: var(--surface-bg);
+      }
+
+      .rendered-view {
+        color: var(--ink);
+        font-family: var(--font-body);
+        font-size: var(--body-size);
+        line-height: var(--body-line);
+        background: var(--surface-bg);
+      }
+
+      .rendered-view[hidden],
+      .source-view[hidden] {
+        display: none;
+      }
+
+      .rendered-view h2,
+      .rendered-view h3 {
+        margin: var(--space-4) 0 var(--space-2);
+        color: var(--ink);
+        font-family: var(--font-display);
+        font-weight: 600;
+      }
+
+      .rendered-view h2 {
+        font-size: var(--section-size);
+        line-height: var(--section-line);
+        letter-spacing: var(--section-track);
+      }
+
+      .rendered-view h2:first-child {
+        margin-top: 0;
+      }
+
+      .rendered-view h3 {
+        color: var(--muted);
+        font-size: calc(24px - 4px);
+        line-height: calc(28px - 4px);
+      }
+
+      .rendered-view p,
+      .rendered-view li {
+        color: var(--muted);
+      }
+
+      .rendered-view ul,
+      .rendered-view ol {
+        margin: 0 0 var(--space-3) 20px;
+        padding: 0;
+      }
+
+      .rendered-view table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: var(--space-2) 0 var(--space-4);
+      }
+
+      .rendered-view th,
+      .rendered-view td {
+        padding: var(--space-2) var(--space-2);
+        border: 1px solid var(--surface-border);
+        text-align: left;
+        vertical-align: top;
+        font-size: var(--label-size);
+        line-height: var(--label-line);
+      }
+
+      .rendered-view th {
+        color: var(--ink);
+        background: var(--surface-bg-muted);
+      }
+
+      .rendered-view code {
+        padding: 0.14em 0.4em;
+        border-radius: 4px;
+        background: var(--surface-bg-muted);
+        color: var(--ink);
+        font-family: var(--font-mono);
+        font-size: 0.92em;
+      }
+
+      @media (max-width: 1120px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+
+        .source-shell {
+          position: relative;
+          top: 0;
+        }
+
+        .source-body {
+          max-height: none;
+        }
+      }
+
+      @media (max-width: 760px) {
+        .shell {
+          width: min(100vw - (12px * 2), 100%);
+          padding-top: 12px;
+        }
+
+        .panel-inner,
+        .source-view,
+        .rendered-view {
+          padding-left: var(--space-3);
+          padding-right: var(--space-3);
+        }
+
+        .palette-row,
+        .palette-row.neutral-row,
+        .theme-mode-grid,
+        .theme-swatch-row,
+        .split-card,
+        .radius-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .type-row,
+        .mini-row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <div class="layout">
+        <section class="stack">
+          <article class="panel hero-card">
+            <div class="panel-inner">
+              <div class="eyebrow">Design Preview</div>
+              <h1 class="site-title">Harrison Wheeler Portfolio</h1>
+              <p class="descriptor">Harrison Wheeler&#39;s personal portfolio website presents a high-end, dark editorial design lea...</p>
+              <div class="chip-row"><span class="chip">Midnight Dark Base (#0d0c11) wit...</span><span class="chip">Fluid Display Typography using N...</span><span class="chip">Pastel Accent System introducing...</span><span class="chip">Deck Slide Architecture utilizin...</span></div>
+              <p class="summary">Harrison Wheeler&#39;s personal portfolio website presents a high-end, dark editorial design leader aesthetic. The overall mood is sophisticated, architectural, and deeply atmospheric—combining ultra-dark charcoal surfaces with crisp, fluid typography and soft pastel accent pops (lavender, mint green, and soft pink).</p>
+              <a class="observed-link" href="https://www.harrisonwheeler.com/" target="_blank" rel="noreferrer">https://www.harrisonwheeler.com/</a>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-inner">
+              <h2 class="section-title">Palette</h2>
+              <p class="section-subtitle">Roles and neutrals rendered using the extracted design system rather than a separate display theme.</p>
+              <div class="palette-grid"><div class="palette-row"><div class="swatch">
+    <div class="swatch-box" style="background:#d0bcff;"></div>
+    <div class="swatch-label">Soft Lavender</div>
+    <div class="swatch-meta">
+      <span>#d0bcff</span>
+      <span>Primary action</span>
+    </div>
+  </div><div class="swatch">
+    <div class="swatch-box" style="background:#b9f2c8;"></div>
+    <div class="swatch-label">Pastel Mint Green</div>
+    <div class="swatch-meta">
+      <span>#b9f2c8</span>
+      <span>Accent</span>
+    </div>
+  </div><div class="swatch">
+    <div class="swatch-box" style="background:#ffd8e4;"></div>
+    <div class="swatch-label">Soft Powder Pink</div>
+    <div class="swatch-meta">
+      <span>#ffd8e4</span>
+      <span>Accent</span>
+    </div>
+  </div></div><div class="palette-row neutral-row"><div class="swatch">
+    <div class="swatch-box" style="background:#0d0c11;"></div>
+    <div class="swatch-label">Midnight Base</div>
+    <div class="swatch-meta">
+      <span>#0d0c11</span>
+      <span>Surface</span>
+    </div>
+  </div><div class="swatch">
+    <div class="swatch-box" style="background:#16151c;"></div>
+    <div class="swatch-label">Obsidian Card</div>
+    <div class="swatch-meta">
+      <span>#16151c</span>
+      <span>Surface</span>
+    </div>
+  </div><div class="swatch">
+    <div class="swatch-box" style="background:#1f1d26;"></div>
+    <div class="swatch-label">Surface Elevated</div>
+    <div class="swatch-meta">
+      <span>#1f1d26</span>
+      <span>Surface</span>
+    </div>
+  </div><div class="swatch">
+    <div class="swatch-box" style="background:#ece9f1;"></div>
+    <div class="swatch-label">Crisp Off-White</div>
+    <div class="swatch-meta">
+      <span>#ece9f1</span>
+      <span>Text</span>
+    </div>
+  </div></div></div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-inner">
+              <h2 class="section-title">Theme Modes</h2>
+              <p class="section-subtitle">If the product supports light and dark themes, both modes should stay visible in the exported design system and preview.</p>
+              <div class="prompt-card"><strong>Single mode detected</strong><p>No explicit <code>Theme Modes</code> section was detected in the markdown. If the product supports both light and dark themes, document both so the preview can render them side by side.</p></div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-inner">
+              <h2 class="section-title">Typography</h2>
+              <p class="section-subtitle">The preview shell itself now uses the extracted typography stack, sizes, line heights, and tracking.</p>
+              <div class="type-list"><div class="type-row">
+        <div class="type-role">Hero headline</div>
+        <div
+          class="type-sample"
+          style="font-size:12px; line-height:12px; font-weight:700; letter-spacing:-0.03em; font-family:Neudron, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif;"
+        >
+          The quick brown fox jumps
+        </div>
+        <div class="type-metrics">clamp(2.6rem, 14.5vw, 13rem) • 700 • 0.92</div>
+      </div><div class="type-row">
+        <div class="type-role">Section heading</div>
+        <div
+          class="type-sample"
+          style="font-size:12px; line-height:12px; font-weight:600; letter-spacing:-0.01em; font-family:Neudron, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif;"
+        >
+          The quick brown fox jumps
+        </div>
+        <div class="type-metrics">clamp(2.8rem, 7.6vw, 6.4rem) • 600 • 1.05</div>
+      </div><div class="type-row">
+        <div class="type-role">Body</div>
+        <div
+          class="type-sample"
+          style="font-size:12px; line-height:12px; font-weight:400; letter-spacing:normal; font-family:Neudron, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif;"
+        >
+          The quick brown fox jumps
+        </div>
+        <div class="type-metrics">clamp(1rem, 1.6vw, 1.55rem) • 400 • 1.6</div>
+      </div><div class="type-row">
+        <div class="type-role">Label / Eyebrow</div>
+        <div
+          class="type-sample"
+          style="font-size:12px; line-height:12px; font-weight:500; letter-spacing:0.08em; font-family:&quot;IBM Plex Mono&quot;, ui-monospace, &quot;SFMono-Regular&quot;, &quot;SF Mono&quot;, Menlo, monospace;"
+        >
+          const preview = true;
+        </div>
+        <div class="type-metrics">clamp(0.8rem, 1.1vw, 1.05rem) • 500 • 1.2</div>
+      </div><div class="type-row">
+        <div class="type-role">Caption / Meta</div>
+        <div
+          class="type-sample"
+          style="font-size:12px; line-height:12px; font-weight:500; letter-spacing:0.05em; font-family:&quot;IBM Plex Mono&quot;, ui-monospace, &quot;SFMono-Regular&quot;, &quot;SF Mono&quot;, Menlo, monospace;"
+        >
+          const preview = true;
+        </div>
+        <div class="type-metrics">clamp(0.62rem, 0.88vw, 0.85rem) • 500 • 1.2</div>
+      </div></div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-inner">
+              <h2 class="section-title">Spacing &amp; Shape</h2>
+              <p class="section-subtitle">Spacing, panel padding, and radius tokens are mapped directly from the layout rules in the markdown.</p>
+              <div class="split-card">
+    <div>
+      <h3 class="token-heading">Spacing</h3>
+      <div class="token-table"><div class="token-row">
+        <span>Base unit</span>
+        <span>8px</span>
+      </div><div class="token-row">
+        <span>Step 2</span>
+        <span>12px</span>
+      </div><div class="token-row">
+        <span>Step 3</span>
+        <span>16px</span>
+      </div><div class="token-row">
+        <span>Step 4</span>
+        <span>24px</span>
+      </div><div class="token-row">
+        <span>Step 5</span>
+        <span>32px</span>
+      </div></div>
+    </div>
+    <div>
+      <h3 class="token-heading">Border Radius</h3>
+      <div class="radius-grid"><div class="radius-card">
+        <div class="radius-demo" style="border-radius:4px;"></div>
+        <div class="radius-name">Micro utility</div>
+        <div class="radius-value">4px</div>
+      </div><div class="radius-card">
+        <div class="radius-demo" style="border-radius:10px;"></div>
+        <div class="radius-name">Standard module</div>
+        <div class="radius-value">10px</div>
+      </div><div class="radius-card">
+        <div class="radius-demo" style="border-radius:999px;"></div>
+        <div class="radius-name">Category rail</div>
+        <div class="radius-value">999px</div>
+      </div><div class="radius-card">
+        <div class="radius-demo" style="border-radius:999px;"></div>
+        <div class="radius-name">CTA pill</div>
+        <div class="radius-value">999px</div>
+      </div></div>
+    </div>
+  </div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-inner">
+              <h2 class="section-title">Components</h2>
+              <p class="section-subtitle">Buttons and cards use the documented height, weight, radius, colors, and surface treatment.</p>
+              <div class="component-card">
+    <div class="button-row">
+      <span class="cta cta-primary">Start Deploying</span>
+      <span class="cta cta-secondary">Get a Demo</span>
+    </div>
+    <div class="card-preview">
+      <h4>System Card Preview</h4>
+      <p>#16151c</p>
+    </div>
+  </div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-inner">
+              <h2 class="section-title">System Notes</h2>
+              <p class="section-subtitle">Responsive behavior and depth rules stay visible while keeping the overall proportions calm and readable.</p>
+              <div class="split-card">
+    <div>
+      <h3 class="token-heading">Breakpoints</h3>
+      <div class="mini-grid"><div class="mini-row">
+            <div class="mini-label">Mobile</div>
+            <div class="mini-content"><strong>&lt; 768px</strong><br />Single-column stack, navigation collapses, clamp text scales down dynamically</div>
+          </div><div class="mini-row">
+            <div class="mini-label">Tablet</div>
+            <div class="mini-content"><strong>768px - 1024px</strong><br />2-column grid with reduced gap (40px), medium clamp sizes</div>
+          </div><div class="mini-row">
+            <div class="mini-label">Desktop</div>
+            <div class="mini-content"><strong>&gt; 1024px</strong><br />Full 2-column split deck view, gap 80px, max-width 1320px</div>
+          </div></div>
+    </div>
+    <div>
+      <h3 class="token-heading">Elevation</h3>
+      <div class="mini-grid"><div class="mini-row">
+            <div class="mini-label">Flat</div>
+            <div class="mini-content"><strong>#0d0c11 (No border)</strong><br />Main canvas background</div>
+          </div><div class="mini-row">
+            <div class="mini-label">Ring</div>
+            <div class="mini-content"><strong>Hairline 1px solid #2a2833</strong><br />Component dividers and card outlines</div>
+          </div><div class="mini-row">
+            <div class="mini-label">Card</div>
+            <div class="mini-content"><strong>#16151c + shadow 0 8px 24px rgba(0,0,0,0.4)</strong><br />Presentation slide cards &amp; case studies</div>
+          </div><div class="mini-row">
+            <div class="mini-label">Focus</div>
+            <div class="mini-content"><strong>Outline 2px solid #d0bcff</strong><br />Keyboard navigation &amp; focus state</div>
+          </div></div>
+    </div>
+  </div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-inner">
+              <h2 class="section-title">Prompt Guide</h2>
+              <p class="section-subtitle">Prompt snippets are shown in the same typography and spacing language as the extracted design system.</p>
+              <div class="prompt-list"><div class="prompt-card"><strong>Quick Summary</strong><p>Harrison Wheeler&#39;s portfolio design system is built on a midnight obsidian base (#0d0c11) with layered surface cards (#16151c), crisp high-contrast display typography (Neudron), technical monospace labels (IBM Plex Mono), and pastel accent highlights (#d0bcff, #b9f2c8). Layouts feel like a polished executive slide deck with generous spacing, fluid text scaling, and architectural case study mockups.</p></div><div class="prompt-card">
+            <strong>Hero</strong>
+            <p>&quot;Build a dark editorial portfolio hero with a massive Neudron display heading, IBM Plex Mono uppercase eyebrow tag in lavender (#d0bcff), and obsidian surface card.&quot;</p>
+          </div><div class="prompt-card">
+            <strong>Card</strong>
+            <p>&quot;Create a case study card with background #16151c, border 1px solid #2a2833, border-radius 16px, featuring a mint green badge (#b9f2c8) and large stat metric.&quot;</p>
+          </div><div class="prompt-card"><strong>Ready-to-Use Prompt</strong><p>&quot;Design a high-end product design portfolio UI in Dark Mode. Use background #0d0c11, surface cards #16151c with 1px border #2a2833 and 16px radius. Set titles in bold display sans with off-white text #ece9f1, subtitles in muted lavender-grey #a39fb0, and tag pills in soft lavender #d0bcff or mint green #b9f2c8. Layout should feel like an executive presentation slide deck with fluid typography.&quot;</p></div></div>
+              <div class="split-card" style="margin-top:var(--space-4);">
+    <div>
+      <h3 class="token-heading">Do</h3>
+      <div class="mini-grid"><div class="mini-row"><div class="mini-label">Do</div><div class="mini-content">Use fluid clamp() sizing for all heading and body font rules.</div></div><div class="mini-row"><div class="mini-label">Do</div><div class="mini-content">Maintain high contrast between dark background surfaces and bright pastel accent badges.</div></div><div class="mini-row"><div class="mini-label">Do</div><div class="mini-content">Keep structural elements aligned to an 8px spatial grid.</div></div></div>
+    </div>
+    <div>
+      <h3 class="token-heading">Don't</h3>
+      <div class="mini-grid"><div class="mini-row"><div class="mini-label">Don't</div><div class="mini-content">Don&#39;t use harsh pure black (#000000) or pure white (#ffffff) for main background and text.</div></div><div class="mini-row"><div class="mini-label">Don't</div><div class="mini-content">Don&#39;t overcrowd cards—preserve slide-deck whitespace proportions.</div></div><div class="mini-row"><div class="mini-label">Don't</div><div class="mini-content">Don&#39;t mix more than 3 accent colors in a single card module.</div></div></div>
+    </div>
+  </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="source-shell">
+          <article class="panel">
+            <div class="source-header">
+              <div class="file-tabs">
+                <span class="file-tab">design-system.md</span>
+                <span class="file-tab active">DESIGN.md</span>
+                <span class="file-tab">Design JSON</span>
+                <span class="file-tab">CSS Variables</span>
+                <span class="file-tab">Design Tokens</span>
+              </div>
+            </div>
+            <div class="source-toolbar">
+              <div class="segmented" role="tablist" aria-label="View Switcher">
+                <button class="is-active" data-view="source" type="button">Source</button>
+                <button data-view="preview" type="button">Preview</button>
+              </div>
+              <div class="toolbar-actions">
+                <button class="ghost-button" id="copyButton" type="button">Copy</button>
+                <a class="ghost-button" href="DESIGN.md" download>Open .md</a>
+                <span class="copy-state" id="copyState"></span>
+              </div>
+            </div>
+            <div class="source-body">
+              <pre class="source-view" id="sourceView"># Design System: Harrison Wheeler Portfolio
+
+## 1. Visual Theme &amp; Atmosphere
+
+Harrison Wheeler&#39;s personal portfolio website presents a high-end, dark editorial design leader aesthetic. The overall mood is sophisticated, architectural, and deeply atmospheric—combining ultra-dark charcoal surfaces with crisp, fluid typography and soft pastel accent pops (lavender, mint green, and soft pink).
+
+- Overall feeling: Architectural, editorial, dark, refined design leadership
+- Visual density: Generous whitespace, slide-deck layout feel, uncluttered editorial blocks
+- Brand posture: Experienced Product Design Executive / Design Director (ex-Base CRM, ex-Zendesk, LeadCraft)
+- Signature motifs: Full-bleed deck slides, SVG architecture diagrams, fluid responsive clamps, pastel tag badges
+
+### Key Characteristics
+
+- Midnight Dark Base (`#0d0c11`) with layered obsidian surfaces (`#16151c`, `#1f1d26`) and hairline borders (`#2a2833`)
+- Fluid Display Typography using `Neudron` display sans, paired with `GT America` body and `IBM Plex Mono` code/label specs
+- Pastel Accent System introducing soft lavender (`#d0bcff`), mint green (`#b9f2c8`), and blush pink (`#ffd8e4`)
+- Deck Slide Architecture utilizing presentation-style case study cards with phone mockups and custom SVG diagrams
+
+## 2. Color Palette &amp; Roles
+
+| Role | Semantic Name | Value | Usage |
+| --- | --- | --- | --- |
+| Primary action | Soft Lavender | `#d0bcff` | Primary CTA, focus state, active highlights |
+| Accent | Pastel Mint Green | `#b9f2c8` | Status pills, highlight tags, secondary callouts |
+| Accent | Soft Powder Pink | `#ffd8e4` | Decorative tags, subtle category badges |
+| Surface | Midnight Base | `#0d0c11` | Main page background |
+| Surface | Obsidian Card | `#16151c` | Primary container surface |
+| Surface | Surface Elevated | `#1f1d26` | Secondary cards, dropdowns, code blocks |
+| Text | Crisp Off-White | `#ece9f1` | Primary headings and body copy |
+| Text | Lavender Grey | `#a39fb0` | Muted text, subtitles, meta labels |
+| Text | Dim Grey | `#75717f` | Footers, captions, minor metadata |
+| Border | Soft Charcoal | `#2a2833` | Card outlines, dividers, structural lines |
+
+### Primary
+
+- Base Background (`--bg`): `#0d0c11`
+- Primary Text (`--text`): `#ece9f1`
+- Accent Primary (`--primary`): `#d0bcff` (Hover: `#e3d6ff`)
+
+### Interactive
+
+- Links &amp; CTAs: `#d0bcff` with `hover { transform: translateY(-1px); color: #e3d6ff; }`
+- Focus Rings: `2px solid #d0bcff` with `rgba(208, 188, 255, 0.24)` glow shadow
+
+### Neutral Scale
+
+- Midnight Base: `#0d0c11`
+- Dark Surface 1: `#16151c`
+- Dark Surface 2: `#1f1d26`
+- Muted Grey: `#a39fb0`
+- Dimmed Grey: `#75717f`
+
+### Surface &amp; Overlay
+
+- Card Surface: `#16151c` with 1px border `#2a2833`
+- Diagram Node Background: `rgba(208, 188, 255, 0.12)` with border `rgba(208, 188, 255, 0.34)`
+
+### Theme Modes
+
+#### Dark Mode (Primary Default)
+
+- Background: `#0d0c11`
+- Surface: `#16151c`
+- Text: `#ece9f1`
+- Accent: `#d0bcff` / `#b9f2c8`
+- Notes: Deep dark theme designed for high-contrast viewing of design portfolios and case studies.
+
+### Shadows &amp; Depth
+
+- Soft Panel Shadow: `0 8px 32px rgba(0, 0, 0, 0.36)`
+- Card Hover Elevation: `translateY(-2px)` with border color shift from `#2a2833` to `rgba(208, 188, 255, 0.4)`
+
+## 3. Typography Rules
+
+### Font Family
+
+- Primary: `&#39;Neudron&#39;, &#39;GT America&#39;, &#39;Helvetica Neue&#39;, Helvetica, Arial, sans-serif`
+- Monospace: `&#39;IBM Plex Mono&#39;, ui-monospace, SFMono-Regular, Menlo, monospace`
+- OpenType Features: `ss01`, `cv01`, tabular numbers for stat metrics
+
+### Hierarchy
+
+| Role | Font | Size | Weight | Line Height | Letter Spacing | Notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| Hero headline | Neudron | `clamp(2.6rem, 14.5vw, 13rem)` | 700 | 0.92 | `-0.03em` | Massive architectural display title |
+| Section heading | Neudron | `clamp(2.8rem, 7.6vw, 6.4rem)` | 600 | 1.05 | `-0.01em` | H2 section titles |
+| Body | GT America | `clamp(1rem, 1.6vw, 1.55rem)` | 400 | 1.6 | `normal` | Main narrative copy |
+| Label / Eyebrow | IBM Plex Mono | `clamp(0.8rem, 1.1vw, 1.05rem)` | 500 | 1.2 | `0.08em` | Uppercase metadata pills &amp; tags |
+| Caption / Meta | IBM Plex Mono | `clamp(0.62rem, 0.88vw, 0.85rem)` | 500 | 1.2 | `0.05em` | Tech stack &amp; metric tags |
+
+### Principles
+
+- Fluid CSS Clamp Sizing ensuring text scales seamlessly across screen widths from 320px to 2560px.
+- Typographic Contrast between ultra-heavy custom display sans (`Neudron`) and technical monospace labels (`IBM Plex Mono`).
+- Expressive Quote Treatment using serif italic (`Reckless`) for editorial weight.
+
+## 4. Component Stylings
+
+### Buttons and Links
+
+- Primary CTA: Solid background `#d0bcff`, dark text `#381e72`, font weight 600, border radius `10px`.
+- Secondary CTA: Ghost surface `#1f1d26` with hairline border `#2a2833`, light text `#ece9f1`.
+- Text links: Lavender color `#d0bcff` with subtle underline hover animation.
+- Hover and active feel: Smooth `transform: translateY(-2px)` with subtle color transition over 200ms.
+
+### Cards and Containers
+
+- Surface style: `#16151c`
+- Radius: `16px`
+- Border: `1px solid #2a2833`
+- Shadow or elevation: Inset border + drop shadow `0 8px 24px rgba(0, 0, 0, 0.4)`
+- Internal spacing: `clamp(28px, 5vw, 64px)`
+
+### Navigation
+
+- Structure: Top header with fixed logo left, link items right.
+- Background treatment: Glassmorphism blur `backdrop-filter: blur(16px)` on background `rgba(13, 12, 17, 0.82)`.
+- Link style: `IBM Plex Mono` uppercase font size `14px`, text color `#a39fb0`.
+- Sticky or scroll behavior: Fixed top with subtle background opacity shift on scroll.
+
+### Image Treatment
+
+- Screenshot treatment: Dark-framed phone mockups with rounded corners `12px`.
+- Photography style: High-contrast product UI screenshots and vector architectural diagrams.
+- Border and radius treatment: `1px solid #2a2833` with `16px` container radius.
+
+### Distinctive Components
+
+- Deck Slide Layout: Full-width presentation slide unit featuring side-by-side case study title, specs, and interactive media/mockups.
+- Interactive Metric Callouts: Large `Neudron` stat numbers next to `IBM Plex Mono` descriptive captions.
+- Architectural Process Diagrams: Custom SVG node-and-connector flowcharts using `#545260` stroke lines and `#d0bcff` nodes.
+
+## 5. Layout Principles
+
+### Spacing System
+
+- Base unit: `8px`
+- Repeated spacing values: `8px`, `16px`, `24px`, `32px`, `48px`, `80px`
+
+### Grid &amp; Container
+
+- Grid logic: 2-column split layout, max-width `1320px`.
+- Max content width: `1320px`
+- Section spacing: `clamp(72px, 12vh, 160px)`
+
+### Whitespace Philosophy
+
+- Whitespace philosophy: Generous slide-by-slide vertical cadence giving every case study dedicated focal area.
+- Alignment tendencies: Left-aligned titles and narrative copy with right-aligned process diagrams or phone mockups.
+- Content width behavior: Max content width restricted to 1320px, centered horizontally.
+
+### Border Radius Scale
+
+- Micro: `4px`
+- Standard: `10px`
+- Large: `16px`
+- Pill: `999px`
+
+## 6. Depth &amp; Elevation
+
+| Level | Treatment | Use |
+| --- | --- | --- |
+| Flat | `#0d0c11` (No border) | Main canvas background |
+| Ring | Hairline `1px solid #2a2833` | Component dividers and card outlines |
+| Card | `#16151c` + shadow `0 8px 24px rgba(0,0,0,0.4)` | Presentation slide cards &amp; case studies |
+| Focus | Outline `2px solid #d0bcff` | Keyboard navigation &amp; focus state |
+
+## 7. Do&#39;s and Don&#39;ts
+
+### Do
+
+- Use fluid `clamp()` sizing for all heading and body font rules.
+- Maintain high contrast between dark background surfaces and bright pastel accent badges.
+- Keep structural elements aligned to an 8px spatial grid.
+
+### Don&#39;t
+
+- Don&#39;t use harsh pure black (`#000000`) or pure white (`#ffffff`) for main background and text.
+- Don&#39;t overcrowd cards—preserve slide-deck whitespace proportions.
+- Don&#39;t mix more than 3 accent colors in a single card module.
+
+## 8. Responsive Behavior
+
+### Breakpoints
+
+| Name | Width | Key Changes |
+| --- | --- | --- |
+| Mobile | `&lt; 768px` | Single-column stack, navigation collapses, clamp text scales down dynamically |
+| Tablet | `768px - 1024px` | 2-column grid with reduced gap (`40px`), medium clamp sizes |
+| Desktop | `&gt; 1024px` | Full 2-column split deck view, gap 80px, max-width 1320px |
+
+### Touch Targets
+
+- Minimum touch target height: `44px` for interactive CTAs and navigation items.
+
+### Collapsing Strategy
+
+- Desktop behavior: Side-by-side 2-column split layout with full interactive deck slides.
+- Tablet behavior: Grid gap reduces from 80px to 40px; typography scales down via fluid clamp.
+- Mobile behavior: All multi-column cards collapse into a single vertical scroll stack.
+
+## 9. Agent Prompt Guide
+
+### Quick Color Reference
+
+- Primary CTA: `#d0bcff`
+- Background: `#0d0c11`
+- Heading text: `#ece9f1`
+- Body text: `#a39fb0`
+- Border or ring: `#2a2833`
+- Accent: `#b9f2c8`
+
+### Quick Summary
+
+Harrison Wheeler&#39;s portfolio design system is built on a midnight obsidian base (`#0d0c11`) with layered surface cards (`#16151c`), crisp high-contrast display typography (`Neudron`), technical monospace labels (`IBM Plex Mono`), and pastel accent highlights (`#d0bcff`, `#b9f2c8`). Layouts feel like a polished executive slide deck with generous spacing, fluid text scaling, and architectural case study mockups.
+
+### Example Component Prompts
+
+- Hero: &quot;Build a dark editorial portfolio hero with a massive Neudron display heading, IBM Plex Mono uppercase eyebrow tag in lavender (#d0bcff), and obsidian surface card.&quot;
+- Card: &quot;Create a case study card with background #16151c, border 1px solid #2a2833, border-radius 16px, featuring a mint green badge (#b9f2c8) and large stat metric.&quot;
+
+### Ready-to-Use Prompt
+
+&quot;Design a high-end product design portfolio UI in Dark Mode. Use background #0d0c11, surface cards #16151c with 1px border #2a2833 and 16px radius. Set titles in bold display sans with off-white text #ece9f1, subtitles in muted lavender-grey #a39fb0, and tag pills in soft lavender #d0bcff or mint green #b9f2c8. Layout should feel like an executive presentation slide deck with fluid typography.&quot;
+
+### Iteration Guide
+
+1. Start with the midnight background `#0d0c11` and obsidian surface `#16151c`.
+2. Apply `Neudron` for high-impact display titles and `IBM Plex Mono` for technical tags.
+3. Accentuate key interactive elements with lavender `#d0bcff` and mint green `#b9f2c8`.
+
+## Optional Appendix: Observed Pages
+
+- https://www.harrisonwheeler.com/ : Homepage slide-deck portfolio showcasing Base CRM, LeadCraft, and Holiday case studies.
+</pre>
+              <article class="rendered-view" id="previewView" hidden><section><h2>1. Visual Theme &amp; Atmosphere</h2><p>Harrison Wheeler&#39;s personal portfolio website presents a high-end, dark editorial design leader aesthetic. The overall mood is sophisticated, architectural, and deeply atmospheric—combining ultra-dark charcoal surfaces with crisp, fluid typography and soft pastel accent pops (lavender, mint green, and soft pink).</p><ul><li>Overall feeling: Architectural, editorial, dark, refined design leadership</li><li>Visual density: Generous whitespace, slide-deck layout feel, uncluttered editorial blocks</li><li>Brand posture: Experienced Product Design Executive / Design Director (ex-Base CRM, ex-Zendesk, LeadCraft)</li><li>Signature motifs: Full-bleed deck slides, SVG architecture diagrams, fluid responsive clamps, pastel tag badges</li></ul><h3>Key Characteristics</h3><ul><li>Midnight Dark Base (<code>#0d0c11</code>) with layered obsidian surfaces (<code>#16151c</code>, <code>#1f1d26</code>) and hairline borders (<code>#2a2833</code>)</li><li>Fluid Display Typography using <code>Neudron</code> display sans, paired with <code>GT America</code> body and <code>IBM Plex Mono</code> code/label specs</li><li>Pastel Accent System introducing soft lavender (<code>#d0bcff</code>), mint green (<code>#b9f2c8</code>), and blush pink (<code>#ffd8e4</code>)</li><li>Deck Slide Architecture utilizing presentation-style case study cards with phone mockups and custom SVG diagrams</li></ul></section><section><h2>2. Color Palette &amp; Roles</h2><table><thead><tr><th>Role</th><th>Semantic Name</th><th>Value</th><th>Usage</th></tr></thead><tbody><tr><td>Primary action</td><td>Soft Lavender</td><td><code>#d0bcff</code></td><td>Primary CTA, focus state, active highlights</td></tr><tr><td>Accent</td><td>Pastel Mint Green</td><td><code>#b9f2c8</code></td><td>Status pills, highlight tags, secondary callouts</td></tr><tr><td>Accent</td><td>Soft Powder Pink</td><td><code>#ffd8e4</code></td><td>Decorative tags, subtle category badges</td></tr><tr><td>Surface</td><td>Midnight Base</td><td><code>#0d0c11</code></td><td>Main page background</td></tr><tr><td>Surface</td><td>Obsidian Card</td><td><code>#16151c</code></td><td>Primary container surface</td></tr><tr><td>Surface</td><td>Surface Elevated</td><td><code>#1f1d26</code></td><td>Secondary cards, dropdowns, code blocks</td></tr><tr><td>Text</td><td>Crisp Off-White</td><td><code>#ece9f1</code></td><td>Primary headings and body copy</td></tr><tr><td>Text</td><td>Lavender Grey</td><td><code>#a39fb0</code></td><td>Muted text, subtitles, meta labels</td></tr><tr><td>Text</td><td>Dim Grey</td><td><code>#75717f</code></td><td>Footers, captions, minor metadata</td></tr><tr><td>Border</td><td>Soft Charcoal</td><td><code>#2a2833</code></td><td>Card outlines, dividers, structural lines</td></tr></tbody></table><h3>Primary</h3><ul><li>Base Background (<code>--bg</code>): <code>#0d0c11</code></li><li>Primary Text (<code>--text</code>): <code>#ece9f1</code></li><li>Accent Primary (<code>--primary</code>): <code>#d0bcff</code> (Hover: <code>#e3d6ff</code>)</li></ul><h3>Interactive</h3><ul><li>Links &amp; CTAs: <code>#d0bcff</code> with <code>hover { transform: translateY(-1px); color: #e3d6ff; }</code></li><li>Focus Rings: <code>2px solid #d0bcff</code> with <code>rgba(208, 188, 255, 0.24)</code> glow shadow</li></ul><h3>Neutral Scale</h3><ul><li>Midnight Base: <code>#0d0c11</code></li><li>Dark Surface 1: <code>#16151c</code></li><li>Dark Surface 2: <code>#1f1d26</code></li><li>Muted Grey: <code>#a39fb0</code></li><li>Dimmed Grey: <code>#75717f</code></li></ul><h3>Surface &amp; Overlay</h3><ul><li>Card Surface: <code>#16151c</code> with 1px border <code>#2a2833</code></li><li>Diagram Node Background: <code>rgba(208, 188, 255, 0.12)</code> with border <code>rgba(208, 188, 255, 0.34)</code></li></ul><h3>Theme Modes</h3><p>#### Dark Mode (Primary Default)</p><ul><li>Background: <code>#0d0c11</code></li><li>Surface: <code>#16151c</code></li><li>Text: <code>#ece9f1</code></li><li>Accent: <code>#d0bcff</code> / <code>#b9f2c8</code></li><li>Notes: Deep dark theme designed for high-contrast viewing of design portfolios and case studies.</li></ul><h3>Shadows &amp; Depth</h3><ul><li>Soft Panel Shadow: <code>0 8px 32px rgba(0, 0, 0, 0.36)</code></li><li>Card Hover Elevation: <code>translateY(-2px)</code> with border color shift from <code>#2a2833</code> to <code>rgba(208, 188, 255, 0.4)</code></li></ul></section><section><h2>3. Typography Rules</h2><h3>Font Family</h3><ul><li>Primary: <code>&#39;Neudron&#39;, &#39;GT America&#39;, &#39;Helvetica Neue&#39;, Helvetica, Arial, sans-serif</code></li><li>Monospace: <code>&#39;IBM Plex Mono&#39;, ui-monospace, SFMono-Regular, Menlo, monospace</code></li><li>OpenType Features: <code>ss01</code>, <code>cv01</code>, tabular numbers for stat metrics</li></ul><h3>Hierarchy</h3><table><thead><tr><th>Role</th><th>Font</th><th>Size</th><th>Weight</th><th>Line Height</th><th>Letter Spacing</th><th>Notes</th></tr></thead><tbody><tr><td>Hero headline</td><td>Neudron</td><td><code>clamp(2.6rem, 14.5vw, 13rem)</code></td><td>700</td><td>0.92</td><td><code>-0.03em</code></td><td>Massive architectural display title</td></tr><tr><td>Section heading</td><td>Neudron</td><td><code>clamp(2.8rem, 7.6vw, 6.4rem)</code></td><td>600</td><td>1.05</td><td><code>-0.01em</code></td><td>H2 section titles</td></tr><tr><td>Body</td><td>GT America</td><td><code>clamp(1rem, 1.6vw, 1.55rem)</code></td><td>400</td><td>1.6</td><td><code>normal</code></td><td>Main narrative copy</td></tr><tr><td>Label / Eyebrow</td><td>IBM Plex Mono</td><td><code>clamp(0.8rem, 1.1vw, 1.05rem)</code></td><td>500</td><td>1.2</td><td><code>0.08em</code></td><td>Uppercase metadata pills &amp; tags</td></tr><tr><td>Caption / Meta</td><td>IBM Plex Mono</td><td><code>clamp(0.62rem, 0.88vw, 0.85rem)</code></td><td>500</td><td>1.2</td><td><code>0.05em</code></td><td>Tech stack &amp; metric tags</td></tr></tbody></table><h3>Principles</h3><ul><li>Fluid CSS Clamp Sizing ensuring text scales seamlessly across screen widths from 320px to 2560px.</li><li>Typographic Contrast between ultra-heavy custom display sans (<code>Neudron</code>) and technical monospace labels (<code>IBM Plex Mono</code>).</li><li>Expressive Quote Treatment using serif italic (<code>Reckless</code>) for editorial weight.</li></ul></section><section><h2>4. Component Stylings</h2><h3>Buttons and Links</h3><ul><li>Primary CTA: Solid background <code>#d0bcff</code>, dark text <code>#381e72</code>, font weight 600, border radius <code>10px</code>.</li><li>Secondary CTA: Ghost surface <code>#1f1d26</code> with hairline border <code>#2a2833</code>, light text <code>#ece9f1</code>.</li><li>Text links: Lavender color <code>#d0bcff</code> with subtle underline hover animation.</li><li>Hover and active feel: Smooth <code>transform: translateY(-2px)</code> with subtle color transition over 200ms.</li></ul><h3>Cards and Containers</h3><ul><li>Surface style: <code>#16151c</code></li><li>Radius: <code>16px</code></li><li>Border: <code>1px solid #2a2833</code></li><li>Shadow or elevation: Inset border + drop shadow <code>0 8px 24px rgba(0, 0, 0, 0.4)</code></li><li>Internal spacing: <code>clamp(28px, 5vw, 64px)</code></li></ul><h3>Navigation</h3><ul><li>Structure: Top header with fixed logo left, link items right.</li><li>Background treatment: Glassmorphism blur <code>backdrop-filter: blur(16px)</code> on background <code>rgba(13, 12, 17, 0.82)</code>.</li><li>Link style: <code>IBM Plex Mono</code> uppercase font size <code>14px</code>, text color <code>#a39fb0</code>.</li><li>Sticky or scroll behavior: Fixed top with subtle background opacity shift on scroll.</li></ul><h3>Image Treatment</h3><ul><li>Screenshot treatment: Dark-framed phone mockups with rounded corners <code>12px</code>.</li><li>Photography style: High-contrast product UI screenshots and vector architectural diagrams.</li><li>Border and radius treatment: <code>1px solid #2a2833</code> with <code>16px</code> container radius.</li></ul><h3>Distinctive Components</h3><ul><li>Deck Slide Layout: Full-width presentation slide unit featuring side-by-side case study title, specs, and interactive media/mockups.</li><li>Interactive Metric Callouts: Large <code>Neudron</code> stat numbers next to <code>IBM Plex Mono</code> descriptive captions.</li><li>Architectural Process Diagrams: Custom SVG node-and-connector flowcharts using <code>#545260</code> stroke lines and <code>#d0bcff</code> nodes.</li></ul></section><section><h2>5. Layout Principles</h2><h3>Spacing System</h3><ul><li>Base unit: <code>8px</code></li><li>Repeated spacing values: <code>8px</code>, <code>16px</code>, <code>24px</code>, <code>32px</code>, <code>48px</code>, <code>80px</code></li></ul><h3>Grid &amp; Container</h3><ul><li>Grid logic: 2-column split layout, max-width <code>1320px</code>.</li><li>Max content width: <code>1320px</code></li><li>Section spacing: <code>clamp(72px, 12vh, 160px)</code></li></ul><h3>Whitespace Philosophy</h3><ul><li>Whitespace philosophy: Generous slide-by-slide vertical cadence giving every case study dedicated focal area.</li><li>Alignment tendencies: Left-aligned titles and narrative copy with right-aligned process diagrams or phone mockups.</li><li>Content width behavior: Max content width restricted to 1320px, centered horizontally.</li></ul><h3>Border Radius Scale</h3><ul><li>Micro: <code>4px</code></li><li>Standard: <code>10px</code></li><li>Large: <code>16px</code></li><li>Pill: <code>999px</code></li></ul></section><section><h2>6. Depth &amp; Elevation</h2><table><thead><tr><th>Level</th><th>Treatment</th><th>Use</th></tr></thead><tbody><tr><td>Flat</td><td><code>#0d0c11</code> (No border)</td><td>Main canvas background</td></tr><tr><td>Ring</td><td>Hairline <code>1px solid #2a2833</code></td><td>Component dividers and card outlines</td></tr><tr><td>Card</td><td><code>#16151c</code> + shadow <code>0 8px 24px rgba(0,0,0,0.4)</code></td><td>Presentation slide cards &amp; case studies</td></tr><tr><td>Focus</td><td>Outline <code>2px solid #d0bcff</code></td><td>Keyboard navigation &amp; focus state</td></tr></tbody></table></section><section><h2>7. Do&#39;s and Don&#39;ts</h2><h3>Do</h3><ul><li>Use fluid <code>clamp()</code> sizing for all heading and body font rules.</li><li>Maintain high contrast between dark background surfaces and bright pastel accent badges.</li><li>Keep structural elements aligned to an 8px spatial grid.</li></ul><h3>Don&#39;t</h3><ul><li>Don&#39;t use harsh pure black (<code>#000000</code>) or pure white (<code>#ffffff</code>) for main background and text.</li><li>Don&#39;t overcrowd cards—preserve slide-deck whitespace proportions.</li><li>Don&#39;t mix more than 3 accent colors in a single card module.</li></ul></section><section><h2>8. Responsive Behavior</h2><h3>Breakpoints</h3><table><thead><tr><th>Name</th><th>Width</th><th>Key Changes</th></tr></thead><tbody><tr><td>Mobile</td><td><code>&lt; 768px</code></td><td>Single-column stack, navigation collapses, clamp text scales down dynamically</td></tr><tr><td>Tablet</td><td><code>768px - 1024px</code></td><td>2-column grid with reduced gap (<code>40px</code>), medium clamp sizes</td></tr><tr><td>Desktop</td><td><code>&gt; 1024px</code></td><td>Full 2-column split deck view, gap 80px, max-width 1320px</td></tr></tbody></table><h3>Touch Targets</h3><ul><li>Minimum touch target height: <code>44px</code> for interactive CTAs and navigation items.</li></ul><h3>Collapsing Strategy</h3><ul><li>Desktop behavior: Side-by-side 2-column split layout with full interactive deck slides.</li><li>Tablet behavior: Grid gap reduces from 80px to 40px; typography scales down via fluid clamp.</li><li>Mobile behavior: All multi-column cards collapse into a single vertical scroll stack.</li></ul></section><section><h2>9. Agent Prompt Guide</h2><h3>Quick Color Reference</h3><ul><li>Primary CTA: <code>#d0bcff</code></li><li>Background: <code>#0d0c11</code></li><li>Heading text: <code>#ece9f1</code></li><li>Body text: <code>#a39fb0</code></li><li>Border or ring: <code>#2a2833</code></li><li>Accent: <code>#b9f2c8</code></li></ul><h3>Quick Summary</h3><p>Harrison Wheeler&#39;s portfolio design system is built on a midnight obsidian base (<code>#0d0c11</code>) with layered surface cards (<code>#16151c</code>), crisp high-contrast display typography (<code>Neudron</code>), technical monospace labels (<code>IBM Plex Mono</code>), and pastel accent highlights (<code>#d0bcff</code>, <code>#b9f2c8</code>). Layouts feel like a polished executive slide deck with generous spacing, fluid text scaling, and architectural case study mockups.</p><h3>Example Component Prompts</h3><ul><li>Hero: &quot;Build a dark editorial portfolio hero with a massive Neudron display heading, IBM Plex Mono uppercase eyebrow tag in lavender (#d0bcff), and obsidian surface card.&quot;</li><li>Card: &quot;Create a case study card with background #16151c, border 1px solid #2a2833, border-radius 16px, featuring a mint green badge (#b9f2c8) and large stat metric.&quot;</li></ul><h3>Ready-to-Use Prompt</h3><p>&quot;Design a high-end product design portfolio UI in Dark Mode. Use background #0d0c11, surface cards #16151c with 1px border #2a2833 and 16px radius. Set titles in bold display sans with off-white text #ece9f1, subtitles in muted lavender-grey #a39fb0, and tag pills in soft lavender #d0bcff or mint green #b9f2c8. Layout should feel like an executive presentation slide deck with fluid typography.&quot;</p><h3>Iteration Guide</h3><ol><li>Start with the midnight background <code>#0d0c11</code> and obsidian surface <code>#16151c</code>.</li><li>Apply <code>Neudron</code> for high-impact display titles and <code>IBM Plex Mono</code> for technical tags.</li><li>Accentuate key interactive elements with lavender <code>#d0bcff</code> and mint green <code>#b9f2c8</code>.</li></ol></section><section><h2>Optional Appendix: Observed Pages</h2><ul><li>https://www.harrisonwheeler.com/ : Homepage slide-deck portfolio showcasing Base CRM, LeadCraft, and Holiday case studies.</li></ul></section></article>
+            </div>
+          </article>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      const sourceView = document.getElementById("sourceView");
+      const previewView = document.getElementById("previewView");
+      const copyButton = document.getElementById("copyButton");
+      const copyState = document.getElementById("copyState");
+      const viewButtons = document.querySelectorAll("[data-view]");
+
+      function setActiveView(view) {
+        const showSource = view === "source";
+        sourceView.hidden = !showSource;
+        previewView.hidden = showSource;
+        viewButtons.forEach((button) => {
+          button.classList.toggle("is-active", button.dataset.view === view);
+        });
+      }
+
+      viewButtons.forEach((button) => {
+        button.addEventListener("click", () => setActiveView(button.dataset.view));
+      });
+
+      copyButton.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(sourceView.textContent || "");
+          copyState.textContent = "Copied";
+        } catch (error) {
+          copyState.textContent = "Clipboard unavailable";
+        }
+
+        setTimeout(() => {
+          copyState.textContent = "";
+        }, 1400);
+      });
+    </script>
+  </body>
+</html>

@@ -56,6 +56,13 @@
   color: var(--color-text-muted);
 }
 
+.heroSummary {
+  max-width: 34rem;
+  font-size: 1.02rem;
+  line-height: 1.8;
+  color: var(--color-text-secondary);
+}
+
 .heroVisual {
   position: relative;
   border-radius: var(--radius-2xl);
@@ -185,41 +192,33 @@
 }
 
 /* ── GSAP Horizontal Pan (Iterations) ─────────────── */
-.panWrapper {
-  position: relative;
-  overflow: hidden;
-  background: var(--color-bg-elevated);
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.panHeader {
-  position: absolute;
-  top: 4rem;
-  left: clamp(2rem, 5vw, 4rem);
-  z-index: 10;
-}
-
-.panTrack {
-  display: flex;
-  height: 100dvh;
-  align-items: center;
-  padding: 0 50vw 0 clamp(2rem, 5vw, 4rem);
-  gap: 4rem;
-  width: fit-content;
-}
-
-.iterCard {
-  width: clamp(300px, 40vw, 600px);
-  padding: 3rem;
-  border: 1px solid var(--color-border-accent);
-  border-radius: var(--radius-2xl);
-  background: rgba(20, 20, 25, 0.5);
-  backdrop-filter: blur(12px);
-  display: flex;
-  flex-direction: column;
+.iterationList,
+.solutionList,
+.decisionList,
+.imageList {
+  display: grid;
   gap: 1.5rem;
-  flex-shrink: 0;
+}
+
+.iterationRow,
+.decisionRow {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr);
+  gap: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.iterationMeta {
+  display: grid;
+  gap: 0.7rem;
+  align-content: start;
+}
+
+.iterationBody,
+.decisionMain {
+  display: grid;
+  gap: 0.85rem;
 }
 
 .iterationHeader {
@@ -256,59 +255,28 @@
   color: var(--color-text-primary);
 }
 
-/* ── Bento Grid (Solutions) ───────────────────────── */
-.bentoGrid {
+.solutionRow {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
   gap: 1.5rem;
-  margin-top: 3rem;
+  align-items: stretch;
 }
 
-.bentoCell {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  border-radius: var(--radius-2xl);
-  overflow: hidden;
-  border: 1px solid var(--color-border);
-  background: var(--color-bg-elevated);
-  aspect-ratio: 4/5;
-}
-
-.bentoCell:nth-child(1) {
-  grid-column: span 2;
-  aspect-ratio: auto;
-}
-
-.bentoImg {
-  position: absolute;
-  top: 0;
-  left: 0;
+.solutionImage {
   width: 100%;
   height: 100%;
+  min-height: 18rem;
   object-fit: cover;
-  opacity: 0.4;
-  transition: opacity 0.5s ease;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
 }
 
-.bentoCell:hover .bentoImg {
-  opacity: 0.7;
-}
-
-.bentoGradient {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, var(--color-bg-elevated) 10%, transparent 80%);
-}
-
-.bentoContent {
-  position: relative;
-  z-index: 2;
-  margin-top: auto;
-  padding: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+.solutionCopy {
+  display: grid;
+  align-content: start;
+  gap: 0.9rem;
+  padding: 1.25rem 0;
 }
 
 .solutionIndex {
@@ -326,61 +294,19 @@
   color: var(--color-text-primary);
 }
 
-/* ── GSAP Sticky Stack (Decisions) ────────────────── */
-.stackWrapper {
-  position: relative;
-  background: var(--color-bg-primary);
-  padding: 4rem 0;
-}
-
-.stackHeader {
-  text-align: center;
-  max-width: 600px;
-  margin: 0 auto 4rem;
-}
-
 .decisionSubtitle {
   font-size: 1.125rem;
   line-height: 1.7;
   color: var(--color-text-muted);
-  margin-top: 1rem;
+  margin: 0 0 2rem;
 }
 
-.stackContainer {
-  position: relative;
-}
-
-.stackCard {
-  position: sticky;
-  top: 0;
-  min-height: 100dvh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-}
-
-.stackCardInner {
-  width: 100%;
-  max-width: 800px;
-  background: rgba(30, 30, 35, 0.6);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: var(--radius-2xl);
-  padding: 4rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  box-shadow: 0 24px 64px -16px rgba(0,0,0,0.5);
-}
-
-.decisionTabNum {
+.decisionIndex {
   font-family: var(--font-mono);
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 700;
   color: var(--color-accent);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.16em;
 }
 
 .decisionQuestion {
@@ -466,31 +392,16 @@
   margin: 0 auto;
 }
 
-.masonryGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-  margin-top: 3rem;
-}
-
-.imageFigure {
+.imageRow {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   margin: 0;
 }
 
-.imageFigure:nth-child(3n+1) {
-  grid-column: span 2;
-}
-
-.imageFigure:nth-child(3n+1) .image {
-  aspect-ratio: 21 / 9;
-}
-
 .image {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   border-radius: var(--radius-xl);
   background: var(--color-bg-elevated);
@@ -505,20 +416,150 @@
   text-transform: uppercase;
 }
 
+/* ── Design Craft Section ──────────────────────────── */
+.craftGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  margin-top: 2.5rem;
+}
+
+.craftCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2.5rem;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+}
+
+.craftHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.craftTag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.craftTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.2vw, 1.8rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+}
+
+/* Swatches */
+.swatchGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-top: 0.5rem;
+}
+
+.swatchCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+}
+
+.swatchChip {
+  width: 100%;
+  height: 3.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.15);
+}
+
+.swatchMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.swatchNameRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.swatchName {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.swatchHex {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-text-faint);
+}
+
+.swatchRole {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+/* Specs Badges */
+.specRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.specItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1.25rem;
+  background: rgba(168, 138, 223, 0.04);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+}
+
+.specValue {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  letter-spacing: -0.03em;
+}
+
+.specLabel {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
 /* ── Responsive ────────────────────────────────────── */
 @media (max-width: 1024px) {
-  .bentoGrid {
+  .solutionRow {
     grid-template-columns: 1fr;
-  }
-  .bentoCell:nth-child(1) {
-    grid-column: span 1;
-    aspect-ratio: 4/3;
   }
 }
 
 @media (max-width: 900px) {
   .hero {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding-top: 2rem;
   }
   .heroVisual {
     order: -1;
@@ -528,23 +569,23 @@
     bottom: auto;
     left: auto;
     margin-top: 1rem;
+    padding: 1.25rem 1.5rem;
   }
   .sectionGrid {
     grid-template-columns: 1fr;
   }
+  .iterationRow,
+  .decisionRow {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
   .metricRow {
     grid-template-columns: 1fr;
   }
-  .masonryGrid {
-    grid-template-columns: 1fr;
-  }
-  .imageFigure:nth-child(3n+1) {
-    grid-column: span 1;
-  }
-  .imageFigure:nth-child(3n+1) .image {
-    aspect-ratio: 4/3;
-  }
-  .stackCardInner {
-    padding: 2rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroMetricFloating {
+    transition: none;
   }
 }

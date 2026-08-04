@@ -118,7 +118,14 @@ export default function ProjectDetail() {
             <div className={styles.imageGallery}>
               {project.images.map((img, idx) => (
                 <figure key={idx} className={styles.imageFigure}>
-                  <img src={img.src} alt={img.alt[language]} className={styles.projectImage} loading="lazy" />
+                  <img
+                    src={img.src}
+                    alt={img.alt[language]}
+                    className={styles.projectImage}
+                    loading="lazy"
+                    width="1024"
+                    height="768"
+                  />
                   <figcaption className={styles.imageCaption}>{img.alt[language]}</figcaption>
                 </figure>
               ))}

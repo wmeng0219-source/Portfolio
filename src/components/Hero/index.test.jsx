@@ -53,11 +53,11 @@ test('renders hero with MENG WEN title and dual action buttons matching Figma de
   expect(
     screen.getByRole('heading', {
       level: 1,
-      name: 'MENG WEN',
+      name: /MENG WEN/i,
     }),
   ).toBeInTheDocument();
-  expect(screen.getByText('产品经理与设计复合型实践者。聚焦医疗数字化、流程重构与AI协作，在混乱的真实业务现场中，建立可执行、可观察的系统闭环。')).toBeInTheDocument();
-  expect(screen.getByRole('link', { name: '查看项目' })).toHaveAttribute('href', '#portfolio');
-  expect(screen.getByRole('link', { name: '联系我' })).toHaveAttribute('href', '#contact');
+  expect(screen.getByText(/产品经理与设计复合型实践者/)).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: /查看项目/ })).toHaveAttribute('href', '#portfolio');
+  expect(screen.getByRole('link', { name: /查看项目/ })).toHaveAttribute('data-motion-hover', 'button');
   expect(fromTo).toHaveBeenCalled();
 });

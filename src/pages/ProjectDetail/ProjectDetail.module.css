@@ -29,6 +29,9 @@
 .backLink {
   display: inline-flex;
   align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.1rem;
+  border-radius: 999px;
   color: var(--color-text-muted);
   font-size: 0.9rem;
   font-weight: 600;
@@ -38,6 +41,12 @@
 .backLink:hover {
   color: var(--color-text-primary);
   transform: translateX(-4px);
+}
+
+.backLink:focus-visible {
+  outline: none;
+  color: var(--color-text-primary);
+  box-shadow: 0 0 0 2px rgba(168, 138, 223, 0.72);
 }
 
 .header {
@@ -160,4 +169,10 @@
   justify-content: center;
   min-height: 50vh;
   gap: 1.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backLink {
+    transition: none;
+  }
 }

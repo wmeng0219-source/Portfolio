@@ -1,37 +1,46 @@
 :root {
-  /* ── Core palette (Dark Editorial) ── */
-  --color-bg-primary:    #0d0c11;
-  --color-bg-secondary:  #16151c;
-  --color-bg-elevated:   #1f1d26;
-  --color-text-primary:  #ece9f1;
-  --color-text-secondary: #a39fb0;
-  --color-text-muted:    #75717f;
-  --color-text-faint:    rgba(236, 233, 241, 0.25);
+  /* ── Core Palette (Product System Designer Portfolio) ── */
+  --bg-midnight:         #0B0F14;
+  --surface-obsidian:    #141922;
+  --surface-elevated:    #1C2330;
+  --border-hairline:     rgba(255, 255, 255, 0.12);
   
-  /* Accent (淡紫罗兰) */
-  --color-accent:        #d0bcff;
-  --color-accent-dim:    rgba(208, 188, 255, 0.18);
-  --color-accent-soft:   rgba(208, 188, 255, 0.08);
-  --color-accent-dark:   #b89df5;
+  --color-bg-primary:    #0B0F14; /* Midnight Base */
+  --color-bg-secondary:  #141922; /* Dark Surface */
+  --color-bg-elevated:   #1C2330; /* Elevated Surface */
   
-  /* Borders (极暗紫灰) */
-  --color-border:        #2a2833;
-  --color-border-strong: #3b3846;
-  --color-border-accent: rgba(208, 188, 255, 0.35);
-  --color-glass:         rgba(13, 12, 17, 0.75);
+  --color-text-primary:  #F2F2F5; /* Soft White */
+  --color-text-secondary: #A7ADB8; /* Cool Grey */
+  --color-text-muted:    #707784; /* Dim Grey */
+  --color-text-faint:    rgba(242, 242, 245, 0.25);
+  
+  /* Accents */
+  --color-accent:        #C8B6FF; /* Digital Lavender */
+  --color-accent-dim:    rgba(200, 182, 255, 0.18);
+  --color-accent-soft:   rgba(200, 182, 255, 0.08);
+  --color-accent-dark:   #b19cf0;
+  
+  --color-system-green:  #B8E6D0; /* System Green (Achievements/Status) */
+  --color-human-orange:   #FFD6A5; /* Human Orange (Human-centered nodes) */
 
-  /* ── Light section (Path / Experience) (已废弃，统一深色) ── */
-  --color-light-bg:      #0d0c11;
-  --color-light-text:    #ece9f1;
-  --color-light-muted:   #a39fb0;
-  --color-light-border:  #2a2833;
-  --color-light-accent:  #d0bcff;
+  /* Borders & Glass */
+  --color-border:        rgba(255, 255, 255, 0.12); /* Soft Border */
+  --color-border-strong: rgba(255, 255, 255, 0.22);
+  --color-border-accent: rgba(200, 182, 255, 0.35);
+  --color-glass:         rgba(11, 15, 20, 0.82);
 
-  --surface-warm:    rgba(22, 21, 28, 0.5);
-  --surface-neutral: rgba(31, 29, 38, 0.5);
+  /* ── Deprecated Light compatibility ── */
+  --color-light-bg:      #0B0F14;
+  --color-light-text:    #F2F2F5;
+  --color-light-muted:   #A7ADB8;
+  --color-light-border:  rgba(255, 255, 255, 0.12);
+  --color-light-accent:  #C8B6FF;
 
-  /* ── Figma Hero Tokens ── */
-  --color-hero-bg:          #06070B;
+  --surface-warm:    rgba(20, 25, 34, 0.6);
+  --surface-neutral: rgba(28, 35, 48, 0.6);
+
+  /* ── Hero Tokens ── */
+  --color-hero-bg:          #0B0F14;
   --color-hero-purple:      #C8B6FF;
   --color-hero-dark-purple: #352564;
 
@@ -39,30 +48,34 @@
   --font-title:   'Anton', 'Inter', sans-serif;
   --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
   --font-body:    'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-  --font-mono:    'DM Mono', monospace;
+  --font-mono:    'DM Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* ── Spacing ── */
-  --spacing-xs: 0.5rem;
-  --spacing-sm: 1rem;
-  --spacing-md: 2rem;
-  --spacing-lg: 4rem;
-  --spacing-xl: 6rem;
+  --spacing-xs: 0.5rem;   /* 8px */
+  --spacing-sm: 1rem;     /* 16px */
+  --spacing-md: 1.5rem;   /* 24px */
+  --spacing-lg: 2rem;     /* 32px */
+  --spacing-xl: 3rem;     /* 48px */
+  --spacing-2xl: 5rem;    /* 80px */
+  --spacing-3xl: 7.5rem;  /* 120px */
 
-  --section-pad-y:       clamp(6rem, 9.5vw, 10rem);
-  --section-pad-y-tight: clamp(5rem, 8vw, 8rem);
+  --section-pad-y:       clamp(5rem, 8.5vw, 10rem);
+  --section-pad-y-tight: clamp(4rem, 6.5vw, 7.5rem);
   --section-pad-x:       clamp(1.25rem, 4vw, 2.5rem);
 
   /* ── Radii ── */
   --radius-sm:   4px;
-  --radius-md:   10px;
-  --radius-lg:   16px;
+  --radius-md:   12px;   /* Standard components */
+  --radius-lg:   16px;   /* Cards & large containers */
   --radius-xl:   24px;
-  --radius-2xl:  32px;
   --radius-pill: 9999px;
+
+  /* ── Shadows ── */
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.35);
 
   /* ── Layout ── */
   --header-height:    68px;
-  --content-max:      1360px;
+  --content-max:      1280px;  /* Keynote 1280px container */
   --text-column-max:  40rem;
 
   /* ── Easing ── */
@@ -70,8 +83,8 @@
   --ease-spring: cubic-bezier(0.25, 0.1, 0.25, 1);
 
   /* ── Text scale ── */
-  --text-hero: clamp(4.5rem, 10vw, 9rem);
-  --text-h1:   clamp(2.8rem, 5vw, 4.8rem);
+  --text-hero: clamp(3rem, 8vw, 8.75rem); /* clamp(48px, 8vw, 140px) */
+  --text-h1:   clamp(2.5rem, 5vw, 4.5rem);
   --text-h2:   clamp(1.5rem, 2.5vw, 2.2rem);
   --text-body: 1.1rem;
   --text-small: 0.85rem;
