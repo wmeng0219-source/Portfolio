@@ -21,39 +21,42 @@ const Contact = () => {
 
   return (
     <section
-      className="w-full py-stack-lg px-margin-mobile md:px-margin-desktop bg-[#0d0c11] border-t border-[#2a2833] min-h-screen flex items-center justify-center grid-bg"
+      className="w-full py-24 px-margin-mobile md:px-margin-desktop bg-[var(--color-bg-primary)] border-t border-[var(--color-border)] min-h-screen flex items-center justify-center relative overflow-hidden"
       id="contact"
       data-motion-section
     >
-      <div className="max-w-container-max mx-auto flex flex-col items-center text-center">
+      <div className="max-w-container-max mx-auto flex flex-col items-center text-center relative z-10">
         <div className="space-y-12 max-w-4xl" data-motion-item>
           <div className="flex flex-col items-center gap-2 mb-4">
-            <span className="font-label-caps text-label-caps text-[#d0bcff] uppercase tracking-widest">
+            <span className="font-mono text-xs text-[var(--color-accent)] tracking-[0.2em] uppercase">
               04 / Contact
             </span>
-            <span className="font-label-caps text-xs text-[#a39fb0] opacity-60">
+            <span className="font-mono text-xs text-[var(--color-text-muted)] opacity-70">
               数字化产品系统 / 2025
             </span>
           </div>
 
-          <h2 className="font-display-hero text-5xl md:text-[140px] md:leading-[0.85] text-[#d0bcff] uppercase tracking-tighter mb-12 font-normal">
+          <h2 className="font-display text-5xl md:text-[100px] leading-[0.9] text-[var(--color-accent)] uppercase tracking-tight mb-8 font-bold">
             {t('contact.stage.title') || '欢迎联系我'}
           </h2>
+          <p className="text-[var(--color-text-secondary)] text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+            {t('contact.stage.body') || '适合讨论流程复杂、协作困难、需要系统化落地的产品问题。'}
+          </p>
 
-          <div className="flex flex-col items-center gap-6">
-            <div className="flex flex-col md:flex-row gap-8 mt-6">
+          <div className="flex flex-col items-center gap-6 pt-4">
+            <div className="flex flex-col sm:flex-row gap-6 mt-4">
               {/* WeChat Button */}
               <div className="group flex flex-col items-center">
-                <p className="font-label-caps text-label-caps text-[#a39fb0] uppercase tracking-widest mb-4">
+                <p className="font-mono text-xs text-[var(--color-text-muted)] uppercase tracking-widest mb-3">
                   {t('contact.stage.wechatLabel') || 'Phone / WeChat'}
                 </p>
                 <button
                   type="button"
                   onClick={() => copyText('wmeng219', 'wechat')}
-                  className="px-10 py-5 bg-[#16151c] border border-[#2a2833] rounded-full font-headline-md text-headline-md text-[#ece9f1] hover:border-[#d0bcff]/40 hover:-translate-y-0.5 transition-all active:scale-95 flex items-center gap-3 cursor-pointer"
+                  className="px-8 py-4 bg-[var(--color-bg-secondary)] border border-[var(--color-border)] rounded-[12px] font-mono text-base md:text-lg text-[var(--color-text-primary)] hover:border-[var(--color-border-accent)] hover:-translate-y-1 transition-all duration-200 active:scale-95 flex items-center gap-3 cursor-pointer"
                 >
                   <span>wmeng219</span>
-                  <span className="material-symbols-outlined text-[#d0bcff]" aria-hidden="true">
+                  <span className="material-symbols-outlined text-[var(--color-accent)] text-lg" aria-hidden="true">
                     {copiedWeChat ? 'check' : 'content_copy'}
                   </span>
                 </button>
@@ -61,15 +64,15 @@ const Contact = () => {
 
               {/* Email Button */}
               <div className="group flex flex-col items-center">
-                <p className="font-label-caps text-label-caps text-[#a39fb0] uppercase tracking-widest mb-4">
+                <p className="font-mono text-xs text-[var(--color-text-muted)] uppercase tracking-widest mb-3">
                   {t('contact.stage.emailLabel') || 'Email'}
                 </p>
                 <a
                   href="mailto:wmeng0219@gmail.com"
-                  className="px-10 py-5 bg-[#16151c] border border-[#2a2833] rounded-full font-headline-md text-headline-md text-[#ece9f1] hover:border-[#d0bcff]/40 hover:-translate-y-0.5 transition-all active:scale-95 flex items-center gap-3 no-underline"
+                  className="px-8 py-4 bg-[var(--color-bg-secondary)] border border-[var(--color-border)] rounded-[12px] font-mono text-base md:text-lg text-[var(--color-text-primary)] hover:border-[var(--color-border-accent)] hover:-translate-y-1 transition-all duration-200 active:scale-95 flex items-center gap-3 no-underline"
                 >
                   <span>wmeng0219@gmail.com</span>
-                  <span className="material-symbols-outlined text-[#d0bcff]" aria-hidden="true">
+                  <span className="material-symbols-outlined text-[var(--color-accent)] text-lg" aria-hidden="true">
                     {copiedEmail ? 'check' : 'content_copy'}
                   </span>
                 </a>
