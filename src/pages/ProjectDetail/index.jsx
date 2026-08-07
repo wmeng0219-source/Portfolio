@@ -7,15 +7,22 @@ import OrthodonticsCase from '../cases/Orthodontics';
 import PacsAiCase from '../cases/PacsAi';
 import styles from './ProjectDetail.module.css';
 
+const caseMap = {
+  'member-automation': MemberAutomationCase,
+  'orthodontics': OrthodonticsCase,
+  'pacs-ai': PacsAiCase,
+};
+
 export default function ProjectDetail() {
   const { id } = useParams();
   const { language } = useLanguage();
   const project = projects.find((p) => p.id === id);
+  const CaseComponent = caseMap[id];
 
-  if (!project) {
+  if (!project || !CaseComponent) {
     return (
       <div className={styles.notFound}>
-        <h2>{language === 'zh' ? '未找到该案例' : 'Project not found'}</h2>
+        <h2>{language === 'zh' ? '未找到该案例' : 'Project Not Found'}</h2>
         <Link to="/" className={styles.backLink}>
           ← {language === 'zh' ? '返回首页' : 'Back to Home'}
         </Link>
@@ -23,17 +30,5 @@ export default function ProjectDetail() {
     );
   }
 
-  if (project.id === 'member-automation') {
-    return <MemberAutomationCase project={project} />;
-  }
-
-  if (project.id === 'orthodontics') {
-    return <OrthodonticsCase project={project} />;
-  }
-
-  if (project.id === 'pacs-ai') {
-    return <PacsAiCase project={project} />;
-  }
-
-  return <MemberAutomationCase project={project} />;
+  return <CaseComponent project={project} />;
 }

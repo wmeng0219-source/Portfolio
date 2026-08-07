@@ -144,20 +144,58 @@ export default function MemberAutomationCase({ project }) {
           </div>
         </section>
 
+        {/* ── Design System & UX Craft ─────────────────────── */}
         {project.designCraft && (
           <section className={styles.section} data-animate>
             <p className={styles.sectionKicker}>{t(project.designCraft.title)}</p>
-            <p className={styles.bodyText}>{t(project.designCraft.subtitle)}</p>
+            <p className={styles.decisionSubtitle}>{t(project.designCraft.subtitle)}</p>
+
             <div className={styles.craftGrid}>
-              {project.designCraft.pillars.map((pillar) => (
-                <article key={t(pillar.title)} className={styles.craftCard}>
-                  <span className={styles.craftTag}>{t(pillar.tag)}</span>
-                  <h3 className={styles.craftTitle}>{t(pillar.title)}</h3>
+              {project.designCraft.pillars.map((pillar, i) => (
+                <article key={i} className={styles.craftCard}>
+                  <div className={styles.craftHeader}>
+                    <span className={styles.craftTag}>{t(pillar.tag)}</span>
+                    <h3 className={styles.craftTitle}>{t(pillar.title)}</h3>
+                  </div>
                   <p className={styles.bodyText}>{t(pillar.desc)}</p>
+
+                  {/* Render Swatches if available */}
+                  {pillar.swatches && (
+                    <div className={styles.swatchGrid}>
+                      {pillar.swatches.map((swatch, idx) => (
+                        <div key={idx} className={styles.swatchCard}>
+                          <div
+                            className={styles.swatchChip}
+                            style={{ backgroundColor: swatch.color }}
+                          />
+                          <div className={styles.swatchMeta}>
+                            <div className={styles.swatchNameRow}>
+                              <span className={styles.swatchName}>{t(swatch.name)}</span>
+                              <span className={styles.swatchHex}>{swatch.color}</span>
+                            </div>
+                            <span className={styles.swatchRole}>{t(swatch.role)}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Render Specs if available */}
+                  {pillar.specs && (
+                    <div className={styles.specRow}>
+                      {pillar.specs.map((spec, idx) => (
+                        <div key={idx} className={styles.specItem}>
+                          <span className={styles.specValue}>{spec.value}</span>
+                          <span className={styles.specLabel}>{t(spec.label)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </article>
               ))}
             </div>
           </section>
+        )}
         )}
 
         {/* ── Design Decisions ─────────────────────────────── */}
@@ -184,6 +222,27 @@ export default function MemberAutomationCase({ project }) {
         )}
 
         {/* ── Results & Interface Flow ─────────────────────────── */}
+        {project.detailMetrics && (
+          <section className={styles.section} data-animate>
+            <p className={styles.resultHeadline}>{t(project.detailMetrics.headline)}</p>
+
+            <div className={styles.metricRow}>
+              <div className={styles.metricCell}>
+                <span className={styles.metricCellValue}>{project.detailMetrics.before.value}</span>
+                <span className={styles.metricCellLabel}>{t(project.detailMetrics.before.label)}</span>
+              </div>
+              <div className={`${styles.metricCell} ${styles.metricCellAccent}`}>
+                <span className={styles.metricCellValue}>{project.detailMetrics.after.value}</span>
+                <span className={styles.metricCellLabel}>{t(project.detailMetrics.after.label)}</span>
+              </div>
+              <div className={`${styles.metricCell} ${styles.metricCellDelta}`}>
+                <span className={styles.metricCellValue}>{project.detailMetrics.delta.value}</span>
+                <span className={styles.metricCellLabel}>{t(project.detailMetrics.delta.label)}</span>
+              </div>
+            </div>
+          </section>
+        )}
+
         <section className={styles.section} data-animate>
           <p className={styles.resultHeadline}>
             {language === 'zh' ? '项目落地成果' : 'Project Results'}

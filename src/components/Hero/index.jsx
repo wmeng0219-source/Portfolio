@@ -79,7 +79,7 @@ const Hero = () => {
 
   return (
     <section
-      className="relative min-h-screen flex flex-col items-center justify-center px-margin-mobile md:px-margin-desktop text-center overflow-hidden bg-[#06070B]"
+      className="relative min-h-screen flex flex-col items-center justify-center grid-bg px-margin-mobile md:px-margin-desktop text-center overflow-hidden bg-[var(--color-bg-primary)]"
       id="hero"
       ref={sectionRef}
     >
@@ -114,9 +114,8 @@ const Hero = () => {
           </h1>
         </div>
 
-        {/* Bio Copy Paragraph: Figma Node 272:193 */}
         <p className="font-body text-lg md:text-2xl leading-relaxed text-white/90 max-w-3xl mx-auto font-light tracking-wide px-4" data-hero-anim="support">
-          产品经理与设计复合型实践者。聚焦医疗数字化、流程重构与AI协作，在混乱的真实业务现场中，建立可执行、可观察的系统闭环。
+          {t('hero.body') || '产品经理与设计复合型实践者。聚焦医疗数字化、流程重构与AI协作，在混乱的真实业务现场中，建立可执行、可观察的系统闭环。'}
         </p>
 
         {/* CTA Buttons Container: Figma Node 272:194 */}

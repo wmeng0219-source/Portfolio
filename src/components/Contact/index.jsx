@@ -32,7 +32,7 @@ const Contact = () => {
               04 / Contact
             </span>
             <span className="font-mono text-xs text-[var(--color-text-muted)] opacity-70">
-              数字化产品系统 / 2025
+              {t('contact.stage.sub') || '数字化产品系统 / 2025'}
             </span>
           </div>
 
@@ -73,7 +73,7 @@ const Contact = () => {
                 >
                   <span>wmeng0219@gmail.com</span>
                   <span className="material-symbols-outlined text-[var(--color-accent)] text-lg" aria-hidden="true">
-                    {copiedEmail ? 'check' : 'content_copy'}
+                    mail
                   </span>
                 </a>
               </div>

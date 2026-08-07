@@ -59,6 +59,85 @@ export const projects = [
       reconcileAfter: '1d',
       deployment: '20+ 家门店',
     },
+    detailMetrics: {
+      headline: {
+        zh: '单笔高复杂度交易处理耗时',
+        en: 'Single high-complexity checkout processing time',
+      },
+      before: { value: '4-5 min', label: { zh: '传统人工核对', en: 'Manual Checkout' } },
+      after:  { value: '1 min', label: { zh: '系统极速收银', en: 'Automated POS' } },
+      delta:  { value: '-75%', label: { zh: '效率提升', en: 'Time Saved' } },
+      context: {
+        zh: '高频会员收银环节由后台静默算价与审计日志承接，前台操作人员的角色从数据录入转变为异常处理。',
+        en: 'Automated settlement engine replaces manual price computation, shifting staff focus to anomaly handling.',
+      },
+      secondary: [
+        {
+          label: { zh: '财务对账', en: 'Month-end Audit' },
+          value: { zh: '月底对账由 3 天缩短至 1 天 (-66.7%)', en: 'Reconciliation cut from 3 days to 1 day' },
+        },
+        {
+          label: { zh: '门店覆盖', en: 'Store Deployment' },
+          value: { zh: '落地覆盖 20+ 高端零售与诊所门店', en: 'Deployed across 20+ retail clinics' },
+        },
+        {
+          label: { zh: '合规治理', en: 'Compliance' },
+          value: { zh: '不可篡改链式审计日志全局生效', en: 'Immutable audit logs active across network' },
+        },
+      ],
+    },
+    designCraft: {
+      title: { zh: '设计体系与交互策略', en: 'Design System & UX Craft' },
+      subtitle: {
+        zh: '从资金安全隐喻到高频收银场景下的认知负荷优化',
+        en: 'From fund safety metaphors to cognitive load optimization in high-frequency POS environment',
+      },
+      pillars: [
+        {
+          tag: { zh: '色彩与卡券语义', en: 'Color & Coupon Semantics' },
+          title: { zh: '交易状态与权益的层次化表达', en: 'Hierarchical Representation of Rights & Discounts' },
+          desc: {
+            zh: '在大宗会员结算与卡券叠加场景中，清晰直观的权益标识是防范错刷降损的关键。我们建立了高对比度颜色区分：',
+            en: 'In high-volume checkout, clear coupon tiering prevents cashier errors and protects margin compliance:',
+          },
+          swatches: [
+            {
+              color: '#C8B6FF',
+              name: { zh: '最优权益紫', en: 'Optimal Discount Purple' },
+              role: { zh: '系统推荐最高折扣 / 主结算路径', en: 'Auto-matched best discount / Primary path' },
+            },
+            {
+              color: '#B8E6D0',
+              name: { zh: '合规校验绿', en: 'Verified Audit Green' },
+              role: { zh: '风控校验通过 / 资金账户记账', en: 'Audit passed / Account ledger sync' },
+            },
+            {
+              color: '#FFD6A5',
+              name: { zh: '额度预警橙', en: 'Limit Alert Orange' },
+              role: { zh: '优惠叠加临界值 / 触发二次确认', en: 'Threshold limit reached / Require secondary confirmation' },
+            },
+            {
+              color: '#141922',
+              name: { zh: '暗暗卡片基底', en: 'Dark Card Base' },
+              role: { zh: '减轻前台全天候操作视觉疲劳', en: 'Reduces visual fatigue during long shifts' },
+            },
+          ],
+        },
+        {
+          tag: { zh: '渐进式暴露与快捷操作', en: 'Progressive Disclosure & Keyboard Ergonomics' },
+          title: { zh: '极速收银环境下的键盘流交互', en: 'Keyboard-first Navigation for Express Checkout' },
+          desc: {
+            zh: '收银人员长期保持极高操作频次。界面支持 Enter / Tab / Esc 快捷键全程无鼠标收银，高级规则配置收纳于二级面板，确保 95% 主流程 1 秒完成。',
+            en: 'Cashiers require rapid keyboard interaction. Enter/Tab hotkeys allow mouse-free checkout, while advanced override options remain accessible via secondary drawer.',
+          },
+          specs: [
+            { label: { zh: '快捷键覆盖', en: 'Shortcut Coverage' }, value: '100%' },
+            { label: { zh: '默认路径层级', en: 'Primary Path Depth' }, value: '1 Screen' },
+            { label: { zh: '认知响应', en: 'Cognitive Latency' }, value: '< 1s' },
+          ],
+        },
+      ],
+    },
     process: [
       {
         version: 'V1',
@@ -125,20 +204,8 @@ export const projects = [
     ],
     images: [
       {
-        src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBvF_aIq_oQrmAGS0GNHu0ZE0jMYLfEN29hDX_zfO6jRFHQUkcIJKZ_T3QW7l7QtVFMzvKeHQb9Oaq8G7kigfaFBPJtU67CkBt59pXr1JqPbRf0MRSZG6f8aK4l1hhoY4bJoX9qlGouzNr55llLitRZrPiggcOt5_LB_sWMWPeOKjrabb9ZAjuY2ZQPZzzfZvhNqocDQkidTP1XvLgHcStgqVOrLtB3vQHNlg7a75IFA0fDEo7ZDI6l8g',
-        alt: { zh: '核心模块 01：中央规则配置引擎', en: 'Core Module 01: Central Rule Configuration Engine' },
-      },
-      {
-        src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAYZhP-F0BgUJt5DeX_l-aLKYiKQf2wbanzTEElRMY4KIGjMqK9PmfEIId34gY7XQAMG3GoUkb_e4fq7Qb-0Y13bZ2qq8s2VPSXhx3AFwA5VNMxy-djlRKlQxgML9XC5ofNvDtuz_qT9OAg-qRg22Ny_APDHrM3O4ZDHQOb1Yf4EUKOYBpypP9b0Uf0eTmLfyl2IIUydx6_YdW2tDM9dysHxeILniiyICGbmbmyA89hdYD0Y-TY5sBYPg',
-        alt: { zh: '核心模块 02：前台极速收银终端', en: 'Core Module 02: Frontline Express POS Terminal' },
-      },
-      {
-        src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDS-o4y-NAz5XbhC24xJ8dRgnllJm7yJyf5V9x8IamHhiXKK2EpNF6D0FO1q9lQhOpfXwLd04KVFc4bYH9AufC0eyBmYTOK5KtJvHT75kLof8xES2iP-FqY8R5oH2pXcB62f0j4QDQ9zl2aKwjaPj-sRxqqDXEv6dR-S9tfqJRRtcZhmGXxZBITrtVvrMqP0Z7UxDVTdhbuDqI_bEHYyUu1As9gCDcXBcrwtjm2lvdha-3hxslsE4QzxA',
-        alt: { zh: '核心模块 03：全渠道会员数据流转', en: 'Core Module 03: Omni-channel Member Data Stream' },
-      },
-      {
-        src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDBCkvjhQCnNNV1KBwSpKEfjCU-T8xPZJtUhMWUVRERKKm-i31_EYk8uPZEjOW6Pq5yuoBflzld4pBqK3S3lZmYo-R568qiZNQzFAL25-Se7Z3bb7nm3b-3N8Hwrkjsm54OXFrWjiIc7vXLSIeoLWJCmwcR9AHMceRDdb46mTq5z_OerARCI2FlcVqFMzbCd8OW4OEeh0NxgnJ2qVp_bd7tM5nBbfXmf2rajrxlJ4yi7_QNd6XMYmSo3Q',
-        alt: { zh: '核心模块 04：合规治理与财务看板', en: 'Core Module 04: Compliance & Financial Audit Dashboard' },
+        src: withBasePath('images/member/member_cover.svg'),
+        alt: { zh: '核心模块 01：中央规则配置与极速收银终端', en: 'Core Module 01: Central Rule Engine & Express Checkout POS' },
       },
     ],
   },
@@ -209,14 +276,121 @@ export const projects = [
       insight: { zh: '接诊现场繁忙，字段多、判断重，流程完整却难以持续执行。', en: 'Clinics were busy; too many fields and professional judgments made the flow complete on paper but difficult to sustain.' },
       after: { zh: '最终只保留基础筛查信息，把专业影像判断和最终结论交给正畸医生。', en: 'The final flow retained basic screening information and returned professional image judgment and conclusions to orthodontists.' },
     },
-    designCraft: {
-      title: { zh: '设计手艺与边界状态', en: 'Design Craft & Edge Cases' },
-      pillars: [
-        { title: { zh: '按角色渐进呈现', en: 'Progressive disclosure by role' }, desc: { zh: '儿牙医生只看当下必填的基础筛查，专业结论在正畸角色阶段出现，减少接诊认知负荷。', en: 'Pediatric dentists see only required basic screening; professional conclusions appear at the orthodontist stage, reducing clinical load.' } },
-        { title: { zh: '资料有效期可见', en: 'Visible record validity' }, desc: { zh: '面相照片 6 个月，口扫和全景片 1 年；超期提示重新采集。', en: 'Facial photos remain valid for six months, scans and panoramic images for one year; expired records prompt recollection.' } },
-        { title: { zh: '异常可重新进入', en: 'Exceptions can re-enter' }, desc: { zh: '暂不干预、外院矫正和异常结束保留原因与再评估时间，避免患者永久退出流程。', en: 'Deferred care, external treatment, and exceptional closure preserve a reason and reassessment time so patients can re-enter.' } },
+    detailMetrics: {
+      headline: {
+        zh: '正畸矫正全链路转化率',
+        en: 'Full-funnel orthodontic conversion rate',
+      },
+      before: { value: '30-40%', label: { zh: '线下黑盒跟进', en: 'Offline Coordination' } },
+      after:  { value: '50-60%', label: { zh: '状态机漏斗追踪', en: 'State-Machine Funnel' } },
+      delta:  { value: '+20%', label: { zh: '转化提升', en: 'Conversion Uplift' } },
+      context: {
+        zh: '打破跨角色协作黑盒，精准留痕支撑儿牙医生"转诊费激励机制"，使每个筛查环节首次可观察。',
+        en: 'System tracking accurately records pedodontist referral incentives, bringing visibility to each screening step.',
+      },
+      secondary: [
+        {
+          label: { zh: '推荐目标', en: 'Target Recommended' },
+          value: { zh: '9,274 患儿全量覆盖', en: '9,274 patient pool mapped' },
+        },
+        {
+          label: { zh: '筛查转交', en: 'Screening Handoff' },
+          value: { zh: '4,579 例精准转交率 49.4%', en: '4,579 handoffs (49.4% rate)' },
+        },
+        {
+          label: { zh: '签约锁定', en: 'Contract Booked' },
+          value: { zh: '1,239 例跟进预约锁死', en: '1,239 contracts locked in funnel' },
+        },
       ],
     },
+    designCraft: {
+      title: { zh: '设计体系与交互策略', en: 'Design System & UX Craft' },
+      subtitle: {
+        zh: '从状态机色彩定义到替牙期发育优先级的调度策略',
+        en: 'From state machine visual language to dentition development priority scheduling',
+      },
+      pillars: [
+        {
+          tag: { zh: '状态机色彩语义', en: 'State Machine Color Semantics' },
+          title: { zh: '漏斗节点与角色权责的视觉语言', en: 'Visual Language for Funnel Nodes & Role Duties' },
+          desc: {
+            zh: '在儿牙与正畸多角色转诊中，状态切换必须一目了然。我们建立了兼顾医学严谨性与转化动力的色彩体系：',
+            en: 'In multi-role dental referrals, status transitions must be immediate. We established a color system balancing medical rigor with conversion energy:',
+          },
+          swatches: [
+            {
+              color: '#B8E6D0',
+              name: { zh: '转化完成绿', en: 'Conversion Success Green' },
+              role: { zh: '签约锁定 / 矫正计划成立', en: 'Contract locked / Ortho plan started' },
+            },
+            {
+              color: '#C8B6FF',
+              name: { zh: '会诊推进紫', en: 'Consultation Purple' },
+              role: { zh: '正畸专家评估中 / 状态跟进中', en: 'Specialist evaluation / Active follow-up' },
+            },
+            {
+              color: '#FFD6A5',
+              name: { zh: '紧迫干预橙', en: 'Urgent Intervention Orange' },
+              role: { zh: '发育关键窗口期 / 需优先复筛', en: 'Critical eruption window / Priority rescreening' },
+            },
+            {
+              color: '#1C2330',
+              name: { zh: '状态容器底色', en: 'State Container Surface' },
+              role: { zh: '模块化卡片高亮与网格分割', en: 'Modular card surface & grid division' },
+            },
+          ],
+        },
+        {
+          tag: { zh: '视线聚焦与带宽调度', en: 'Visual Hierarchy & Bandwidth Scheduling' },
+          title: { zh: '发育优先级与任务看板分流', en: 'Eruption Priority & Task Dashboard Triage' },
+          desc: {
+            zh: '门诊接诊带宽有限，系统放弃无差别推流。设计了基于替牙发育阶段（恒牙列 ➔ 余4颗乳牙 ➔ 2-2萌出）的 5 级优先级调度轴，结合多角色切换 Tab 呈现。',
+            en: 'Clinic capacity is finite. We designed a 5-tier eruption scheduling pipeline (Permanent ➔ 4 Primary ➔ 2-2 Erupted) with role-based tab views.',
+          },
+          specs: [
+            { label: { zh: '优先级阶梯', en: 'Priority Tiers' }, value: '5 Stages' },
+            { label: { zh: '角色看板', en: 'Role Dashboards' }, value: '4 Roles' },
+            { label: { zh: '漏斗透明度', en: 'Funnel Visibility' }, value: '100%' },
+          ],
+        },
+      ],
+    },
+    process: [
+      {
+        version: 'V1',
+        label: { zh: '阶段 01: 规则与拆分', en: 'Phase 01: Rules & Roles' },
+        title: { zh: '取消一次性快筛，建立持续跟进机制', en: 'Abolish One-off Screening, Establish Continuous Track' },
+        desc: {
+          zh: '将筛查从“当次是否做”转变为“什么时候做、由谁做、何时再次进入流程”的动态推荐机制。',
+          en: 'Shifted screening from a one-time gate into a continuous recommendation algorithm.',
+        },
+      },
+      {
+        version: 'V2',
+        label: { zh: '阶段 02: 状态机与激励', en: 'Phase 02: State Machine & Incentives' },
+        title: { zh: '状态化漏斗与儿牙转诊激励留痕', en: 'State Machine Funnel & Pedodontist Incentive Log' },
+        desc: {
+          zh: '系统留痕记录儿牙医生的筛选贡献，为门诊“转诊费激励”提供不可篡改的数据依据，打通业务与系统激励。',
+          en: 'System tracks pedodontist screening referrals to back business incentive payouts with reliable audit data.',
+        },
+      },
+    ],
+    decisions: [
+      {
+        question: { zh: '为什么放弃全量筛查推流？', en: 'Why drop bulk screening pushes?' },
+        choice: {
+          zh: '门诊医生和正畸专家的人力带宽有限。无差别推流会导致高质量高危患儿被埋没在低价值任务中。按发育优先级分流能够保障核心窗口期患儿获得 100% 专家覆盖。',
+          en: 'Clinic expert bandwidth is limited. Bulk pushing drowns high-risk cases in noise. Eruption-stage triage ensures critical window cases get 100% expert attention.',
+        },
+      },
+      {
+        question: { zh: '儿牙医生的角色为什么需要从“信息传递”升级为“前置筛查”？', en: 'Why elevate pedodontist role to upstream screening?' },
+        choice: {
+          zh: '儿牙医生是患儿最高频接触的信任节点。赋予其初筛权责并辅以系统转诊激励，能够大幅提升早期筛查率和患者信任粘性。',
+          en: 'Pedodontists build highest patient trust. Empowering them with screening plus system referral tracking boosts early detection and conversion.',
+        },
+      },
+    ],
     timelineSteps: [
       { step: 1, title: { zh: '恒牙列', en: 'Permanent' }, desc: { zh: '最高优：发育关键期', en: 'Highest Priority' } },
       { step: 2, title: { zh: '余四颗乳牙', en: '4 Primary Left' }, desc: { zh: '次高优：即将换牙', en: 'High Priority' } },
@@ -250,6 +424,18 @@ export const projects = [
       zh: '内部业务统计，对比周期为 2025 年 2—4 月与 2026 年 2—4 月；指标为全门店正畸成交转化率。',
       en: 'Internal business statistics comparing Feb–Apr 2025 with Feb–Apr 2026; the metric is all-clinic orthodontic sales conversion.',
     },
+    funnelData: [
+      { stage: { zh: '系统推荐目标', en: 'System Recommended' }, value: 9274, percentage: 100 },
+      { stage: { zh: '筛查转交', en: 'Screening Handoff' }, value: 4579, percentage: 49.37 },
+      { stage: { zh: '识别需矫', en: 'Ortho Required' }, value: 2466, percentage: 26.59 },
+      { stage: { zh: '矫正跟进预约', en: 'Follow-up Booked' }, value: 1239, percentage: 13.36 },
+    ],
+    images: [
+      {
+        src: withBasePath('images/ortho/ortho_cover.svg'),
+        alt: { zh: '核心模块：正畸状态机与全链路转化漏斗', en: 'Core Module: Orthodontic State Machine & Full Conversion Funnel' },
+      },
+    ],
   },
   {
     id: 'pacs-ai',

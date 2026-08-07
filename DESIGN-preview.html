@@ -3,37 +3,37 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Harrison Wheeler Portfolio Preview</title>
+    <title>Complex Systems Portfolio Preview</title>
     <meta name="color-scheme" content="light" />
     <style>
       :root {
-        --page-bg: #0d0c11;
-        --page-bg-muted: rgb(13, 12, 17);
-        --surface-bg: #0d0c11;
-        --surface-bg-muted: rgb(13, 12, 17);
-        --surface-border: #2a2833;
-        --surface-border-strong: rgb(44, 43, 48);
-        --surface-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 2px 2px rgba(0, 0, 0, 0.04), 0 8px 8px -8px rgba(0, 0, 0, 0.04);
-        --surface-shadow-soft: 0 0 0 1px #2a2833;
-        --ink: #ece9f1;
-        --muted: #a39fb0;
-        --subtle: rgb(116, 114, 120);
-        --accent: #d0bcff;
-        --font-body: Neudron, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-        --font-display: Neudron, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-        --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", "SF Mono", Menlo, monospace;
+        --page-bg: #0B0F14;
+        --page-bg-muted: rgb(20, 25, 34);
+        --surface-bg: #1C2330;
+        --surface-bg-muted: rgb(20, 25, 34);
+        --surface-border: rgba(255,255,255,0.12);
+        --surface-border-strong: rgb(43, 47, 52);
+        --surface-shadow: 0 16px 48px rgba(0, 0, 0, 0.32);
+        --surface-shadow-soft: 0 0 0 1px rgba(255,255,255,0.12);
+        --ink: #F2F2F5;
+        --muted: #A7ADB8;
+        --subtle: rgb(117, 119, 124);
+        --accent: #C8B6FF;
+        --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+        --font-display: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+        --font-mono: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, monospace;
         --body-size: 14px;
         --body-line: 20px;
         --body-weight: 400;
         --label-size: 12px;
         --label-line: 16px;
-        --label-track: 0.08em;
+        --label-track: 0.04em;
         --title-size: 24px;
         --title-line: 28px;
-        --title-track: -0.01em;
+        --title-track: -0.03em;
         --section-size: 20px;
         --section-line: 24px;
-        --section-track: -0.01em;
+        --section-track: -0.02em;
         --source-size: 13px;
         --source-line: 20px;
         --space-1: 8px;
@@ -42,15 +42,15 @@
         --space-4: 24px;
         --space-5: 32px;
         --space-6: 40px;
-        --radius-panel: 10px;
-        --radius-card: 10px;
-        --radius-micro: 4px;
+        --radius-panel: 8px;
+        --radius-card: 8px;
+        --radius-micro: 6px;
         --radius-pill: 999px;
-        --button-height: 40px;
+        --button-height: 44px;
         --button-font-size: 12px;
-        --button-weight: 500;
-        --button-radius: 999px;
-        --secondary-button-radius: 999px;
+        --button-weight: 600;
+        --button-radius: 9999px;
+        --secondary-button-radius: 9999px;
         --layout-gap: 24px;
         --page-padding: 24px;
       }
@@ -140,7 +140,7 @@
         top: 0;
         height: 3px;
         border-radius: 999px;
-        background: linear-gradient(90deg, #d0bcff 0%, #b9f2c8 33%, #ffd8e4 67%, #0d0c11 100%);
+        background: linear-gradient(90deg, #0B0F14 0%, #141922 33%, #1C2330 67%, #F2F2F5 100%);
       }
 
       .eyebrow {
@@ -501,26 +501,26 @@
 
       .cta-primary {
         border: 1px solid transparent;
-        background: #171717;
-        color: #ffffff;
-        border-radius: 999px;
+        background: #C8B6FF;
+        color: #0B0F14;
+        border-radius: 9999px;
       }
 
       .cta-secondary {
-        border: 1px solid #171717;
-        background: #ffffff;
-        color: #171717;
-        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,0.12);
+        background: #1C2330;
+        color: #F2F2F5;
+        border-radius: 9999px;
         box-shadow: var(--surface-shadow-soft);
       }
 
       .card-preview {
         padding: 16px;
-        border-radius: 10px;
+        border-radius: 8px;
         border: 1px solid color-mix(in srgb, var(--surface-border-strong) 72%, transparent);
         background: var(--surface-bg);
         color: var(--ink);
-        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 2px 2px rgba(0, 0, 0, 0.04), 0 8px 8px -8px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.32);
       }
 
       .card-preview h4 {
@@ -603,7 +603,7 @@
         gap: 6px;
         padding: 8px 12px;
         border: 1px solid var(--surface-border);
-        border-radius: 4px;
+        border-radius: 6px;
         background: var(--surface-bg);
         box-shadow: var(--surface-shadow-soft);
         cursor: pointer;
@@ -701,7 +701,7 @@
 
       .rendered-view code {
         padding: 0.14em 0.4em;
-        border-radius: 4px;
+        border-radius: 6px;
         background: var(--surface-bg-muted);
         color: var(--ink);
         font-family: var(--font-mono);
@@ -759,11 +759,11 @@
           <article class="panel hero-card">
             <div class="panel-inner">
               <div class="eyebrow">Design Preview</div>
-              <h1 class="site-title">Harrison Wheeler Portfolio</h1>
-              <p class="descriptor">Harrison Wheeler&#39;s personal portfolio website presents a high-end, dark editorial design lea...</p>
-              <div class="chip-row"><span class="chip">Midnight Dark Base (#0d0c11) wit...</span><span class="chip">Fluid Display Typography using N...</span><span class="chip">Pastel Accent System introducing...</span><span class="chip">Deck Slide Architecture utilizin...</span></div>
-              <p class="summary">Harrison Wheeler&#39;s personal portfolio website presents a high-end, dark editorial design leader aesthetic. The overall mood is sophisticated, architectural, and deeply atmospheric—combining ultra-dark charcoal surfaces with crisp, fluid typography and soft pastel accent pops (lavender, mint green, and soft pink).</p>
-              <a class="observed-link" href="https://www.harrisonwheeler.com/" target="_blank" rel="noreferrer">https://www.harrisonwheeler.com/</a>
+              <h1 class="site-title">Complex Systems Portfolio</h1>
+              <p class="descriptor">这是一个为复杂业务系统产品经理建立的深色编辑型作品集系统。它用强排版、结构化证据与克制动效，把复杂项目组织成可以快速扫描、继续深读并验证判断的叙事，而不是把页面做成模板化的视觉作品陈列...</p>
+              <div class="chip-row"></div>
+              <p class="summary">这是一个为复杂业务系统产品经理建立的深色编辑型作品集系统。它用强排版、结构化证据与克制动效，把复杂项目组织成可以快速扫描、继续深读并验证判断的叙事，而不是把页面做成模板化的视觉作品陈列。</p>
+
             </div>
           </article>
 
@@ -772,53 +772,46 @@
               <h2 class="section-title">Palette</h2>
               <p class="section-subtitle">Roles and neutrals rendered using the extracted design system rather than a separate display theme.</p>
               <div class="palette-grid"><div class="palette-row"><div class="swatch">
-    <div class="swatch-box" style="background:#d0bcff;"></div>
-    <div class="swatch-label">Soft Lavender</div>
-    <div class="swatch-meta">
-      <span>#d0bcff</span>
-      <span>Primary action</span>
-    </div>
-  </div><div class="swatch">
-    <div class="swatch-box" style="background:#b9f2c8;"></div>
-    <div class="swatch-label">Pastel Mint Green</div>
-    <div class="swatch-meta">
-      <span>#b9f2c8</span>
-      <span>Accent</span>
-    </div>
-  </div><div class="swatch">
-    <div class="swatch-box" style="background:#ffd8e4;"></div>
-    <div class="swatch-label">Soft Powder Pink</div>
-    <div class="swatch-meta">
-      <span>#ffd8e4</span>
-      <span>Accent</span>
-    </div>
-  </div></div><div class="palette-row neutral-row"><div class="swatch">
-    <div class="swatch-box" style="background:#0d0c11;"></div>
+    <div class="swatch-box" style="background:#0B0F14;"></div>
     <div class="swatch-label">Midnight Base</div>
     <div class="swatch-meta">
-      <span>#0d0c11</span>
+      <span>#0B0F14</span>
+      <span>Page background</span>
+    </div>
+  </div><div class="swatch">
+    <div class="swatch-box" style="background:#141922;"></div>
+    <div class="swatch-label">Dark Surface</div>
+    <div class="swatch-meta">
+      <span>#141922</span>
       <span>Surface</span>
     </div>
   </div><div class="swatch">
-    <div class="swatch-box" style="background:#16151c;"></div>
-    <div class="swatch-label">Obsidian Card</div>
+    <div class="swatch-box" style="background:#1C2330;"></div>
+    <div class="swatch-label">Elevated Surface</div>
     <div class="swatch-meta">
-      <span>#16151c</span>
-      <span>Surface</span>
+      <span>#1C2330</span>
+      <span>Elevated surface</span>
+    </div>
+  </div></div><div class="palette-row neutral-row"><div class="swatch">
+    <div class="swatch-box" style="background:#F2F2F5;"></div>
+    <div class="swatch-label">Soft White</div>
+    <div class="swatch-meta">
+      <span>#F2F2F5</span>
+      <span>Primary text</span>
     </div>
   </div><div class="swatch">
-    <div class="swatch-box" style="background:#1f1d26;"></div>
-    <div class="swatch-label">Surface Elevated</div>
+    <div class="swatch-box" style="background:#A7ADB8;"></div>
+    <div class="swatch-label">Cool Grey</div>
     <div class="swatch-meta">
-      <span>#1f1d26</span>
-      <span>Surface</span>
+      <span>#A7ADB8</span>
+      <span>Secondary text</span>
     </div>
   </div><div class="swatch">
-    <div class="swatch-box" style="background:#ece9f1;"></div>
-    <div class="swatch-label">Crisp Off-White</div>
+    <div class="swatch-box" style="background:#707784;"></div>
+    <div class="swatch-label">Dim Grey</div>
     <div class="swatch-meta">
-      <span>#ece9f1</span>
-      <span>Text</span>
+      <span>#707784</span>
+      <span>Tertiary text</span>
     </div>
   </div></div></div>
             </div>
@@ -837,50 +830,95 @@
               <h2 class="section-title">Typography</h2>
               <p class="section-subtitle">The preview shell itself now uses the extracted typography stack, sizes, line heights, and tracking.</p>
               <div class="type-list"><div class="type-row">
-        <div class="type-role">Hero headline</div>
+        <div class="type-role">Display XL</div>
         <div
           class="type-sample"
-          style="font-size:12px; line-height:12px; font-weight:700; letter-spacing:-0.03em; font-family:Neudron, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif;"
+          style="font-size:12px; line-height:12px; font-weight:400; letter-spacing:normal; font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif;"
         >
           The quick brown fox jumps
         </div>
-        <div class="type-metrics">clamp(2.6rem, 14.5vw, 13rem) • 700 • 0.92</div>
+        <div class="type-metrics">clamp(4.5rem, 11vw, 10rem) • 400 • 0.88</div>
       </div><div class="type-row">
-        <div class="type-role">Section heading</div>
+        <div class="type-role">Display L</div>
         <div
           class="type-sample"
-          style="font-size:12px; line-height:12px; font-weight:600; letter-spacing:-0.01em; font-family:Neudron, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif;"
+          style="font-size:12px; line-height:12px; font-weight:400; letter-spacing:normal; font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif;"
         >
           The quick brown fox jumps
         </div>
-        <div class="type-metrics">clamp(2.8rem, 7.6vw, 6.4rem) • 600 • 1.05</div>
+        <div class="type-metrics">clamp(3.5rem, 8vw, 7.5rem) • 400 • 0.92</div>
+      </div><div class="type-row">
+        <div class="type-role">H1</div>
+        <div
+          class="type-sample"
+          style="font-size:12px; line-height:12px; font-weight:700; letter-spacing:normal; font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif;"
+        >
+          The quick brown fox jumps
+        </div>
+        <div class="type-metrics">clamp(2.75rem, 6vw, 5.5rem) • 700 • 1.0</div>
+      </div><div class="type-row">
+        <div class="type-role">H2</div>
+        <div
+          class="type-sample"
+          style="font-size:12px; line-height:12px; font-weight:500; letter-spacing:normal; font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif;"
+        >
+          The quick brown fox jumps
+        </div>
+        <div class="type-metrics">clamp(2rem, 4vw, 3.75rem) • 650 • 1.08</div>
+      </div><div class="type-row">
+        <div class="type-role">H3</div>
+        <div
+          class="type-sample"
+          style="font-size:12px; line-height:12px; font-weight:600; letter-spacing:normal; font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif;"
+        >
+          The quick brown fox jumps
+        </div>
+        <div class="type-metrics">clamp(1.5rem, 2.5vw, 2.25rem) • 600 • 1.18</div>
+      </div><div class="type-row">
+        <div class="type-role">H4</div>
+        <div
+          class="type-sample"
+          style="font-size:12px; line-height:12px; font-weight:600; letter-spacing:normal; font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif;"
+        >
+          The quick brown fox jumps
+        </div>
+        <div class="type-metrics">clamp(1.125rem, 1.5vw, 1.375rem) • 600 • 1.3</div>
+      </div><div class="type-row">
+        <div class="type-role">Lead</div>
+        <div
+          class="type-sample"
+          style="font-size:12px; line-height:12px; font-weight:400; letter-spacing:normal; font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif;"
+        >
+          The quick brown fox jumps
+        </div>
+        <div class="type-metrics">clamp(1.25rem, 2vw, 1.75rem) • 400 • 1.5</div>
+      </div><div class="type-row">
+        <div class="type-role">Body L</div>
+        <div
+          class="type-sample"
+          style="font-size:12px; line-height:12px; font-weight:400; letter-spacing:normal; font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif;"
+        >
+          The quick brown fox jumps
+        </div>
+        <div class="type-metrics">clamp(1.0625rem, 1.3vw, 1.25rem) • 400 • 1.7</div>
       </div><div class="type-row">
         <div class="type-role">Body</div>
         <div
           class="type-sample"
-          style="font-size:12px; line-height:12px; font-weight:400; letter-spacing:normal; font-family:Neudron, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif;"
+          style="font-size:12px; line-height:12px; font-weight:400; letter-spacing:normal; font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif;"
         >
           The quick brown fox jumps
         </div>
-        <div class="type-metrics">clamp(1rem, 1.6vw, 1.55rem) • 400 • 1.6</div>
+        <div class="type-metrics">clamp(1rem, 1vw, 1.125rem) • 400 • 1.65</div>
       </div><div class="type-row">
-        <div class="type-role">Label / Eyebrow</div>
+        <div class="type-role">Small</div>
         <div
           class="type-sample"
-          style="font-size:12px; line-height:12px; font-weight:500; letter-spacing:0.08em; font-family:&quot;IBM Plex Mono&quot;, ui-monospace, &quot;SFMono-Regular&quot;, &quot;SF Mono&quot;, Menlo, monospace;"
+          style="font-size:12px; line-height:12px; font-weight:500; letter-spacing:normal; font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif;"
         >
-          const preview = true;
+          The quick brown fox jumps
         </div>
-        <div class="type-metrics">clamp(0.8rem, 1.1vw, 1.05rem) • 500 • 1.2</div>
-      </div><div class="type-row">
-        <div class="type-role">Caption / Meta</div>
-        <div
-          class="type-sample"
-          style="font-size:12px; line-height:12px; font-weight:500; letter-spacing:0.05em; font-family:&quot;IBM Plex Mono&quot;, ui-monospace, &quot;SFMono-Regular&quot;, &quot;SF Mono&quot;, Menlo, monospace;"
-        >
-          const preview = true;
-        </div>
-        <div class="type-metrics">clamp(0.62rem, 0.88vw, 0.85rem) • 500 • 1.2</div>
+        <div class="type-metrics">clamp(0.875rem, 0.9vw, 1rem) • 450 • 1.5</div>
       </div></div>
             </div>
           </article>
@@ -912,13 +950,13 @@
     <div>
       <h3 class="token-heading">Border Radius</h3>
       <div class="radius-grid"><div class="radius-card">
-        <div class="radius-demo" style="border-radius:4px;"></div>
+        <div class="radius-demo" style="border-radius:6px;"></div>
         <div class="radius-name">Micro utility</div>
-        <div class="radius-value">4px</div>
+        <div class="radius-value">6px</div>
       </div><div class="radius-card">
-        <div class="radius-demo" style="border-radius:10px;"></div>
+        <div class="radius-demo" style="border-radius:8px;"></div>
         <div class="radius-name">Standard module</div>
-        <div class="radius-value">10px</div>
+        <div class="radius-value">8px</div>
       </div><div class="radius-card">
         <div class="radius-demo" style="border-radius:999px;"></div>
         <div class="radius-name">Category rail</div>
@@ -944,7 +982,7 @@
     </div>
     <div class="card-preview">
       <h4>System Card Preview</h4>
-      <p>#16151c</p>
+      <p>White framed module with restrained shadow and precise spacing.</p>
     </div>
   </div>
             </div>
@@ -959,29 +997,29 @@
       <h3 class="token-heading">Breakpoints</h3>
       <div class="mini-grid"><div class="mini-row">
             <div class="mini-label">Mobile</div>
-            <div class="mini-content"><strong>&lt; 768px</strong><br />Single-column stack, navigation collapses, clamp text scales down dynamically</div>
+            <div class="mini-content"><strong>&lt; 768px</strong><br />章节间距 64–96px，单栏重排</div>
           </div><div class="mini-row">
             <div class="mini-label">Tablet</div>
-            <div class="mini-content"><strong>768px - 1024px</strong><br />2-column grid with reduced gap (40px), medium clamp sizes</div>
+            <div class="mini-content"><strong>768–1199px</strong><br />章节间距 80–120px，压缩双栏</div>
           </div><div class="mini-row">
             <div class="mini-label">Desktop</div>
-            <div class="mini-content"><strong>&gt; 1024px</strong><br />Full 2-column split deck view, gap 80px, max-width 1320px</div>
+            <div class="mini-content"><strong>≥ 1200px</strong><br />章节间距 96–160px，完整叙事布局</div>
           </div></div>
     </div>
     <div>
       <h3 class="token-heading">Elevation</h3>
       <div class="mini-grid"><div class="mini-row">
-            <div class="mini-label">Flat</div>
-            <div class="mini-content"><strong>#0d0c11 (No border)</strong><br />Main canvas background</div>
+            <div class="mini-label">0 Canvas</div>
+            <div class="mini-content"><strong>#0B0F14</strong><br />页面背景</div>
           </div><div class="mini-row">
-            <div class="mini-label">Ring</div>
-            <div class="mini-content"><strong>Hairline 1px solid #2a2833</strong><br />Component dividers and card outlines</div>
+            <div class="mini-label">1 Surface</div>
+            <div class="mini-content"><strong>#141922 + subtle border</strong><br />静态内容与项目卡</div>
           </div><div class="mini-row">
-            <div class="mini-label">Card</div>
-            <div class="mini-content"><strong>#16151c + shadow 0 8px 24px rgba(0,0,0,0.4)</strong><br />Presentation slide cards &amp; case studies</div>
+            <div class="mini-label">2 Elevated</div>
+            <div class="mini-content"><strong>#1C2330 + default border</strong><br />Hover、浮层、重点数据</div>
           </div><div class="mini-row">
-            <div class="mini-label">Focus</div>
-            <div class="mini-content"><strong>Outline 2px solid #d0bcff</strong><br />Keyboard navigation &amp; focus state</div>
+            <div class="mini-label">3 Overlay</div>
+            <div class="mini-content"><strong>translucent surface + blur</strong><br />固定导航、菜单、模态框</div>
           </div></div>
     </div>
   </div>
@@ -992,21 +1030,15 @@
             <div class="panel-inner">
               <h2 class="section-title">Prompt Guide</h2>
               <p class="section-subtitle">Prompt snippets are shown in the same typography and spacing language as the extracted design system.</p>
-              <div class="prompt-list"><div class="prompt-card"><strong>Quick Summary</strong><p>Harrison Wheeler&#39;s portfolio design system is built on a midnight obsidian base (#0d0c11) with layered surface cards (#16151c), crisp high-contrast display typography (Neudron), technical monospace labels (IBM Plex Mono), and pastel accent highlights (#d0bcff, #b9f2c8). Layouts feel like a polished executive slide deck with generous spacing, fluid text scaling, and architectural case study mockups.</p></div><div class="prompt-card">
-            <strong>Hero</strong>
-            <p>&quot;Build a dark editorial portfolio hero with a massive Neudron display heading, IBM Plex Mono uppercase eyebrow tag in lavender (#d0bcff), and obsidian surface card.&quot;</p>
-          </div><div class="prompt-card">
-            <strong>Card</strong>
-            <p>&quot;Create a case study card with background #16151c, border 1px solid #2a2833, border-radius 16px, featuring a mint green badge (#b9f2c8) and large stat metric.&quot;</p>
-          </div><div class="prompt-card"><strong>Ready-to-Use Prompt</strong><p>&quot;Design a high-end product design portfolio UI in Dark Mode. Use background #0d0c11, surface cards #16151c with 1px border #2a2833 and 16px radius. Set titles in bold display sans with off-white text #ece9f1, subtitles in muted lavender-grey #a39fb0, and tag pills in soft lavender #d0bcff or mint green #b9f2c8. Layout should feel like an executive presentation slide deck with fluid typography.&quot;</p></div></div>
+              <div class="prompt-list"><div class="prompt-card"><strong>Prompt guide</strong><p>No example prompts detected.</p></div></div>
               <div class="split-card" style="margin-top:var(--space-4);">
     <div>
       <h3 class="token-heading">Do</h3>
-      <div class="mini-grid"><div class="mini-row"><div class="mini-label">Do</div><div class="mini-content">Use fluid clamp() sizing for all heading and body font rules.</div></div><div class="mini-row"><div class="mini-label">Do</div><div class="mini-content">Maintain high contrast between dark background surfaces and bright pastel accent badges.</div></div><div class="mini-row"><div class="mini-label">Do</div><div class="mini-content">Keep structural elements aligned to an 8px spatial grid.</div></div></div>
+      <div class="mini-grid"><div class="mini-row"><div class="mini-label">Do</div><div class="mini-content">用一条强主线组织每个页面，让每屏只承担一个核心论点。</div></div><div class="mini-row"><div class="mini-label">Do</div><div class="mini-content">展示问题结构、取舍过程、产品机制与结果口径。</div></div><div class="mini-row"><div class="mini-label">Do</div><div class="mini-content">使用真实界面和清晰图表，让访客可以检查细节。</div></div><div class="mini-row"><div class="mini-label">Do</div><div class="mini-content">用大排版建立章节，用等宽标签提供结构线索。</div></div></div>
     </div>
     <div>
       <h3 class="token-heading">Don't</h3>
-      <div class="mini-grid"><div class="mini-row"><div class="mini-label">Don't</div><div class="mini-content">Don&#39;t use harsh pure black (#000000) or pure white (#ffffff) for main background and text.</div></div><div class="mini-row"><div class="mini-label">Don't</div><div class="mini-content">Don&#39;t overcrowd cards—preserve slide-deck whitespace proportions.</div></div><div class="mini-row"><div class="mini-label">Don't</div><div class="mini-content">Don&#39;t mix more than 3 accent colors in a single card module.</div></div></div>
+      <div class="mini-grid"><div class="mini-row"><div class="mini-label">Don't</div><div class="mini-content">不复制参考网站的个人姓名排版、文案、字体、配色或案例内容。</div></div><div class="mini-row"><div class="mini-label">Don't</div><div class="mini-content">不加入未定义的第三品牌色、大面积渐变、光球或纯装饰纹理。</div></div><div class="mini-row"><div class="mini-label">Don't</div><div class="mini-content">不把每个区块包成卡片，不使用卡片套卡片。</div></div><div class="mini-row"><div class="mini-label">Don't</div><div class="mini-content">不把首页做成能力介绍型落地页；首屏直接呈现身份与作品。</div></div></div>
     </div>
   </div>
             </div>
@@ -1036,242 +1068,783 @@
               </div>
             </div>
             <div class="source-body">
-              <pre class="source-view" id="sourceView"># Design System: Harrison Wheeler Portfolio
+              <pre class="source-view" id="sourceView"># Design System: Complex Systems Portfolio
+
+&gt; Version 2.0 · Product Manager for Complex Systems, with a Design Background
+&gt; 本文档是本项目唯一的视觉、布局、组件与动效规范。任何页面、组件、CSS 变量或动画实现都必须先遵守本文档。
+
+---
 
 ## 1. Visual Theme &amp; Atmosphere
 
-Harrison Wheeler&#39;s personal portfolio website presents a high-end, dark editorial design leader aesthetic. The overall mood is sophisticated, architectural, and deeply atmospheric—combining ultra-dark charcoal surfaces with crisp, fluid typography and soft pastel accent pops (lavender, mint green, and soft pink).
+这是一个为复杂业务系统产品经理建立的深色编辑型作品集系统。它用强排版、结构化证据与克制动效，把复杂项目组织成可以快速扫描、继续深读并验证判断的叙事，而不是把页面做成模板化的视觉作品陈列。
 
-- Overall feeling: Architectural, editorial, dark, refined design leadership
-- Visual density: Generous whitespace, slide-deck layout feel, uncluttered editorial blocks
-- Brand posture: Experienced Product Design Executive / Design Director (ex-Base CRM, ex-Zendesk, LeadCraft)
-- Signature motifs: Full-bleed deck slides, SVG architecture diagrams, fluid responsive clamps, pastel tag badges
+### 1.1 品牌定位
 
-### Key Characteristics
+作品集的目标不是证明“会做漂亮界面”，而是证明：能够理解复杂业务、建立系统模型、推动跨团队决策，并用设计能力让复杂问题变得可理解、可执行、可验证。
 
-- Midnight Dark Base (`#0d0c11`) with layered obsidian surfaces (`#16151c`, `#1f1d26`) and hairline borders (`#2a2833`)
-- Fluid Display Typography using `Neudron` display sans, paired with `GT America` body and `IBM Plex Mono` code/label specs
-- Pastel Accent System introducing soft lavender (`#d0bcff`), mint green (`#b9f2c8`), and blush pink (`#ffd8e4`)
-- Deck Slide Architecture utilizing presentation-style case study cards with phone mockups and custom SVG diagrams
+核心定位：
+
+- 中文：具有设计背景的复杂业务系统产品经理
+- English: Product Manager for Complex Systems, with a Design Background
+- 主要受众：招聘经理、产品负责人、设计负责人、业务决策者
+- 第一印象：清晰、成熟、克制、有判断力
+- 阅读结果：访客能快速理解“问题有多复杂、作者做了什么决策、为什么这样做、结果如何”
+
+### 1.2 设计方向
+
+视觉采用深色编辑型作品集语言：全视口开场、强烈但不喧闹的排版层级、演示文稿式章节节奏、结构化产品证据和克制的滚动动效。页面应像一场经过剪辑的产品评审，而不是卡片合集，也不是营销落地页。
+
+本系统参考 Harrison Wheeler 网站的以下方法，但不复制其个人品牌：
+
+- 借用：固定胶囊导航、全视口 Hero、超大压缩标题、留白节奏、黏性案例堆叠、轻量进入动画、移动端重排。
+- 保留：本项目 Midnight Base、Digital Lavender、System Green 配色与 Anton / Inter / IBM Plex Mono 字体体系。
+- 改造：案例内容从视觉展示转为“背景 → 约束 → 决策 → 系统 → 结果 → 反思”的产品叙事。
+- 拒绝：照搬参考网站的字体、颜色、文案、作品结构或个人识别元素。
+
+### 1.3 Key Characteristics
+
+1. **Editorial, not decorative**：大标题用于建立章节与观点，不用于填满每个模块。
+2. **Evidence over claims**：界面截图、流程图、数据和决策依据优先于抽象形容词。
+3. **One focal point per viewport**：每个视口只建立一个主要视觉焦点。
+4. **Quiet confidence**：动效、辉光和强调色都服务于阅读，不表演技术。
+5. **System clarity**：用网格、编号、标签、连接线和对比结构表达复杂系统。
+
+### 1.4 体验关键词
+
+`Editorial` · `Systematic` · `Strategic` · `Precise` · `Calm` · `Human`
+
+不使用以下方向：
+
+- 通用 SaaS 落地页、模板化 Bento Grid、过量小卡片。
+- 大面积渐变、霓虹光污染、玻璃拟态、装饰性 3D 球体。
+- Dribbble 式只展示结果图、不解释约束与决策。
+- 把所有标题都做成 Hero 尺寸，或用动效掩盖内容不足。
+
+---
 
 ## 2. Color Palette &amp; Roles
 
-| Role | Semantic Name | Value | Usage |
+### 2.1 Semantic Tokens
+
+```css
+:root {
+  color-scheme: dark;
+
+  --color-bg: #0b0f14;
+  --color-surface: #141922;
+  --color-surface-elevated: #1c2330;
+
+  --color-text-primary: #f2f2f5;
+  --color-text-secondary: #a7adb8;
+  --color-text-tertiary: #707784;
+
+  --color-accent-primary: #c8b6ff;
+  --color-accent-success: #b8e6d0;
+
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+  --color-border-default: rgba(255, 255, 255, 0.12);
+  --color-border-strong: rgba(255, 255, 255, 0.22);
+  --color-overlay: rgba(11, 15, 20, 0.78);
+
+  --color-focus: #c8b6ff;
+  --color-selection-bg: rgba(200, 182, 255, 0.28);
+  --color-selection-text: #f2f2f5;
+}
+```
+
+### 2.2 Primary &amp; Surface Roles
+
+| Role | Semantic name | Value | Usage |
 | --- | --- | --- | --- |
-| Primary action | Soft Lavender | `#d0bcff` | Primary CTA, focus state, active highlights |
-| Accent | Pastel Mint Green | `#b9f2c8` | Status pills, highlight tags, secondary callouts |
-| Accent | Soft Powder Pink | `#ffd8e4` | Decorative tags, subtle category badges |
-| Surface | Midnight Base | `#0d0c11` | Main page background |
-| Surface | Obsidian Card | `#16151c` | Primary container surface |
-| Surface | Surface Elevated | `#1f1d26` | Secondary cards, dropdowns, code blocks |
-| Text | Crisp Off-White | `#ece9f1` | Primary headings and body copy |
-| Text | Lavender Grey | `#a39fb0` | Muted text, subtitles, meta labels |
-| Text | Dim Grey | `#75717f` | Footers, captions, minor metadata |
-| Border | Soft Charcoal | `#2a2833` | Card outlines, dividers, structural lines |
+| Page background | Midnight Base | `#0B0F14` | 页面背景、Hero、页脚 |
+| Surface | Dark Surface | `#141922` | 案例卡、内容区、导航背景 |
+| Elevated surface | Elevated Surface | `#1C2330` | 浮层、重点数据、悬浮状态 |
+| Primary text | Soft White | `#F2F2F5` | 标题、关键结论 |
+| Secondary text | Cool Grey | `#A7ADB8` | 正文、说明 |
+| Tertiary text | Dim Grey | `#707784` | 元数据、禁用态 |
 
-### Primary
+### 2.3 Accent Roles
 
-- Base Background (`--bg`): `#0d0c11`
-- Primary Text (`--text`): `#ece9f1`
-- Accent Primary (`--primary`): `#d0bcff` (Hover: `#e3d6ff`)
+| Token | Value | Role | 使用上限 |
+| --- | --- | --- | --- |
+| Digital Lavender | `#C8B6FF` | 主 CTA、链接、焦点环、关键路径 | 单屏可见面积约 8% |
+| System Green | `#B8E6D0` | 成果、已验证状态、正向指标 | 单屏可见面积约 5% |
 
-### Interactive
+规则：
 
-- Links &amp; CTAs: `#d0bcff` with `hover { transform: translateY(-1px); color: #e3d6ff; }`
-- Focus Rings: `2px solid #d0bcff` with `rgba(208, 188, 255, 0.24)` glow shadow
+- 不引入第三品牌强调色。错误、警告等系统状态优先使用图标、文案和边框模式；确需新增状态色时，必须先更新本文档。
+- 同一区块最多出现一种主强调色；绿色只用于“结果或验证”，不能作为普通装饰。
+- 禁止用紫绿渐变作为页面背景。允许同色透明度变化，但不允许制造彩色光球或模糊色斑。
+- 文本与背景对比度：普通文本至少 `4.5:1`，大文本至少 `3:1`。
 
-### Neutral Scale
+### 2.4 Quick Color Reference
 
-- Midnight Base: `#0d0c11`
-- Dark Surface 1: `#16151c`
-- Dark Surface 2: `#1f1d26`
-- Muted Grey: `#a39fb0`
-- Dimmed Grey: `#75717f`
+- 页面底色：`var(--color-bg)`
+- 默认卡片：`var(--color-surface)` + `var(--color-border-default)`
+- Hover 表面：`var(--color-surface-elevated)`
+- 正文：`var(--color-text-secondary)`
+- 主操作：`var(--color-accent-primary)`
+- 结果数据：`var(--color-accent-success)`
+- 键盘焦点：`2px solid var(--color-focus)`，外偏移 `3px`
 
-### Surface &amp; Overlay
-
-- Card Surface: `#16151c` with 1px border `#2a2833`
-- Diagram Node Background: `rgba(208, 188, 255, 0.12)` with border `rgba(208, 188, 255, 0.34)`
-
-### Theme Modes
-
-#### Dark Mode (Primary Default)
-
-- Background: `#0d0c11`
-- Surface: `#16151c`
-- Text: `#ece9f1`
-- Accent: `#d0bcff` / `#b9f2c8`
-- Notes: Deep dark theme designed for high-contrast viewing of design portfolios and case studies.
-
-### Shadows &amp; Depth
-
-- Soft Panel Shadow: `0 8px 32px rgba(0, 0, 0, 0.36)`
-- Card Hover Elevation: `translateY(-2px)` with border color shift from `#2a2833` to `rgba(208, 188, 255, 0.4)`
+---
 
 ## 3. Typography Rules
 
-### Font Family
+### 3.1 Font Family
 
-- Primary: `&#39;Neudron&#39;, &#39;GT America&#39;, &#39;Helvetica Neue&#39;, Helvetica, Arial, sans-serif`
-- Monospace: `&#39;IBM Plex Mono&#39;, ui-monospace, SFMono-Regular, Menlo, monospace`
-- OpenType Features: `ss01`, `cv01`, tabular numbers for stat metrics
+```css
+:root {
+  --font-display: &quot;Anton&quot;, &quot;Inter&quot;, sans-serif;
+  --font-body: &quot;Inter&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;
+  --font-mono: &quot;IBM Plex Mono&quot;, &quot;JetBrains Mono&quot;, monospace;
+}
+```
 
-### Hierarchy
+- `Anton`：只用于首页姓名、案例大标题、关键章节号等高冲击 Display。
+- `Inter`：标题、正文、按钮和所有高频阅读内容。
+- `IBM Plex Mono` / `JetBrains Mono`：标签、年份、数据单位、系统字段和图表注释。
+- 不新增装饰字体；不用等宽字体承载长段正文。
 
-| Role | Font | Size | Weight | Line Height | Letter Spacing | Notes |
+### 3.2 Fluid Type Scale
+
+所有标题和正文必须使用 `clamp()`，不得只写固定字号。禁止用 `vw` 单独控制字号。
+
+| Role | Font | Size | Weight | Line height | Letter spacing | Notes |
 | --- | --- | --- | --- | --- | --- | --- |
-| Hero headline | Neudron | `clamp(2.6rem, 14.5vw, 13rem)` | 700 | 0.92 | `-0.03em` | Massive architectural display title |
-| Section heading | Neudron | `clamp(2.8rem, 7.6vw, 6.4rem)` | 600 | 1.05 | `-0.01em` | H2 section titles |
-| Body | GT America | `clamp(1rem, 1.6vw, 1.55rem)` | 400 | 1.6 | `normal` | Main narrative copy |
-| Label / Eyebrow | IBM Plex Mono | `clamp(0.8rem, 1.1vw, 1.05rem)` | 500 | 1.2 | `0.08em` | Uppercase metadata pills &amp; tags |
-| Caption / Meta | IBM Plex Mono | `clamp(0.62rem, 0.88vw, 0.85rem)` | 500 | 1.2 | `0.05em` | Tech stack &amp; metric tags |
+| Display XL | Anton | `clamp(4.5rem, 11vw, 10rem)` | 400 | `0.88` | `0` | 首页姓名或定位主句 |
+| Display L | Anton | `clamp(3.5rem, 8vw, 7.5rem)` | 400 | `0.92` | `0` | 案例标题、章节转场 |
+| H1 | Inter | `clamp(2.75rem, 6vw, 5.5rem)` | 700 | `1.0` | `0` | 页面主标题 |
+| H2 | Inter | `clamp(2rem, 4vw, 3.75rem)` | 650 | `1.08` | `0` | 一级章节标题 |
+| H3 | Inter | `clamp(1.5rem, 2.5vw, 2.25rem)` | 600 | `1.18` | `0` | 模块标题 |
+| H4 | Inter | `clamp(1.125rem, 1.5vw, 1.375rem)` | 600 | `1.3` | `0` | 卡片内标题 |
+| Lead | Inter | `clamp(1.25rem, 2vw, 1.75rem)` | 400 | `1.5` | `0` | 核心摘要、观点 |
+| Body L | Inter | `clamp(1.0625rem, 1.3vw, 1.25rem)` | 400 | `1.7` | `0` | 案例叙事正文 |
+| Body | Inter | `clamp(1rem, 1vw, 1.125rem)` | 400 | `1.65` | `0` | 通用正文 |
+| Small | Inter | `clamp(0.875rem, 0.9vw, 1rem)` | 450 | `1.5` | `0` | 注释、辅助说明 |
+| Label | IBM Plex Mono | `clamp(0.75rem, 0.8vw, 0.875rem)` | 500 | `1.4` | `0` | 标签、编号、年份 |
 
-### Principles
+### 3.3 Typographic Principles
 
-- Fluid CSS Clamp Sizing ensuring text scales seamlessly across screen widths from 320px to 2560px.
-- Typographic Contrast between ultra-heavy custom display sans (`Neudron`) and technical monospace labels (`IBM Plex Mono`).
-- Expressive Quote Treatment using serif italic (`Reckless`) for editorial weight.
+- Display 文本每行建议 `8–14` 个汉字或 `8–12` 个英文单词；长内容改用 H1/H2。
+- 正文最大行宽 `68ch`，核心摘要最大 `52ch`，元数据最大 `36ch`。
+- 中文正文使用自然换行；英文标题使用 `text-wrap: balance`，正文可用 `text-wrap: pretty`。
+- 字距统一为 `0`。Anton 的紧凑感来自字体本身，不通过负字距制造。
+- 数字与单位不换行；数据数字可用 `font-variant-numeric: tabular-nums`。
+- 每个段落只表达一个论点，正文段落建议 `2–5` 行。
+
+---
 
 ## 4. Component Stylings
 
-### Buttons and Links
+### 4.1 Navigation
 
-- Primary CTA: Solid background `#d0bcff`, dark text `#381e72`, font weight 600, border radius `10px`.
-- Secondary CTA: Ghost surface `#1f1d26` with hairline border `#2a2833`, light text `#ece9f1`.
-- Text links: Lavender color `#d0bcff` with subtle underline hover animation.
-- Hover and active feel: Smooth `transform: translateY(-2px)` with subtle color transition over 200ms.
+固定居中的胶囊导航是网站的主要识别组件：
 
-### Cards and Containers
+```css
+.site-nav {
+  position: fixed;
+  inset-block-start: 24px;
+  inset-inline-start: 50%;
+  z-index: 100;
+  transform: translateX(-50%);
+  min-height: 48px;
+  padding: 6px;
+  border: 1px solid var(--color-border-default);
+  border-radius: 9999px;
+  background: rgba(20, 25, 34, 0.82);
+  backdrop-filter: blur(16px);
+}
+```
 
-- Surface style: `#16151c`
+- Desktop：品牌标识 + 3–4 个主导航项 + 联系入口；不得超过 6 个可见入口。
+- Mobile：保留品牌标识和菜单按钮，展开为全宽暗色面板；不用把文字硬塞进胶囊。
+- 当前项用文字高对比和轻微表面变化表示，不依赖下划线动画。
+- 导航按钮最小触控区域 `44 × 44px`。
+- 页面滚动后可轻微提升背景不透明度，但不可改变尺寸造成跳动。
+
+### 4.2 Hero
+
+Hero 是作品集定位，不是功能介绍卡片。
+
+- 最小高度：Desktop `100svh`；Mobile `100svh`。
+- 内容不放在卡片中，直接位于页面背景上。
+- Desktop：姓名或定位占据主要画面；简介与 CTA 放在下部网格。
+- Mobile：主标题保持强度，CTA 靠近视口底部纵向排列且全宽。
+- 首屏必须露出下一章节的视觉提示：章节编号、标题上沿或滚动引导，不能形成封闭海报。
+- Hero 最多一个主 CTA 和一个次 CTA。
+
+推荐结构：
+
+```text
+[Fixed navigation]
+[Mono eyebrow: ROLE / LOCATION / YEAR]
+[Display name or literal positioning]
+[Short positioning statement, max 2 lines]
+[Primary CTA] [Secondary CTA]          [Scroll cue / next section hint]
+```
+
+### 4.3 Buttons and Links
+
+| Variant | Background | Text | Border | Use |
+| --- | --- | --- | --- | --- |
+| Primary | `#C8B6FF` | `#0B0F14` | transparent | 查看案例、联系 |
+| Secondary | `#1C2330` | `#F2F2F5` | default | 简历、补充路径 |
+| Text link | transparent | `#C8B6FF` | none | 正文链接、次级跳转 |
+
+按钮规范：
+
+- 高度 `56px`（紧凑场景最低 `48px`），水平内边距 `28px`。
+- 胶囊圆角 `9999px`；图标与文字间距 `8px`。
+- Hover：`translateY(-2px)`；Active：`translateY(0) scale(0.99)`。
+- 不使用 `-4px` 以上的悬浮位移，不使用持续辉光。
+- 图标按钮使用熟悉图标并提供 `aria-label` 与 tooltip。
+- `:focus-visible` 必须保留清晰焦点环。
+
+**Primary CTA**
+
+- Background: `#C8B6FF`
+- Text: `#0B0F14`
+- Common size: `56px`
+- Radius: `9999px`
+- Text style: `clamp(0.875rem, 0.9vw, 1rem) / 600`
+
+**Secondary CTA**
+
+- Background: `#1C2330`
+- Text: `#F2F2F5`
+- Ring: `rgba(255,255,255,0.12)`
+- Radius: `9999px`
+
+### 4.4 Cards and Containers
+
+首页项目不是彼此独立的小卡片，而是一组按顺序展开的案例章节。
+
+- Desktop 使用大幅双栏卡片：媒体约 `58%`，文本约 `42%`，相邻项目交替方向。
+- 背景 `#141922`，边框 `1px solid rgba(255,255,255,0.12)`，大卡片圆角 `16px`。
+- 内边距：`clamp(24px, 4vw, 64px)`；卡片间可通过黏性堆叠形成连续叙事。
+- 媒体容器圆角 `12px` 或 `16px`，不得嵌套第二层装饰卡片。
+- 每张卡只包含：编号、项目名、业务问题、角色、时间、1–2 个结果、明确 CTA。
+- Hover 只改变边框、媒体缩放 `1.015` 和整体 `translateY(-3px)`；内容布局不位移。
+
+推荐 DOM 顺序：标题与摘要在媒体之前出现于文档流，移动端视觉顺序可调整为媒体 → 文本，但屏幕阅读器顺序必须连贯。
+
+**Card Tokens**
+
+- Surface: `#141922`
+- Ring / border: `rgba(255,255,255,0.12)`
 - Radius: `16px`
-- Border: `1px solid #2a2833`
-- Shadow or elevation: Inset border + drop shadow `0 8px 24px rgba(0, 0, 0, 0.4)`
-- Internal spacing: `clamp(28px, 5vw, 64px)`
+- Signature shadow stack: `0 16px 48px rgba(0, 0, 0, 0.32)`
 
-### Navigation
+### 4.5 Sticky Case Stack
 
-- Structure: Top header with fixed logo left, link items right.
-- Background treatment: Glassmorphism blur `backdrop-filter: blur(16px)` on background `rgba(13, 12, 17, 0.82)`.
-- Link style: `IBM Plex Mono` uppercase font size `14px`, text color `#a39fb0`.
-- Sticky or scroll behavior: Fixed top with subtle background opacity shift on scroll.
+这是从参考网站抽取并适配后的标志性模式，只用于首页 3–5 个重点案例。
 
-### Image Treatment
+```css
+.project-card {
+  position: sticky;
+  top: clamp(80px, 10vh, 120px);
+  min-height: min(76svh, 760px);
+  border-radius: 16px 16px 0 0;
+}
 
-- Screenshot treatment: Dark-framed phone mockups with rounded corners `12px`.
-- Photography style: High-contrast product UI screenshots and vector architectural diagrams.
-- Border and radius treatment: `1px solid #2a2833` with `16px` container radius.
+.project-card + .project-card {
+  margin-top: clamp(64px, 10vh, 120px);
+}
+```
 
-### Distinctive Components
+- 每张后续卡片的 `top` 可增加 `8px`，最多堆叠 4 层。
+- 父容器不得设置会破坏 sticky 的 `overflow: hidden/auto`。
+- 内容高度超过视口时取消 sticky，避免正文无法滚动。
+- Mobile 低高度设备（`max-height: 700px`）和 reduced motion 模式取消 sticky。
+- Sticky 本身优先用 CSS；只有需要精确 pin、进度联动时才使用 ScrollTrigger。
 
-- Deck Slide Layout: Full-width presentation slide unit featuring side-by-side case study title, specs, and interactive media/mockups.
-- Interactive Metric Callouts: Large `Neudron` stat numbers next to `IBM Plex Mono` descriptive captions.
-- Architectural Process Diagrams: Custom SVG node-and-connector flowcharts using `#545260` stroke lines and `#d0bcff` nodes.
+### 4.6 Metrics
+
+- 每组 `1–3` 个指标，数字大、说明短、口径明确。
+- 数字使用 H2/H3 级别，颜色为 Soft White 或 System Green。
+- 标签使用 Mono；说明必须写清基线、时间或样本，避免孤立百分比。
+- 无可靠定量结果时使用可验证定性证据，不虚构数字。
+
+### 4.7 Diagrams
+
+- 节点背景用 Dark / Elevated Surface，主路径用 Lavender，验证结果用 Green。
+- 连接线 `1px rgba(255,255,255,0.22)`，箭头方向清晰。
+- 一个图只表达一个关系：流程、角色、信息或状态，不混合四种语义。
+- 图中正文不低于 `14px`；移动端优先改为纵向流程或可横向滚动的完整图。
+- 不用装饰性网络线、无意义节点或假数据制造“复杂感”。
+
+### 4.8 Image Treatment
+
+- 优先：真实产品界面、研究材料、流程图、决策记录、前后对比。
+- 媒体必须带简短 caption，说明“看什么”和“为什么重要”。
+- 截图保持清晰，不使用过暗遮罩或模糊背景影响检查。
+- 容器：`12px–16px` 圆角、hairline 边框、深色阴影。
+- 多图展示用无框网格或横向轨道；禁止卡片套卡片。
+- 所有图片设置稳定 `aspect-ratio`，避免加载时布局跳动。
+
+### 4.9 Case Detail Components
+
+每个案例详情页统一位于 `src/pages/cases/&lt;CaseName&gt;/`，自包含 JSX 与 CSS 模块，由 `ProjectDetail/index.jsx` 路由分发。视觉规则仍只来自本文档。
+
+案例页推荐组件：
+
+- Case Hero：项目名、业务问题、角色、周期、团队、主结果。
+- Context Strip：关键约束与范围，不使用一排装饰 badge。
+- Decision Block：决策、依据、被放弃的方案、影响。
+- Evidence Figure：图像 + caption + 来源或时间。
+- Metric Row：结果与口径。
+- Reflection：不足、后续验证、个人判断变化。
+- Next Case：下一个项目的完整标题与一句差异化说明。
+
+---
 
 ## 5. Layout Principles
 
-### Spacing System
+### 5.1 Container &amp; Grid
 
-- Base unit: `8px`
-- Repeated spacing values: `8px`, `16px`, `24px`, `32px`, `48px`, `80px`
+```css
+:root {
+  --page-gutter: clamp(20px, 3vw, 32px);
+  --content-max: 1440px;
+  --reading-max: 760px;
+  --grid-gap: clamp(16px, 2vw, 32px);
+}
 
-### Grid &amp; Container
+.page-shell {
+  width: min(100% - (2 * var(--page-gutter)), var(--content-max));
+  margin-inline: auto;
+}
+```
 
-- Grid logic: 2-column split layout, max-width `1320px`.
-- Max content width: `1320px`
-- Section spacing: `clamp(72px, 12vh, 160px)`
+- Desktop：12 列网格；Tablet：8 列；Mobile：4 列。
+- 主要案例可使用 7/5 或 8/4 比例，不固定使用 60/40。
+- 长正文限制在 `var(--reading-max)`，不要横跨整个桌面。
+- 区块是无框的全宽章节；卡片只用于项目、浮层或真正需要边界的工具。
 
-### Whitespace Philosophy
+### 5.2 Spacing System
 
-- Whitespace philosophy: Generous slide-by-slide vertical cadence giving every case study dedicated focal area.
-- Alignment tendencies: Left-aligned titles and narrative copy with right-aligned process diagrams or phone mockups.
-- Content width behavior: Max content width restricted to 1320px, centered horizontally.
+基础单位为 `8px`：
 
-### Border Radius Scale
+| Token | Value | Use |
+| --- | --- | --- |
+| `space-1` | `4px` | 图标内部、细节修正 |
+| `space-2` | `8px` | 标签间距 |
+| `space-3` | `16px` | 紧凑组件 |
+| `space-4` | `24px` | 卡片内容组 |
+| `space-5` | `32px` | 标准内容间隔 |
+| `space-6` | `48px` | 模块间隔 |
+| `space-7` | `64px` | 大模块内部 |
+| `space-8` | `80px` | 移动端章节 |
+| `space-9` | `120px` | 桌面章节 |
+| `space-10` | `160px` | 章节转场，谨慎使用 |
 
-- Micro: `4px`
-- Standard: `10px`
-- Large: `16px`
-- Pill: `999px`
+章节垂直间距：Desktop `clamp(96px, 10vw, 160px)`；Mobile `clamp(64px, 16vw, 96px)`。
+
+### 5.3 Border Radius Scale
+
+| Token | Value | Use |
+| --- | --- | --- |
+| Small | `4px` | 小标签、状态标记 |
+| Standard | `12px` | 按钮以外的标准组件、媒体 |
+| Large | `16px` | 项目卡、大型容器 |
+| Pill | `9999px` | 导航、按钮、胶囊标签 |
+
+不自行使用 `6px`、`8px`、`20px`、`24px` 等新圆角。组件嵌套时，内层圆角必须小于外层。
+
+### 5.4 Case Study Narrative
+
+每个案例遵循同一逻辑，但不要求页面视觉完全相同：
+
+1. **Signal**：一句话说明业务问题与结果，让访客决定是否继续。
+2. **Context**：业务背景、用户、范围、角色与不可改变的约束。
+3. **Diagnosis**：如何发现真正的问题，展示证据而非只给结论。
+4. **Decision**：关键取舍、备选方案、判断依据和跨团队协作。
+5. **System**：产品结构、流程、机制或策略如何工作。
+6. **Validation**：结果、口径、反馈，以及哪些仍未被证明。
+7. **Reflection**：如果重做会改变什么，体现判断成长。
+
+章节标题应表达观点，例如“问题不在搜索，而在检查责任断裂”，不要只写“Research”或“Solution”。
+
+### 5.5 Whitespace Philosophy
+
+- 留白用于分隔论点，不是为了显得高级而稀释内容。
+- 高密度证据区之后安排低密度总结区，形成阅读呼吸。
+- 同一屏出现超过 3 个同等级焦点时，应合并、降级或拆分。
+- 首页扫描优先；案例页深读优先。两者不能使用完全相同的信息密度。
+
+---
 
 ## 6. Depth &amp; Elevation
 
+### 6.1 Elevation Scale
+
 | Level | Treatment | Use |
 | --- | --- | --- |
-| Flat | `#0d0c11` (No border) | Main canvas background |
-| Ring | Hairline `1px solid #2a2833` | Component dividers and card outlines |
-| Card | `#16151c` + shadow `0 8px 24px rgba(0,0,0,0.4)` | Presentation slide cards &amp; case studies |
-| Focus | Outline `2px solid #d0bcff` | Keyboard navigation &amp; focus state |
+| 0 Canvas | `#0B0F14` | 页面背景 |
+| 1 Surface | `#141922` + subtle border | 静态内容与项目卡 |
+| 2 Elevated | `#1C2330` + default border | Hover、浮层、重点数据 |
+| 3 Overlay | translucent surface + blur | 固定导航、菜单、模态框 |
 
-## 7. Do&#39;s and Don&#39;ts
+```css
+:root {
+  --shadow-media: 0 16px 48px rgba(0, 0, 0, 0.32);
+  --shadow-overlay: 0 20px 64px rgba(0, 0, 0, 0.42);
+  --shadow-focus: 0 0 0 4px rgba(200, 182, 255, 0.18);
+}
+```
 
-### Do
+### 6.2 Depth Rules
 
-- Use fluid `clamp()` sizing for all heading and body font rules.
-- Maintain high contrast between dark background surfaces and bright pastel accent badges.
-- Keep structural elements aligned to an 8px spatial grid.
+- 深度主要通过表面亮度、hairline 边框和遮挡顺序表达，阴影只做辅助。
+- 默认卡片不发光；Hover 可使用 `rgba(200,182,255,0.34)` 边框，但不做大范围紫色辉光。
+- 固定导航可用 `backdrop-filter`，普通卡片禁止玻璃拟态。
+- 同屏最多使用三层可感知深度，避免所有组件都浮起来。
 
-### Don&#39;t
+---
 
-- Don&#39;t use harsh pure black (`#000000`) or pure white (`#ffffff`) for main background and text.
-- Don&#39;t overcrowd cards—preserve slide-deck whitespace proportions.
-- Don&#39;t mix more than 3 accent colors in a single card module.
+## 7. Interaction Patterns
+
+### 7.1 Motion Philosophy
+
+动效的任务是建立阅读顺序、解释空间关系和确认交互结果。整体手感应平稳、克制、接近编辑剪辑。不存在业务意义的动画不应加入。
+
+动效技术分层：
+
+- **CSS transitions**：按钮、链接、卡片 Hover、Focus、菜单图标等局部状态。
+- **GSAP Core / Timeline**：首屏进入、需要明确先后关系的章节编排。
+- **ScrollTrigger**：只用于 pin、scrub、滚动进度或 sticky 无法表达的叙事。
+- **CSS sticky**：普通黏性案例堆叠的首选，不为“用了 GSAP”而改成 JS。
+
+### 7.2 Motion Tokens
+
+```css
+:root {
+  --duration-instant: 120ms;
+  --duration-fast: 200ms;
+  --duration-base: 360ms;
+  --duration-reveal: 750ms;
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --reveal-distance: 30px;
+}
+```
+
+| Pattern | Duration | Distance / scale | Ease | Notes |
+| --- | --- | --- | --- | --- |
+| Hover | `200ms` | `-1px` to `-3px` | standard | 不改变布局 |
+| Press | `120ms` | `scale(0.99)` | exit | 立即反馈 |
+| Reveal | `750ms` | `y: 30 → 0` | standard | `opacity: 0 → 1` |
+| Stagger | `60–90ms` | — | standard | 一组最多 6 项 |
+| Menu open | `360ms` | `y: -8 → 0` | standard | 背景同步淡入 |
+| Media zoom | `360ms` | `1 → 1.015` | standard | 容器裁切 |
+| Route transition | `500–700ms` | `y: 16 → 0` | standard | 不阻塞导航 |
+
+### 7.3 Reveal Rules
+
+- 首屏顺序：eyebrow → Display → summary → actions，每步重叠而非逐个等待。
+- 滚动 Reveal 默认 `once: true`，触发点约为元素顶部进入视口 `85%`。
+- 一屏最多两组 Reveal；长文段落不逐行弹出。
+- 不对导航、正文阅读核心或关键 CTA 设置长时间不可见初态。
+- 不使用旋转、弹跳、随机位移或过度 stagger。
+
+GSAP 示例：
+
+```js
+const timeline = gsap.timeline({ defaults: { ease: &quot;power3.out&quot; } });
+
+timeline
+  .from(&quot;[data-hero-eyebrow]&quot;, { autoAlpha: 0, y: 16, duration: 0.5 })
+  .from(&quot;[data-hero-title]&quot;, { autoAlpha: 0, y: 30, duration: 0.75 }, &quot;-=0.25&quot;)
+  .from(&quot;[data-hero-summary]&quot;, { autoAlpha: 0, y: 24, duration: 0.65 }, &quot;-=0.42&quot;)
+  .from(&quot;[data-hero-action]&quot;, { autoAlpha: 0, y: 16, duration: 0.5, stagger: 0.08 }, &quot;-=0.35&quot;);
+```
+
+### 7.4 ScrollTrigger Rules
+
+- 优先少量 section 级 Trigger，不为每个文字节点创建 Trigger。
+- `scrub` 仅用于进度具有语义的动画，如流程推进、对比切换。
+- Pin 区域必须提供足够滚动距离，且不能让用户误以为页面卡死。
+- 响应式逻辑使用 `gsap.matchMedia()`；不同断点分别建立和清理 Trigger。
+- 图像加载、字体加载或布局变化后再 `ScrollTrigger.refresh()`，不要在滚动中频繁 refresh。
+- 默认不使用 ScrollSmoother；原生滚动优先。
+
+### 7.5 React + GSAP Lifecycle
+
+React 页面优先使用 `@gsap/react` 的 `useGSAP()`：
+
+```jsx
+const root = useRef(null);
+
+useGSAP(() =&gt; {
+  const reduceMotion = window.matchMedia(&quot;(prefers-reduced-motion: reduce)&quot;).matches;
+  if (reduceMotion) return;
+
+  gsap.from(&quot;[data-reveal]&quot;, {
+    autoAlpha: 0,
+    y: 30,
+    duration: 0.75,
+    stagger: 0.08,
+    ease: &quot;power3.out&quot;,
+  });
+}, { scope: root });
+```
+
+- 使用单一根 `ref` 和 scoped selector，禁止全局选择器误伤其他页面。
+- 依赖变化需要重建时使用 `revertOnUpdate: true`。
+- 若必须用 `useEffect`，用 `gsap.context()` 包裹，并在 cleanup 中执行 `ctx.revert()`。
+- 事件回调产生的动画使用 `contextSafe()`。
+- 页面卸载后不得保留 timeline、listener 或 ScrollTrigger。
+
+### 7.6 Performance Rules
+
+- 动画只改变 `transform` 和 `opacity`；避免动画 `width`、`height`、`top`、`left`、`margin`。
+- 读写 DOM 分批执行，避免滚动回调中反复测量布局。
+- `will-change` 只在动画即将发生时添加，结束后移除；禁止全局常驻。
+- 每页 ScrollTrigger 数量保持可解释且尽量少；多个同类 Reveal 使用批处理。
+- 图片提供正确尺寸、响应式源和懒加载；首屏主图不懒加载。
+- 动效不能造成 CLS；所有固定格式媒体和图表先定义尺寸或 `aspect-ratio`。
+- 以中端移动设备为基准检查滚动流畅度，不以开发机表现替代验证。
+
+### 7.7 Reduced Motion
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .project-card {
+    position: relative;
+    top: auto;
+  }
+}
+```
+
+- JS 在创建 timeline / ScrollTrigger 前检查媒体查询。
+- Reduced motion 下直接呈现最终状态，禁止用极短动画伪装“支持”。
+- 自动播放媒体需可暂停；非必要装饰媒体不自动播放。
+
+---
 
 ## 8. Responsive Behavior
 
-### Breakpoints
+### 8.1 Breakpoints
 
-| Name | Width | Key Changes |
-| --- | --- | --- |
-| Mobile | `&lt; 768px` | Single-column stack, navigation collapses, clamp text scales down dynamically |
-| Tablet | `768px - 1024px` | 2-column grid with reduced gap (`40px`), medium clamp sizes |
-| Desktop | `&gt; 1024px` | Full 2-column split deck view, gap 80px, max-width 1320px |
+| Name | Width | Grid | Gutter | Key changes |
+| --- | --- | --- | --- | --- |
+| Mobile | `&lt; 768px` | 4 columns | `20px` | 章节间距 `64–96px`，单栏重排 |
+| Tablet | `768–1199px` | 8 columns | `24px` | 章节间距 `80–120px`，压缩双栏 |
+| Desktop | `≥ 1200px` | 12 columns | `32px` | 章节间距 `96–160px`，完整叙事布局 |
 
-### Touch Targets
+断点按内容失效点选择，不因某款设备单独增加断点。
 
-- Minimum touch target height: `44px` for interactive CTAs and navigation items.
+### 8.2 Collapsing Strategy
 
-### Collapsing Strategy
+Desktop → Mobile 的变化不是简单缩小：
 
-- Desktop behavior: Side-by-side 2-column split layout with full interactive deck slides.
-- Tablet behavior: Grid gap reduces from 80px to 40px; typography scales down via fluid clamp.
-- Mobile behavior: All multi-column cards collapse into a single vertical scroll stack.
+- Hero：保持 `100svh`；简介缩短；按钮移至底部并纵向全宽排列。
+- Navigation：完整链接收进菜单；保留 44px 触控目标。
+- Project Card：双栏变单栏，媒体优先显示，文本随后；取消不适合低视口的 sticky。
+- Case Detail：侧栏元数据移到正文前；多列指标变为 1–2 列。
+- Diagrams：先改成纵向结构；无法重排时允许明确的横向滚动，不压缩到不可读。
+- Tables：优先转换为对比列表；必须保留表格时允许横向滚动并固定首列。
+- Footer：多列导航变为分组列表，不把所有内容居中堆叠。
 
-## 9. Agent Prompt Guide
+### 8.3 Touch &amp; Input
+
+- 所有触控目标至少 `44 × 44px`，相邻目标间距至少 `8px`。
+- Hover 效果不能承载唯一信息；触屏上默认展示必要标签与 CTA。
+- 不拦截浏览器返回、缩放、滚动等原生行为。
+- 菜单打开时管理焦点、锁定背景滚动并支持 Escape 关闭。
+
+### 8.4 Content Safety
+
+- 标题容器使用可预测宽度和自然换行，最长单词设置 `overflow-wrap: anywhere` 作为兜底。
+- 按钮文字允许合理换行，但主按钮文案优先控制在 8 个汉字以内。
+- 固定导航、Hero CTA 与下一章节提示在 `320px` 宽度下不得重叠。
+- 使用 `100svh` 而非仅 `100vh`，处理移动浏览器工具栏变化。
+
+---
+
+## 9. Content &amp; Messaging Patterns
+
+### 9.1 Voice
+
+语气专业、直接、具体，以判断和证据建立可信度。少说“赋能、创新、极致、全链路”等空泛词，避免把团队成果全部写成个人英雄叙事。
+
+推荐句式：
+
+- “在三种约束同时存在时，我把优先级从功能覆盖转向错误恢复。”
+- “研究显示问题不是入口不可见，而是责任状态在交接后丢失。”
+- “这个结果证明了流程可用，但尚不能证明长期留存。”
+
+不推荐：
+
+- “我打造了行业领先的创新体验。”
+- “通过深入洞察赋能业务增长。”
+- 只有过程名词，没有发现、判断与影响。
+
+### 9.2 Density
+
+- 首页项目摘要：`80–140` 个中文字符，回答问题、角色、结果。
+- 案例开场摘要：`120–220` 个中文字符。
+- 每个正文段落：`60–160` 个中文字符，超过则拆分观点。
+- 图注：一句说明内容，一句说明意义；避免重复画面可见文字。
+- 每个案例至少展示 2 个关键决策和 1 个未解决问题。
+
+### 9.3 Labels
+
+标签使用事实而非评价：
+
+- 推荐：`ROLE / PRODUCT STRATEGY`、`SCOPE / 3 WORKFLOWS`、`OUTCOME / -32% REVIEW TIME`
+- 避免：`AMAZING WORK`、`BEST PROJECT`、`INNOVATIVE`
+
+---
+
+## 10. Do&#39;s and Don&#39;ts
+
+### Do
+
+- 用一条强主线组织每个页面，让每屏只承担一个核心论点。
+- 展示问题结构、取舍过程、产品机制与结果口径。
+- 使用真实界面和清晰图表，让访客可以检查细节。
+- 用大排版建立章节，用等宽标签提供结构线索。
+- 保持紫色负责行动、绿色负责结果的稳定语义。
+- 用 CSS sticky 和轻量 Reveal 建立节奏，并完整支持 reduced motion。
+- 在桌面、移动端和低高度视口分别验证排版和 sticky 行为。
+
+### Don&#39;t
+
+- 不复制参考网站的个人姓名排版、文案、字体、配色或案例内容。
+- 不加入未定义的第三品牌色、大面积渐变、光球或纯装饰纹理。
+- 不把每个区块包成卡片，不使用卡片套卡片。
+- 不把首页做成能力介绍型落地页；首屏直接呈现身份与作品。
+- 不使用 `translateY(-4px)` 以上的卡片 Hover 或夸张紫色辉光。
+- 不逐字、逐行、逐元素播放进入动画。
+- 不用 GSAP 替代简单 CSS transition，也不用 ScrollTrigger 替代原生 sticky。
+- 不在没有测量依据时虚构指标或把团队结果归为个人成果。
+
+---
+
+## 11. Agent Prompt Guide
 
 ### Quick Color Reference
 
-- Primary CTA: `#d0bcff`
-- Background: `#0d0c11`
-- Heading text: `#ece9f1`
-- Body text: `#a39fb0`
-- Border or ring: `#2a2833`
-- Accent: `#b9f2c8`
+- Background: `#0B0F14`
+- Elevated surface: `#1C2330`
+- Heading text: `#F2F2F5`
+- Body text: `#A7ADB8`
+- Ring / border: `rgba(255,255,255,0.12)`
+- Accent / focus: `#C8B6FF`
 
-### Quick Summary
+### 11.1 Mandatory Context for Any AI Agent
 
-Harrison Wheeler&#39;s portfolio design system is built on a midnight obsidian base (`#0d0c11`) with layered surface cards (`#16151c`), crisp high-contrast display typography (`Neudron`), technical monospace labels (`IBM Plex Mono`), and pastel accent highlights (`#d0bcff`, `#b9f2c8`). Layouts feel like a polished executive slide deck with generous spacing, fluid text scaling, and architectural case study mockups.
+将以下内容作为生成或修改页面时的硬约束：
 
-### Example Component Prompts
+```text
+你正在为“具有设计背景的复杂业务系统产品经理”构建作品集。
+DESIGN.md 是唯一视觉规范，不得引入未定义的颜色、字体、圆角或动效模式。
 
-- Hero: &quot;Build a dark editorial portfolio hero with a massive Neudron display heading, IBM Plex Mono uppercase eyebrow tag in lavender (#d0bcff), and obsidian surface card.&quot;
-- Card: &quot;Create a case study card with background #16151c, border 1px solid #2a2833, border-radius 16px, featuring a mint green badge (#b9f2c8) and large stat metric.&quot;
+页面采用深色编辑型设计：#0B0F14 背景，#141922 / #1C2330 表面，
+#C8B6FF 只用于主交互，#B8E6D0 只用于结果与验证。
+Display 使用 Anton / Inter，正文使用 Inter，技术标签使用 IBM Plex Mono / JetBrains Mono。
+所有 Heading 与 Body 字号使用 clamp()，字距为 0。
 
-### Ready-to-Use Prompt
+优先使用全宽无框章节、强排版、真实产品证据和清晰案例叙事。
+避免模板化 Bento 卡片、卡片套卡片、渐变光球、装饰性插画和营销式 Hero。
+动效克制：CSS 负责微交互；GSAP 负责序列；ScrollTrigger 只负责必要的 pin/scrub。
+默认支持 prefers-reduced-motion，并在移动端重新组织内容而不是等比缩小。
+```
 
-&quot;Design a high-end product design portfolio UI in Dark Mode. Use background #0d0c11, surface cards #16151c with 1px border #2a2833 and 16px radius. Set titles in bold display sans with off-white text #ece9f1, subtitles in muted lavender-grey #a39fb0, and tag pills in soft lavender #d0bcff or mint green #b9f2c8. Layout should feel like an executive presentation slide deck with fluid typography.&quot;
+### 11.2 Homepage Prompt
 
-### Iteration Guide
+```text
+设计作品集首页。首屏为 100svh 无框 Hero，固定居中胶囊导航，
+以 Anton 超大标题显示姓名或字面定位，并在底部放简短定位、主 CTA 与下一章节提示。
+首屏需露出下一章节线索。随后用 3–5 张大型黏性项目卡形成连续案例堆叠，
+桌面端媒体/文本交替双栏，移动端改为媒体在前的单栏。
+每张卡只展示业务问题、角色、时间、关键结果和查看案例入口。
+不要添加能力介绍卡片墙、客户 Logo 墙或装饰性统计。
+```
 
-1. Start with the midnight background `#0d0c11` and obsidian surface `#16151c`.
-2. Apply `Neudron` for high-impact display titles and `IBM Plex Mono` for technical tags.
-3. Accentuate key interactive elements with lavender `#d0bcff` and mint green `#b9f2c8`.
+### 11.3 Case Study Prompt
 
-## Optional Appendix: Observed Pages
+```text
+设计复杂系统产品案例详情页。按 Signal、Context、Diagnosis、Decision、System、
+Validation、Reflection 组织叙事。章节标题必须表达观点，不使用空泛的 Research / Solution。
+使用真实界面、决策对比、流程图和带口径的指标作为证据。
+长正文限制 68ch，桌面用 12 列网格形成文字与证据的节奏，移动端单栏重排。
+每个案例至少明确两个关键取舍、一个验证结果和一个尚未解决的问题。
+```
 
-- https://www.harrisonwheeler.com/ : Homepage slide-deck portfolio showcasing Base CRM, LeadCraft, and Holiday case studies.
+### 11.4 Motion Prompt
+
+```text
+为页面添加克制的编辑型动效。Reveal 统一为 opacity 0→1、y 30→0、750ms、
+cubic-bezier(0.22,1,0.36,1)，同组 stagger 60–90ms，默认只播放一次。
+按钮与卡片 Hover 仅上移 1–3px，200ms。CSS 处理微交互，GSAP timeline 处理首屏编排，
+ScrollTrigger 仅用于必要的 pin、scrub 或进度叙事。React 中优先 useGSAP，限制 selector scope，
+卸载时清理 context 和 triggers。只动画 transform / opacity；为 reduced motion 直接显示最终状态。
+```
+
+### 11.5 Review Checklist for Agents
+
+生成后逐项检查：
+
+1. 是否首先表达作品与定位，而非网站功能？
+2. 是否只使用本文档定义的颜色、字体、间距和圆角？
+3. 所有 Heading 和 Body 是否使用 `clamp()`？
+4. 是否存在卡片套卡片、过多同级焦点或无意义强调色？
+5. 案例是否展示问题、约束、决策、证据、结果与反思？
+6. 动效是否有阅读或空间意义，并支持 reduced motion？
+7. Mobile 是否完成内容重排，320px 宽度和低高度视口是否无重叠？
+8. 键盘焦点、对比度、触控尺寸、语义顺序是否合格？
+
+若任何一项不通过，先修正规范偏差，再增加新视觉效果。
+
+---
+
+## 12. Evidence Notes
+
+### 12.1 Observed from Harrison Wheeler
+
+以下为通过实时页面 DOM、计算样式、CSS 变量与响应式规则观察到的参考特征：
+
+- 深色页面背景与分层表面；浅紫、薄荷绿和浅粉作为强调。
+- 固定居中的胶囊导航、全视口 Hero、超大压缩 Display 字体。
+- Desktop 页面边距约 `32px`，Mobile 约 `20px`。
+- Desktop 章节间距约 `120px`，Mobile 约 `80px`。
+- 大型案例卡采用黏性堆叠、媒体与文字交替布局、顶部圆角。
+- Reveal 约为 `opacity 0→1`、`translateY(30px)→0`、`0.75s`、`cubic-bezier(0.22,1,0.36,1)`。
+- Hover 位移克制，约 `-1px` 至 `-3px`。
+- Mobile Hero 操作区靠近底部，按钮纵向全宽；案例卡变单栏且图片在前。
+
+### 12.2 Adapted for This Portfolio
+
+- 参考站字体替换为本项目规定的 Anton / Inter / IBM Plex Mono。
+- 参考站色彩替换为 Midnight Base / Digital Lavender / System Green。
+- 浅粉等第三强调色不进入本系统，以保持品牌语义稳定。
+- 案例卡从设计作品展示调整为复杂业务系统的产品决策摘要。
+- 黏性堆叠保留为首页标志性节奏，但增加低高度设备和 reduced motion 降级。
+- 动效参数保留其克制节奏，同时补充 React 生命周期、性能和无障碍约束。
+
+### 12.3 Evidence Boundary
+
+本文档描述的是从公开首页可观察到的视觉与交互语言，以及针对本作品集定位做出的明确适配；不推断参考网站未公开的内部设计系统、隐藏页面或组件状态。
 </pre>
-              <article class="rendered-view" id="previewView" hidden><section><h2>1. Visual Theme &amp; Atmosphere</h2><p>Harrison Wheeler&#39;s personal portfolio website presents a high-end, dark editorial design leader aesthetic. The overall mood is sophisticated, architectural, and deeply atmospheric—combining ultra-dark charcoal surfaces with crisp, fluid typography and soft pastel accent pops (lavender, mint green, and soft pink).</p><ul><li>Overall feeling: Architectural, editorial, dark, refined design leadership</li><li>Visual density: Generous whitespace, slide-deck layout feel, uncluttered editorial blocks</li><li>Brand posture: Experienced Product Design Executive / Design Director (ex-Base CRM, ex-Zendesk, LeadCraft)</li><li>Signature motifs: Full-bleed deck slides, SVG architecture diagrams, fluid responsive clamps, pastel tag badges</li></ul><h3>Key Characteristics</h3><ul><li>Midnight Dark Base (<code>#0d0c11</code>) with layered obsidian surfaces (<code>#16151c</code>, <code>#1f1d26</code>) and hairline borders (<code>#2a2833</code>)</li><li>Fluid Display Typography using <code>Neudron</code> display sans, paired with <code>GT America</code> body and <code>IBM Plex Mono</code> code/label specs</li><li>Pastel Accent System introducing soft lavender (<code>#d0bcff</code>), mint green (<code>#b9f2c8</code>), and blush pink (<code>#ffd8e4</code>)</li><li>Deck Slide Architecture utilizing presentation-style case study cards with phone mockups and custom SVG diagrams</li></ul></section><section><h2>2. Color Palette &amp; Roles</h2><table><thead><tr><th>Role</th><th>Semantic Name</th><th>Value</th><th>Usage</th></tr></thead><tbody><tr><td>Primary action</td><td>Soft Lavender</td><td><code>#d0bcff</code></td><td>Primary CTA, focus state, active highlights</td></tr><tr><td>Accent</td><td>Pastel Mint Green</td><td><code>#b9f2c8</code></td><td>Status pills, highlight tags, secondary callouts</td></tr><tr><td>Accent</td><td>Soft Powder Pink</td><td><code>#ffd8e4</code></td><td>Decorative tags, subtle category badges</td></tr><tr><td>Surface</td><td>Midnight Base</td><td><code>#0d0c11</code></td><td>Main page background</td></tr><tr><td>Surface</td><td>Obsidian Card</td><td><code>#16151c</code></td><td>Primary container surface</td></tr><tr><td>Surface</td><td>Surface Elevated</td><td><code>#1f1d26</code></td><td>Secondary cards, dropdowns, code blocks</td></tr><tr><td>Text</td><td>Crisp Off-White</td><td><code>#ece9f1</code></td><td>Primary headings and body copy</td></tr><tr><td>Text</td><td>Lavender Grey</td><td><code>#a39fb0</code></td><td>Muted text, subtitles, meta labels</td></tr><tr><td>Text</td><td>Dim Grey</td><td><code>#75717f</code></td><td>Footers, captions, minor metadata</td></tr><tr><td>Border</td><td>Soft Charcoal</td><td><code>#2a2833</code></td><td>Card outlines, dividers, structural lines</td></tr></tbody></table><h3>Primary</h3><ul><li>Base Background (<code>--bg</code>): <code>#0d0c11</code></li><li>Primary Text (<code>--text</code>): <code>#ece9f1</code></li><li>Accent Primary (<code>--primary</code>): <code>#d0bcff</code> (Hover: <code>#e3d6ff</code>)</li></ul><h3>Interactive</h3><ul><li>Links &amp; CTAs: <code>#d0bcff</code> with <code>hover { transform: translateY(-1px); color: #e3d6ff; }</code></li><li>Focus Rings: <code>2px solid #d0bcff</code> with <code>rgba(208, 188, 255, 0.24)</code> glow shadow</li></ul><h3>Neutral Scale</h3><ul><li>Midnight Base: <code>#0d0c11</code></li><li>Dark Surface 1: <code>#16151c</code></li><li>Dark Surface 2: <code>#1f1d26</code></li><li>Muted Grey: <code>#a39fb0</code></li><li>Dimmed Grey: <code>#75717f</code></li></ul><h3>Surface &amp; Overlay</h3><ul><li>Card Surface: <code>#16151c</code> with 1px border <code>#2a2833</code></li><li>Diagram Node Background: <code>rgba(208, 188, 255, 0.12)</code> with border <code>rgba(208, 188, 255, 0.34)</code></li></ul><h3>Theme Modes</h3><p>#### Dark Mode (Primary Default)</p><ul><li>Background: <code>#0d0c11</code></li><li>Surface: <code>#16151c</code></li><li>Text: <code>#ece9f1</code></li><li>Accent: <code>#d0bcff</code> / <code>#b9f2c8</code></li><li>Notes: Deep dark theme designed for high-contrast viewing of design portfolios and case studies.</li></ul><h3>Shadows &amp; Depth</h3><ul><li>Soft Panel Shadow: <code>0 8px 32px rgba(0, 0, 0, 0.36)</code></li><li>Card Hover Elevation: <code>translateY(-2px)</code> with border color shift from <code>#2a2833</code> to <code>rgba(208, 188, 255, 0.4)</code></li></ul></section><section><h2>3. Typography Rules</h2><h3>Font Family</h3><ul><li>Primary: <code>&#39;Neudron&#39;, &#39;GT America&#39;, &#39;Helvetica Neue&#39;, Helvetica, Arial, sans-serif</code></li><li>Monospace: <code>&#39;IBM Plex Mono&#39;, ui-monospace, SFMono-Regular, Menlo, monospace</code></li><li>OpenType Features: <code>ss01</code>, <code>cv01</code>, tabular numbers for stat metrics</li></ul><h3>Hierarchy</h3><table><thead><tr><th>Role</th><th>Font</th><th>Size</th><th>Weight</th><th>Line Height</th><th>Letter Spacing</th><th>Notes</th></tr></thead><tbody><tr><td>Hero headline</td><td>Neudron</td><td><code>clamp(2.6rem, 14.5vw, 13rem)</code></td><td>700</td><td>0.92</td><td><code>-0.03em</code></td><td>Massive architectural display title</td></tr><tr><td>Section heading</td><td>Neudron</td><td><code>clamp(2.8rem, 7.6vw, 6.4rem)</code></td><td>600</td><td>1.05</td><td><code>-0.01em</code></td><td>H2 section titles</td></tr><tr><td>Body</td><td>GT America</td><td><code>clamp(1rem, 1.6vw, 1.55rem)</code></td><td>400</td><td>1.6</td><td><code>normal</code></td><td>Main narrative copy</td></tr><tr><td>Label / Eyebrow</td><td>IBM Plex Mono</td><td><code>clamp(0.8rem, 1.1vw, 1.05rem)</code></td><td>500</td><td>1.2</td><td><code>0.08em</code></td><td>Uppercase metadata pills &amp; tags</td></tr><tr><td>Caption / Meta</td><td>IBM Plex Mono</td><td><code>clamp(0.62rem, 0.88vw, 0.85rem)</code></td><td>500</td><td>1.2</td><td><code>0.05em</code></td><td>Tech stack &amp; metric tags</td></tr></tbody></table><h3>Principles</h3><ul><li>Fluid CSS Clamp Sizing ensuring text scales seamlessly across screen widths from 320px to 2560px.</li><li>Typographic Contrast between ultra-heavy custom display sans (<code>Neudron</code>) and technical monospace labels (<code>IBM Plex Mono</code>).</li><li>Expressive Quote Treatment using serif italic (<code>Reckless</code>) for editorial weight.</li></ul></section><section><h2>4. Component Stylings</h2><h3>Buttons and Links</h3><ul><li>Primary CTA: Solid background <code>#d0bcff</code>, dark text <code>#381e72</code>, font weight 600, border radius <code>10px</code>.</li><li>Secondary CTA: Ghost surface <code>#1f1d26</code> with hairline border <code>#2a2833</code>, light text <code>#ece9f1</code>.</li><li>Text links: Lavender color <code>#d0bcff</code> with subtle underline hover animation.</li><li>Hover and active feel: Smooth <code>transform: translateY(-2px)</code> with subtle color transition over 200ms.</li></ul><h3>Cards and Containers</h3><ul><li>Surface style: <code>#16151c</code></li><li>Radius: <code>16px</code></li><li>Border: <code>1px solid #2a2833</code></li><li>Shadow or elevation: Inset border + drop shadow <code>0 8px 24px rgba(0, 0, 0, 0.4)</code></li><li>Internal spacing: <code>clamp(28px, 5vw, 64px)</code></li></ul><h3>Navigation</h3><ul><li>Structure: Top header with fixed logo left, link items right.</li><li>Background treatment: Glassmorphism blur <code>backdrop-filter: blur(16px)</code> on background <code>rgba(13, 12, 17, 0.82)</code>.</li><li>Link style: <code>IBM Plex Mono</code> uppercase font size <code>14px</code>, text color <code>#a39fb0</code>.</li><li>Sticky or scroll behavior: Fixed top with subtle background opacity shift on scroll.</li></ul><h3>Image Treatment</h3><ul><li>Screenshot treatment: Dark-framed phone mockups with rounded corners <code>12px</code>.</li><li>Photography style: High-contrast product UI screenshots and vector architectural diagrams.</li><li>Border and radius treatment: <code>1px solid #2a2833</code> with <code>16px</code> container radius.</li></ul><h3>Distinctive Components</h3><ul><li>Deck Slide Layout: Full-width presentation slide unit featuring side-by-side case study title, specs, and interactive media/mockups.</li><li>Interactive Metric Callouts: Large <code>Neudron</code> stat numbers next to <code>IBM Plex Mono</code> descriptive captions.</li><li>Architectural Process Diagrams: Custom SVG node-and-connector flowcharts using <code>#545260</code> stroke lines and <code>#d0bcff</code> nodes.</li></ul></section><section><h2>5. Layout Principles</h2><h3>Spacing System</h3><ul><li>Base unit: <code>8px</code></li><li>Repeated spacing values: <code>8px</code>, <code>16px</code>, <code>24px</code>, <code>32px</code>, <code>48px</code>, <code>80px</code></li></ul><h3>Grid &amp; Container</h3><ul><li>Grid logic: 2-column split layout, max-width <code>1320px</code>.</li><li>Max content width: <code>1320px</code></li><li>Section spacing: <code>clamp(72px, 12vh, 160px)</code></li></ul><h3>Whitespace Philosophy</h3><ul><li>Whitespace philosophy: Generous slide-by-slide vertical cadence giving every case study dedicated focal area.</li><li>Alignment tendencies: Left-aligned titles and narrative copy with right-aligned process diagrams or phone mockups.</li><li>Content width behavior: Max content width restricted to 1320px, centered horizontally.</li></ul><h3>Border Radius Scale</h3><ul><li>Micro: <code>4px</code></li><li>Standard: <code>10px</code></li><li>Large: <code>16px</code></li><li>Pill: <code>999px</code></li></ul></section><section><h2>6. Depth &amp; Elevation</h2><table><thead><tr><th>Level</th><th>Treatment</th><th>Use</th></tr></thead><tbody><tr><td>Flat</td><td><code>#0d0c11</code> (No border)</td><td>Main canvas background</td></tr><tr><td>Ring</td><td>Hairline <code>1px solid #2a2833</code></td><td>Component dividers and card outlines</td></tr><tr><td>Card</td><td><code>#16151c</code> + shadow <code>0 8px 24px rgba(0,0,0,0.4)</code></td><td>Presentation slide cards &amp; case studies</td></tr><tr><td>Focus</td><td>Outline <code>2px solid #d0bcff</code></td><td>Keyboard navigation &amp; focus state</td></tr></tbody></table></section><section><h2>7. Do&#39;s and Don&#39;ts</h2><h3>Do</h3><ul><li>Use fluid <code>clamp()</code> sizing for all heading and body font rules.</li><li>Maintain high contrast between dark background surfaces and bright pastel accent badges.</li><li>Keep structural elements aligned to an 8px spatial grid.</li></ul><h3>Don&#39;t</h3><ul><li>Don&#39;t use harsh pure black (<code>#000000</code>) or pure white (<code>#ffffff</code>) for main background and text.</li><li>Don&#39;t overcrowd cards—preserve slide-deck whitespace proportions.</li><li>Don&#39;t mix more than 3 accent colors in a single card module.</li></ul></section><section><h2>8. Responsive Behavior</h2><h3>Breakpoints</h3><table><thead><tr><th>Name</th><th>Width</th><th>Key Changes</th></tr></thead><tbody><tr><td>Mobile</td><td><code>&lt; 768px</code></td><td>Single-column stack, navigation collapses, clamp text scales down dynamically</td></tr><tr><td>Tablet</td><td><code>768px - 1024px</code></td><td>2-column grid with reduced gap (<code>40px</code>), medium clamp sizes</td></tr><tr><td>Desktop</td><td><code>&gt; 1024px</code></td><td>Full 2-column split deck view, gap 80px, max-width 1320px</td></tr></tbody></table><h3>Touch Targets</h3><ul><li>Minimum touch target height: <code>44px</code> for interactive CTAs and navigation items.</li></ul><h3>Collapsing Strategy</h3><ul><li>Desktop behavior: Side-by-side 2-column split layout with full interactive deck slides.</li><li>Tablet behavior: Grid gap reduces from 80px to 40px; typography scales down via fluid clamp.</li><li>Mobile behavior: All multi-column cards collapse into a single vertical scroll stack.</li></ul></section><section><h2>9. Agent Prompt Guide</h2><h3>Quick Color Reference</h3><ul><li>Primary CTA: <code>#d0bcff</code></li><li>Background: <code>#0d0c11</code></li><li>Heading text: <code>#ece9f1</code></li><li>Body text: <code>#a39fb0</code></li><li>Border or ring: <code>#2a2833</code></li><li>Accent: <code>#b9f2c8</code></li></ul><h3>Quick Summary</h3><p>Harrison Wheeler&#39;s portfolio design system is built on a midnight obsidian base (<code>#0d0c11</code>) with layered surface cards (<code>#16151c</code>), crisp high-contrast display typography (<code>Neudron</code>), technical monospace labels (<code>IBM Plex Mono</code>), and pastel accent highlights (<code>#d0bcff</code>, <code>#b9f2c8</code>). Layouts feel like a polished executive slide deck with generous spacing, fluid text scaling, and architectural case study mockups.</p><h3>Example Component Prompts</h3><ul><li>Hero: &quot;Build a dark editorial portfolio hero with a massive Neudron display heading, IBM Plex Mono uppercase eyebrow tag in lavender (#d0bcff), and obsidian surface card.&quot;</li><li>Card: &quot;Create a case study card with background #16151c, border 1px solid #2a2833, border-radius 16px, featuring a mint green badge (#b9f2c8) and large stat metric.&quot;</li></ul><h3>Ready-to-Use Prompt</h3><p>&quot;Design a high-end product design portfolio UI in Dark Mode. Use background #0d0c11, surface cards #16151c with 1px border #2a2833 and 16px radius. Set titles in bold display sans with off-white text #ece9f1, subtitles in muted lavender-grey #a39fb0, and tag pills in soft lavender #d0bcff or mint green #b9f2c8. Layout should feel like an executive presentation slide deck with fluid typography.&quot;</p><h3>Iteration Guide</h3><ol><li>Start with the midnight background <code>#0d0c11</code> and obsidian surface <code>#16151c</code>.</li><li>Apply <code>Neudron</code> for high-impact display titles and <code>IBM Plex Mono</code> for technical tags.</li><li>Accentuate key interactive elements with lavender <code>#d0bcff</code> and mint green <code>#b9f2c8</code>.</li></ol></section><section><h2>Optional Appendix: Observed Pages</h2><ul><li>https://www.harrisonwheeler.com/ : Homepage slide-deck portfolio showcasing Base CRM, LeadCraft, and Holiday case studies.</li></ul></section></article>
+              <article class="rendered-view" id="previewView" hidden><section><h2>1. Visual Theme &amp; Atmosphere</h2><p>这是一个为复杂业务系统产品经理建立的深色编辑型作品集系统。它用强排版、结构化证据与克制动效，把复杂项目组织成可以快速扫描、继续深读并验证判断的叙事，而不是把页面做成模板化的视觉作品陈列。</p><h3>1.1 品牌定位</h3><p>作品集的目标不是证明“会做漂亮界面”，而是证明：能够理解复杂业务、建立系统模型、推动跨团队决策，并用设计能力让复杂问题变得可理解、可执行、可验证。</p><p>核心定位：</p><ul><li>中文：具有设计背景的复杂业务系统产品经理</li><li>English: Product Manager for Complex Systems, with a Design Background</li><li>主要受众：招聘经理、产品负责人、设计负责人、业务决策者</li><li>第一印象：清晰、成熟、克制、有判断力</li><li>阅读结果：访客能快速理解“问题有多复杂、作者做了什么决策、为什么这样做、结果如何”</li></ul><h3>1.2 设计方向</h3><p>视觉采用深色编辑型作品集语言：全视口开场、强烈但不喧闹的排版层级、演示文稿式章节节奏、结构化产品证据和克制的滚动动效。页面应像一场经过剪辑的产品评审，而不是卡片合集，也不是营销落地页。</p><p>本系统参考 Harrison Wheeler 网站的以下方法，但不复制其个人品牌：</p><ul><li>借用：固定胶囊导航、全视口 Hero、超大压缩标题、留白节奏、黏性案例堆叠、轻量进入动画、移动端重排。</li><li>保留：本项目 Midnight Base、Digital Lavender、System Green 配色与 Anton / Inter / IBM Plex Mono 字体体系。</li><li>改造：案例内容从视觉展示转为“背景 → 约束 → 决策 → 系统 → 结果 → 反思”的产品叙事。</li><li>拒绝：照搬参考网站的字体、颜色、文案、作品结构或个人识别元素。</li></ul><h3>1.3 Key Characteristics</h3><ol><li><strong>Editorial, not decorative</strong>：大标题用于建立章节与观点，不用于填满每个模块。</li><li><strong>Evidence over claims</strong>：界面截图、流程图、数据和决策依据优先于抽象形容词。</li><li><strong>One focal point per viewport</strong>：每个视口只建立一个主要视觉焦点。</li><li><strong>Quiet confidence</strong>：动效、辉光和强调色都服务于阅读，不表演技术。</li><li><strong>System clarity</strong>：用网格、编号、标签、连接线和对比结构表达复杂系统。</li></ol><h3>1.4 体验关键词</h3><p><code>Editorial</code> · <code>Systematic</code> · <code>Strategic</code> · <code>Precise</code> · <code>Calm</code> · <code>Human</code></p><p>不使用以下方向：</p><ul><li>通用 SaaS 落地页、模板化 Bento Grid、过量小卡片。</li><li>大面积渐变、霓虹光污染、玻璃拟态、装饰性 3D 球体。</li><li>Dribbble 式只展示结果图、不解释约束与决策。</li><li>把所有标题都做成 Hero 尺寸，或用动效掩盖内容不足。</li></ul><p>---</p></section><section><h2>2. Color Palette &amp; Roles</h2><h3>2.1 Semantic Tokens</h3><p>```css :root { color-scheme: dark;</p><p>--color-bg: #0b0f14; --color-surface: #141922; --color-surface-elevated: #1c2330;</p><p>--color-text-primary: #f2f2f5; --color-text-secondary: #a7adb8; --color-text-tertiary: #707784;</p><p>--color-accent-primary: #c8b6ff; --color-accent-success: #b8e6d0;</p><p>--color-border-subtle: rgba(255, 255, 255, 0.08); --color-border-default: rgba(255, 255, 255, 0.12); --color-border-strong: rgba(255, 255, 255, 0.22); --color-overlay: rgba(11, 15, 20, 0.78);</p><p>--color-focus: #c8b6ff; --color-selection-bg: rgba(200, 182, 255, 0.28); --color-selection-text: #f2f2f5; } ```</p><h3>2.2 Primary &amp; Surface Roles</h3><table><thead><tr><th>Role</th><th>Semantic name</th><th>Value</th><th>Usage</th></tr></thead><tbody><tr><td>Page background</td><td>Midnight Base</td><td><code>#0B0F14</code></td><td>页面背景、Hero、页脚</td></tr><tr><td>Surface</td><td>Dark Surface</td><td><code>#141922</code></td><td>案例卡、内容区、导航背景</td></tr><tr><td>Elevated surface</td><td>Elevated Surface</td><td><code>#1C2330</code></td><td>浮层、重点数据、悬浮状态</td></tr><tr><td>Primary text</td><td>Soft White</td><td><code>#F2F2F5</code></td><td>标题、关键结论</td></tr><tr><td>Secondary text</td><td>Cool Grey</td><td><code>#A7ADB8</code></td><td>正文、说明</td></tr><tr><td>Tertiary text</td><td>Dim Grey</td><td><code>#707784</code></td><td>元数据、禁用态</td></tr></tbody></table><h3>2.3 Accent Roles</h3><table><thead><tr><th>Token</th><th>Value</th><th>Role</th><th>使用上限</th></tr></thead><tbody><tr><td>Digital Lavender</td><td><code>#C8B6FF</code></td><td>主 CTA、链接、焦点环、关键路径</td><td>单屏可见面积约 8%</td></tr><tr><td>System Green</td><td><code>#B8E6D0</code></td><td>成果、已验证状态、正向指标</td><td>单屏可见面积约 5%</td></tr></tbody></table><p>规则：</p><ul><li>不引入第三品牌强调色。错误、警告等系统状态优先使用图标、文案和边框模式；确需新增状态色时，必须先更新本文档。</li><li>同一区块最多出现一种主强调色；绿色只用于“结果或验证”，不能作为普通装饰。</li><li>禁止用紫绿渐变作为页面背景。允许同色透明度变化，但不允许制造彩色光球或模糊色斑。</li><li>文本与背景对比度：普通文本至少 <code>4.5:1</code>，大文本至少 <code>3:1</code>。</li></ul><h3>2.4 Quick Color Reference</h3><ul><li>页面底色：<code>var(--color-bg)</code></li><li>默认卡片：<code>var(--color-surface)</code> + <code>var(--color-border-default)</code></li><li>Hover 表面：<code>var(--color-surface-elevated)</code></li><li>正文：<code>var(--color-text-secondary)</code></li><li>主操作：<code>var(--color-accent-primary)</code></li><li>结果数据：<code>var(--color-accent-success)</code></li><li>键盘焦点：<code>2px solid var(--color-focus)</code>，外偏移 <code>3px</code></li></ul><p>---</p></section><section><h2>3. Typography Rules</h2><h3>3.1 Font Family</h3><p>``<code>css :root { --font-display: &quot;Anton&quot;, &quot;Inter&quot;, sans-serif; --font-body: &quot;Inter&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif; --font-mono: &quot;IBM Plex Mono&quot;, &quot;JetBrains Mono&quot;, monospace; } </code>``</p><ul><li><code>Anton</code>：只用于首页姓名、案例大标题、关键章节号等高冲击 Display。</li><li><code>Inter</code>：标题、正文、按钮和所有高频阅读内容。</li><li><code>IBM Plex Mono</code> / <code>JetBrains Mono</code>：标签、年份、数据单位、系统字段和图表注释。</li><li>不新增装饰字体；不用等宽字体承载长段正文。</li></ul><h3>3.2 Fluid Type Scale</h3><p>所有标题和正文必须使用 <code>clamp()</code>，不得只写固定字号。禁止用 <code>vw</code> 单独控制字号。</p><table><thead><tr><th>Role</th><th>Font</th><th>Size</th><th>Weight</th><th>Line height</th><th>Letter spacing</th><th>Notes</th></tr></thead><tbody><tr><td>Display XL</td><td>Anton</td><td><code>clamp(4.5rem, 11vw, 10rem)</code></td><td>400</td><td><code>0.88</code></td><td><code>0</code></td><td>首页姓名或定位主句</td></tr><tr><td>Display L</td><td>Anton</td><td><code>clamp(3.5rem, 8vw, 7.5rem)</code></td><td>400</td><td><code>0.92</code></td><td><code>0</code></td><td>案例标题、章节转场</td></tr><tr><td>H1</td><td>Inter</td><td><code>clamp(2.75rem, 6vw, 5.5rem)</code></td><td>700</td><td><code>1.0</code></td><td><code>0</code></td><td>页面主标题</td></tr><tr><td>H2</td><td>Inter</td><td><code>clamp(2rem, 4vw, 3.75rem)</code></td><td>650</td><td><code>1.08</code></td><td><code>0</code></td><td>一级章节标题</td></tr><tr><td>H3</td><td>Inter</td><td><code>clamp(1.5rem, 2.5vw, 2.25rem)</code></td><td>600</td><td><code>1.18</code></td><td><code>0</code></td><td>模块标题</td></tr><tr><td>H4</td><td>Inter</td><td><code>clamp(1.125rem, 1.5vw, 1.375rem)</code></td><td>600</td><td><code>1.3</code></td><td><code>0</code></td><td>卡片内标题</td></tr><tr><td>Lead</td><td>Inter</td><td><code>clamp(1.25rem, 2vw, 1.75rem)</code></td><td>400</td><td><code>1.5</code></td><td><code>0</code></td><td>核心摘要、观点</td></tr><tr><td>Body L</td><td>Inter</td><td><code>clamp(1.0625rem, 1.3vw, 1.25rem)</code></td><td>400</td><td><code>1.7</code></td><td><code>0</code></td><td>案例叙事正文</td></tr><tr><td>Body</td><td>Inter</td><td><code>clamp(1rem, 1vw, 1.125rem)</code></td><td>400</td><td><code>1.65</code></td><td><code>0</code></td><td>通用正文</td></tr><tr><td>Small</td><td>Inter</td><td><code>clamp(0.875rem, 0.9vw, 1rem)</code></td><td>450</td><td><code>1.5</code></td><td><code>0</code></td><td>注释、辅助说明</td></tr><tr><td>Label</td><td>IBM Plex Mono</td><td><code>clamp(0.75rem, 0.8vw, 0.875rem)</code></td><td>500</td><td><code>1.4</code></td><td><code>0</code></td><td>标签、编号、年份</td></tr></tbody></table><h3>3.3 Typographic Principles</h3><ul><li>Display 文本每行建议 <code>8–14</code> 个汉字或 <code>8–12</code> 个英文单词；长内容改用 H1/H2。</li><li>正文最大行宽 <code>68ch</code>，核心摘要最大 <code>52ch</code>，元数据最大 <code>36ch</code>。</li><li>中文正文使用自然换行；英文标题使用 <code>text-wrap: balance</code>，正文可用 <code>text-wrap: pretty</code>。</li><li>字距统一为 <code>0</code>。Anton 的紧凑感来自字体本身，不通过负字距制造。</li><li>数字与单位不换行；数据数字可用 <code>font-variant-numeric: tabular-nums</code>。</li><li>每个段落只表达一个论点，正文段落建议 <code>2–5</code> 行。</li></ul><p>---</p></section><section><h2>4. Component Stylings</h2><h3>4.1 Navigation</h3><p>固定居中的胶囊导航是网站的主要识别组件：</p><p>``<code>css .site-nav { position: fixed; inset-block-start: 24px; inset-inline-start: 50%; z-index: 100; transform: translateX(-50%); min-height: 48px; padding: 6px; border: 1px solid var(--color-border-default); border-radius: 9999px; background: rgba(20, 25, 34, 0.82); backdrop-filter: blur(16px); } </code>``</p><ul><li>Desktop：品牌标识 + 3–4 个主导航项 + 联系入口；不得超过 6 个可见入口。</li><li>Mobile：保留品牌标识和菜单按钮，展开为全宽暗色面板；不用把文字硬塞进胶囊。</li><li>当前项用文字高对比和轻微表面变化表示，不依赖下划线动画。</li><li>导航按钮最小触控区域 <code>44 × 44px</code>。</li><li>页面滚动后可轻微提升背景不透明度，但不可改变尺寸造成跳动。</li></ul><h3>4.2 Hero</h3><p>Hero 是作品集定位，不是功能介绍卡片。</p><ul><li>最小高度：Desktop <code>100svh</code>；Mobile <code>100svh</code>。</li><li>内容不放在卡片中，直接位于页面背景上。</li><li>Desktop：姓名或定位占据主要画面；简介与 CTA 放在下部网格。</li><li>Mobile：主标题保持强度，CTA 靠近视口底部纵向排列且全宽。</li><li>首屏必须露出下一章节的视觉提示：章节编号、标题上沿或滚动引导，不能形成封闭海报。</li><li>Hero 最多一个主 CTA 和一个次 CTA。</li></ul><p>推荐结构：</p><p>``<code>text [Fixed navigation] [Mono eyebrow: ROLE / LOCATION / YEAR] [Display name or literal positioning] [Short positioning statement, max 2 lines] [Primary CTA] [Secondary CTA]          [Scroll cue / next section hint] </code>``</p><h3>4.3 Buttons and Links</h3><table><thead><tr><th>Variant</th><th>Background</th><th>Text</th><th>Border</th><th>Use</th></tr></thead><tbody><tr><td>Primary</td><td><code>#C8B6FF</code></td><td><code>#0B0F14</code></td><td>transparent</td><td>查看案例、联系</td></tr><tr><td>Secondary</td><td><code>#1C2330</code></td><td><code>#F2F2F5</code></td><td>default</td><td>简历、补充路径</td></tr><tr><td>Text link</td><td>transparent</td><td><code>#C8B6FF</code></td><td>none</td><td>正文链接、次级跳转</td></tr></tbody></table><p>按钮规范：</p><ul><li>高度 <code>56px</code>（紧凑场景最低 <code>48px</code>），水平内边距 <code>28px</code>。</li><li>胶囊圆角 <code>9999px</code>；图标与文字间距 <code>8px</code>。</li><li>Hover：<code>translateY(-2px)</code>；Active：<code>translateY(0) scale(0.99)</code>。</li><li>不使用 <code>-4px</code> 以上的悬浮位移，不使用持续辉光。</li><li>图标按钮使用熟悉图标并提供 <code>aria-label</code> 与 tooltip。</li><li><code>:focus-visible</code> 必须保留清晰焦点环。</li></ul><p><strong>Primary CTA</strong></p><ul><li>Background: <code>#C8B6FF</code></li><li>Text: <code>#0B0F14</code></li><li>Common size: <code>56px</code></li><li>Radius: <code>9999px</code></li><li>Text style: <code>clamp(0.875rem, 0.9vw, 1rem) / 600</code></li></ul><p><strong>Secondary CTA</strong></p><ul><li>Background: <code>#1C2330</code></li><li>Text: <code>#F2F2F5</code></li><li>Ring: <code>rgba(255,255,255,0.12)</code></li><li>Radius: <code>9999px</code></li></ul><h3>4.4 Cards and Containers</h3><p>首页项目不是彼此独立的小卡片，而是一组按顺序展开的案例章节。</p><ul><li>Desktop 使用大幅双栏卡片：媒体约 <code>58%</code>，文本约 <code>42%</code>，相邻项目交替方向。</li><li>背景 <code>#141922</code>，边框 <code>1px solid rgba(255,255,255,0.12)</code>，大卡片圆角 <code>16px</code>。</li><li>内边距：<code>clamp(24px, 4vw, 64px)</code>；卡片间可通过黏性堆叠形成连续叙事。</li><li>媒体容器圆角 <code>12px</code> 或 <code>16px</code>，不得嵌套第二层装饰卡片。</li><li>每张卡只包含：编号、项目名、业务问题、角色、时间、1–2 个结果、明确 CTA。</li><li>Hover 只改变边框、媒体缩放 <code>1.015</code> 和整体 <code>translateY(-3px)</code>；内容布局不位移。</li></ul><p>推荐 DOM 顺序：标题与摘要在媒体之前出现于文档流，移动端视觉顺序可调整为媒体 → 文本，但屏幕阅读器顺序必须连贯。</p><p><strong>Card Tokens</strong></p><ul><li>Surface: <code>#141922</code></li><li>Ring / border: <code>rgba(255,255,255,0.12)</code></li><li>Radius: <code>16px</code></li><li>Signature shadow stack: <code>0 16px 48px rgba(0, 0, 0, 0.32)</code></li></ul><h3>4.5 Sticky Case Stack</h3><p>这是从参考网站抽取并适配后的标志性模式，只用于首页 3–5 个重点案例。</p><p>```css .project-card { position: sticky; top: clamp(80px, 10vh, 120px); min-height: min(76svh, 760px); border-radius: 16px 16px 0 0; }</p><p>.project-card + .project-card { margin-top: clamp(64px, 10vh, 120px); } ```</p><ul><li>每张后续卡片的 <code>top</code> 可增加 <code>8px</code>，最多堆叠 4 层。</li><li>父容器不得设置会破坏 sticky 的 <code>overflow: hidden/auto</code>。</li><li>内容高度超过视口时取消 sticky，避免正文无法滚动。</li><li>Mobile 低高度设备（<code>max-height: 700px</code>）和 reduced motion 模式取消 sticky。</li><li>Sticky 本身优先用 CSS；只有需要精确 pin、进度联动时才使用 ScrollTrigger。</li></ul><h3>4.6 Metrics</h3><ul><li>每组 <code>1–3</code> 个指标，数字大、说明短、口径明确。</li><li>数字使用 H2/H3 级别，颜色为 Soft White 或 System Green。</li><li>标签使用 Mono；说明必须写清基线、时间或样本，避免孤立百分比。</li><li>无可靠定量结果时使用可验证定性证据，不虚构数字。</li></ul><h3>4.7 Diagrams</h3><ul><li>节点背景用 Dark / Elevated Surface，主路径用 Lavender，验证结果用 Green。</li><li>连接线 <code>1px rgba(255,255,255,0.22)</code>，箭头方向清晰。</li><li>一个图只表达一个关系：流程、角色、信息或状态，不混合四种语义。</li><li>图中正文不低于 <code>14px</code>；移动端优先改为纵向流程或可横向滚动的完整图。</li><li>不用装饰性网络线、无意义节点或假数据制造“复杂感”。</li></ul><h3>4.8 Image Treatment</h3><ul><li>优先：真实产品界面、研究材料、流程图、决策记录、前后对比。</li><li>媒体必须带简短 caption，说明“看什么”和“为什么重要”。</li><li>截图保持清晰，不使用过暗遮罩或模糊背景影响检查。</li><li>容器：<code>12px–16px</code> 圆角、hairline 边框、深色阴影。</li><li>多图展示用无框网格或横向轨道；禁止卡片套卡片。</li><li>所有图片设置稳定 <code>aspect-ratio</code>，避免加载时布局跳动。</li></ul><h3>4.9 Case Detail Components</h3><p>每个案例详情页统一位于 <code>src/pages/cases/&lt;CaseName&gt;/</code>，自包含 JSX 与 CSS 模块，由 <code>ProjectDetail/index.jsx</code> 路由分发。视觉规则仍只来自本文档。</p><p>案例页推荐组件：</p><ul><li>Case Hero：项目名、业务问题、角色、周期、团队、主结果。</li><li>Context Strip：关键约束与范围，不使用一排装饰 badge。</li><li>Decision Block：决策、依据、被放弃的方案、影响。</li><li>Evidence Figure：图像 + caption + 来源或时间。</li><li>Metric Row：结果与口径。</li><li>Reflection：不足、后续验证、个人判断变化。</li><li>Next Case：下一个项目的完整标题与一句差异化说明。</li></ul><p>---</p></section><section><h2>5. Layout Principles</h2><h3>5.1 Container &amp; Grid</h3><p>```css :root { --page-gutter: clamp(20px, 3vw, 32px); --content-max: 1440px; --reading-max: 760px; --grid-gap: clamp(16px, 2vw, 32px); }</p><p>.page-shell { width: min(100% - (2 * var(--page-gutter)), var(--content-max)); margin-inline: auto; } ```</p><ul><li>Desktop：12 列网格；Tablet：8 列；Mobile：4 列。</li><li>主要案例可使用 7/5 或 8/4 比例，不固定使用 60/40。</li><li>长正文限制在 <code>var(--reading-max)</code>，不要横跨整个桌面。</li><li>区块是无框的全宽章节；卡片只用于项目、浮层或真正需要边界的工具。</li></ul><h3>5.2 Spacing System</h3><p>基础单位为 <code>8px</code>：</p><table><thead><tr><th>Token</th><th>Value</th><th>Use</th></tr></thead><tbody><tr><td><code>space-1</code></td><td><code>4px</code></td><td>图标内部、细节修正</td></tr><tr><td><code>space-2</code></td><td><code>8px</code></td><td>标签间距</td></tr><tr><td><code>space-3</code></td><td><code>16px</code></td><td>紧凑组件</td></tr><tr><td><code>space-4</code></td><td><code>24px</code></td><td>卡片内容组</td></tr><tr><td><code>space-5</code></td><td><code>32px</code></td><td>标准内容间隔</td></tr><tr><td><code>space-6</code></td><td><code>48px</code></td><td>模块间隔</td></tr><tr><td><code>space-7</code></td><td><code>64px</code></td><td>大模块内部</td></tr><tr><td><code>space-8</code></td><td><code>80px</code></td><td>移动端章节</td></tr><tr><td><code>space-9</code></td><td><code>120px</code></td><td>桌面章节</td></tr><tr><td><code>space-10</code></td><td><code>160px</code></td><td>章节转场，谨慎使用</td></tr></tbody></table><p>章节垂直间距：Desktop <code>clamp(96px, 10vw, 160px)</code>；Mobile <code>clamp(64px, 16vw, 96px)</code>。</p><h3>5.3 Border Radius Scale</h3><table><thead><tr><th>Token</th><th>Value</th><th>Use</th></tr></thead><tbody><tr><td>Small</td><td><code>4px</code></td><td>小标签、状态标记</td></tr><tr><td>Standard</td><td><code>12px</code></td><td>按钮以外的标准组件、媒体</td></tr><tr><td>Large</td><td><code>16px</code></td><td>项目卡、大型容器</td></tr><tr><td>Pill</td><td><code>9999px</code></td><td>导航、按钮、胶囊标签</td></tr></tbody></table><p>不自行使用 <code>6px</code>、<code>8px</code>、<code>20px</code>、<code>24px</code> 等新圆角。组件嵌套时，内层圆角必须小于外层。</p><h3>5.4 Case Study Narrative</h3><p>每个案例遵循同一逻辑，但不要求页面视觉完全相同：</p><ol><li><strong>Signal</strong>：一句话说明业务问题与结果，让访客决定是否继续。</li><li><strong>Context</strong>：业务背景、用户、范围、角色与不可改变的约束。</li><li><strong>Diagnosis</strong>：如何发现真正的问题，展示证据而非只给结论。</li><li><strong>Decision</strong>：关键取舍、备选方案、判断依据和跨团队协作。</li><li><strong>System</strong>：产品结构、流程、机制或策略如何工作。</li><li><strong>Validation</strong>：结果、口径、反馈，以及哪些仍未被证明。</li><li><strong>Reflection</strong>：如果重做会改变什么，体现判断成长。</li></ol><p>章节标题应表达观点，例如“问题不在搜索，而在检查责任断裂”，不要只写“Research”或“Solution”。</p><h3>5.5 Whitespace Philosophy</h3><ul><li>留白用于分隔论点，不是为了显得高级而稀释内容。</li><li>高密度证据区之后安排低密度总结区，形成阅读呼吸。</li><li>同一屏出现超过 3 个同等级焦点时，应合并、降级或拆分。</li><li>首页扫描优先；案例页深读优先。两者不能使用完全相同的信息密度。</li></ul><p>---</p></section><section><h2>6. Depth &amp; Elevation</h2><h3>6.1 Elevation Scale</h3><table><thead><tr><th>Level</th><th>Treatment</th><th>Use</th></tr></thead><tbody><tr><td>0 Canvas</td><td><code>#0B0F14</code></td><td>页面背景</td></tr><tr><td>1 Surface</td><td><code>#141922</code> + subtle border</td><td>静态内容与项目卡</td></tr><tr><td>2 Elevated</td><td><code>#1C2330</code> + default border</td><td>Hover、浮层、重点数据</td></tr><tr><td>3 Overlay</td><td>translucent surface + blur</td><td>固定导航、菜单、模态框</td></tr></tbody></table><p>``<code>css :root { --shadow-media: 0 16px 48px rgba(0, 0, 0, 0.32); --shadow-overlay: 0 20px 64px rgba(0, 0, 0, 0.42); --shadow-focus: 0 0 0 4px rgba(200, 182, 255, 0.18); } </code>``</p><h3>6.2 Depth Rules</h3><ul><li>深度主要通过表面亮度、hairline 边框和遮挡顺序表达，阴影只做辅助。</li><li>默认卡片不发光；Hover 可使用 <code>rgba(200,182,255,0.34)</code> 边框，但不做大范围紫色辉光。</li><li>固定导航可用 <code>backdrop-filter</code>，普通卡片禁止玻璃拟态。</li><li>同屏最多使用三层可感知深度，避免所有组件都浮起来。</li></ul><p>---</p></section><section><h2>7. Interaction Patterns</h2><h3>7.1 Motion Philosophy</h3><p>动效的任务是建立阅读顺序、解释空间关系和确认交互结果。整体手感应平稳、克制、接近编辑剪辑。不存在业务意义的动画不应加入。</p><p>动效技术分层：</p><ul><li><strong>CSS transitions</strong>：按钮、链接、卡片 Hover、Focus、菜单图标等局部状态。</li><li><strong>GSAP Core / Timeline</strong>：首屏进入、需要明确先后关系的章节编排。</li><li><strong>ScrollTrigger</strong>：只用于 pin、scrub、滚动进度或 sticky 无法表达的叙事。</li><li><strong>CSS sticky</strong>：普通黏性案例堆叠的首选，不为“用了 GSAP”而改成 JS。</li></ul><h3>7.2 Motion Tokens</h3><p>``<code>css :root { --duration-instant: 120ms; --duration-fast: 200ms; --duration-base: 360ms; --duration-reveal: 750ms; --ease-standard: cubic-bezier(0.22, 1, 0.36, 1); --ease-exit: cubic-bezier(0.4, 0, 1, 1); --reveal-distance: 30px; } </code>``</p><table><thead><tr><th>Pattern</th><th>Duration</th><th>Distance / scale</th><th>Ease</th><th>Notes</th></tr></thead><tbody><tr><td>Hover</td><td><code>200ms</code></td><td><code>-1px</code> to <code>-3px</code></td><td>standard</td><td>不改变布局</td></tr><tr><td>Press</td><td><code>120ms</code></td><td><code>scale(0.99)</code></td><td>exit</td><td>立即反馈</td></tr><tr><td>Reveal</td><td><code>750ms</code></td><td><code>y: 30 → 0</code></td><td>standard</td><td><code>opacity: 0 → 1</code></td></tr><tr><td>Stagger</td><td><code>60–90ms</code></td><td>—</td><td>standard</td><td>一组最多 6 项</td></tr><tr><td>Menu open</td><td><code>360ms</code></td><td><code>y: -8 → 0</code></td><td>standard</td><td>背景同步淡入</td></tr><tr><td>Media zoom</td><td><code>360ms</code></td><td><code>1 → 1.015</code></td><td>standard</td><td>容器裁切</td></tr><tr><td>Route transition</td><td><code>500–700ms</code></td><td><code>y: 16 → 0</code></td><td>standard</td><td>不阻塞导航</td></tr></tbody></table><h3>7.3 Reveal Rules</h3><ul><li>首屏顺序：eyebrow → Display → summary → actions，每步重叠而非逐个等待。</li><li>滚动 Reveal 默认 <code>once: true</code>，触发点约为元素顶部进入视口 <code>85%</code>。</li><li>一屏最多两组 Reveal；长文段落不逐行弹出。</li><li>不对导航、正文阅读核心或关键 CTA 设置长时间不可见初态。</li><li>不使用旋转、弹跳、随机位移或过度 stagger。</li></ul><p>GSAP 示例：</p><p>```js const timeline = gsap.timeline({ defaults: { ease: &quot;power3.out&quot; } });</p><p>timeline .from(&quot;[data-hero-eyebrow]&quot;, { autoAlpha: 0, y: 16, duration: 0.5 }) .from(&quot;[data-hero-title]&quot;, { autoAlpha: 0, y: 30, duration: 0.75 }, &quot;-=0.25&quot;) .from(&quot;[data-hero-summary]&quot;, { autoAlpha: 0, y: 24, duration: 0.65 }, &quot;-=0.42&quot;) .from(&quot;[data-hero-action]&quot;, { autoAlpha: 0, y: 16, duration: 0.5, stagger: 0.08 }, &quot;-=0.35&quot;); ```</p><h3>7.4 ScrollTrigger Rules</h3><ul><li>优先少量 section 级 Trigger，不为每个文字节点创建 Trigger。</li><li><code>scrub</code> 仅用于进度具有语义的动画，如流程推进、对比切换。</li><li>Pin 区域必须提供足够滚动距离，且不能让用户误以为页面卡死。</li><li>响应式逻辑使用 <code>gsap.matchMedia()</code>；不同断点分别建立和清理 Trigger。</li><li>图像加载、字体加载或布局变化后再 <code>ScrollTrigger.refresh()</code>，不要在滚动中频繁 refresh。</li><li>默认不使用 ScrollSmoother；原生滚动优先。</li></ul><h3>7.5 React + GSAP Lifecycle</h3><p>React 页面优先使用 <code>@gsap/react</code> 的 <code>useGSAP()</code>：</p><p>```jsx const root = useRef(null);</p><p>useGSAP(() =&gt; { const reduceMotion = window.matchMedia(&quot;(prefers-reduced-motion: reduce)&quot;).matches; if (reduceMotion) return;</p><p>gsap.from(&quot;[data-reveal]&quot;, { autoAlpha: 0, y: 30, duration: 0.75, stagger: 0.08, ease: &quot;power3.out&quot;, }); }, { scope: root }); ```</p><ul><li>使用单一根 <code>ref</code> 和 scoped selector，禁止全局选择器误伤其他页面。</li><li>依赖变化需要重建时使用 <code>revertOnUpdate: true</code>。</li><li>若必须用 <code>useEffect</code>，用 <code>gsap.context()</code> 包裹，并在 cleanup 中执行 <code>ctx.revert()</code>。</li><li>事件回调产生的动画使用 <code>contextSafe()</code>。</li><li>页面卸载后不得保留 timeline、listener 或 ScrollTrigger。</li></ul><h3>7.6 Performance Rules</h3><ul><li>动画只改变 <code>transform</code> 和 <code>opacity</code>；避免动画 <code>width</code>、<code>height</code>、<code>top</code>、<code>left</code>、<code>margin</code>。</li><li>读写 DOM 分批执行，避免滚动回调中反复测量布局。</li><li><code>will-change</code> 只在动画即将发生时添加，结束后移除；禁止全局常驻。</li><li>每页 ScrollTrigger 数量保持可解释且尽量少；多个同类 Reveal 使用批处理。</li><li>图片提供正确尺寸、响应式源和懒加载；首屏主图不懒加载。</li><li>动效不能造成 CLS；所有固定格式媒体和图表先定义尺寸或 <code>aspect-ratio</code>。</li><li>以中端移动设备为基准检查滚动流畅度，不以开发机表现替代验证。</li></ul><h3>7.7 Reduced Motion</h3><p>```css @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; }</p><p><em>, </em>::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }</p><p>[data-reveal] { opacity: 1 !important; transform: none !important; }</p><p>.project-card { position: relative; top: auto; } } ```</p><ul><li>JS 在创建 timeline / ScrollTrigger 前检查媒体查询。</li><li>Reduced motion 下直接呈现最终状态，禁止用极短动画伪装“支持”。</li><li>自动播放媒体需可暂停；非必要装饰媒体不自动播放。</li></ul><p>---</p></section><section><h2>8. Responsive Behavior</h2><h3>8.1 Breakpoints</h3><table><thead><tr><th>Name</th><th>Width</th><th>Grid</th><th>Gutter</th><th>Key changes</th></tr></thead><tbody><tr><td>Mobile</td><td><code>&lt; 768px</code></td><td>4 columns</td><td><code>20px</code></td><td>章节间距 <code>64–96px</code>，单栏重排</td></tr><tr><td>Tablet</td><td><code>768–1199px</code></td><td>8 columns</td><td><code>24px</code></td><td>章节间距 <code>80–120px</code>，压缩双栏</td></tr><tr><td>Desktop</td><td><code>≥ 1200px</code></td><td>12 columns</td><td><code>32px</code></td><td>章节间距 <code>96–160px</code>，完整叙事布局</td></tr></tbody></table><p>断点按内容失效点选择，不因某款设备单独增加断点。</p><h3>8.2 Collapsing Strategy</h3><p>Desktop → Mobile 的变化不是简单缩小：</p><ul><li>Hero：保持 <code>100svh</code>；简介缩短；按钮移至底部并纵向全宽排列。</li><li>Navigation：完整链接收进菜单；保留 44px 触控目标。</li><li>Project Card：双栏变单栏，媒体优先显示，文本随后；取消不适合低视口的 sticky。</li><li>Case Detail：侧栏元数据移到正文前；多列指标变为 1–2 列。</li><li>Diagrams：先改成纵向结构；无法重排时允许明确的横向滚动，不压缩到不可读。</li><li>Tables：优先转换为对比列表；必须保留表格时允许横向滚动并固定首列。</li><li>Footer：多列导航变为分组列表，不把所有内容居中堆叠。</li></ul><h3>8.3 Touch &amp; Input</h3><ul><li>所有触控目标至少 <code>44 × 44px</code>，相邻目标间距至少 <code>8px</code>。</li><li>Hover 效果不能承载唯一信息；触屏上默认展示必要标签与 CTA。</li><li>不拦截浏览器返回、缩放、滚动等原生行为。</li><li>菜单打开时管理焦点、锁定背景滚动并支持 Escape 关闭。</li></ul><h3>8.4 Content Safety</h3><ul><li>标题容器使用可预测宽度和自然换行，最长单词设置 <code>overflow-wrap: anywhere</code> 作为兜底。</li><li>按钮文字允许合理换行，但主按钮文案优先控制在 8 个汉字以内。</li><li>固定导航、Hero CTA 与下一章节提示在 <code>320px</code> 宽度下不得重叠。</li><li>使用 <code>100svh</code> 而非仅 <code>100vh</code>，处理移动浏览器工具栏变化。</li></ul><p>---</p></section><section><h2>9. Content &amp; Messaging Patterns</h2><h3>9.1 Voice</h3><p>语气专业、直接、具体，以判断和证据建立可信度。少说“赋能、创新、极致、全链路”等空泛词，避免把团队成果全部写成个人英雄叙事。</p><p>推荐句式：</p><ul><li>“在三种约束同时存在时，我把优先级从功能覆盖转向错误恢复。”</li><li>“研究显示问题不是入口不可见，而是责任状态在交接后丢失。”</li><li>“这个结果证明了流程可用，但尚不能证明长期留存。”</li></ul><p>不推荐：</p><ul><li>“我打造了行业领先的创新体验。”</li><li>“通过深入洞察赋能业务增长。”</li><li>只有过程名词，没有发现、判断与影响。</li></ul><h3>9.2 Density</h3><ul><li>首页项目摘要：<code>80–140</code> 个中文字符，回答问题、角色、结果。</li><li>案例开场摘要：<code>120–220</code> 个中文字符。</li><li>每个正文段落：<code>60–160</code> 个中文字符，超过则拆分观点。</li><li>图注：一句说明内容，一句说明意义；避免重复画面可见文字。</li><li>每个案例至少展示 2 个关键决策和 1 个未解决问题。</li></ul><h3>9.3 Labels</h3><p>标签使用事实而非评价：</p><ul><li>推荐：<code>ROLE / PRODUCT STRATEGY</code>、<code>SCOPE / 3 WORKFLOWS</code>、<code>OUTCOME / -32% REVIEW TIME</code></li><li>避免：<code>AMAZING WORK</code>、<code>BEST PROJECT</code>、<code>INNOVATIVE</code></li></ul><p>---</p></section><section><h2>10. Do&#39;s and Don&#39;ts</h2><h3>Do</h3><ul><li>用一条强主线组织每个页面，让每屏只承担一个核心论点。</li><li>展示问题结构、取舍过程、产品机制与结果口径。</li><li>使用真实界面和清晰图表，让访客可以检查细节。</li><li>用大排版建立章节，用等宽标签提供结构线索。</li><li>保持紫色负责行动、绿色负责结果的稳定语义。</li><li>用 CSS sticky 和轻量 Reveal 建立节奏，并完整支持 reduced motion。</li><li>在桌面、移动端和低高度视口分别验证排版和 sticky 行为。</li></ul><h3>Don&#39;t</h3><ul><li>不复制参考网站的个人姓名排版、文案、字体、配色或案例内容。</li><li>不加入未定义的第三品牌色、大面积渐变、光球或纯装饰纹理。</li><li>不把每个区块包成卡片，不使用卡片套卡片。</li><li>不把首页做成能力介绍型落地页；首屏直接呈现身份与作品。</li><li>不使用 <code>translateY(-4px)</code> 以上的卡片 Hover 或夸张紫色辉光。</li><li>不逐字、逐行、逐元素播放进入动画。</li><li>不用 GSAP 替代简单 CSS transition，也不用 ScrollTrigger 替代原生 sticky。</li><li>不在没有测量依据时虚构指标或把团队结果归为个人成果。</li></ul><p>---</p></section><section><h2>11. Agent Prompt Guide</h2><h3>Quick Color Reference</h3><ul><li>Background: <code>#0B0F14</code></li><li>Elevated surface: <code>#1C2330</code></li><li>Heading text: <code>#F2F2F5</code></li><li>Body text: <code>#A7ADB8</code></li><li>Ring / border: <code>rgba(255,255,255,0.12)</code></li><li>Accent / focus: <code>#C8B6FF</code></li></ul><h3>11.1 Mandatory Context for Any AI Agent</h3><p>将以下内容作为生成或修改页面时的硬约束：</p><p>```text 你正在为“具有设计背景的复杂业务系统产品经理”构建作品集。 DESIGN.md 是唯一视觉规范，不得引入未定义的颜色、字体、圆角或动效模式。</p><p>页面采用深色编辑型设计：#0B0F14 背景，#141922 / #1C2330 表面， #C8B6FF 只用于主交互，#B8E6D0 只用于结果与验证。 Display 使用 Anton / Inter，正文使用 Inter，技术标签使用 IBM Plex Mono / JetBrains Mono。 所有 Heading 与 Body 字号使用 clamp()，字距为 0。</p><p>优先使用全宽无框章节、强排版、真实产品证据和清晰案例叙事。 避免模板化 Bento 卡片、卡片套卡片、渐变光球、装饰性插画和营销式 Hero。 动效克制：CSS 负责微交互；GSAP 负责序列；ScrollTrigger 只负责必要的 pin/scrub。 默认支持 prefers-reduced-motion，并在移动端重新组织内容而不是等比缩小。 ```</p><h3>11.2 Homepage Prompt</h3><p>``<code>text 设计作品集首页。首屏为 100svh 无框 Hero，固定居中胶囊导航， 以 Anton 超大标题显示姓名或字面定位，并在底部放简短定位、主 CTA 与下一章节提示。 首屏需露出下一章节线索。随后用 3–5 张大型黏性项目卡形成连续案例堆叠， 桌面端媒体/文本交替双栏，移动端改为媒体在前的单栏。 每张卡只展示业务问题、角色、时间、关键结果和查看案例入口。 不要添加能力介绍卡片墙、客户 Logo 墙或装饰性统计。 </code>``</p><h3>11.3 Case Study Prompt</h3><p>``<code>text 设计复杂系统产品案例详情页。按 Signal、Context、Diagnosis、Decision、System、 Validation、Reflection 组织叙事。章节标题必须表达观点，不使用空泛的 Research / Solution。 使用真实界面、决策对比、流程图和带口径的指标作为证据。 长正文限制 68ch，桌面用 12 列网格形成文字与证据的节奏，移动端单栏重排。 每个案例至少明确两个关键取舍、一个验证结果和一个尚未解决的问题。 </code>``</p><h3>11.4 Motion Prompt</h3><p>``<code>text 为页面添加克制的编辑型动效。Reveal 统一为 opacity 0→1、y 30→0、750ms、 cubic-bezier(0.22,1,0.36,1)，同组 stagger 60–90ms，默认只播放一次。 按钮与卡片 Hover 仅上移 1–3px，200ms。CSS 处理微交互，GSAP timeline 处理首屏编排， ScrollTrigger 仅用于必要的 pin、scrub 或进度叙事。React 中优先 useGSAP，限制 selector scope， 卸载时清理 context 和 triggers。只动画 transform / opacity；为 reduced motion 直接显示最终状态。 </code>``</p><h3>11.5 Review Checklist for Agents</h3><p>生成后逐项检查：</p><ol><li>是否首先表达作品与定位，而非网站功能？</li><li>是否只使用本文档定义的颜色、字体、间距和圆角？</li><li>所有 Heading 和 Body 是否使用 <code>clamp()</code>？</li><li>是否存在卡片套卡片、过多同级焦点或无意义强调色？</li><li>案例是否展示问题、约束、决策、证据、结果与反思？</li><li>动效是否有阅读或空间意义，并支持 reduced motion？</li><li>Mobile 是否完成内容重排，320px 宽度和低高度视口是否无重叠？</li><li>键盘焦点、对比度、触控尺寸、语义顺序是否合格？</li></ol><p>若任何一项不通过，先修正规范偏差，再增加新视觉效果。</p><p>---</p></section><section><h2>12. Evidence Notes</h2><h3>12.1 Observed from Harrison Wheeler</h3><p>以下为通过实时页面 DOM、计算样式、CSS 变量与响应式规则观察到的参考特征：</p><ul><li>深色页面背景与分层表面；浅紫、薄荷绿和浅粉作为强调。</li><li>固定居中的胶囊导航、全视口 Hero、超大压缩 Display 字体。</li><li>Desktop 页面边距约 <code>32px</code>，Mobile 约 <code>20px</code>。</li><li>Desktop 章节间距约 <code>120px</code>，Mobile 约 <code>80px</code>。</li><li>大型案例卡采用黏性堆叠、媒体与文字交替布局、顶部圆角。</li><li>Reveal 约为 <code>opacity 0→1</code>、<code>translateY(30px)→0</code>、<code>0.75s</code>、<code>cubic-bezier(0.22,1,0.36,1)</code>。</li><li>Hover 位移克制，约 <code>-1px</code> 至 <code>-3px</code>。</li><li>Mobile Hero 操作区靠近底部，按钮纵向全宽；案例卡变单栏且图片在前。</li></ul><h3>12.2 Adapted for This Portfolio</h3><ul><li>参考站字体替换为本项目规定的 Anton / Inter / IBM Plex Mono。</li><li>参考站色彩替换为 Midnight Base / Digital Lavender / System Green。</li><li>浅粉等第三强调色不进入本系统，以保持品牌语义稳定。</li><li>案例卡从设计作品展示调整为复杂业务系统的产品决策摘要。</li><li>黏性堆叠保留为首页标志性节奏，但增加低高度设备和 reduced motion 降级。</li><li>动效参数保留其克制节奏，同时补充 React 生命周期、性能和无障碍约束。</li></ul><h3>12.3 Evidence Boundary</h3><p>本文档描述的是从公开首页可观察到的视觉与交互语言，以及针对本作品集定位做出的明确适配；不推断参考网站未公开的内部设计系统、隐藏页面或组件状态。</p></section></article>
             </div>
           </article>
         </section>

@@ -452,8 +452,187 @@
   text-transform: uppercase;
 }
 
+.decisionSubtitle {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.metricRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: var(--color-border);
+  margin-top: 1.5rem;
+}
+
+.metricCell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 2rem;
+  background: var(--color-bg-elevated);
+}
+
+.metricCellAccent { background: rgba(168, 138, 223, 0.06); }
+.metricCellDelta { background: rgba(168, 138, 223, 0.04); }
+
+.metricCellValue {
+  font-family: var(--font-mono);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--color-text-primary);
+}
+
+.metricCellAccent .metricCellValue,
+.metricCellDelta .metricCellValue {
+  color: var(--color-accent);
+}
+
+.metricCellLabel {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+.craftGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  margin-top: 2.5rem;
+}
+
+.craftCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2.5rem;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+}
+
+.craftHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.craftTag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.craftTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.2vw, 1.8rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+}
+
+.swatchGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-top: 0.5rem;
+}
+
+.swatchCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.swatchChip {
+  width: 100%;
+  height: 3.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.15);
+}
+
+.swatchMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.swatchNameRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.swatchName {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.swatchHex {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-text-faint);
+}
+
+.swatchRole {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.specRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.specItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.specValue {
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.specLabel {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
 @media (max-width: 1024px) {
   .solutionRow {
+    grid-template-columns: 1fr;
+  }
+  .metricRow {
     grid-template-columns: 1fr;
   }
 }
@@ -524,3 +703,4 @@
   border-color: var(--color-border-accent);
   box-shadow: 0 12px 36px rgba(208, 188, 255, 0.08);
 }
+

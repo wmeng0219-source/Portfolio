@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <rect width="800" height="450" fill="#141922" rx="12"/>
+  <!-- Top Bar -->
+  <rect x="0" y="0" width="800" height="40" fill="#1C2330" rx="12"/>
+  <circle cx="24" cy="20" r="6" fill="#FF5F56"/>
+  <circle cx="44" cy="20" r="6" fill="#FFBD2E"/>
+  <circle cx="64" cy="20" r="6" fill="#27C93F"/>
+  <text x="400" y="24" fill="#A7ADB8" font-family="monospace" font-size="12" text-anchor="middle">MEMBER_SETTLEMENT_ENGINE_V3.2</text>
+  
+  <!-- Left Side: POS Checkout Stream -->
+  <rect x="30" y="60" width="350" height="360" fill="#0B0F14" rx="8" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="50" y="90" fill="#C8B6FF" font-family="monospace" font-size="14" font-weight="bold">EXPRESS CHECKOUT POS</text>
+  <rect x="50" y="110" width="310" height="50" fill="#1C2330" rx="6" stroke="rgba(200,182,255,0.3)" stroke-width="1"/>
+  <text x="70" y="132" fill="#F2F2F5" font-family="sans-serif" font-size="13">VIP Tier 3 (Platinum Member)</text>
+  <text x="70" y="148" fill="#B8E6D0" font-family="monospace" font-size="11">AUTO_DISCOUNT_APPLIED: 20% OFF</text>
+  
+  <rect x="50" y="175" width="310" height="150" fill="#141922" rx="6"/>
+  <text x="70" y="200" fill="#A7ADB8" font-family="sans-serif" font-size="12">Pediatric Dental Hygiene Bundle</text>
+  <text x="320" y="200" fill="#F2F2F5" font-family="monospace" font-size="12" text-anchor="end">¥1,280.00</text>
+  <line x1="70" y1="215" x2="340" y2="215" stroke="rgba(255,255,255,0.08)"/>
+  <text x="70" y="235" fill="#A7ADB8" font-family="sans-serif" font-size="12">Coupon #CP-2025-0819</text>
+  <text x="320" y="235" fill="#B8E6D0" font-family="monospace" font-size="12" text-anchor="end">-¥200.00</text>
+  <line x1="70" y1="250" x2="340" y2="250" stroke="rgba(255,255,255,0.08)"/>
+  <text x="70" y="275" fill="#F2F2F5" font-family="sans-serif" font-size="13" font-weight="bold">Final Settlement Amount</text>
+  <text x="320" y="275" fill="#C8B6FF" font-family="monospace" font-size="16" font-weight="bold" text-anchor="end">¥1,080.00</text>
+
+  <rect x="50" y="340" width="310" height="44" fill="#C8B6FF" rx="6"/>
+  <text x="205" y="367" fill="#352564" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">ONE-CLICK AUTOMATED CHECKOUT (1s)</text>
+
+  <!-- Right Side: Rule Logic Engine & Audit Flow -->
+  <rect x="410" y="60" width="360" height="360" fill="#0B0F14" rx="8" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="430" y="90" fill="#B8E6D0" font-family="monospace" font-size="14" font-weight="bold">RULE DECISION ENGINE</text>
+  
+  <rect x="430" y="110" width="320" height="70" fill="#1C2330" rx="6"/>
+  <text x="450" y="135" fill="#F2F2F5" font-family="sans-serif" font-size="12" font-weight="bold">Decision Node 01: Cross-Store Coupon Validation</text>
+  <text x="450" y="158" fill="#A7ADB8" font-family="monospace" font-size="11">MATCHED: 20 Clinics Global Policy → PASSED</text>
+  
+  <rect x="430" y="195" width="320" height="70" fill="#1C2330" rx="6"/>
+  <text x="450" y="220" fill="#F2F2F5" font-family="sans-serif" font-size="12" font-weight="bold">Decision Node 02: Ledger Audit Trail</text>
+  <text x="450" y="243" fill="#B8E6D0" font-family="monospace" font-size="11">CHAIN_HASH: 0x8f2a...9b4c [IMMUTABLE]</text>
+
+  <rect x="430" y="280" width="320" height="104" fill="#141922" rx="6" stroke="rgba(184,230,208,0.3)" stroke-width="1"/>
+  <text x="450" y="305" fill="#B8E6D0" font-family="monospace" font-size="12">FINANCIAL AUDIT SUMMARY</text>
+  <text x="450" y="330" fill="#F2F2F5" font-family="sans-serif" font-size="12">Month-end Reconciliation Time:</text>
+  <text x="730" y="330" fill="#C8B6FF" font-family="monospace" font-size="14" font-weight="bold" text-anchor="end">3 Days → 1 Day (-66.7%)</text>
+  <text x="450" y="355" fill="#F2F2F5" font-family="sans-serif" font-size="12">Checkout Operator Time:</text>
+  <text x="730" y="355" fill="#B8E6D0" font-family="monospace" font-size="14" font-weight="bold" text-anchor="end">4-5m → 1m (-75%)</text>
+</svg>

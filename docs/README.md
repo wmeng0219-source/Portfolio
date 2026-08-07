@@ -35,7 +35,7 @@
 
 ### 想补充或修改页面内容
 
-按以下顺序取材：
+先阅读 `CASE_STUDY_SPEC.md`，再按以下顺序取材：
 
 1. `profile/`
 2. `project/`
