@@ -122,7 +122,7 @@ const Hero = () => {
         <div className="flex items-center justify-center gap-8 pt-2" data-hero-anim="support">
           {/* Button 1: 查看项目 */}
           <a
-            className="px-9 py-3.5 bg-[#C8B6FF] text-[#352564] rounded-full font-medium text-lg hover:bg-[#b8a2ff] hover:shadow-[0_0_35px_rgba(200,182,255,0.4)] transition-all flex items-center gap-2.5 no-underline cursor-pointer"
+            className="px-9 py-3.5 bg-[var(--color-accent)] text-[#352564] rounded-full font-medium text-lg hover:opacity-90 hover:shadow-[0_0_35px_rgba(200,182,255,0.4)] transition-all flex items-center gap-2.5 no-underline cursor-pointer"
             href="#portfolio"
             data-motion-hover="button"
             onClick={(event) => scrollToSection(event, 'portfolio')}
@@ -135,7 +135,7 @@ const Hero = () => {
 
           {/* Button 2: 联系我 */}
           <a
-            className="px-9 py-3.5 bg-white/5 border border-white/10 rounded-full font-medium text-lg hover:bg-white/10 backdrop-blur-md transition-all text-[#E5E2E1] no-underline cursor-pointer"
+            className="px-9 py-3.5 bg-[var(--color-bg-elevated)] border border-[var(--color-border)] rounded-full font-medium text-lg hover:border-[var(--color-border-accent)] backdrop-blur-md transition-all text-[var(--color-text-primary)] no-underline cursor-pointer"
             href="#contact"
             onClick={(event) => scrollToSection(event, 'contact')}
           >

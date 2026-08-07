@@ -508,22 +508,22 @@ export const projects = [
           },
           swatches: [
             {
-              color: '#A88ADF',
+              color: '#C8B6FF',
               name: { zh: 'AI 推断紫', en: 'AI Inference Purple' },
               role: { zh: '算法初步病灶高亮 / 非阻断提示', en: 'Algorithm anomaly highlights / Non-blocking' },
             },
             {
-              color: '#34D399',
+              color: '#B8E6D0',
               name: { zh: '临床确诊绿', en: 'Doctor Confirmed Green' },
               role: { zh: '医生确认覆核 / 正式写入病历', en: 'Human verified / Chart sync' },
             },
             {
-              color: '#F87171',
-              name: { zh: '标注纠偏红', en: 'Label Rejection Red' },
+              color: '#FFD6A5',
+              name: { zh: '标注纠偏橙', en: 'Label Override Orange' },
               role: { zh: '发现识别错误 / 收集飞轮训练数据', en: 'Diagnostic override / Training data feedback' },
             },
             {
-              color: '#121318',
+              color: '#0B0F14',
               name: { zh: '诊室暗光基底', en: 'Dark Slate Base' },
               role: { zh: '降低放射科/暗光诊室看片视觉疲劳', en: 'Minimizes eye fatigue in dark room' },
             },

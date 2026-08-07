@@ -124,8 +124,8 @@ const Navbar = () => {
     <header className="fixed top-0 left-0 w-full z-50 px-margin-mobile md:px-margin-desktop py-8 pointer-events-none">
       <div className="max-w-container-max mx-auto flex items-center justify-center relative">
         {/* Left MW Badge */}
-        <div className="absolute left-0 pointer-events-auto bg-[rgba(13,12,17,0.82)] backdrop-blur-[16px] border border-[#2a2833] px-4 py-2 rounded-full hidden md:block">
-          <a href="#hero" onClick={handleLogoClick} className="font-label-caps text-[14px] tracking-widest text-[#ece9f1] no-underline">
+        <div className="absolute left-0 pointer-events-auto bg-[var(--color-glass)] backdrop-blur-[16px] border border-[var(--color-border)] px-4 py-2 rounded-full hidden md:block">
+          <a href="#hero" onClick={handleLogoClick} className="font-label-caps text-[14px] tracking-widest text-[var(--color-text-primary)] no-underline">
             MW
           </a>
         </div>
@@ -133,7 +133,7 @@ const Navbar = () => {
         {/* Mobile Toggle Button */}
         <button
           ref={menuButtonRef}
-          className="pointer-events-auto md:hidden absolute right-0 bg-[rgba(13,12,17,0.82)] backdrop-blur-[16px] border border-[#2a2833] p-2.5 rounded-full text-[#ece9f1]"
+          className="pointer-events-auto md:hidden absolute right-0 bg-[var(--color-glass)] backdrop-blur-[16px] border border-[var(--color-border)] p-2.5 rounded-full text-[var(--color-text-primary)]"
           type="button"
           aria-controls="primary-navigation"
           aria-expanded={menuOpen}
@@ -149,9 +149,9 @@ const Navbar = () => {
         {/* Centered Desktop Nav Pill / Mobile Nav Drawer */}
         <nav
           id="primary-navigation"
-          className={`pointer-events-auto bg-[rgba(13,12,17,0.82)] backdrop-blur-[16px] border border-[#2a2833] rounded-full px-8 py-2.5 flex items-center gap-8 ${
+          className={`pointer-events-auto bg-[var(--color-glass)] backdrop-blur-[16px] border border-[var(--color-border)] rounded-full px-8 py-2.5 flex items-center gap-8 ${
             isMobileViewport
-              ? `fixed top-24 right-6 flex-col items-start p-6 bg-[#16151c]/95 rounded-[16px] ${
+              ? `fixed top-24 right-6 flex-col items-start p-6 bg-[var(--color-bg-secondary)]/95 rounded-[16px] ${
                   menuOpen ? 'flex' : 'hidden'
                 }`
               : 'flex'
@@ -168,7 +168,7 @@ const Navbar = () => {
                 onClick={handleMenuItemClick}
                 data-motion-hover="nav"
                 className={`font-label-caps text-[14px] transition-all duration-300 no-underline uppercase tracking-wider ${
-                  isActive ? 'text-[#C8B6FF] font-semibold' : 'text-[#a39fb0] hover:text-[#d0bcff]'
+                  isActive ? 'text-[var(--color-accent)] font-semibold' : 'text-[var(--color-text-secondary)] hover:text-[var(--color-accent)]'
                 }`}
               >
                 {t(item.key)}
@@ -176,7 +176,7 @@ const Navbar = () => {
             );
           })}
           <button
-            className="text-xs font-label-caps border border-[#2a2833] px-3.5 py-1 rounded-full text-[#a39fb0] hover:text-[#d0bcff] transition-all"
+            className="text-xs font-label-caps border border-[var(--color-border)] px-3.5 py-1 rounded-full text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-all"
             type="button"
             onClick={toggleLanguage}
             data-motion-hover="button"
