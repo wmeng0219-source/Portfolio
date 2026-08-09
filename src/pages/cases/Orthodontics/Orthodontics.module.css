@@ -1,10 +1,10 @@
 .caseContainer {
-  --case-inline-pad: clamp(1rem, 4vw, 2rem);
+  --case-inline-pad: var(--case-page-pad-x);
   display: flex;
   flex-direction: column;
-  gap: 4rem;
+  gap: var(--case-section-pad-y-tight);
   padding: calc(var(--header-height, 4rem) + 2rem) var(--case-inline-pad) 4rem;
-  max-width: 1000px;
+  max-width: var(--content-max);
   margin: 0 auto;
 }
 
@@ -14,7 +14,7 @@
   left: 0;
   width: 100%;
   z-index: 100;
-  padding: 1.25rem clamp(1rem, 4vw, 4rem);
+  padding: 1.25rem var(--case-page-pad-x);
   background: var(--color-glass);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
@@ -31,7 +31,7 @@
 .backLink {
   color: var(--color-accent);
   font-family: var(--font-mono);
-  font-size: 0.9rem;
+  font-size: var(--text-case-label);
   text-decoration: none;
   transition: opacity 200ms ease;
 }
@@ -45,7 +45,7 @@
   text-align: center;
   padding: 4rem 2rem;
   background: var(--color-bg-secondary);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-card);
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-card);
   backdrop-filter: blur(10px);
@@ -54,7 +54,7 @@
 
 .heroTitle {
   font-family: var(--font-display);
-  font-size: 2.5rem;
+  font-size: var(--text-case-h1);
   font-weight: 700;
   margin-bottom: 2.5rem;
   color: var(--color-text-primary);
@@ -77,22 +77,31 @@
 
 .metricLabel {
   font-family: var(--font-mono);
-  font-size: 0.875rem;
+  font-size: var(--text-case-label);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--color-text-secondary);
 }
 
 .metricValue {
-  font-size: 3rem;
+  font-size: var(--text-case-metric);
   font-weight: 800;
   color: var(--color-text-primary);
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
 }
 
+.metricNote {
+  max-width: 48rem;
+  margin: 1.5rem auto 0;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: clamp(0.72rem, 1vw, 0.82rem);
+  line-height: 1.65;
+}
+
 .metricArrow {
-  font-size: 2rem;
+  font-size: var(--text-case-h3);
   color: var(--color-system-green);
 }
 
@@ -105,7 +114,7 @@
 
 .sectionTitle {
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 2.5vw, 1.8rem);
+  font-size: var(--text-case-h2);
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--color-text-primary);
@@ -127,10 +136,102 @@
 
 .sectionDesc {
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: var(--text-case-body);
   line-height: 1.78;
   color: var(--color-text-secondary);
   max-width: 800px;
+}
+
+.contextGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
+  gap: 2rem;
+}
+
+.ownershipCard,
+.resultCard {
+  padding: 2rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  font-size: clamp(1rem, 1.4vw, 1.125rem);
+  line-height: 1.75;
+}
+
+.cardLabel,
+.projectDate,
+.decisionFlow span {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.projectTimeline {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.projectTimelineItem {
+  min-height: 15rem;
+  padding: 1.5rem;
+  background: var(--color-bg-secondary);
+  border-right: 1px solid var(--color-border);
+}
+
+.projectTimelineItem:last-child { border-right: 0; }
+.projectTimelineItem h3,
+.decisionFlow h3,
+.craftCard h3 {
+  margin-bottom: 0.75rem;
+  color: var(--color-text-primary);
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+}
+.projectTimelineItem p,
+.decisionFlow p,
+.craftCard p {
+  color: var(--color-text-secondary);
+  font-size: clamp(0.94rem, 1.2vw, 1.02rem);
+  line-height: 1.7;
+}
+
+.decisionFlow,
+.craftGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.decisionFlow article,
+.craftCard {
+  padding: 1.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-bg-secondary);
+  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.decisionFlow article:hover,
+.craftCard:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 24px rgba(200, 182, 255, 0.08);
+}
+
+.resultCard small {
+  display: block;
+  margin-top: 1rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  line-height: 1.6;
 }
 
 /* Timeline */
@@ -162,7 +263,7 @@
 }
 
 .timelineStep:hover {
-  transform: translateY(-4px);
+  transform: translateY(-2px);
   border-color: var(--color-system-green);
 }
 
@@ -198,7 +299,7 @@
 .roleContainer {
   background: var(--color-bg-secondary);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-card);
   overflow: hidden;
 }
 
@@ -325,7 +426,7 @@
   flex: 1;
   height: 36px;
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 18px;
+  border-radius: var(--radius-card);
   overflow: hidden;
   position: relative;
 }
@@ -333,7 +434,7 @@
 .funnelBarFill {
   height: 100%;
   background: var(--color-system-green);
-  border-radius: 18px;
+  border-radius: var(--radius-card);
   display: flex;
   align-items: center;
   padding: 0 1rem;
@@ -371,6 +472,20 @@
     flex-direction: column;
     gap: 1rem;
   }
+  .contextGrid,
+  .decisionFlow,
+  .craftGrid {
+    grid-template-columns: 1fr;
+  }
+  .projectTimeline {
+    grid-template-columns: 1fr;
+  }
+  .projectTimelineItem {
+    min-height: 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .projectTimelineItem:last-child { border-bottom: 0; }
   .metricArrow {
     transform: rotate(90deg);
   }

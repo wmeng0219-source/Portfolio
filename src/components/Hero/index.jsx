@@ -14,15 +14,34 @@ const Hero = () => {
   const { t } = useLanguage();
   const sectionRef = useRef(null);
   const copyRef = useRef(null);
+  const gridRef = useRef(null);
 
+  // Lagging spotlight: GSAP smoothly interpolates position toward cursor
   useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    // Initialize spotlight at center
+    const pos = { x: 50, y: 50 };
+    section.style.setProperty('--mouse-x', '50%');
+    section.style.setProperty('--mouse-y', '50%');
+
     const handleMouseMove = (e) => {
-      const amount = 15;
-      const x = (e.clientX / window.innerWidth - 0.5) * amount;
-      const y = (e.clientY / window.innerHeight - 0.5) * amount;
-      if (sectionRef.current) {
-        sectionRef.current.style.backgroundPosition = `${x}px ${y}px`;
-      }
+      const rect = section.getBoundingClientRect();
+      const targetX = ((e.clientX - rect.left) / rect.width) * 100;
+      const targetY = ((e.clientY - rect.top) / rect.height) * 100;
+
+      gsap.to(pos, {
+        x: targetX,
+        y: targetY,
+        duration: 1.0,
+        ease: 'power2.out',
+        overwrite: 'auto',
+        onUpdate: () => {
+          section.style.setProperty('--mouse-x', `${pos.x.toFixed(2)}%`);
+          section.style.setProperty('--mouse-y', `${pos.y.toFixed(2)}%`);
+        },
+      });
     };
 
     window.addEventListener('mousemove', handleMouseMove);
@@ -60,10 +79,22 @@ const Hero = () => {
 
   return (
     <section
-      className="relative min-h-screen flex flex-col items-center justify-center grid-bg px-margin-mobile md:px-margin-desktop text-center overflow-hidden bg-[#06070B]"
+      className="relative min-h-screen flex flex-col items-center justify-center px-margin-mobile md:px-margin-desktop text-center overflow-hidden bg-[#06070B]"
       id="hero"
       ref={sectionRef}
     >
+      {/* Background Grid */}
+      <div
+        ref={gridRef}
+        className="absolute inset-0 pointer-events-none z-0 hero-grid-bg"
+      />
+
+      {/* Spotlight overlay: dark everywhere except near cursor */}
+      <div className="absolute inset-0 pointer-events-none z-0 hero-grid-spotlight" />
+
+      {/* Edge vignette */}
+      <div className="absolute inset-0 pointer-events-none z-0 hero-grid-vignette" />
+
       {/* Background Typography Watermark */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0">
         <h2 className="font-display-hero text-[20vw] uppercase opacity-[0.03] leading-none whitespace-nowrap text-on-surface tracking-tighter">

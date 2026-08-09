@@ -17,8 +17,8 @@ export const projects = [
       en: 'Membership, coupons, payments, and billing were disconnected across 20+ stores, creating heavy manual audit costs for finance and slowing frontline checkout.',
     },
     role: {
-      zh: '产品经理 / 系统架构师，负责规则逻辑解耦、结算引擎方案设计与全量落地推进。',
-      en: 'Product Manager / System Architect, responsible for rule decoupling, settlement engine design, and clinic rollout.',
+      zh: '产品经理 / 产品设计，负责门店与财务调研、规则梳理、流程与界面设计，以及全门店上线推进。',
+      en: 'Product Manager / Product Designer, responsible for clinic and finance research, rule design, workflow and UI design, and rollout across all clinics.',
     },
     sysVer: 'SYS_MA_VER_3.2_STABLE',
     problem: {
@@ -49,8 +49,8 @@ export const projects = [
       },
     ],
     result: {
-      zh: '系统已成功覆盖品牌旗下 20+ 高端零售与医疗门店。单笔高复杂度交易时间降低 75%（4-5 分钟 ➔ 1 分钟）；财务月底对账周期缩短 66.7%（3 天 ➔ 1 天）。',
-      en: 'Deployed across 20+ clinics. Transaction processing time reduced by 75% (4-5 min to 1 min). Month-end reconciliation cut by 66.7% (3 days to 1 day).',
+      zh: '系统覆盖全门店。典型会员升级由 4—5 分钟缩短至约 1 分钟，数据来自门店现场实测。据财务团队估算，对账工作约由 3 天缩短至 1 天；该反馈未做精细统计，因此不作为首屏核心成果。',
+      en: 'Rolled out across all clinics. A typical member upgrade fell from 4–5 minutes to about 1 minute in an on-site clinic test. Finance estimated reconciliation fell from roughly 3 days to 1; this was not a precise measurement and is not treated as a hero outcome.',
     },
     heroMetrics: {
       opTimeBefore: '4-5m',
@@ -62,23 +62,44 @@ export const projects = [
     process: [
       {
         version: 'V1',
-        label: { zh: '阶段 01: 规则统一', en: 'Phase 01: Rule Unification' },
-        title: { zh: '逻辑解耦与中心化管理', en: 'Logic Decoupling & Central Management' },
+        label: { zh: '初版限制', en: 'Initial constraint' },
+        title: { zh: '距离到期 3 个月内才可升级', en: 'Upgrade only within 3 months of expiry' },
         desc: {
-          zh: '建立统一的规则配置引擎，将卡券逻辑与业务实体解耦，实现跨 20 多家实体的会员逻辑全局一致应用。',
-          en: 'Built a unified rule engine decoupling coupon logic from entities, establishing global consistency.',
+          zh: '初版用剩余有效期控制升级，希望简化权益计算，但阻断了仍在有效期内、已有明确意愿的会员。',
+          en: 'The initial rule constrained upgrades by remaining validity. It simplified calculation but blocked members with valid cards and clear intent.',
         },
       },
       {
         version: 'V2',
-        label: { zh: '阶段 02: 流程自动化', en: 'Phase 02: Flow Automation' },
-        title: { zh: '极速收银与合规审计', en: 'Express Checkout & Compliance Audit' },
+        label: { zh: '最终规则', en: 'Final rule' },
+        title: { zh: '有效期内均可升级', en: 'Upgrade anytime while valid' },
         desc: {
-          zh: '部署“极速收银”流程，通过后台静默验证和详尽的审计日志，确保财务治理的透明度与交易安全。',
-          en: 'Deployed express checkout with silent validation and detailed audit logs for financial security.',
+          zh: '取消“距离到期 3 个月”的限制。只要会员卡仍在有效期内即可升级，系统继续校验卡状态、账单和权益。',
+          en: 'Removed the three-month restriction. A member can upgrade whenever the card remains valid, while status, bills, and benefits are still validated.',
         },
       },
     ],
+    designCraft: {
+      title: { zh: '设计手艺与操作反馈', en: 'Design Craft & Operational Feedback' },
+      subtitle: { zh: '让高频路径保持短，让异常只在需要时出现。', en: 'Keep the frequent path short and reveal exceptions only when needed.' },
+      pillars: [
+        {
+          tag: { zh: '认知负荷', en: 'Cognitive load' },
+          title: { zh: '先确认结果，再处理例外', en: 'Confirm the outcome before exceptions' },
+          desc: { zh: '默认只展示原卡状态、升级差额、目标权益和生效结果；多账单、无账单或额度不足时才展开处理选项。', en: 'The default path shows current card status, upgrade difference, target benefits, and effective result. Multiple bills, missing bills, and insufficient allowance appear only when triggered.' },
+        },
+        {
+          tag: { zh: '反馈与留痕', en: 'Feedback & traceability' },
+          title: { zh: '每一步都有可解释的系统反馈', en: 'Explainable feedback at every step' },
+          desc: { zh: '成功后明确新旧卡关系与账单归属；失败时保留原会员卡与原权益，并记录执行人、规则命中和失败原因。', en: 'Success states explain old-to-new card linkage and bill ownership. On failure, the original card and benefits remain intact, with operator, rule, and failure reason logged.' },
+        },
+        {
+          tag: { zh: '边界保护', en: 'Edge protection' },
+          title: { zh: '避免半完成与重复提交', en: 'Prevent partial completion and duplicates' },
+          desc: { zh: '冻结、退卡、超额、跨店和升级失败均有明确状态与回退路径，避免旧卡失效而新卡未生效。', en: 'Frozen cards, refunds, excess discounts, cross-clinic upgrades, and failures have explicit states and rollback paths, preventing half-completed upgrades.' },
+        },
+      ],
+    },
     decisions: [
       {
         question: { zh: '自动匹配还是手动选择？', en: 'Automatic matching or manual choice?' },
@@ -136,8 +157,8 @@ export const projects = [
       en: 'Orthodontic pre-management relied on review events and offline coordination, leaving screening, conclusions, and follow-up disconnected.',
     },
     role: {
-      zh: '产品经理，主导流程梳理、逻辑设计、角色职责拆分与状态规则定义。',
-      en: 'Product Manager, leading workflow redesign, logic design, and status rule definition.',
+      zh: '产品与设计负责人：独立完成门诊调研、流程与规则设计、PRD/产品文档、交互与 UI，并管理开发与测试进度，协调业务、正畸总监和研发推进上线。',
+      en: 'Product and design lead: independently conducted clinic research, workflow and rule design, PRDs, interaction and UI, while managing development and test progress and coordinating business, orthodontic leadership, and engineering.',
     },
     problem: {
       zh: '筛查动作离散重复，临时患者易遗漏，儿牙医生参与度弱，多角色协作依赖线下沟通。',
@@ -167,13 +188,34 @@ export const projects = [
       },
     ],
     result: {
-      zh: '建立了从推荐到预约的可追踪漏斗。矫正率从改版前的 30-40% 提升至 50-60% 左右，漏斗链路的建立使团队第一次能够观察每个环节的转化情况。',
-      en: 'Built a traceable funnel from recommendation to appointment. Orthodontic conversion rate rose from 30–40% to 50–60%, with each stage of the funnel now observable for the first time.',
+      zh: '2026 年 2 月全门店正式上线。全门店正畸成交转化率由 2025 年 2—4 月约 30%—40%，提升至 2026 年 2—4 月约 50%—60%。',
+      en: 'Rolled out to all clinics in February 2026. All-clinic orthodontic sales conversion moved from roughly 30–40% in Feb–Apr 2025 to roughly 50–60% in Feb–Apr 2026.',
     },
     heroMetrics: {
       title: { zh: '破除运营黑盒，建立全链路状态机追踪', en: 'From Operational Black Box to Full-Funnel Tracking' },
       conversionBefore: '30-40%',
       conversionAfter: '50-60%',
+    },
+    projectTimeline: [
+      { date: '2025.04', title: { zh: '启动开发', en: 'Development started' }, desc: { zh: '完成调研、规则与首版方案，首轮开发约 1 个月。', en: 'Research, rules, and the first solution were completed in an approximately one-month build.' } },
+      { date: '2025.05—08', title: { zh: '单店试点', en: 'Single-clinic pilot' }, desc: { zh: '正畸总监负责专业测试与验收，1 家门店完成约 2 轮优化。', en: 'The orthodontic director led professional testing and acceptance; one clinic completed about two optimization rounds.' } },
+      { date: '2025.08—12', title: { zh: '持续迭代', en: 'Continued iteration' }, desc: { zh: '根据试点反馈增加功能，完成约 2—3 轮迭代。', en: 'Added features based on pilot feedback through roughly two to three iterations.' } },
+      { date: '2026.01', title: { zh: '多店验证', en: 'Multi-clinic validation' }, desc: { zh: '扩大到 3—4 家门诊，进行约 1 个月测试验证。', en: 'Expanded to three or four clinics for approximately one month of validation.' } },
+      { date: '2026.02', title: { zh: '全门店正式上线', en: 'Full rollout' }, desc: { zh: '完成验证后覆盖全门店。', en: 'Rolled out across all clinics after validation.' } },
+    ],
+    iterationDecision: {
+      title: { zh: '试点后的产品减法', en: 'Product subtraction after the pilot' },
+      before: { zh: '初版要求儿牙医生完成较多影像分析，希望一次收齐完整信息。', en: 'The first version asked pediatric dentists to complete substantial image analysis to capture complete information upfront.' },
+      insight: { zh: '接诊现场繁忙，字段多、判断重，流程完整却难以持续执行。', en: 'Clinics were busy; too many fields and professional judgments made the flow complete on paper but difficult to sustain.' },
+      after: { zh: '最终只保留基础筛查信息，把专业影像判断和最终结论交给正畸医生。', en: 'The final flow retained basic screening information and returned professional image judgment and conclusions to orthodontists.' },
+    },
+    designCraft: {
+      title: { zh: '设计手艺与边界状态', en: 'Design Craft & Edge Cases' },
+      pillars: [
+        { title: { zh: '按角色渐进呈现', en: 'Progressive disclosure by role' }, desc: { zh: '儿牙医生只看当下必填的基础筛查，专业结论在正畸角色阶段出现，减少接诊认知负荷。', en: 'Pediatric dentists see only required basic screening; professional conclusions appear at the orthodontist stage, reducing clinical load.' } },
+        { title: { zh: '资料有效期可见', en: 'Visible record validity' }, desc: { zh: '面相照片 6 个月，口扫和全景片 1 年；超期提示重新采集。', en: 'Facial photos remain valid for six months, scans and panoramic images for one year; expired records prompt recollection.' } },
+        { title: { zh: '异常可重新进入', en: 'Exceptions can re-enter' }, desc: { zh: '暂不干预、外院矫正和异常结束保留原因与再评估时间，避免患者永久退出流程。', en: 'Deferred care, external treatment, and exceptional closure preserve a reason and reassessment time so patients can re-enter.' } },
+      ],
     },
     timelineSteps: [
       { step: 1, title: { zh: '恒牙列', en: 'Permanent' }, desc: { zh: '最高优：发育关键期', en: 'Highest Priority' } },
@@ -204,13 +246,10 @@ export const projects = [
         duty: { zh: '负责推动流程并建立后续预约，通过系统看板实时跟进转化漏斗。', en: 'Drives the workflow forward and manages follow-up appointments via real-time dashboard.' }
       }
     ],
-    funnelData: [
-      { stage: { zh: '系统推荐目标', en: 'System Recommended' }, value: 9274, percentage: 100 },
-      { stage: { zh: '筛查转交', en: 'Screening Handoff' }, value: 4579, percentage: 49.37 },
-      { stage: { zh: '提交结论', en: 'Conclusion Reached' }, value: 4110, percentage: 44.31 },
-      { stage: { zh: '识别需矫', en: 'Ortho Required' }, value: 2466, percentage: 26.59 },
-      { stage: { zh: '矫正跟进预约', en: 'Follow-up Booked' }, value: 1239, percentage: 13.36 },
-    ],
+    resultNote: {
+      zh: '内部业务统计，对比周期为 2025 年 2—4 月与 2026 年 2—4 月；指标为全门店正畸成交转化率。',
+      en: 'Internal business statistics comparing Feb–Apr 2025 with Feb–Apr 2026; the metric is all-clinic orthodontic sales conversion.',
+    },
   },
   {
     id: 'pacs-ai',
@@ -223,16 +262,20 @@ export const projects = [
       en: 'Specialist Workflow / AI Collaboration',
     },
     background: {
-      zh: '医生纯人工读片依赖个人习惯，没有系统留痕，缺乏质控手段。拍片没有被读、无法追踪，管理层无从管控拍片的实际利用率。',
-      en: 'Pure manual image reading lacked system traceability and quality control, making utilization and diagnostic behavior hard to track.',
+      zh: '诊室中可能直接对着影像向家长解释，也可能把部分判断写入病例。记录方式不一致，影像、标注、诊断文本和病历之间缺少稳定关联。',
+      en: 'Clinicians might explain images directly to parents or record only part of the interpretation. Imaging, annotations, diagnostic text, and charts lacked a consistent link.',
     },
     role: {
       zh: 'V1 以设计为主，参与部分产品规则确认。V2 全权负责产品与设计，主导 AI 读片的交互逻辑、人机协作流程设计、AI 声明与免责边界定义。两版 PRD 均为我编写。',
       en: 'V1: designer role, co-authored product rules. V2: full product + design ownership — drove human-AI interaction loop, interface design, and liability boundaries. Authored both PRDs.',
     },
     problem: {
-      zh: '读片行为无系统记录，漏检风险高，读片内容写入病历效率低。引入 AI 后需设计合理的人机协作边界。',
-      en: 'Image reading left no system records, diagnostic omission risks were high, and AI required careful boundary design for safe clinical use.',
+      zh: '需要让系统内读片可追踪、减少重复录入，并在 AI 约 2025 年 11 月上线后保证医生仍完成最终判断，超时不阻断临床流程。',
+      en: 'The system needed traceable in-system reading, less duplicate entry, and a safe human decision boundary when AI launched around November 2025, without blocking care on timeout.',
+    },
+    challenge: {
+      zh: '旧流程的记录方式不一致；引入 AI 后还需明确能力范围、医生复核责任和手动兜底。',
+      en: 'The old process was inconsistently recorded; AI also required explicit capability limits, physician review responsibility, and manual fallback.',
     },
     solution: [
       {
@@ -258,8 +301,8 @@ export const projects = [
       },
     ],
     result: {
-      zh: 'AI 小牙片读片功能使平均单张龋齿发现数从 1.43 颗提升至 3.46 颗，检出率提升超过 140%。读片完成状态可实时追踪。',
-      en: 'After AI launch, average cavity findings per X-ray rose from 1.43 to 3.46, a detection rate improvement of over 140%. Reading status became fully trackable.',
+      zh: '后台记录显示，平均每张小牙片龋齿发现数在 2024 年 6 月为 1.43 颗，2025 年 6 月为 3.46 颗。两者均早于 AI 约 2025 年 11 月上线，因此不能归因于 AI；目前暂无 AI 上线后结果数据。',
+      en: 'Backend records show 1.43 findings per small X-ray in June 2024 and 3.46 in June 2025. Both predate the AI launch around November 2025, so the change cannot be attributed to AI; no post-launch outcome data is currently available.',
     },
 
     // ── 设计体系与 UI/UX 手艺 ────────────────────────────
@@ -274,8 +317,8 @@ export const projects = [
           tag: { zh: '色彩与权责语义', en: 'Color & Role Semantics' },
           title: { zh: '人机权责的视觉隐喻系统', en: 'Visual Metaphor for Human-AI Liability' },
           desc: {
-            zh: '在医疗辅助场景中，混淆算法推断与临床确诊是危险的。我们建立了一套清晰的色彩与权责暗示体系，符合 WCAG 4.5:1 / 7:1 暗光诊室对比度标准：',
-            en: 'In clinical AI assist, confusing algorithmic inference with human diagnosis is hazardous. We established a color semantic hierarchy compliant with WCAG AAA darkroom standards:',
+            zh: '在医疗辅助场景中，算法推断不能看起来像临床确诊。用不同色彩区分 AI 建议、医生确认、待处理和错误状态，并让文字标签承担同样的信息，避免只靠颜色判断。',
+            en: 'Algorithmic inference must not look like clinical confirmation. Color and labels distinguish AI suggestions, physician confirmation, pending work, and rejection without relying on color alone.',
           },
           swatches: [
             {
@@ -308,22 +351,20 @@ export const projects = [
             en: 'Doctors require accurate decisions within seconds. We implemented a fixed two-pane layout (left image canvas + right AI cards sorted by confidence). Advanced DICOM metrics are hidden behind progressive disclosure to reduce cognitive fatigue.',
           },
           specs: [
-            { label: { zh: '扫视响应', en: 'Scan Speed' }, value: '< 2.5s' },
-            { label: { zh: '展开级数', en: 'Disclosure Depth' }, value: '2 Levels' },
-            { label: { zh: '对比度级别', en: 'Contrast Level' }, value: 'WCAG AAA' },
+            { label: { zh: '信息顺序', en: 'Information order' }, value: 'IMAGE → REVIEW' },
+            { label: { zh: '展开方式', en: 'Disclosure' }, value: 'PROGRESSIVE' },
           ],
         },
         {
           tag: { zh: '交互细节与兜底机制', en: 'Interaction Craft & Edge Cases' },
           title: { zh: '一键同步与降级容错机制', en: 'One-click Charting & Graceful Degradation' },
           desc: {
-            zh: '设计了结构化病历一键同步机制，将医生复核后的标记秒级转化为标准化文字规整录入。当 AI 网关出现网络波动或超时（>3s）时，界面自动切入手动读片兜底模式，手动标注工具始终可直达，确保诊疗流程绝不被技术不确定性卡顿。',
-            en: 'Single-click EHR synchronization converts reviewed marks into structured text instantly. If AI gateway times out (>3s), the interface gracefully degrades to manual reading mode, guaranteeing uninterrupted clinical care.',
+            zh: '医生复核后的标记可转为结构化文字同步病历。原始需求约定 AI 超过 5 秒显示手动读片入口，技术异常不阻断临床工作；系统记录降级原因和后续人工操作。',
+            en: 'Reviewed marks can be converted into structured chart text. The source requirement exposes manual reading after a five-second AI timeout, keeping clinical work unblocked and recording the fallback reason and manual action.',
           },
           specs: [
-            { label: { zh: '超时阈值', en: 'Timeout Threshold' }, value: '3.0s' },
-            { label: { zh: '同步效率', en: 'Sync Latency' }, value: '< 100ms' },
-            { label: { zh: '兜底可用率', en: 'Fallback Availability' }, value: '100%' },
+            { label: { zh: '手动入口提示', en: 'Manual entry prompt' }, value: '5s' },
+            { label: { zh: '责任主体', en: 'Final responsibility' }, value: 'DOCTOR' },
           ],
         },
       ],
@@ -398,15 +439,15 @@ export const projects = [
     // ── 数据拆解 ─────────────────────────────────────────
     detailMetrics: {
       headline: {
-        zh: '平均每张小牙片龋齿发现数',
-        en: 'Average cavities found per periapical X-ray',
+        zh: '后台同期记录与 AI 上线时间',
+        en: 'Backend records and AI launch timing',
       },
-      before: { value: '1.43', label: { zh: 'V1 人工读片', en: 'V1 Manual' } },
-      after:  { value: '3.46', label: { zh: 'V2 AI 辅助后', en: 'V2 With AI' } },
-      delta:  { value: '+142%', label: { zh: '检出率提升', en: 'Detection uplift' } },
+      before: { value: '1.43', date: '2024.06', label: { zh: '后台历史记录', en: 'Historical backend record' } },
+      after:  { value: '3.46', date: '2025.06', label: { zh: '后台同期记录', en: 'Comparable backend record' } },
+      delta:  { value: 'AI', date: '2025.11', label: { zh: '功能约于此时上线', en: 'Feature launched around this date' } },
       context: {
-        zh: '低龄儿童龋齿在 X 光片上往往不够视觉显著，早期病变容易被人眼忽略。AI 的价值不是替代医生判断，而是提示那些人眼容易漏过的区域。',
-        en: "Early-stage cavities in young children are often visually subtle on X-ray. AI's value isn't replacing clinical judgment — it's flagging what human eyes tend to miss.",
+        zh: '1.43 与 3.46 都早于 AI 上线，只能描述为后台记录变化，不能归因于 AI。目前暂无 AI 上线后的结果数据。',
+        en: 'Both 1.43 and 3.46 predate the AI launch. They describe a change in backend records and cannot be attributed to AI. No post-launch AI outcome data is currently available.',
       },
       secondary: [
         {

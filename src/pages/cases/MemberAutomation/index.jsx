@@ -63,7 +63,7 @@ export default function MemberAutomationCase({ project }) {
                   <span className={styles.metricAfter}>{project.heroMetrics.opTimeAfter}</span>
                 </div>
                 <p className={styles.metricLabel}>
-                  {language === 'zh' ? '单笔高复杂度交易处理时间（降低 75%）' : 'Single high-complexity checkout time (-75%)'}
+                  {language === 'zh' ? '典型会员升级 · 门店现场实测' : 'Typical member upgrade · on-site test'}
                 </p>
               </div>
             )}
@@ -143,6 +143,22 @@ export default function MemberAutomationCase({ project }) {
             ))}
           </div>
         </section>
+
+        {project.designCraft && (
+          <section className={styles.section} data-animate>
+            <p className={styles.sectionKicker}>{t(project.designCraft.title)}</p>
+            <p className={styles.bodyText}>{t(project.designCraft.subtitle)}</p>
+            <div className={styles.craftGrid}>
+              {project.designCraft.pillars.map((pillar) => (
+                <article key={t(pillar.title)} className={styles.craftCard}>
+                  <span className={styles.craftTag}>{t(pillar.tag)}</span>
+                  <h3 className={styles.craftTitle}>{t(pillar.title)}</h3>
+                  <p className={styles.bodyText}>{t(pillar.desc)}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* ── Design Decisions ─────────────────────────────── */}
         {project.decisions && (

@@ -6,27 +6,27 @@ const Portfolio = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="py-stack-lg px-margin-mobile md:px-margin-desktop bg-[var(--color-bg-primary)] relative" id="portfolio" data-motion-section>
-      <div className="max-w-container-max mx-auto">
+    <section className="portfolio-showcase page-section" id="portfolio" data-motion-section>
+      <div className="section-shell">
         {/* Clean, Breathable Section Header */}
-        <div className="flex flex-col items-center text-center mb-16" data-motion-item>
-          <span className="font-mono text-xs text-[var(--color-accent)] tracking-[0.2em] uppercase mb-3">
+        <div className="portfolio-showcase-head" data-motion-item>
+          <span className="portfolio-showcase-kicker">
             {t('portfolio.stage.kicker') || 'SELECTED WORK'}
           </span>
-          <h2 className="font-display text-4xl md:text-6xl text-[var(--color-text-primary)] tracking-tight font-bold">
+          <h2 className="portfolio-showcase-title">
             {t('portfolio.stage.title') || '精选案例'}
           </h2>
-          <p className="text-[var(--color-text-secondary)] mt-4 max-w-xl mx-auto text-base leading-relaxed">
+          <p className="portfolio-showcase-intro">
             {t('portfolio.stage.intro') || '三个复杂系统案例，展示我如何把流程、规则与协作重组为可执行产品。'}
           </p>
         </div>
 
         {/* Deck Slide Layout Architecture (Main Feature + Bento Secondary Pair) */}
-        <div className="portfolio-stage-grid flex flex-col gap-8" data-motion-group="portfolio-stage">
+        <div className="portfolio-stage-grid" data-motion-group="portfolio-stage">
           {/* Main Feature Slide (Hero Case Study) */}
           <Link
             to="/project/member-automation"
-            className="w-full bg-[var(--color-bg-secondary)] border border-[var(--color-border)] rounded-[16px] p-6 md:p-10 flex flex-col md:flex-row gap-8 md:gap-12 hover:-translate-y-1 hover:border-[var(--color-border-accent)] hover:shadow-[var(--shadow-card)] transition-all duration-200 no-underline group text-inherit items-center"
+            className="portfolio-showcase-card portfolio-showcase-card--lead group"
             data-motion-item
             data-motion-hover="card"
           >
@@ -77,7 +77,7 @@ const Portfolio = () => {
             {/* Project 02: Orthodontics Funnel with Custom SVG Architectural Node Visual */}
             <Link
               to="/project/orthodontics"
-              className="w-full bg-[var(--color-bg-secondary)] border border-[var(--color-border)] rounded-[16px] p-6 md:p-8 flex flex-col justify-between gap-6 hover:-translate-y-1 hover:border-[var(--color-system-green)]/50 hover:shadow-[var(--shadow-card)] transition-all duration-200 no-underline group text-inherit"
+              className="portfolio-showcase-card portfolio-showcase-card--support group"
               data-motion-item
               data-motion-hover="card"
             >
@@ -134,7 +134,7 @@ const Portfolio = () => {
             {/* Project 03: PACS AI Review Loop */}
             <Link
               to="/project/pacs-ai"
-              className="w-full bg-[var(--color-bg-secondary)] border border-[var(--color-border)] rounded-[16px] p-6 md:p-8 flex flex-col justify-between gap-6 hover:-translate-y-1 hover:border-[var(--color-border-accent)] hover:shadow-[var(--shadow-card)] transition-all duration-200 no-underline group text-inherit"
+              className="portfolio-showcase-card portfolio-showcase-card--support group"
               data-motion-item
               data-motion-hover="card"
             >
@@ -165,12 +165,12 @@ const Portfolio = () => {
 
               <div className="grid grid-cols-2 gap-4 border-t border-[var(--color-border)] pt-4">
                 <div className="flex flex-col">
-                  <span className="font-display text-2xl font-bold text-[var(--color-accent)]">3.46 颗</span>
-                  <span className="font-mono text-[11px] text-[var(--color-text-muted)] mt-1">均单龋齿检出</span>
+                  <span className="font-display text-2xl font-bold text-[var(--color-accent)]">2025.06</span>
+                  <span className="font-mono text-[11px] text-[var(--color-text-muted)] mt-1">3.46 颗 · 后台记录</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-display text-2xl font-bold text-[var(--color-accent)]">+140%</span>
-                  <span className="font-mono text-[11px] text-[var(--color-text-muted)] mt-1">检出率提升</span>
+                  <span className="font-display text-2xl font-bold text-[var(--color-accent)]">2025.11</span>
+                  <span className="font-mono text-[11px] text-[var(--color-text-muted)] mt-1">AI 功能上线</span>
                 </div>
               </div>
               <span className="sr-only">VIEW CASE ↗</span>

@@ -4,4 +4,5 @@ dist/
 .DS_Store
 .vite/
 .agents/mcp_config.json
+.vscode/
 .obsidian/

@@ -54,14 +54,14 @@ export default function PacsAiCase({ project }) {
             />
             <div className={styles.heroMetricFloating}>
               <div className={styles.metricBlock}>
-                <span className={styles.metricBefore}>1.43</span>
+                <span className={styles.metricBefore}>2024.06 · 1.43</span>
                 <span className={styles.metricArrow}>→</span>
-                <span className={styles.metricAfter}>3.46</span>
+                <span className={styles.metricAfter}>2025.06 · 3.46</span>
               </div>
               <p className={styles.metricLabel}>
                 {language === 'zh'
-                  ? '平均每张小牙片龋齿发现数（+142%）'
-                  : 'Avg. cavities per X-ray (+142%)'}
+                  ? '后台同期记录 · AI 约 2025.11 上线'
+                  : 'Comparable backend records · AI launched around 2025.11'}
               </p>
             </div>
           </div>
@@ -225,17 +225,21 @@ export default function PacsAiCase({ project }) {
             <div className={styles.metricRow}>
               <div className={styles.metricCell}>
                 <span className={styles.metricCellValue}>{project.detailMetrics.before.value}</span>
+                <span className={styles.metricCellDate}>{project.detailMetrics.before.date}</span>
                 <span className={styles.metricCellLabel}>{t(project.detailMetrics.before.label)}</span>
               </div>
               <div className={`${styles.metricCell} ${styles.metricCellAccent}`}>
                 <span className={styles.metricCellValue}>{project.detailMetrics.after.value}</span>
+                <span className={styles.metricCellDate}>{project.detailMetrics.after.date}</span>
                 <span className={styles.metricCellLabel}>{t(project.detailMetrics.after.label)}</span>
               </div>
               <div className={`${styles.metricCell} ${styles.metricCellDelta}`}>
                 <span className={styles.metricCellValue}>{project.detailMetrics.delta.value}</span>
+                <span className={styles.metricCellDate}>{project.detailMetrics.delta.date}</span>
                 <span className={styles.metricCellLabel}>{t(project.detailMetrics.delta.label)}</span>
               </div>
             </div>
+            <p className={styles.evidenceNote}>{t(project.detailMetrics.context)}</p>
           </section>
         )}
 

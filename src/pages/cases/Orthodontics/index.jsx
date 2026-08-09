@@ -3,9 +3,6 @@ import { Link } from 'react-router-dom';
 import { useLanguage } from '../../../context/LanguageContext';
 import styles from './Orthodontics.module.css';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function OrthodonticsCase({ project }) {
   const { language } = useLanguage();
@@ -40,31 +37,13 @@ export default function OrthodonticsCase({ project }) {
         );
       });
 
-      // Funnel bars animation
-      gsap.utils.toArray('.funnelBarTrigger').forEach((bar) => {
-        const fill = bar.querySelector(`.${styles.funnelBarFill}`);
-        if (!fill) return;
-        const percentage = fill.getAttribute('data-percentage');
-        gsap.fromTo(
-          fill,
-          { width: '0%' },
-          {
-            width: `${percentage}%`,
-            duration: 1.5,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: bar,
-              start: 'top 90%',
-            },
-          }
-        );
-      });
     });
 
     return () => ctx.revert();
   }, []);
 
   if (!project) return null;
+  const t = (obj) => (obj ? (obj[language] ?? obj.zh) : '');
 
   return (
     <div className={styles.caseContainer}>
@@ -93,6 +72,40 @@ export default function OrthodonticsCase({ project }) {
               {project.heroMetrics.conversionAfter}
             </span>
           </div>
+        </div>
+        <p className={styles.metricNote}>{t(project.resultNote)}</p>
+      </section>
+
+      <section className={styles.section} data-animate-section>
+        <h2 className={styles.sectionTitle}>{language === 'zh' ? '业务背景与我的职责' : 'Context & Ownership'}</h2>
+        <div className={styles.contextGrid}>
+          <p className={styles.sectionDesc}>{t(project.background)}</p>
+          <aside className={styles.ownershipCard}>
+            <span className={styles.cardLabel}>{language === 'zh' ? '我的角色' : 'My role'}</span>
+            <p>{t(project.role)}</p>
+          </aside>
+        </div>
+      </section>
+
+      <section className={styles.section} data-animate-section>
+        <h2 className={styles.sectionTitle}>{language === 'zh' ? '从开发到全门店上线' : 'From Build to Full Rollout'}</h2>
+        <div className={styles.projectTimeline}>
+          {project.projectTimeline.map((item) => (
+            <article key={item.date} className={styles.projectTimelineItem}>
+              <span className={styles.projectDate}>{item.date}</span>
+              <h3>{t(item.title)}</h3>
+              <p>{t(item.desc)}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.section} data-animate-section>
+        <h2 className={styles.sectionTitle}>{t(project.iterationDecision.title)}</h2>
+        <div className={styles.decisionFlow}>
+          <article><span>01</span><h3>{language === 'zh' ? '初版假设' : 'Initial assumption'}</h3><p>{t(project.iterationDecision.before)}</p></article>
+          <article><span>02</span><h3>{language === 'zh' ? '试点发现' : 'Pilot insight'}</h3><p>{t(project.iterationDecision.insight)}</p></article>
+          <article><span>03</span><h3>{language === 'zh' ? '最终选择' : 'Final choice'}</h3><p>{t(project.iterationDecision.after)}</p></article>
         </div>
       </section>
 
@@ -164,31 +177,22 @@ export default function OrthodonticsCase({ project }) {
         </div>
       </section>
 
-      {/* Module C: Funnel Data */}
       <section className={styles.section} data-animate-section>
-        <h2 className={styles.sectionTitle}>{language === 'zh' ? '全链路可观测转化漏斗' : 'Fully Observable Funnel'}</h2>
-        <p className={styles.sectionDesc}>
-          {language === 'zh'
-            ? '矫正率从改版前的 30-40% 提升至 50-60% 左右，漏斗链路的建立使团队第一次能够观察每个环节的转化情况，而不只是看最终结果。'
-            : 'Conversion rate increased to 50-60%. The funnel tracking allowed the team to observe drop-offs at every step for the first time.'}
-        </p>
-        <div className={styles.funnelContainer}>
-          {project.funnelData.map((item, idx) => (
-            <div key={idx} className={`${styles.funnelRow} funnelBarTrigger`}>
-              <div className={styles.funnelLabel}>{item.stage[language]}</div>
-              <div className={styles.funnelBarTrack}>
-                <div 
-                  className={styles.funnelBarFill} 
-                  data-percentage={item.percentage}
-                  style={{ width: '0%' }}
-                >
-                  {item.percentage}%
-                </div>
-                <div className={styles.funnelValue}>{item.value}</div>
-              </div>
-            </div>
+        <h2 className={styles.sectionTitle}>{t(project.designCraft.title)}</h2>
+        <div className={styles.craftGrid}>
+          {project.designCraft.pillars.map((item) => (
+            <article key={t(item.title)} className={styles.craftCard}>
+              <h3>{t(item.title)}</h3>
+              <p>{t(item.desc)}</p>
+            </article>
           ))}
         </div>
+      </section>
+
+      {/* Results */}
+      <section className={styles.section} data-animate-section>
+        <h2 className={styles.sectionTitle}>{language === 'zh' ? '同期结果与证据口径' : 'Comparable Results & Evidence'}</h2>
+        <div className={styles.resultCard}><p>{t(project.result)}</p><small>{t(project.resultNote)}</small></div>
       </section>
     </div>
   );

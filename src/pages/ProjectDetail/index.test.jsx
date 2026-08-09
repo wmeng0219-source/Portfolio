@@ -164,3 +164,87 @@ test('detail page styles include visible focus treatment for back link and role 
   expect(projectDetailStyles).toContain('.backLink:focus-visible');
   expect(orthodonticsStyles).toContain('.roleTab:focus-visible');
 });
+
+test('case studies share the portfolio layout, typography, radius, and motion contract', () => {
+  const variables = readFileSync(
+    path.resolve(process.cwd(), 'src/styles/variables.css'),
+    'utf8',
+  );
+  const caseStylePaths = [
+    'src/pages/cases/MemberAutomation/MemberAutomation.module.css',
+    'src/pages/cases/Orthodontics/Orthodontics.module.css',
+    'src/pages/cases/PacsAi/PacsAi.module.css',
+  ];
+  const caseStyles = caseStylePaths.map((file) => readFileSync(path.resolve(process.cwd(), file), 'utf8'));
+
+  expect(variables).toMatch(/--content-max:\s*1280px/);
+  expect(variables).toContain("--font-display: 'Neudron'");
+  expect(variables).toContain("--font-body: 'GT America'");
+  expect(variables).toContain("--font-mono: 'IBM Plex Mono'");
+  expect(variables).toMatch(/--case-page-pad-x:\s*clamp\(/);
+  expect(variables).toMatch(/--case-section-pad-y:\s*clamp\(/);
+  expect(variables).toMatch(/--text-case-h1:\s*clamp\(/);
+  expect(variables).toMatch(/--text-case-h2:\s*clamp\(/);
+  expect(variables).toMatch(/--text-case-h3:\s*clamp\(/);
+  expect(variables).toMatch(/--text-case-body:\s*clamp\(/);
+  expect(variables).toMatch(/--text-case-label:\s*clamp\(/);
+  expect(variables).toMatch(/--radius-card:\s*16px/);
+  expect(variables).toMatch(/--radius-control:\s*10px/);
+
+  caseStyles.forEach((css) => {
+    expect(css).toContain('var(--content-max)');
+    expect(css).toContain('var(--text-case-h2)');
+    expect(css).toContain('var(--text-case-body)');
+    expect(css).toContain('var(--radius-card)');
+    expect(css).toContain('translateY(-2px)');
+    expect(css).not.toContain('max-width: 1000px');
+    expect(css).not.toContain('border-radius: 18px');
+    expect(css).not.toContain('translateY(-4px)');
+  });
+});
+
+test('orthodontics presents the verified rollout, ownership, iteration decision, and comparison scope', () => {
+  matchMediaAdd.mockImplementation((_queries, callback) => {
+    callback({ conditions: { reduceMotion: false, isDesktop: false } });
+  });
+
+  renderProjectDetail('/project/orthodontics');
+
+  expect(screen.getByText('2025.04')).toBeInTheDocument();
+  expect(screen.getByText('2026.02')).toBeInTheDocument();
+  expect(screen.getAllByText(/全门店正式上线/).length).toBeGreaterThan(0);
+  expect(screen.getByText(/独立完成门诊调研/)).toBeInTheDocument();
+  expect(screen.getByText(/产品减法/)).toBeInTheDocument();
+  expect(screen.getAllByText(/2025 年 2—4 月与 2026 年 2—4 月/).length).toBeGreaterThan(0);
+  expect(screen.queryByText('9274')).not.toBeInTheDocument();
+});
+
+test('member automation states the final upgrade rule and distinguishes measured from estimated outcomes', () => {
+  matchMediaAdd.mockImplementation((_queries, callback) => {
+    callback({ conditions: { reduceMotion: false, isDesktop: false } });
+  });
+
+  renderProjectDetail('/project/member-automation');
+
+  expect(screen.getByText(/只要会员卡仍在有效期内即可升级/)).toBeInTheDocument();
+  expect(screen.getAllByText(/门店现场实测/).length).toBeGreaterThan(0);
+  expect(screen.getByText(/据财务团队估算/)).toBeInTheDocument();
+  expect(screen.getByText(/失败时保留原会员卡与原权益/)).toBeInTheDocument();
+});
+
+test('pacs separates historical backend records from the later AI launch', () => {
+  matchMediaAdd.mockImplementation((_queries, callback) => {
+    callback({ conditions: { reduceMotion: false, isDesktop: false } });
+  });
+
+  renderProjectDetail('/project/pacs-ai');
+
+  expect(screen.getAllByText('2024.06').length).toBeGreaterThan(0);
+  expect(screen.getAllByText('2025.06').length).toBeGreaterThan(0);
+  expect(screen.getAllByText('2025.11').length).toBeGreaterThan(0);
+  expect(screen.getByText(/不能归因于 AI/)).toBeInTheDocument();
+  expect(screen.queryByText(/V2 AI 辅助后/)).not.toBeInTheDocument();
+  expect(screen.queryByText(/100% 留痕/)).not.toBeInTheDocument();
+  expect(screen.queryByText('3.0s')).not.toBeInTheDocument();
+  expect(screen.queryByText('< 100ms')).not.toBeInTheDocument();
+});

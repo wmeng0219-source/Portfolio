@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
 import { render, screen, within } from '@testing-library/react';
 import { HashRouter } from 'react-router-dom';
 import { LanguageProvider } from '../../context/LanguageContext';
@@ -40,10 +42,22 @@ test('renders portfolio as a showcase stage with one lead card and two supportin
 
   expect(within(section).getByText('20+')).toBeInTheDocument();
   expect(within(section).getByText('50-60%')).toBeInTheDocument();
-  expect(within(section).getByText('+140%')).toBeInTheDocument();
+  expect(within(section).getByText('2025.06')).toBeInTheDocument();
+  expect(within(section).getByText('2025.11')).toBeInTheDocument();
+  expect(within(section).queryByText('+140%')).not.toBeInTheDocument();
 
   expect(cards[0]).toHaveAttribute('href', '#/project/member-automation');
   expect(cards[1]).toHaveAttribute('href', '#/project/orthodontics');
   expect(cards[2]).toHaveAttribute('href', '#/project/pacs-ai');
   expect(within(section).getAllByText(/VIEW CASE/i)).toHaveLength(3);
+});
+
+test('portfolio cards use semantic classes backed by the shared card contract', () => {
+  const source = readFileSync(path.resolve(process.cwd(), 'src/components/Portfolio/index.jsx'), 'utf8');
+  const globalStyles = readFileSync(path.resolve(process.cwd(), 'src/styles/global.css'), 'utf8');
+
+  expect(source).toContain('portfolio-showcase-card');
+  expect(source).not.toContain('hover:-translate-y-1');
+  expect(globalStyles).toMatch(/\.portfolio-showcase-card[\s\S]*border-radius:\s*var\(--radius-card\)/);
+  expect(globalStyles).toMatch(/\.portfolio-showcase-card:hover[\s\S]*translateY\(-2px\)/);
 });

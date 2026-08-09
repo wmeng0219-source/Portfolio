@@ -112,7 +112,9 @@ test('renders homepage sections with updated responsibilities and portfolio emph
   expect(within(portfolioSection).getByText('HUMAN + AI')).toBeInTheDocument();
   expect(within(portfolioSection).getByText('20+')).toBeInTheDocument();
   expect(within(portfolioSection).getByText('50-60%')).toBeInTheDocument();
-  expect(within(portfolioSection).getByText('+140%')).toBeInTheDocument();
+  expect(within(portfolioSection).getByText('2025.06')).toBeInTheDocument();
+  expect(within(portfolioSection).getByText('2025.11')).toBeInTheDocument();
+  expect(within(portfolioSection).queryByText('+140%')).not.toBeInTheDocument();
 
   const contactSection = screen.getByRole('heading', {
     level: 2,
