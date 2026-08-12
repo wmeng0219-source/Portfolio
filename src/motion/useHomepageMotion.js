@@ -31,7 +31,7 @@ export const useHomepageMotion = (rootRef) => {
 
           const isPortfolioSection = Boolean(section.querySelector('[data-motion-group="portfolio-stage"]'));
           const isStageDenseSection = Boolean(
-            section.querySelector('.about-stage-list, .experience-timeline, .contact-stage-methods'),
+            section.querySelector('.about-stage-list, .growth-path, .contact-stage-methods'),
           );
 
           const fromVars = reduceMotion

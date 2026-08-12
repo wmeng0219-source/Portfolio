@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import ProjectBlueprintCover from '../ProjectBlueprintCover';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -81,12 +82,8 @@ const Portfolio = () => {
             data-motion-item
             data-motion-hover="card"
           >
-            <div className="card-media w-full md:w-1/2 aspect-video rounded-[12px] overflow-hidden bg-white/5 p-2 flex items-center justify-center border border-[var(--color-border)]">
-              <img
-                alt={t('portfolio.item.1.title') || '会员自动化与服务衔接'}
-                className="card-media-img w-full h-full object-cover rounded-[8px] opacity-85 group-hover:opacity-100 transition-opacity"
-                src="images/member/member_cover.svg"
-              />
+            <div className="portfolio-showcase-visual portfolio-showcase-visual--lead">
+              <ProjectBlueprintCover kind="member" />
             </div>
             <div className="flex-1 flex flex-col justify-between space-y-4 w-full">
               <div className="space-y-3">
@@ -132,14 +129,7 @@ const Portfolio = () => {
               data-motion-item
               data-motion-hover="card"
             >
-              {/* Cover visual — unified concept × metric SVG */}
-              <div className="card-media w-full h-44 bg-[var(--color-bg-elevated)] rounded-[12px] overflow-hidden border border-[var(--color-border)]">
-                <img
-                  alt={t('portfolio.item.2.title') || '正畸筛查与状态管理'}
-                  className="card-media-img w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
-                  src="images/ortho/ortho_cover.svg"
-                />
-              </div>
+              <ProjectBlueprintCover kind="orthodontics" />
 
               <div className="space-y-3">
                 <div className="flex items-center gap-2 font-mono text-xs text-[var(--color-system-green)] tracking-wider">
@@ -174,13 +164,7 @@ const Portfolio = () => {
               data-motion-item
               data-motion-hover="card"
             >
-              <div className="card-media w-full h-44 bg-[var(--color-bg-elevated)] rounded-[12px] overflow-hidden border border-[var(--color-border)]">
-                <img
-                  alt={t('portfolio.item.3.title') || 'PACS 读片与 AI 辅助判断'}
-                  className="card-media-img w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
-                  src="images/pacs/pacs_cover.svg"
-                />
-              </div>
+              <ProjectBlueprintCover kind="pacs" />
 
               <div className="space-y-3">
                 <div className="flex items-center gap-2 font-mono text-xs text-[var(--color-accent)] tracking-wider">

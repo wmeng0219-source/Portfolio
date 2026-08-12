@@ -42,7 +42,7 @@ test('removes closed mobile navigation links from the accessibility tree after s
 
   expect(screen.getByRole('link', { name: '关于我' })).toHaveAttribute('href', '#about');
   expect(screen.getByRole('link', { name: '项目' })).toHaveAttribute('href', '#portfolio');
-  expect(screen.getByRole('link', { name: '经历' })).toHaveAttribute('href', '#experience');
+  expect(screen.getByRole('link', { name: '成长' })).toHaveAttribute('href', '#experience');
   expect(screen.getByRole('link', { name: '联系我' })).toHaveAttribute('href', '#contact');
 
   await user.click(screen.getByRole('link', { name: '关于我' }));

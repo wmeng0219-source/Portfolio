@@ -246,6 +246,155 @@ main {
   outline-offset: 4px;
 }
 
+.portfolio-showcase-visual {
+  width: min(100%, 38rem);
+  flex: 1 1 50%;
+}
+
+.project-blueprint-cover {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-bg-elevated);
+}
+
+.project-blueprint-cover__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.project-blueprint-cover text {
+  fill: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+.project-blueprint-cover__label {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+}
+
+.project-blueprint-cover__label--muted {
+  fill: var(--color-text-muted);
+}
+
+.project-blueprint-cover__label--accent {
+  fill: var(--color-accent);
+}
+
+.project-blueprint-cover__label--green {
+  fill: var(--color-system-green);
+}
+
+.project-blueprint-cover__structure,
+.project-blueprint-cover__structure path,
+.project-blueprint-cover__rail,
+.project-blueprint-cover__image-field path,
+.project-blueprint-cover__doctor path,
+.project-blueprint-cover__feedback path,
+.project-blueprint-cover__ai path {
+  stroke: rgba(242, 242, 245, 0.22);
+  stroke-width: 1;
+}
+
+.project-blueprint-cover__active,
+.project-blueprint-cover__flow,
+.project-blueprint-cover__ai .project-blueprint-cover__active {
+  color: var(--color-accent);
+  stroke: var(--color-accent);
+  stroke-width: 1.5;
+}
+
+.project-blueprint-cover__return,
+.project-blueprint-cover__reentry path {
+  color: var(--color-system-green);
+  stroke: var(--color-system-green);
+  stroke-dasharray: 5 5;
+  stroke-width: 1.5;
+}
+
+.project-blueprint-cover__node rect,
+.project-blueprint-cover__engine > rect:first-child,
+.project-blueprint-cover__output rect,
+.project-blueprint-cover__stage rect,
+.project-blueprint-cover__image-field > rect,
+.project-blueprint-cover__ai > rect,
+.project-blueprint-cover__doctor > rect,
+.project-blueprint-cover__feedback rect,
+.project-blueprint-cover__reentry rect {
+  fill: rgba(13, 12, 17, 0.74);
+  stroke: var(--color-border);
+  stroke-width: 1;
+}
+
+.project-blueprint-cover__engine > rect:not(:first-child),
+.project-blueprint-cover__finding {
+  fill: rgba(208, 188, 255, 0.1);
+  stroke: var(--color-accent);
+  stroke-width: 1;
+}
+
+.project-blueprint-cover__finding--secondary {
+  fill: rgba(185, 242, 200, 0.08);
+  stroke: var(--color-system-green);
+}
+
+.project-blueprint-cover__engine text,
+.project-blueprint-cover__ai text {
+  fill: var(--color-accent);
+}
+
+.project-blueprint-cover__output rect:last-of-type,
+.project-blueprint-cover__stage--4 rect,
+.project-blueprint-cover__doctor > rect,
+.project-blueprint-cover__feedback rect {
+  stroke: rgba(185, 242, 200, 0.72);
+}
+
+.project-blueprint-cover__stage-index {
+  fill: var(--color-text-muted);
+  font-size: 8px;
+}
+
+.project-blueprint-cover__patient-set path,
+.project-blueprint-cover__patient-set circle {
+  fill: var(--color-system-green);
+  stroke: var(--color-system-green);
+  stroke-width: 1;
+}
+
+.project-blueprint-cover__signal {
+  fill: var(--color-accent);
+  filter: drop-shadow(0 0 5px rgba(208, 188, 255, 0.6));
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: blueprint-pulse 2.8s ease-in-out infinite;
+}
+
+.project-blueprint-cover__signal--green {
+  fill: var(--color-system-green);
+  filter: drop-shadow(0 0 5px rgba(185, 242, 200, 0.52));
+}
+
+.project-blueprint-cover__signal--delay {
+  animation-delay: 0.9s;
+}
+
+.portfolio-showcase-card:hover .project-blueprint-cover__active,
+.portfolio-showcase-card:hover .project-blueprint-cover__flow,
+.portfolio-showcase-card:hover .project-blueprint-cover__reentry path {
+  stroke-width: 2;
+}
+
+@keyframes blueprint-pulse {
+  0%, 100% { opacity: 0.68; transform: scale(0.82); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
 .portfolio-stage-head {
   display: grid;
   gap: 1.1rem;
@@ -565,73 +714,97 @@ main {
   line-height: 1.72;
 }
 
-.experience-timeline {
+.growth-path {
   display: grid;
-  gap: 0;
+  border-top: 1px solid var(--color-border);
 }
 
-.experience-timeline-row {
+.growth-path-step {
   display: grid;
-  grid-template-columns: 8rem minmax(0, 1fr);
-  gap: 2rem;
-  padding: 2rem 0;
-  border-top: 1px solid var(--color-light-border);
+  grid-template-columns: 2rem 5rem minmax(0, 1fr);
+  gap: clamp(1.25rem, 2.5vw, 2.5rem);
+  min-height: 11rem;
+  border-bottom: 1px solid var(--color-border);
 }
 
-.experience-timeline-meta {
-  display: grid;
-  gap: 0.6rem;
-  align-content: start;
+.growth-path-marker {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding-top: 2.45rem;
 }
 
-.experience-timeline-index {
-  color: var(--color-light-accent);
+.growth-path-node {
+  position: relative;
+  z-index: 1;
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--color-text-muted);
+  border-radius: 50%;
+  background: var(--color-bg-primary);
+}
+
+.growth-path-line {
+  position: absolute;
+  top: calc(2.45rem + 10px);
+  bottom: -1px;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(var(--color-text-muted), var(--color-border));
+}
+
+.growth-path-step--current .growth-path-node {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  box-shadow: 0 0 0 6px rgba(200, 182, 255, 0.12), 0 0 24px rgba(200, 182, 255, 0.38);
+}
+
+.growth-path-index {
+  padding-top: 2rem;
+  color: var(--color-text-muted);
   font-family: var(--font-mono);
-  font-size: clamp(2rem, 3vw, 2.8rem);
+  font-size: clamp(1.3rem, 2vw, 1.8rem);
   font-weight: 600;
-  line-height: 0.9;
-  letter-spacing: -0.06em;
+  line-height: 1;
+  letter-spacing: -0.04em;
 }
 
-.experience-timeline-period {
-  color: var(--color-light-muted);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-}
-
-.experience-timeline-content {
+.growth-path-content {
   display: grid;
-  grid-template-columns: minmax(0, 12rem) minmax(0, 16rem) minmax(0, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: minmax(0, 13rem) minmax(0, 19rem) minmax(0, 1fr);
+  gap: clamp(1.5rem, 3vw, 3rem);
   align-items: start;
+  padding: 2rem 0;
 }
 
-.experience-timeline-tag {
+.growth-path-action {
   color: var(--color-light-accent);
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: clamp(0.68rem, 0.8vw, 0.75rem);
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
-.experience-timeline-title {
-  max-width: 12rem;
+.growth-path-role {
+  max-width: 15rem;
   font-family: var(--font-display);
-  font-size: clamp(1.7rem, 2.4vw, 2.3rem);
+  font-size: clamp(1.6rem, 2.4vw, 2.35rem);
   font-weight: 800;
   line-height: 1.04;
   letter-spacing: -0.04em;
-  color: var(--color-light-text);
+  color: var(--color-text-primary);
 }
 
-.experience-timeline-body {
+.growth-path-step--current .growth-path-index,
+.growth-path-step--current .growth-path-role {
+  color: var(--color-accent);
+}
+
+.growth-path-body {
   max-width: 36rem;
-  color: var(--color-light-muted);
-  font-size: 0.98rem;
+  color: var(--color-text-muted);
+  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
   line-height: 1.72;
 }
 
@@ -885,9 +1058,26 @@ a.contact-stage-link:hover .contact-stage-link-value {
 
   .portfolio-stage-grid,
   .about-stage-row,
-  .experience-timeline-row,
-  .experience-timeline-content {
+  .growth-path-content {
     grid-template-columns: 1fr;
+  }
+
+  .portfolio-showcase-card--lead {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .portfolio-showcase-visual {
+    width: 100%;
+  }
+
+  .growth-path-step {
+    grid-template-columns: 1.5rem 3rem minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .growth-path-content {
+    gap: 0.75rem;
   }
 
   .portfolio-stage-title,
@@ -913,14 +1103,6 @@ a.contact-stage-link:hover .contact-stage-link-value {
 
   .about-stage-row-main {
     grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 768px) {
-  .experience-stage-card-shell {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    padding: 2.5rem 0;
   }
 }
 
@@ -1000,6 +1182,10 @@ a.contact-stage-link:hover .contact-stage-link-value {
 @media (prefers-reduced-motion: reduce) {
   .hero-grid-spotlight {
     display: none;
+  }
+
+  .project-blueprint-cover__signal {
+    animation: none;
   }
 }
 

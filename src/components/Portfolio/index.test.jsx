@@ -60,3 +60,20 @@ test('portfolio cards use semantic classes backed by the shared card contract', 
   expect(globalStyles).toMatch(/\.portfolio-showcase-card[\s\S]*border-radius:\s*var\(--radius-card\)/);
   expect(globalStyles).toMatch(/\.portfolio-showcase-card:hover[\s\S]*translateY\(-2px\)/);
 });
+
+test('renders three distinct system-blueprint covers for the project mechanisms', () => {
+  render(
+    <HashRouter>
+      <LanguageProvider>
+        <Portfolio />
+      </LanguageProvider>
+    </HashRouter>,
+  );
+
+  expect(screen.getByLabelText('会员自动化规则引擎')).toBeInTheDocument();
+  expect(screen.getByLabelText('正畸筛查状态漏斗')).toBeInTheDocument();
+  expect(screen.getByLabelText('PACS 人机复核闭环')).toBeInTheDocument();
+  expect(screen.getByText('RULE_ENGINE')).toBeInTheDocument();
+  expect(screen.getByText('RE-ENTRY ENABLED')).toBeInTheDocument();
+  expect(screen.getByText('DOCTOR_VERIFIED')).toBeInTheDocument();
+});

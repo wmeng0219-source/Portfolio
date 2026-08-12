@@ -11,7 +11,7 @@ const Experience = () => {
       <div className="section-shell">
         <div className="experience-stage-head" data-motion-item>
           <div className="experience-stage-head-top">
-            <p className="experience-stage-kicker">03 / Path</p>
+            <p className="experience-stage-kicker">{t('experience.stage.kicker')}</p>
           </div>
           <div className="experience-stage-head-body">
             <h2 className="experience-stage-title">{t('experience.stage.title')}</h2>
@@ -19,17 +19,22 @@ const Experience = () => {
           </div>
         </div>
 
-        <div className="experience-timeline" data-motion-group="experience-timeline">
+        <div className="growth-path" data-motion-group="growth-path">
           {items.map((item) => (
-            <article className="experience-timeline-row" key={item} data-motion-item>
-              <div className="experience-timeline-meta">
-                <p className="experience-timeline-index">0{item}</p>
-                <p className="experience-timeline-period">{t(`experience.item.${item}.period`)}</p>
+            <article
+              className={`growth-path-step${item === items.length ? ' growth-path-step--current' : ''}`}
+              key={item}
+              data-motion-item
+            >
+              <div className="growth-path-marker" aria-hidden="true">
+                <span className="growth-path-node" />
+                {item < items.length && <span className="growth-path-line" />}
               </div>
-              <div className="experience-timeline-content">
-                <p className="experience-timeline-tag">{t(`experience.stage.item.${item}.short`)}</p>
-                <h3 className="experience-timeline-title">{t(`experience.item.${item}.title`)}</h3>
-                <p className="experience-timeline-body">{t(`experience.item.${item}.body`)}</p>
+              <p className="growth-path-index">0{item}</p>
+              <div className="growth-path-content">
+                <p className="growth-path-action">{t(`experience.stage.item.${item}.short`)}</p>
+                <h3 className="growth-path-role">{t(`experience.item.${item}.title`)}</h3>
+                <p className="growth-path-body">{t(`experience.item.${item}.body`)}</p>
               </div>
             </article>
           ))}

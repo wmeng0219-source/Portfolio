@@ -74,6 +74,25 @@ test('renders homepage sections with updated responsibilities and portfolio emph
     name: '把复杂业务变成可执行系统',
   }).closest('section');
   expect(aboutSection).toHaveAttribute('data-motion-section');
+  expect(within(aboutSection).getByText('01 / Method')).toBeInTheDocument();
+  expect(within(aboutSection).getByText('Context')).toBeInTheDocument();
+  expect(within(aboutSection).getByText('Structure')).toBeInTheDocument();
+  expect(within(aboutSection).getByText('AI Workflow')).toBeInTheDocument();
+
+  const experienceSection = screen.getByRole('heading', {
+    level: 2,
+    name: '从界面执行，到系统落地',
+  }).closest('section');
+  expect(experienceSection).toHaveAttribute('data-motion-section');
+  expect(within(experienceSection).getByText('03 / Growth Path')).toBeInTheDocument();
+  expect(within(experienceSection).getByText('界面设计者')).toBeInTheDocument();
+  expect(within(experienceSection).getByText('复杂系统设计者')).toBeInTheDocument();
+  expect(within(experienceSection).getByText('产品方案参与者')).toBeInTheDocument();
+  expect(within(experienceSection).getByText('业务与交付连接者')).toBeInTheDocument();
+  expect(within(experienceSection).queryByText('2019 - 2020')).not.toBeInTheDocument();
+  expect(within(experienceSection).queryByText('2023.04 - 至今')).not.toBeInTheDocument();
+  expect(experienceSection.querySelector('.growth-path')).not.toBeNull();
+  expect(experienceSection.querySelectorAll('.growth-path-node')).toHaveLength(4);
 
   const portfolioSection = screen.getByRole('heading', {
     level: 2,
