@@ -225,7 +225,7 @@ const Hero = () => {
         <div className="flex items-center justify-center gap-6 pt-2" data-hero-part="actions" data-hero-anim="support">
           {/* Button 1: 查看项目 */}
           <a
-            className="px-8 py-3.5 bg-[var(--color-accent)] text-[#0B0F14] rounded-full font-semibold text-base md:text-lg hover:opacity-90 hover:shadow-[0_0_35px_rgba(200,182,255,0.4)] transition-all flex items-center gap-2.5 no-underline cursor-pointer"
+            className="px-8 py-3.5 bg-[var(--color-accent)] text-[#231745] rounded-full font-semibold text-base md:text-lg hover:opacity-95 hover:shadow-[0_0_35px_rgba(200,182,255,0.4)] transition-all flex items-center gap-2.5 no-underline cursor-pointer"
             href="#portfolio"
             data-motion-hover="button"
             onClick={(event) => scrollToSection(event, 'portfolio')}
@@ -238,7 +238,7 @@ const Hero = () => {
 
           {/* Button 2: 联系我 */}
           <a
-            className="px-9 py-3.5 bg-[var(--color-bg-elevated)] border border-[var(--color-border)] rounded-full font-medium text-lg hover:border-[var(--color-border-accent)] backdrop-blur-md transition-all text-[var(--color-text-primary)] no-underline cursor-pointer"
+            className="px-8 py-3.5 bg-[#EADEFF]/90 border border-[#C8B6FF]/50 rounded-full font-semibold text-base md:text-lg hover:bg-[#EADEFF] transition-all text-[#231745] no-underline cursor-pointer"
             href="#contact"
             onClick={(event) => scrollToSection(event, 'contact')}
           >
