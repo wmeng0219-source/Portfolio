@@ -213,7 +213,7 @@ main {
 
 .portfolio-showcase-card {
   width: 100%;
-  padding: clamp(1.5rem, 3vw, 2.5rem);
+  padding: clamp(1.25rem, 2.2vw, 1.75rem);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   background: var(--color-bg-secondary);
@@ -225,14 +225,15 @@ main {
 .portfolio-showcase-card--lead {
   display: flex;
   align-items: center;
-  gap: clamp(2rem, 4vw, 3rem);
+  gap: clamp(1.5rem, 3vw, 2.5rem);
 }
 
 .portfolio-showcase-card--support {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 1.5rem;
+  gap: 1.25rem;
+  height: 100%;
 }
 
 .portfolio-showcase-card:hover {
@@ -247,16 +248,21 @@ main {
 }
 
 .portfolio-showcase-visual {
-  width: min(100%, 38rem);
-  flex: 1 1 50%;
+  width: min(100%, 24rem);
+  flex: 0 0 auto;
 }
 
 .project-blueprint-cover {
   aspect-ratio: 16 / 9;
   overflow: hidden;
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-control);
+  border-radius: 10px;
   background: var(--color-bg-elevated);
+}
+
+.portfolio-showcase-card--support .project-blueprint-cover {
+  max-height: 165px;
+  aspect-ratio: 16 / 8;
 }
 
 .project-blueprint-cover__canvas {
@@ -430,7 +436,7 @@ main {
 .portfolio-stage-grid {
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 1.75rem;
 }
 
 .portfolio-entry {
@@ -731,7 +737,7 @@ main {
   position: relative;
   display: flex;
   justify-content: center;
-  padding-top: 2.45rem;
+  padding-top: 2.05rem;
 }
 
 .growth-path-node {
@@ -746,7 +752,7 @@ main {
 
 .growth-path-line {
   position: absolute;
-  top: calc(2.45rem + 10px);
+  top: calc(2.05rem + 10px);
   bottom: -1px;
   left: 50%;
   width: 1px;

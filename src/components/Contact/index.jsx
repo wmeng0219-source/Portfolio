@@ -36,10 +36,10 @@ const Contact = () => {
             </span>
           </div>
 
-          <h2 className="font-display text-5xl md:text-[100px] leading-[0.9] text-[var(--color-accent)] uppercase tracking-tight mb-8 font-bold">
+          <h2 className="font-display text-4xl md:text-6xl lg:text-7xl leading-[1.0] text-[var(--color-text-primary)] uppercase tracking-tight mb-6 font-extrabold">
             {t('contact.stage.title') || '欢迎联系我'}
           </h2>
-          <p className="text-[var(--color-text-secondary)] text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[var(--color-text-secondary)] text-sm md:text-base max-w-xl mx-auto leading-relaxed">
             {t('contact.stage.body') || '适合讨论流程复杂、协作困难、需要系统化落地的产品问题。'}
           </p>
 

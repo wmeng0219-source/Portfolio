@@ -188,7 +188,7 @@ const Hero = () => {
       </div>
 
       {/* Hero Content - Matches Figma Node 272:178 */}
-      <div className="relative z-10 max-w-5xl flex flex-col items-center pt-20 space-y-10" ref={copyRef}>
+      <div className="relative z-10 max-w-5xl flex flex-col items-center pt-16 md:pt-20 space-y-6 md:space-y-8" ref={copyRef}>
         {/* Eyebrow kicker */}
         <p className="hero-eyebrow" data-hero-part="eyebrow">
           {t('hero.stage.kicker') || '数字化产品系统 / 2025'}
@@ -197,7 +197,7 @@ const Hero = () => {
         {/* Main H1 Title: Anton font, per-char mask reveal, gradient shimmer */}
         <div className="relative">
           <h1
-            className="font-display-hero text-7xl sm:text-9xl md:text-[160px] lg:text-[200px] leading-none uppercase tracking-[-0.03em] font-normal"
+            className="font-display-hero text-6xl sm:text-7xl md:text-8xl lg:text-[130px] leading-none uppercase tracking-[-0.03em] font-normal"
             aria-label={TITLE_TEXT}
             data-hero-anim="title"
           >
@@ -217,15 +217,15 @@ const Hero = () => {
           </h1>
         </div>
 
-        <p className="font-body text-lg md:text-2xl leading-relaxed text-white/90 max-w-3xl mx-auto font-light tracking-wide px-4" data-hero-part="summary" data-hero-anim="support">
+        <p className="font-body text-base md:text-xl leading-relaxed text-white/90 max-w-2xl mx-auto font-light tracking-wide px-4" data-hero-part="summary" data-hero-anim="support">
           {t('hero.body') || '产品经理与设计复合型实践者。聚焦医疗数字化、流程重构与AI协作，在混乱的真实业务现场中，建立可执行、可观察的系统闭环。'}
         </p>
 
         {/* CTA Buttons Container: Figma Node 272:194 */}
-        <div className="flex items-center justify-center gap-8 pt-2" data-hero-part="actions" data-hero-anim="support">
+        <div className="flex items-center justify-center gap-6 pt-2" data-hero-part="actions" data-hero-anim="support">
           {/* Button 1: 查看项目 */}
           <a
-            className="px-9 py-3.5 bg-[var(--color-accent)] text-[#352564] rounded-full font-medium text-lg hover:opacity-90 hover:shadow-[0_0_35px_rgba(200,182,255,0.4)] transition-all flex items-center gap-2.5 no-underline cursor-pointer"
+            className="px-8 py-3.5 bg-[var(--color-accent)] text-[#0B0F14] rounded-full font-semibold text-base md:text-lg hover:opacity-90 hover:shadow-[0_0_35px_rgba(200,182,255,0.4)] transition-all flex items-center gap-2.5 no-underline cursor-pointer"
             href="#portfolio"
             data-motion-hover="button"
             onClick={(event) => scrollToSection(event, 'portfolio')}

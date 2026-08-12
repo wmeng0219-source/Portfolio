@@ -155,7 +155,7 @@ const Navbar = () => {
   }, [hideNavLinks]);
 
   return (
-    <header ref={headerRef} className="fixed top-0 left-0 w-full z-50 px-margin-mobile md:px-margin-desktop py-8 pointer-events-none">
+    <header ref={headerRef} className="fixed top-0 left-0 w-full z-50 px-margin-mobile md:px-margin-desktop py-4 md:py-5 pointer-events-none">
       {/* Scroll progress */}
       <div className="nav-progress" aria-hidden="true">
         <div className="nav-progress-bar" ref={progressBarRef} />
@@ -189,7 +189,7 @@ const Navbar = () => {
           id="primary-navigation"
           className={`nav-glass pointer-events-auto bg-[var(--color-glass)] backdrop-blur-[16px] border border-[var(--color-border)] rounded-full px-8 py-2.5 flex items-center gap-8 ${
             isMobileViewport
-              ? `fixed top-24 right-6 flex-col items-start p-6 bg-[var(--color-bg-secondary)]/95 rounded-[16px] ${
+              ? `fixed top-16 right-4 sm:right-6 flex-col items-start p-6 bg-[var(--color-bg-secondary)]/95 rounded-[16px] shadow-2xl ${
                   menuOpen ? 'flex' : 'hidden'
                 }`
               : 'flex'
