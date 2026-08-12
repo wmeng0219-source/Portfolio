@@ -110,7 +110,6 @@ main {
 }
 
 .section-title {
-  max-width: 16ch;
   font-family: var(--font-display);
   font-size: clamp(2.4rem, 5vw, 4.6rem);
   font-weight: 800;
@@ -418,7 +417,6 @@ main {
 }
 
 .portfolio-stage-title {
-  max-width: 14ch;
   font-family: var(--font-display);
   font-size: clamp(2.8rem, 5.2vw, 4.8rem);
   font-weight: 800;
@@ -427,7 +425,7 @@ main {
 }
 
 .portfolio-stage-intro {
-  max-width: 36rem;
+  max-width: 48rem;
   color: var(--color-text-muted);
   font-size: 1rem;
   line-height: 1.72;
@@ -498,7 +496,6 @@ main {
 }
 
 .portfolio-entry-title {
-  max-width: 11ch;
   font-family: var(--font-display);
   font-size: clamp(1.9rem, 3vw, 2.95rem);
   font-weight: 800;
@@ -507,7 +504,6 @@ main {
 }
 
 .portfolio-entry-summary {
-  max-width: 24rem;
   color: var(--color-text-muted);
   font-size: 0.98rem;
   line-height: 1.74;
@@ -598,7 +594,6 @@ main {
 }
 
 .about-stage-title {
-  max-width: 18ch;
   font-family: var(--font-display);
   font-size: clamp(2.8rem, 5.4vw, 5rem);
   font-weight: 800;
@@ -607,7 +602,7 @@ main {
 }
 
 .about-stage-intro {
-  max-width: 38rem;
+  max-width: 48rem;
   color: var(--color-text-muted);
   font-size: 1rem;
   line-height: 1.72;
@@ -646,7 +641,6 @@ main {
 }
 
 .about-stage-row-title {
-  max-width: 14ch;
   font-family: var(--font-display);
   font-size: clamp(1.7rem, 2.6vw, 2.4rem);
   font-weight: 800;
@@ -655,7 +649,7 @@ main {
 }
 
 .about-stage-row-body {
-  max-width: 36rem;
+  max-width: 48rem;
   color: var(--color-text-muted);
   font-size: 0.98rem;
   line-height: 1.74;
@@ -704,7 +698,6 @@ main {
 }
 
 .experience-stage-title {
-  max-width: 16ch;
   font-family: var(--font-display);
   font-size: clamp(2.8rem, 5.4vw, 5rem);
   font-weight: 800;
@@ -714,7 +707,7 @@ main {
 }
 
 .experience-stage-intro {
-  max-width: 38rem;
+  max-width: 48rem;
   color: var(--color-text-muted);
   font-size: 1rem;
   line-height: 1.72;
@@ -793,7 +786,6 @@ main {
 }
 
 .growth-path-role {
-  max-width: 15rem;
   font-family: var(--font-display);
   font-size: clamp(1.6rem, 2.4vw, 2.35rem);
   font-weight: 800;
