@@ -225,7 +225,7 @@ const Hero = () => {
         <div className="flex items-center justify-center gap-6 pt-2" data-hero-part="actions" data-hero-anim="support">
           {/* Button 1: 查看项目 */}
           <a
-            className="px-8 py-3.5 bg-[var(--color-accent)] text-[#231745] rounded-full font-semibold text-base md:text-lg hover:opacity-95 hover:shadow-[0_0_35px_rgba(200,182,255,0.4)] transition-all flex items-center gap-2.5 no-underline cursor-pointer"
+            className="px-8 py-3.5 bg-[var(--color-accent)] text-[#1C1528] rounded-full font-semibold text-base md:text-lg hover:bg-[#BFAAF5] transition-all flex items-center gap-2.5 no-underline cursor-pointer shadow-none"
             href="#portfolio"
             data-motion-hover="button"
             onClick={(event) => scrollToSection(event, 'portfolio')}
@@ -238,7 +238,7 @@ const Hero = () => {
 
           {/* Button 2: 联系我 */}
           <a
-            className="px-8 py-3.5 bg-[#EADEFF]/90 border border-[#C8B6FF]/50 rounded-full font-semibold text-base md:text-lg hover:bg-[#EADEFF] transition-all text-[#231745] no-underline cursor-pointer"
+            className="px-8 py-3.5 bg-[var(--color-bg-elevated)] border border-[#3A3548] rounded-full font-semibold text-base md:text-lg text-[#D0BDFF] hover:border-[var(--color-accent)] hover:text-[#EADEFF] transition-all no-underline cursor-pointer shadow-none"
             href="#contact"
             onClick={(event) => scrollToSection(event, 'contact')}
           >
