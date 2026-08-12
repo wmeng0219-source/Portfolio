@@ -196,7 +196,6 @@ export default function MemberAutomationCase({ project }) {
             </div>
           </section>
         )}
-        )}
 
         {/* ── Design Decisions ─────────────────────────────── */}
         {project.decisions && (

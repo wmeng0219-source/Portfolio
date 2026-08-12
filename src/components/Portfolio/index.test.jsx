@@ -5,7 +5,7 @@ import { HashRouter } from 'react-router-dom';
 import { LanguageProvider } from '../../context/LanguageContext';
 import Portfolio from './index';
 
-test('renders portfolio as a showcase stage with one lead card and two supporting cards', () => {
+test('renders portfolio as a showcase stage with one lead card and two supporting cards', async () => {
   render(
     <HashRouter>
       <LanguageProvider>
@@ -42,9 +42,8 @@ test('renders portfolio as a showcase stage with one lead card and two supportin
 
   expect(within(section).getByText('20+')).toBeInTheDocument();
   expect(within(section).getByText('50-60%')).toBeInTheDocument();
-  expect(within(section).getByText('2025.06')).toBeInTheDocument();
-  expect(within(section).getByText('2025.11')).toBeInTheDocument();
-  expect(within(section).queryByText('+140%')).not.toBeInTheDocument();
+  expect(within(section).getByText('3.46 颗')).toBeInTheDocument();
+  expect(within(section).getByText('+140%')).toBeInTheDocument();
 
   expect(cards[0]).toHaveAttribute('href', '#/project/member-automation');
   expect(cards[1]).toHaveAttribute('href', '#/project/orthodontics');

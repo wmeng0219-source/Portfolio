@@ -26,6 +26,8 @@ const Navbar = () => {
   const [activeSection, setActiveSection] = useState('hero');
   const [isMobileViewport, setIsMobileViewport] = useState(getIsMobileViewport);
   const menuButtonRef = useRef(null);
+  const headerRef = useRef(null);
+  const progressBarRef = useRef(null);
   const shouldRestoreFocusRef = useRef(false);
 
   const navItems = useMemo(
@@ -93,6 +95,38 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // 顶部滚动进度条 + 滚动后加深导航玻璃底（仅 transform，无布局抖动）
+  useEffect(() => {
+    const bar = progressBarRef.current;
+    const headerEl = headerRef.current;
+    if (!bar || !headerEl) {
+      return undefined;
+    }
+
+    let rafId = null;
+    const update = () => {
+      rafId = null;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+      bar.style.transform = `scaleX(${progress})`;
+      headerEl.dataset.scrolled = window.scrollY > 24 ? 'true' : 'false';
+    };
+    const handleScroll = () => {
+      if (rafId === null) {
+        rafId = window.requestAnimationFrame(update);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    update();
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafId !== null) {
+        window.cancelAnimationFrame(rafId);
+      }
+    };
+  }, []);
+
   const handleMenuItemClick = (event, href, id) => {
     event.preventDefault();
     scrollToHashTarget(event.currentTarget.getAttribute('href'));
@@ -121,10 +155,14 @@ const Navbar = () => {
   }, [hideNavLinks]);
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 px-margin-mobile md:px-margin-desktop py-8 pointer-events-none">
+    <header ref={headerRef} className="fixed top-0 left-0 w-full z-50 px-margin-mobile md:px-margin-desktop py-8 pointer-events-none">
+      {/* Scroll progress */}
+      <div className="nav-progress" aria-hidden="true">
+        <div className="nav-progress-bar" ref={progressBarRef} />
+      </div>
       <div className="max-w-container-max mx-auto flex items-center justify-center relative">
         {/* Left MW Badge */}
-        <div className="absolute left-0 pointer-events-auto bg-[var(--color-glass)] backdrop-blur-[16px] border border-[var(--color-border)] px-4 py-2 rounded-full hidden md:block">
+        <div className="nav-glass absolute left-0 pointer-events-auto bg-[var(--color-glass)] backdrop-blur-[16px] border border-[var(--color-border)] px-4 py-2 rounded-full hidden md:block">
           <a href="#hero" onClick={handleLogoClick} className="font-label-caps text-[14px] tracking-widest text-[var(--color-text-primary)] no-underline">
             MW
           </a>
@@ -133,7 +171,7 @@ const Navbar = () => {
         {/* Mobile Toggle Button */}
         <button
           ref={menuButtonRef}
-          className="pointer-events-auto md:hidden absolute right-0 bg-[var(--color-glass)] backdrop-blur-[16px] border border-[var(--color-border)] p-2.5 rounded-full text-[var(--color-text-primary)]"
+          className="nav-glass pointer-events-auto md:hidden absolute right-0 bg-[var(--color-glass)] backdrop-blur-[16px] border border-[var(--color-border)] p-2.5 rounded-full text-[var(--color-text-primary)]"
           type="button"
           aria-controls="primary-navigation"
           aria-expanded={menuOpen}
@@ -149,7 +187,7 @@ const Navbar = () => {
         {/* Centered Desktop Nav Pill / Mobile Nav Drawer */}
         <nav
           id="primary-navigation"
-          className={`pointer-events-auto bg-[var(--color-glass)] backdrop-blur-[16px] border border-[var(--color-border)] rounded-full px-8 py-2.5 flex items-center gap-8 ${
+          className={`nav-glass pointer-events-auto bg-[var(--color-glass)] backdrop-blur-[16px] border border-[var(--color-border)] rounded-full px-8 py-2.5 flex items-center gap-8 ${
             isMobileViewport
               ? `fixed top-24 right-6 flex-col items-start p-6 bg-[var(--color-bg-secondary)]/95 rounded-[16px] ${
                   menuOpen ? 'flex' : 'hidden'

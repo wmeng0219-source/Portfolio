@@ -1,6 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const scrollToSection = (event, id) => {
   event.preventDefault();
@@ -10,11 +13,16 @@ const scrollToSection = (event, id) => {
   }
 };
 
+const TITLE_TEXT = 'MENG WEN';
+
 const Hero = () => {
   const { t } = useLanguage();
   const sectionRef = useRef(null);
   const copyRef = useRef(null);
   const gridRef = useRef(null);
+  const watermarkRef = useRef(null);
+
+  const titleChars = useMemo(() => TITLE_TEXT.split(''), []);
 
   // Lagging spotlight: GSAP smoothly interpolates position toward cursor
   useEffect(() => {
@@ -53,23 +61,97 @@ const Hero = () => {
       const mm = gsap.matchMedia();
       mm.add(
         {
+          isDesktop: '(min-width: 901px)',
           reduceMotion: '(prefers-reduced-motion: reduce)',
         },
         (context) => {
-          const { reduceMotion } = context.conditions;
-          if (copyRef.current) {
+          const { isDesktop, reduceMotion } = context.conditions;
+
+          if (reduceMotion) {
             gsap.fromTo(
-              copyRef.current.children,
-              reduceMotion ? { autoAlpha: 0 } : { y: 40, autoAlpha: 0 },
-              {
-                y: 0,
-                autoAlpha: 1,
-                duration: reduceMotion ? 0.01 : 1,
-                stagger: 0.1,
-                ease: 'power3.out',
-              },
+              '[data-hero-part]',
+              { autoAlpha: 0 },
+              { autoAlpha: 1, duration: 0.01 },
             );
+            return undefined;
           }
+
+          // 入场编排（DESIGN.md 7.3：eyebrow → Display → summary → actions，重叠推进）
+          gsap.fromTo(
+            '[data-hero-part="eyebrow"]',
+            { autoAlpha: 0, y: 16 },
+            { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power3.out', delay: 0.1 },
+          );
+          gsap.fromTo(
+            '.hero-char',
+            { yPercent: 115 },
+            { yPercent: 0, duration: 0.75, stagger: 0.04, ease: 'power3.out', delay: 0.28 },
+          );
+          gsap.fromTo(
+            '[data-hero-part="summary"]',
+            { autoAlpha: 0, y: 24 },
+            { autoAlpha: 1, y: 0, duration: 0.65, ease: 'power3.out', delay: 0.72 },
+          );
+          gsap.fromTo(
+            '[data-hero-part="actions"]',
+            { autoAlpha: 0, y: 16 },
+            { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power3.out', delay: 0.92 },
+          );
+          gsap.fromTo(
+            '[data-hero-part="scrollhint"]',
+            { autoAlpha: 0 },
+            { autoAlpha: 1, duration: 0.6, ease: 'power2.out', delay: 1.4 },
+          );
+
+          // 滚出联动：离开首屏时内容淡出、水印加速上移（scrub 仅用于有语义的进度）
+          gsap.to(copyRef.current, {
+            y: -80,
+            autoAlpha: 0,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top top',
+              end: '80% top',
+              scrub: true,
+            },
+          });
+          gsap.to(watermarkRef.current, {
+            yPercent: -30,
+            autoAlpha: 0,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top top',
+              end: '60% top',
+              scrub: true,
+            },
+          });
+
+          // 鼠标视差：transform 分层位移（替代失效的 backgroundPosition 方案）
+          if (isDesktop) {
+            const handlePointerMove = (e) => {
+              const nx = e.clientX / window.innerWidth - 0.5;
+              const ny = e.clientY / window.innerHeight - 0.5;
+              gsap.to(watermarkRef.current, {
+                x: nx * 28,
+                y: ny * 18,
+                duration: 0.9,
+                ease: 'power2.out',
+                overwrite: 'auto',
+              });
+              gsap.to(glowRef.current, {
+                x: nx * -36,
+                y: ny * -24,
+                duration: 1.1,
+                ease: 'power2.out',
+                overwrite: 'auto',
+              });
+            };
+            window.addEventListener('pointermove', handlePointerMove);
+            return () => window.removeEventListener('pointermove', handlePointerMove);
+          }
+
+          return undefined;
         },
       );
     }, sectionRef);
@@ -97,29 +179,50 @@ const Hero = () => {
 
       {/* Background Typography Watermark */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0">
-        <h2 className="font-display-hero text-[20vw] uppercase opacity-[0.03] leading-none whitespace-nowrap text-on-surface tracking-tighter">
+        <h2
+          className="font-display-hero text-[20vw] uppercase opacity-[0.03] leading-none whitespace-nowrap text-on-surface tracking-tighter"
+          ref={watermarkRef}
+        >
           MENG WEN
         </h2>
       </div>
 
       {/* Hero Content - Matches Figma Node 272:178 */}
       <div className="relative z-10 max-w-5xl flex flex-col items-center pt-20 space-y-10" ref={copyRef}>
-        {/* Main H1 Title: Anton font with Linear Gradient Fill */}
+        {/* Eyebrow kicker */}
+        <p className="hero-eyebrow" data-hero-part="eyebrow">
+          {t('hero.stage.kicker') || '数字化产品系统 / 2025'}
+        </p>
+
+        {/* Main H1 Title: Anton font, per-char mask reveal, gradient shimmer */}
         <div className="relative">
           <h1
-            className="font-display-hero text-7xl sm:text-9xl md:text-[160px] lg:text-[200px] leading-none uppercase tracking-[-0.03em] font-normal bg-gradient-to-b from-[#D0BDFF] via-[#C8B6FF] to-[#EADEFF] bg-clip-text text-transparent"
+            className="font-display-hero text-7xl sm:text-9xl md:text-[160px] lg:text-[200px] leading-none uppercase tracking-[-0.03em] font-normal"
+            aria-label={TITLE_TEXT}
             data-hero-anim="title"
           >
-            MENG WEN
+            <span aria-hidden="true" className="hero-title-chars">
+              {titleChars.map((char, index) =>
+                char === ' ' ? (
+                  <span className="hero-char-space" key={`space-${index}`}>
+                    &nbsp;
+                  </span>
+                ) : (
+                  <span className="hero-char-mask" key={`char-${index}`}>
+                    <span className="hero-char">{char}</span>
+                  </span>
+                ),
+              )}
+            </span>
           </h1>
         </div>
 
-        <p className="font-body text-lg md:text-2xl leading-relaxed text-white/90 max-w-3xl mx-auto font-light tracking-wide px-4" data-hero-anim="support">
+        <p className="font-body text-lg md:text-2xl leading-relaxed text-white/90 max-w-3xl mx-auto font-light tracking-wide px-4" data-hero-part="summary" data-hero-anim="support">
           {t('hero.body') || '产品经理与设计复合型实践者。聚焦医疗数字化、流程重构与AI协作，在混乱的真实业务现场中，建立可执行、可观察的系统闭环。'}
         </p>
 
         {/* CTA Buttons Container: Figma Node 272:194 */}
-        <div className="flex items-center justify-center gap-8 pt-2" data-hero-anim="support">
+        <div className="flex items-center justify-center gap-8 pt-2" data-hero-part="actions" data-hero-anim="support">
           {/* Button 1: 查看项目 */}
           <a
             className="px-9 py-3.5 bg-[var(--color-accent)] text-[#352564] rounded-full font-medium text-lg hover:opacity-90 hover:shadow-[0_0_35px_rgba(200,182,255,0.4)] transition-all flex items-center gap-2.5 no-underline cursor-pointer"
@@ -142,6 +245,14 @@ const Hero = () => {
             {t('hero.btn.contact') || '联系我'}
           </a>
         </div>
+      </div>
+
+      {/* Scroll hint */}
+      <div className="hero-scroll-hint" data-hero-part="scrollhint" aria-hidden="true">
+        <span className="hero-scroll-hint-label">{t('hero.scrollHint') || 'SCROLL'}</span>
+        <span className="hero-scroll-line">
+          <span className="hero-scroll-dot" />
+        </span>
       </div>
     </section>
   );

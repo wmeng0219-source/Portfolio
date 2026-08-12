@@ -1,48 +1,60 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
   <rect width="800" height="450" fill="#141922" rx="12"/>
-  <!-- Top Bar -->
   <rect x="0" y="0" width="800" height="40" fill="#1C2330" rx="12"/>
   <circle cx="24" cy="20" r="6" fill="#FF5F56"/>
   <circle cx="44" cy="20" r="6" fill="#FFBD2E"/>
   <circle cx="64" cy="20" r="6" fill="#27C93F"/>
-  <text x="400" y="24" fill="#A7ADB8" font-family="monospace" font-size="12" text-anchor="middle">MEMBER_SETTLEMENT_ENGINE_V3.2</text>
-  
-  <!-- Left Side: POS Checkout Stream -->
-  <rect x="30" y="60" width="350" height="360" fill="#0B0F14" rx="8" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-  <text x="50" y="90" fill="#C8B6FF" font-family="monospace" font-size="14" font-weight="bold">EXPRESS CHECKOUT POS</text>
-  <rect x="50" y="110" width="310" height="50" fill="#1C2330" rx="6" stroke="rgba(200,182,255,0.3)" stroke-width="1"/>
-  <text x="70" y="132" fill="#F2F2F5" font-family="sans-serif" font-size="13">VIP Tier 3 (Platinum Member)</text>
-  <text x="70" y="148" fill="#B8E6D0" font-family="monospace" font-size="11">AUTO_DISCOUNT_APPLIED: 20% OFF</text>
-  
-  <rect x="50" y="175" width="310" height="150" fill="#141922" rx="6"/>
-  <text x="70" y="200" fill="#A7ADB8" font-family="sans-serif" font-size="12">Pediatric Dental Hygiene Bundle</text>
-  <text x="320" y="200" fill="#F2F2F5" font-family="monospace" font-size="12" text-anchor="end">¥1,280.00</text>
-  <line x1="70" y1="215" x2="340" y2="215" stroke="rgba(255,255,255,0.08)"/>
-  <text x="70" y="235" fill="#A7ADB8" font-family="sans-serif" font-size="12">Coupon #CP-2025-0819</text>
-  <text x="320" y="235" fill="#B8E6D0" font-family="monospace" font-size="12" text-anchor="end">-¥200.00</text>
-  <line x1="70" y1="250" x2="340" y2="250" stroke="rgba(255,255,255,0.08)"/>
-  <text x="70" y="275" fill="#F2F2F5" font-family="sans-serif" font-size="13" font-weight="bold">Final Settlement Amount</text>
-  <text x="320" y="275" fill="#C8B6FF" font-family="monospace" font-size="16" font-weight="bold" text-anchor="end">¥1,080.00</text>
+  <text x="400" y="25" fill="#A7ADB8" font-family="ui-monospace,monospace" font-size="12" text-anchor="middle">MEMBER_RULE_ENGINE / CONCEPT × METRIC</text>
 
-  <rect x="50" y="340" width="310" height="44" fill="#C8B6FF" rx="6"/>
-  <text x="205" y="367" fill="#352564" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">ONE-CLICK AUTOMATED CHECKOUT (1s)</text>
+  <rect x="30" y="60" width="420" height="360" fill="#0B0F14" rx="8" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="50" y="92" fill="#C8B6FF" font-family="ui-monospace,monospace" font-size="13" font-weight="600">RULE CONVERGENCE</text>
+  <text x="50" y="110" fill="#707784" font-family="ui-monospace,monospace" font-size="11">3 inputs → 1 settlement node</text>
 
-  <!-- Right Side: Rule Logic Engine & Audit Flow -->
-  <rect x="410" y="60" width="360" height="360" fill="#0B0F14" rx="8" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-  <text x="430" y="90" fill="#B8E6D0" font-family="monospace" font-size="14" font-weight="bold">RULE DECISION ENGINE</text>
-  
-  <rect x="430" y="110" width="320" height="70" fill="#1C2330" rx="6"/>
-  <text x="450" y="135" fill="#F2F2F5" font-family="sans-serif" font-size="12" font-weight="bold">Decision Node 01: Cross-Store Coupon Validation</text>
-  <text x="450" y="158" fill="#A7ADB8" font-family="monospace" font-size="11">MATCHED: 20 Clinics Global Policy → PASSED</text>
-  
-  <rect x="430" y="195" width="320" height="70" fill="#1C2330" rx="6"/>
-  <text x="450" y="220" fill="#F2F2F5" font-family="sans-serif" font-size="12" font-weight="bold">Decision Node 02: Ledger Audit Trail</text>
-  <text x="450" y="243" fill="#B8E6D0" font-family="monospace" font-size="11">CHAIN_HASH: 0x8f2a...9b4c [IMMUTABLE]</text>
+  <g font-family="ui-monospace,monospace" font-size="11">
+    <rect x="60" y="140" width="130" height="44" rx="6" fill="#1C2330" stroke="rgba(200,182,255,0.35)" stroke-width="1"/>
+    <text x="125" y="160" fill="#F2F2F5" text-anchor="middle">会员卡</text>
+    <text x="125" y="176" fill="#707784" text-anchor="middle" font-size="10">MEMBER CARD</text>
 
-  <rect x="430" y="280" width="320" height="104" fill="#141922" rx="6" stroke="rgba(184,230,208,0.3)" stroke-width="1"/>
-  <text x="450" y="305" fill="#B8E6D0" font-family="monospace" font-size="12">FINANCIAL AUDIT SUMMARY</text>
-  <text x="450" y="330" fill="#F2F2F5" font-family="sans-serif" font-size="12">Month-end Reconciliation Time:</text>
-  <text x="730" y="330" fill="#C8B6FF" font-family="monospace" font-size="14" font-weight="bold" text-anchor="end">3 Days → 1 Day (-66.7%)</text>
-  <text x="450" y="355" fill="#F2F2F5" font-family="sans-serif" font-size="12">Checkout Operator Time:</text>
-  <text x="730" y="355" fill="#B8E6D0" font-family="monospace" font-size="14" font-weight="bold" text-anchor="end">4-5m → 1m (-75%)</text>
+    <rect x="60" y="200" width="130" height="44" rx="6" fill="#1C2330" stroke="rgba(200,182,255,0.35)" stroke-width="1"/>
+    <text x="125" y="220" fill="#F2F2F5" text-anchor="middle">卡券</text>
+    <text x="125" y="236" fill="#707784" text-anchor="middle" font-size="10">COUPON</text>
+
+    <rect x="60" y="260" width="130" height="44" rx="6" fill="#1C2330" stroke="rgba(200,182,255,0.35)" stroke-width="1"/>
+    <text x="125" y="280" fill="#F2F2F5" text-anchor="middle">收费 / 账单</text>
+    <text x="125" y="296" fill="#707784" text-anchor="middle" font-size="10">PAYMENT · LEDGER</text>
+
+    <rect x="245" y="190" width="110" height="64" rx="6" fill="#1C2330" stroke="#C8B6FF" stroke-width="1.5"/>
+    <text x="300" y="216" fill="#C8B6FF" text-anchor="middle" font-weight="600">RULE</text>
+    <text x="300" y="234" fill="#C8B6FF" text-anchor="middle" font-weight="600">ENGINE</text>
+    <text x="300" y="248" fill="#707784" text-anchor="middle" font-size="9">AUTO APPLIED</text>
+
+    <circle cx="405" cy="222" r="26" fill="#C8B6FF"/>
+    <text x="405" y="226" fill="#352564" text-anchor="middle" font-size="11" font-weight="700">结算</text>
+  </g>
+
+  <g stroke="rgba(255,255,255,0.22)" stroke-width="1" fill="none">
+    <path d="M190 162 L245 210"/>
+    <path d="M190 222 L245 222"/>
+    <path d="M190 282 L245 234"/>
+    <path d="M355 222 L379 222"/>
+  </g>
+
+  <rect x="470" y="60" width="300" height="360" fill="#0B0F14" rx="8" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+
+  <text x="490" y="92" fill="#707784" font-family="ui-monospace,monospace" font-size="11" letter-spacing="2">EXPRESS CHECKOUT</text>
+  <text x="490" y="138" fill="#C8B6FF" font-family="Inter,sans-serif" font-size="44" font-weight="700">~1</text>
+  <text x="566" y="138" fill="#A7ADB8" font-family="Inter,sans-serif" font-size="18">分钟</text>
+  <text x="490" y="162" fill="#707784" font-family="ui-monospace,monospace" font-size="11">门店操作 · 原 4-5 分钟</text>
+
+  <line x1="490" y1="195" x2="750" y2="195" stroke="rgba(255,255,255,0.12)"/>
+
+  <text x="490" y="232" fill="#707784" font-family="ui-monospace,monospace" font-size="11" letter-spacing="2">RECONCILIATION</text>
+  <text x="490" y="278" fill="#B8E6D0" font-family="Inter,sans-serif" font-size="36" font-weight="700">3天</text>
+  <text x="556" y="278" fill="#707784" font-family="Inter,sans-serif" font-size="22">→</text>
+  <text x="592" y="278" fill="#B8E6D0" font-family="Inter,sans-serif" font-size="36" font-weight="700">1天</text>
+  <text x="490" y="302" fill="#707784" font-family="ui-monospace,monospace" font-size="11">月底对账 · 20+ 门店落地</text>
+
+  <line x1="490" y1="335" x2="750" y2="335" stroke="rgba(255,255,255,0.12)"/>
+  <text x="490" y="372" fill="#707784" font-family="ui-monospace,monospace" font-size="11" letter-spacing="2">RULE SYSTEM REBUILD</text>
+  <text x="490" y="396" fill="#A7ADB8" font-family="Inter,sans-serif" font-size="13">会员·卡券·收费·账单打通</text>
 </svg>

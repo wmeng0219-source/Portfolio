@@ -1,9 +1,60 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Portfolio = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const sectionRef = useRef(null);
+
+  // 指标数字滚动：进入视口后从 0 计数到目标值（保留单位/前后缀/小数位）
+  useEffect(() => {
+    const root = sectionRef.current;
+    if (!root || typeof window.matchMedia !== 'function') {
+      return undefined;
+    }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return undefined;
+    }
+
+    const nodes = Array.from(root.querySelectorAll('[data-countup]'));
+    const tweens = nodes
+      .map((node) => {
+        const finalText = node.textContent || '';
+        if (!/\d/.test(finalText)) {
+          return null;
+        }
+        const state = { progress: 0 };
+        const renderValue = () => {
+          node.textContent = finalText.replace(/\d+(?:\.\d+)?/g, (raw) => {
+            const decimals = raw.includes('.') ? raw.split('.')[1].length : 0;
+            const value = parseFloat(raw) * state.progress;
+            return decimals > 0 ? value.toFixed(decimals) : String(Math.round(value));
+          });
+        };
+        return gsap.to(state, {
+          progress: 1,
+          duration: 1.2,
+          ease: 'power2.out',
+          onStart: renderValue,
+          onUpdate: renderValue,
+          scrollTrigger: { trigger: node, start: 'top 90%', once: true },
+        });
+      })
+      .filter(Boolean);
+
+    return () => {
+      tweens.forEach((tween) => {
+        if (tween.scrollTrigger) {
+          tween.scrollTrigger.kill();
+        }
+        tween.kill();
+      });
+    };
+  }, [language]);
 
   return (
     <section className="portfolio-showcase page-section" id="portfolio" data-motion-section>
@@ -30,10 +81,10 @@ const Portfolio = () => {
             data-motion-item
             data-motion-hover="card"
           >
-            <div className="w-full md:w-1/2 aspect-video rounded-[12px] overflow-hidden bg-white/5 p-2 flex items-center justify-center border border-[var(--color-border)]">
+            <div className="card-media w-full md:w-1/2 aspect-video rounded-[12px] overflow-hidden bg-white/5 p-2 flex items-center justify-center border border-[var(--color-border)]">
               <img
                 alt={t('portfolio.item.1.title') || '会员自动化与服务衔接'}
-                className="w-full h-full object-cover rounded-[8px] opacity-85 group-hover:opacity-100 transition-opacity"
+                className="card-media-img w-full h-full object-cover rounded-[8px] opacity-85 group-hover:opacity-100 transition-opacity"
                 src="images/member/member_cover.svg"
               />
             </div>
@@ -56,15 +107,15 @@ const Portfolio = () => {
               </div>
               <div className="grid grid-cols-3 gap-4 border-t border-[var(--color-border)] pt-4">
                 <div className="flex flex-col">
-                  <span className="font-display text-xl md:text-2xl font-bold text-[var(--color-accent)]">{t('portfolio.item.1.metric.1.val') || '~1 分钟'}</span>
+                  <span className="font-display text-xl md:text-2xl font-bold text-[var(--color-accent)]" data-countup>{t('portfolio.item.1.metric.1.val') || '~1 分钟'}</span>
                   <span className="font-mono text-[11px] text-[var(--color-text-muted)] mt-1">{t('portfolio.item.1.metric.1.lbl') || '门店操作耗时'}</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-display text-xl md:text-2xl font-bold text-[var(--color-accent)]">{t('portfolio.item.1.metric.2.val') || '1 天'}</span>
+                  <span className="font-display text-xl md:text-2xl font-bold text-[var(--color-accent)]" data-countup>{t('portfolio.item.1.metric.2.val') || '1 天'}</span>
                   <span className="font-mono text-[11px] text-[var(--color-text-muted)] mt-1">{t('portfolio.item.1.metric.2.lbl') || '财务月底对账'}</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-display text-xl md:text-2xl font-bold text-[var(--color-accent)]">{t('portfolio.item.1.metric.3.val') || '20+'}</span>
+                  <span className="font-display text-xl md:text-2xl font-bold text-[var(--color-accent)]" data-countup>{t('portfolio.item.1.metric.3.val') || '20+'}</span>
                   <span className="font-mono text-[11px] text-[var(--color-text-muted)] mt-1">{t('portfolio.item.1.metric.3.lbl') || '落地覆盖门店'}</span>
                 </div>
               </div>
@@ -81,28 +132,13 @@ const Portfolio = () => {
               data-motion-item
               data-motion-hover="card"
             >
-              {/* Architectural Process Diagram Graphic */}
-              <div className="w-full h-44 bg-[var(--color-bg-elevated)] rounded-[12px] p-4 flex flex-col justify-between border border-[var(--color-border)] overflow-hidden">
-                <div className="flex items-center justify-between text-[11px] font-mono text-[var(--color-system-green)]">
-                  <span>STATE_MACHINE_FUNNEL</span>
-                  <span className="text-[var(--color-text-muted)]">30-40% → 50-60%</span>
-                </div>
-                <svg className="w-full h-24" viewBox="0 0 360 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="10" y="20" width="90" height="40" rx="6" fill="rgba(184, 230, 208, 0.12)" stroke="#B8E6D0" strokeWidth="1.5"/>
-                  <text x="55" y="44" fill="#B8E6D0" fontSize="11" fontFamily="monospace" textAnchor="middle">{t('portfolio.item.2.svg.step1') || '1. 儿牙初筛'}</text>
-                  
-                  <path d="M 100 40 L 130 40" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" strokeDasharray="3 3"/>
-                  <polygon points="130,36 137,40 130,44" fill="rgba(255,255,255,0.4)" />
-                  
-                  <rect x="137" y="20" width="90" height="40" rx="6" fill="rgba(200, 182, 255, 0.12)" stroke="#C8B6FF" strokeWidth="1.5"/>
-                  <text x="182" y="44" fill="#C8B6FF" fontSize="11" fontFamily="monospace" textAnchor="middle">{t('portfolio.item.2.svg.step2') || '2. 正畸会诊'}</text>
-
-                  <path d="M 227 40 L 257 40" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" strokeDasharray="3 3"/>
-                  <polygon points="257,36 264,40 257,44" fill="rgba(255,255,255,0.4)" />
-
-                  <rect x="264" y="20" width="86" height="40" rx="6" fill="rgba(184, 230, 208, 0.2)" stroke="#B8E6D0" strokeWidth="1.5"/>
-                  <text x="307" y="44" fill="#F2F2F5" fontSize="11" fontFamily="monospace" textAnchor="middle">{t('portfolio.item.2.svg.step3') || '3. 签约锁定'}</text>
-                </svg>
+              {/* Cover visual — unified concept × metric SVG */}
+              <div className="card-media w-full h-44 bg-[var(--color-bg-elevated)] rounded-[12px] overflow-hidden border border-[var(--color-border)]">
+                <img
+                  alt={t('portfolio.item.2.title') || '正畸筛查与状态管理'}
+                  className="card-media-img w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+                  src="images/ortho/ortho_cover.svg"
+                />
               </div>
 
               <div className="space-y-3">
@@ -124,7 +160,7 @@ const Portfolio = () => {
 
               <div className="border-t border-[var(--color-border)] pt-4">
                 <div className="flex flex-col">
-                  <span className="font-display text-2xl font-bold text-[var(--color-system-green)] leading-none">{t('portfolio.item.2.metric.val') || '50-60%'}</span>
+                  <span className="font-display text-2xl font-bold text-[var(--color-system-green)] leading-none" data-countup>{t('portfolio.item.2.metric.val') || '50-60%'}</span>
                   <span className="font-mono text-[11px] text-[var(--color-text-muted)] mt-1.5">{t('portfolio.item.2.metric.lbl') || '矫正转化率 (原 30-40%)'}</span>
                 </div>
               </div>
@@ -138,11 +174,11 @@ const Portfolio = () => {
               data-motion-item
               data-motion-hover="card"
             >
-              <div className="w-full h-44 bg-[var(--color-bg-elevated)] rounded-[12px] p-2 flex items-center justify-center border border-[var(--color-border)] overflow-hidden">
+              <div className="card-media w-full h-44 bg-[var(--color-bg-elevated)] rounded-[12px] overflow-hidden border border-[var(--color-border)]">
                 <img
                   alt={t('portfolio.item.3.title') || 'PACS 读片与 AI 辅助判断'}
-                  className="w-full h-full object-contain opacity-90 group-hover:opacity-100 transition-opacity"
-                  src="images/pacs/generated/pacs_hero_1784477678972.jpg"
+                  className="card-media-img w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+                  src="images/pacs/pacs_cover.svg"
                 />
               </div>
 
@@ -165,11 +201,11 @@ const Portfolio = () => {
 
               <div className="grid grid-cols-2 gap-4 border-t border-[var(--color-border)] pt-4">
                 <div className="flex flex-col">
-                  <span className="font-display text-2xl font-bold text-[var(--color-accent)]">{t('portfolio.item.3.metric.1.val') || '3.46 颗'}</span>
+                  <span className="font-display text-2xl font-bold text-[var(--color-accent)]" data-countup>{t('portfolio.item.3.metric.1.val') || '3.46 颗'}</span>
                   <span className="font-mono text-[11px] text-[var(--color-text-muted)] mt-1">{t('portfolio.item.3.metric.1.lbl') || '均单龋齿检出'}</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-display text-2xl font-bold text-[var(--color-accent)]">{t('portfolio.item.3.metric.2.val') || '+140%'}</span>
+                  <span className="font-display text-2xl font-bold text-[var(--color-accent)]" data-countup>{t('portfolio.item.3.metric.2.val') || '+140%'}</span>
                   <span className="font-mono text-[11px] text-[var(--color-text-muted)] mt-1">{t('portfolio.item.3.metric.2.lbl') || '检出率提升'}</span>
                 </div>
               </div>

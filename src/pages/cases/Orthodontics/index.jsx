@@ -7,6 +7,7 @@ import gsap from 'gsap';
 
 export default function OrthodonticsCase({ project }) {
   const { language } = useLanguage();
+  if (!project) return null;
   const [activeTab, setActiveTab] = useState(project?.roleTabs?.[0]?.id || 'pedo');
   const activeRoleData = project?.roleTabs?.find((t) => t.id === activeTab);
 
@@ -42,9 +43,6 @@ export default function OrthodonticsCase({ project }) {
 
     return () => ctx.revert();
   }, []);
-
-  if (!project) return null;
-  const t = (obj) => (obj ? (obj[language] ?? obj.zh) : '');
 
   const t = (obj) => (obj ? (obj[language] ?? obj.zh) : '');
 

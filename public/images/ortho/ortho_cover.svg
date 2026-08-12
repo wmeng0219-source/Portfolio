@@ -1,44 +1,46 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
   <rect width="800" height="450" fill="#141922" rx="12"/>
-  <!-- Top Bar -->
   <rect x="0" y="0" width="800" height="40" fill="#1C2330" rx="12"/>
   <circle cx="24" cy="20" r="6" fill="#FF5F56"/>
   <circle cx="44" cy="20" r="6" fill="#FFBD2E"/>
   <circle cx="64" cy="20" r="6" fill="#27C93F"/>
-  <text x="400" y="24" fill="#A7ADB8" font-family="monospace" font-size="12" text-anchor="middle">ORTHODONTIC_STATE_MACHINE_FUNNEL_V2.0</text>
-  
-  <!-- Content Area: Funnel Visualization -->
-  <rect x="30" y="60" width="740" height="360" fill="#0B0F14" rx="8" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-  <text x="50" y="90" fill="#B8E6D0" font-family="monospace" font-size="14" font-weight="bold">CONVERSION FUNNEL (30-40% → 50-60%)</text>
-  
-  <!-- Funnel Stage Bars -->
-  <!-- Stage 1 -->
-  <rect x="50" y="115" width="680" height="40" fill="#1C2330" rx="6"/>
-  <rect x="50" y="115" width="680" height="40" fill="rgba(184, 230, 208, 0.2)" rx="6" stroke="#B8E6D0" stroke-width="1.5"/>
-  <text x="70" y="140" fill="#F2F2F5" font-family="sans-serif" font-size="13" font-weight="bold">1. System Target Recommendation</text>
-  <text x="710" y="140" fill="#B8E6D0" font-family="monospace" font-size="13" text-anchor="end">9,274 Patients (100%)</text>
+  <text x="400" y="25" fill="#A7ADB8" font-family="ui-monospace,monospace" font-size="12" text-anchor="middle">ORTHO_STATE_FUNNEL / CONCEPT × METRIC</text>
 
-  <!-- Stage 2 -->
-  <rect x="50" y="170" width="680" height="40" fill="#1C2330" rx="6"/>
-  <rect x="50" y="170" width="335" height="40" fill="rgba(200, 182, 255, 0.2)" rx="6" stroke="#C8B6FF" stroke-width="1.5"/>
-  <text x="70" y="195" fill="#F2F2F5" font-family="sans-serif" font-size="13" font-weight="bold">2. Pediatric Screening Handoff</text>
-  <text x="710" y="195" fill="#C8B6FF" font-family="monospace" font-size="13" text-anchor="end">4,579 Patients (49.4%)</text>
+  <rect x="30" y="60" width="420" height="360" fill="#0B0F14" rx="8" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="50" y="92" fill="#B8E6D0" font-family="ui-monospace,monospace" font-size="13" font-weight="600">CONVERSION FUNNEL</text>
+  <text x="50" y="110" fill="#707784" font-family="ui-monospace,monospace" font-size="11">recommend → screen → consult → lock</text>
 
-  <!-- Stage 3 -->
-  <rect x="50" y="225" width="680" height="40" fill="#1C2330" rx="6"/>
-  <rect x="50" y="225" width="301" height="40" fill="rgba(200, 182, 255, 0.25)" rx="6" stroke="#C8B6FF" stroke-width="1.5"/>
-  <text x="70" y="250" fill="#F2F2F5" font-family="sans-serif" font-size="13" font-weight="bold">3. Conclusion Submitted</text>
-  <text x="710" y="250" fill="#C8B6FF" font-family="monospace" font-size="13" text-anchor="end">4,110 Patients (44.3%)</text>
+  <g font-family="ui-monospace,monospace" font-size="11">
+    <path d="M60 140 L410 140 L388 184 L82 184 Z" fill="rgba(184,230,208,0.10)" stroke="#B8E6D0" stroke-width="1"/>
+    <text x="72" y="168" fill="#F2F2F5">1. 系统推荐</text>
+    <text x="398" y="168" fill="#B8E6D0" text-anchor="end">100%</text>
 
-  <!-- Stage 4 -->
-  <rect x="50" y="280" width="680" height="40" fill="#1C2330" rx="6"/>
-  <rect x="50" y="280" width="180" height="40" fill="rgba(184, 230, 208, 0.3)" rx="6" stroke="#B8E6D0" stroke-width="1.5"/>
-  <text x="70" y="305" fill="#F2F2F5" font-family="sans-serif" font-size="13" font-weight="bold">4. Ortho Treatment Required</text>
-  <text x="710" y="305" fill="#B8E6D0" font-family="monospace" font-size="13" text-anchor="end">2,466 Patients (26.6%)</text>
+    <path d="M82 196 L388 196 L366 240 L104 240 Z" fill="rgba(184,230,208,0.18)" stroke="#B8E6D0" stroke-width="1"/>
+    <text x="94" y="224" fill="#F2F2F5">2. 儿牙初筛</text>
+    <text x="376" y="224" fill="#B8E6D0" text-anchor="end">49%</text>
 
-  <!-- Stage 5 -->
-  <rect x="50" y="335" width="680" height="40" fill="#1C2330" rx="6"/>
-  <rect x="50" y="335" width="91" height="40" fill="#B8E6D0" rx="6"/>
-  <text x="70" y="360" fill="#141922" font-family="sans-serif" font-size="13" font-weight="bold">5. Treatment Lock &amp; Appointment</text>
-  <text x="710" y="360" fill="#B8E6D0" font-family="monospace" font-size="14" font-weight="bold" text-anchor="end">1,239 Patients (50-60% Conversion Lock)</text>
+    <path d="M104 252 L366 252 L344 296 L126 296 Z" fill="rgba(200,182,255,0.16)" stroke="#C8B6FF" stroke-width="1"/>
+    <text x="116" y="280" fill="#F2F2F5">3. 正畸会诊</text>
+    <text x="354" y="280" fill="#C8B6FF" text-anchor="end">44%</text>
+
+    <path d="M126 308 L344 308 L300 372 L170 372 Z" fill="#B8E6D0" stroke="#B8E6D0" stroke-width="1"/>
+    <text x="182" y="346" fill="#141922" font-weight="700">4. 签约锁定</text>
+    <text x="292" y="346" fill="#141922" text-anchor="end" font-weight="700">26.6%</text>
+  </g>
+
+  <rect x="470" y="60" width="300" height="360" fill="#0B0F14" rx="8" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+
+  <text x="490" y="92" fill="#707784" font-family="ui-monospace,monospace" font-size="11" letter-spacing="2">CONVERSION RATE</text>
+  <text x="490" y="150" fill="#B8E6D0" font-family="Inter,sans-serif" font-size="52" font-weight="700">50-60%</text>
+  <text x="490" y="178" fill="#707784" font-family="ui-monospace,monospace" font-size="11">矫正转化 · 原 30-40%</text>
+
+  <line x1="490" y1="210" x2="750" y2="210" stroke="rgba(255,255,255,0.12)"/>
+
+  <text x="490" y="246" fill="#707784" font-family="ui-monospace,monospace" font-size="11" letter-spacing="2">TRACEABLE FUNNEL</text>
+  <text x="490" y="284" fill="#C8B6FF" font-family="Inter,sans-serif" font-size="28" font-weight="700">首次可观察</text>
+  <text x="490" y="308" fill="#707784" font-family="ui-monospace,monospace" font-size="11">漏斗各环节系统留痕</text>
+
+  <line x1="490" y1="335" x2="750" y2="335" stroke="rgba(255,255,255,0.12)"/>
+  <text x="490" y="372" fill="#707784" font-family="ui-monospace,monospace" font-size="11" letter-spacing="2">FLOW REBUILD</text>
+  <text x="490" y="396" fill="#A7ADB8" font-family="Inter,sans-serif" font-size="13">儿牙·正畸协作状态机</text>
 </svg>
