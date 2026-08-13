@@ -128,6 +128,8 @@ main {
 .section-intro,
 .contact-intro {
   max-width: 40rem;
+  font-family: var(--font-serif);
+  font-weight: 300;
   font-size: clamp(1rem, 1.28vw, 1.08rem);
   line-height: 1.82;
   letter-spacing: 0;
@@ -198,47 +200,73 @@ main {
   color: var(--color-text-primary);
   font-family: var(--font-display);
   font-size: var(--text-case-h1);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.02em;
 }
 
 .portfolio-showcase-intro {
   max-width: 38rem;
   color: var(--color-text-secondary);
+  font-family: var(--font-serif);
+  font-weight: 300;
   font-size: var(--text-case-body);
   line-height: 1.72;
 }
 
-.portfolio-showcase-card {
-  width: 100%;
-  padding: clamp(1.25rem, 2.2vw, 1.75rem);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-card);
-  background: var(--color-bg-secondary);
-  color: inherit;
-  text-decoration: none;
-  transition: transform 200ms var(--ease-out), border-color 200ms ease, box-shadow 200ms ease;
-}
-
-.portfolio-showcase-card--lead {
-  display: flex;
-  align-items: center;
-  gap: clamp(1.5rem, 3vw, 2.5rem);
-}
-
-.portfolio-showcase-card--support {
+/* Sticky Case Stack（DESIGN.md 4.4 / 4.5：文件夹式描边 + 超大渐变标题 + 黏性堆叠） */
+.portfolio-stage-grid {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 1.25rem;
-  height: 100%;
+  gap: clamp(64px, 10vh, 120px);
+}
+
+.portfolio-showcase-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(32px, 5vw, 72px);
+  width: 100%;
+  padding: clamp(28px, 3.5vw, 52px);
+  border-radius: var(--radius-folder) var(--radius-folder) 0 0;
+  background: var(--color-bg-primary);
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.2s var(--ease-out), border-color 0.2s ease;
+  will-change: transform;
+  cursor: pointer;
+}
+
+/* 文件夹式描边：1px 边框向下渐隐（参考站机制） */
+.portfolio-showcase-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-bottom: none;
+  border-radius: var(--radius-folder) var(--radius-folder) 0 0;
+  -webkit-mask-image: linear-gradient(to bottom, #000 35%, transparent 95%);
+  mask-image: linear-gradient(to bottom, #000 35%, transparent 95%);
+  transition: border-color 0.2s ease;
+}
+
+.portfolio-showcase-card:hover::before {
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+/* 交替编辑式布局：奇数行文本左/媒体右，偶数行翻转 */
+.portfolio-showcase-card:nth-child(odd) .portfolio-showcase-visual {
+  order: 2;
+}
+
+.portfolio-showcase-card:nth-child(odd) .portfolio-showcase-body {
+  order: 1;
 }
 
 .portfolio-showcase-card:hover {
   transform: translateY(-2px);
-  border-color: var(--color-border-accent);
-  box-shadow: 0 12px 36px rgba(208, 188, 255, 0.08);
 }
 
 .portfolio-showcase-card:focus-visible {
@@ -246,22 +274,104 @@ main {
   outline-offset: 4px;
 }
 
+/* Sticky 堆叠：每张卡片吸附在视口顶部，下一张滚上来覆盖 */
+.portfolio-showcase-card {
+  position: sticky;
+  top: clamp(80px, 10vh, 120px);
+}
+
+.portfolio-showcase-card + .portfolio-showcase-card {
+  margin-top: 0;
+}
+
+.portfolio-showcase-card:nth-child(2) {
+  top: calc(clamp(80px, 10vh, 120px) + 8px);
+}
+
+.portfolio-showcase-card:nth-child(3) {
+  top: calc(clamp(80px, 10vh, 120px) + 16px);
+}
+
 .portfolio-showcase-visual {
-  width: min(100%, 24rem);
-  flex: 0 0 auto;
+  width: 100%;
 }
 
 .project-blueprint-cover {
   aspect-ratio: 16 / 9;
   overflow: hidden;
   border: 1px solid var(--color-border);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   background: var(--color-bg-elevated);
+  box-shadow: var(--shadow-media);
 }
 
-.portfolio-showcase-card--support .project-blueprint-cover {
-  max-height: 165px;
-  aspect-ratio: 16 / 8;
+.portfolio-showcase-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+
+/* 超大渐变标题（DESIGN.md 3.2 Case Card Title）：Pink→White，hover 填满为 Pink */
+.portfolio-showcase-card-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6.5vw, 5.5rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: var(--color-pink);
+  background: var(--grad-case-title);
+  background-size: 100% 200%;
+  background-position: 0% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  transition: background-position 0.6s ease;
+}
+
+.portfolio-showcase-card:hover .portfolio-showcase-card-title {
+  background-position: 0% 0%;
+}
+
+/* 衬线叙事 meta（DESIGN.md 3.2 Lede） */
+.portfolio-showcase-card-meta {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  max-width: 42rem;
+}
+
+.portfolio-showcase-card-metrics {
+  display: flex;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  border-top: 1px solid var(--color-border);
+  padding-top: 1.25rem;
+  width: 100%;
+}
+
+.portfolio-showcase-metric-value {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.6vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-text-primary);
+}
+
+.portfolio-showcase-metric-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-top: 0.5rem;
+}
+
+.portfolio-showcase-card .project-blueprint-cover {
+  max-height: none;
+  aspect-ratio: 16 / 9;
 }
 
 .project-blueprint-cover__canvas {
@@ -604,6 +714,8 @@ main {
 .about-stage-intro {
   max-width: 48rem;
   color: var(--color-text-muted);
+  font-family: var(--font-serif);
+  font-weight: 300;
   font-size: 1rem;
   line-height: 1.72;
 }
@@ -709,6 +821,8 @@ main {
 .experience-stage-intro {
   max-width: 48rem;
   color: var(--color-text-muted);
+  font-family: var(--font-serif);
+  font-weight: 300;
   font-size: 1rem;
   line-height: 1.72;
 }
@@ -862,6 +976,8 @@ main {
 }
 
 .contact-stage-intro-new {
+  font-family: var(--font-serif);
+  font-weight: 300;
   font-size: 1rem;
   line-height: 1.76;
   color: var(--color-text-muted);
@@ -1054,15 +1170,26 @@ a.contact-stage-link:hover .contact-stage-link-value {
     grid-column: 1 / -1;
   }
 
-  .portfolio-stage-grid,
   .about-stage-row,
   .growth-path-content {
     grid-template-columns: 1fr;
   }
 
-  .portfolio-showcase-card--lead {
-    flex-direction: column;
-    align-items: stretch;
+  /* Sticky 堆叠移动端降级：取消 sticky，媒体在前单栏（DESIGN.md 8.2） */
+  .portfolio-showcase-card {
+    position: relative;
+    top: auto;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: clamp(20px, 4vw, 28px);
+  }
+
+  .portfolio-showcase-card:nth-child(odd) .portfolio-showcase-visual {
+    order: -1;
+  }
+
+  .portfolio-showcase-card:nth-child(odd) .portfolio-showcase-body {
+    order: 0;
   }
 
   .portfolio-showcase-visual {
@@ -1152,36 +1279,15 @@ a.contact-stage-link:hover .contact-stage-link-value {
     linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
 }
 
+/* Hero 背景：单一极弱网格线（DESIGN.md 4.2：移除聚光灯/光晕/霓虹） */
 .hero-grid-bg {
-  background-size: 36px 36px;
+  background-size: 64px 64px;
   background-image:
-    linear-gradient(to right, rgba(208, 188, 255, 0.18) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(208, 188, 255, 0.18) 1px, transparent 1px);
-}
-
-/* Spotlight overlay: darkens the grid except near the cursor */
-.hero-grid-spotlight {
-  background: radial-gradient(
-    circle 420px at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    transparent 0%,
-    rgba(6, 7, 11, 0.30) 35%,
-    rgba(6, 7, 11, 0.70) 60%,
-    rgba(6, 7, 11, 0.92) 100%
-  );
-}
-
-.hero-grid-vignette {
-  /* Only fade the outer edges, keep center clear */
-  background:
-    linear-gradient(to bottom, #06070B 0%, transparent 12%, transparent 88%, #06070B 100%),
-    linear-gradient(to right, #06070B 0%, transparent 8%, transparent 92%, #06070B 100%);
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-grid-spotlight {
-    display: none;
-  }
-
   .project-blueprint-cover__signal {
     animation: none;
   }
@@ -1227,7 +1333,7 @@ a.contact-stage-link:hover .contact-stage-link-value {
 }
 
 /* ------------------------------------------------------------------ */
-/* Hero — entrance choreography, shimmer, parallax, scroll hint        */
+/* Hero — entrance choreography, gradient display, serif lede          */
 /* ------------------------------------------------------------------ */
 
 .hero-eyebrow {
@@ -1235,7 +1341,7 @@ a.contact-stage-link:hover .contact-stage-link-value {
   align-items: center;
   gap: 0.75rem;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.28em;
   text-transform: uppercase;
@@ -1251,8 +1357,27 @@ a.contact-stage-link:hover .contact-stage-link-value {
   opacity: 0.5;
 }
 
-/* Per-char mask reveal. Gradient lives on the char itself so the
-   overflow-hidden mask doesn't break background-clip: text. */
+/* Anton Display 姓名：Mint→White 渐变，scaleY 拉伸（DESIGN.md 4.2 / 3.2） */
+.hero-display-title {
+  font-family: var(--font-display);
+  font-size: clamp(4.5rem, 14.5vw, 11rem);
+  line-height: 0.92;
+  letter-spacing: 0;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-synthesis: none;
+  transform: scaleY(1.15);
+  transform-origin: bottom center;
+  margin: 0;
+  /* Mint 渐变文字（同色系内部渐变，DESIGN.md 2.3） */
+  background: var(--grad-hero-title);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Per-char mask reveal. 渐变挂在字符上（overflow 遮罩不破坏 background-clip） */
 .hero-char-mask {
   display: inline-block;
   overflow: hidden;
@@ -1261,47 +1386,74 @@ a.contact-stage-link:hover .contact-stage-link-value {
 
 .hero-char {
   display: inline-block;
-  background: linear-gradient(to bottom, #D0BDFF, #C8B6FF 55%, #EADEFF);
+  background: var(--grad-hero-title);
   background-size: 100% 240%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   will-change: transform;
-  animation: hero-title-drift 9s ease-in-out infinite alternate;
 }
 
-@keyframes hero-title-drift {
-  from {
-    background-position: 50% 0%;
-  }
-  to {
-    background-position: 50% 100%;
-  }
+/* Merriweather 衬线定位句（DESIGN.md 3.2 Lede） */
+.hero-lede {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(1.25rem, 2.2vw, 2rem);
+  line-height: 1.4;
+  color: var(--color-text-secondary);
+  max-width: 36em;
+  margin: 0 auto;
 }
 
-/* Soft radial glow behind the title. Centered with the CSS `translate`
-   property so GSAP transforms on the same element don't conflict. */
-.hero-glow {
-  position: absolute;
-  left: 50%;
-  top: 40%;
-  translate: -50% -50%;
-  width: min(72vw, 900px);
-  aspect-ratio: 1 / 0.6;
-  background: radial-gradient(ellipse at center, rgba(200, 182, 255, 0.14), transparent 65%);
-  filter: blur(40px);
-  pointer-events: none;
-  z-index: 0;
-  animation: hero-glow-breathe 10s ease-in-out infinite alternate;
+/* Hero buttons（DESIGN.md 4.3） */
+.btn-hero-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 9999px;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s var(--ease-standard, cubic-bezier(0.22, 1, 0.36, 1)), transform 0.15s;
+  white-space: nowrap;
 }
 
-@keyframes hero-glow-breathe {
-  from {
-    opacity: 0.65;
-  }
-  to {
-    opacity: 1;
-  }
+.btn-hero-primary:hover {
+  background: var(--color-accent-dark);
+  transform: translateY(-2px);
+}
+
+.btn-hero-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+  color: var(--color-text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+  white-space: nowrap;
+}
+
+.btn-hero-secondary:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  transform: translateY(-2px);
 }
 
 .hero-scroll-hint {
@@ -1416,8 +1568,6 @@ header[data-scrolled='true'] .nav-glass {
 /* ------------------------------------------------------------------ */
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-char,
-  .hero-glow,
   .hero-scroll-dot,
   .flow-dash {
     animation: none !important;

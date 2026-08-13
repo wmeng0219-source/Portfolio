@@ -57,8 +57,9 @@ test('portfolio cards use semantic classes backed by the shared card contract', 
 
   expect(source).toContain('portfolio-showcase-card');
   expect(source).not.toContain('hover:-translate-y-1');
-  expect(globalStyles).toMatch(/\.portfolio-showcase-card[\s\S]*border-radius:\s*var\(--radius-card\)/);
+  expect(globalStyles).toMatch(/\.portfolio-showcase-card[\s\S]*border-radius:\s*var\(--radius-folder\)/);
   expect(globalStyles).toMatch(/\.portfolio-showcase-card:hover[\s\S]*translateY\(-2px\)/);
+  expect(globalStyles).toMatch(/\.portfolio-showcase-card-title[\s\S]*background-clip:\s*text/);
 });
 
 test('renders three distinct system-blueprint covers for the project mechanisms', () => {

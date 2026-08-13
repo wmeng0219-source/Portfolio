@@ -177,9 +177,10 @@ test('case studies share the portfolio layout, typography, radius, and motion co
   ];
   const caseStyles = caseStylePaths.map((file) => readFileSync(path.resolve(process.cwd(), file), 'utf8'));
 
-  expect(variables).toMatch(/--content-max:\s*1280px/);
-  expect(variables).toContain("--font-display: 'Neudron'");
-  expect(variables).toContain("--font-body: 'GT America'");
+  expect(variables).toMatch(/--content-max:\s*1320px/);
+  expect(variables).toContain("--font-display: 'Anton'");
+  expect(variables).toContain("--font-body: 'Hanken Grotesk'");
+  expect(variables).toContain("--font-serif: 'Merriweather'");
   expect(variables).toContain("--font-mono: 'IBM Plex Mono'");
   expect(variables).toMatch(/--case-page-pad-x:\s*clamp\(/);
   expect(variables).toMatch(/--case-section-pad-y:\s*clamp\(/);
@@ -189,7 +190,7 @@ test('case studies share the portfolio layout, typography, radius, and motion co
   expect(variables).toMatch(/--text-case-body:\s*clamp\(/);
   expect(variables).toMatch(/--text-case-label:\s*clamp\(/);
   expect(variables).toMatch(/--radius-card:\s*16px/);
-  expect(variables).toMatch(/--radius-control:\s*10px/);
+  expect(variables).toMatch(/--radius-control:\s*12px/);
 
   caseStyles.forEach((css) => {
     expect(css).toContain('var(--content-max)');

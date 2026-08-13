@@ -95,6 +95,8 @@
 
 .heroSummary {
   max-width: 34rem;
+  font-family: var(--font-serif);
+  font-weight: 300;
   font-size: var(--text-case-body);
   line-height: 1.8;
   color: var(--color-text-secondary);

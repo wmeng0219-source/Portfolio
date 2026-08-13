@@ -1,3 +1,5 @@
+> **已归档（2026-08-14）**：本计划方向已被 `DESIGN.md` v3（2026-08-14 参考站机制对齐改版）取代，未执行项不再单独推进。参见 `docs/superpowers/plans/2026-08-14-reference-alignment-redesign.md`。
+
 # Typography & Editorial Layout Redesign 实现计划
 
 > **面向 AI 代理的工作者：** 必需子技能：使用 superpowers:subagent-driven-development（推荐）或 superpowers:executing-plans 逐任务实现此计划。步骤使用复选框（`- [ ]`）语法来跟踪进度。

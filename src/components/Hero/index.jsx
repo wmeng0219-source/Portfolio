@@ -19,53 +19,19 @@ const Hero = () => {
   const { t } = useLanguage();
   const sectionRef = useRef(null);
   const copyRef = useRef(null);
-  const gridRef = useRef(null);
-  const watermarkRef = useRef(null);
 
   const titleChars = useMemo(() => TITLE_TEXT.split(''), []);
 
-  // Lagging spotlight: GSAP smoothly interpolates position toward cursor
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    // Initialize spotlight at center
-    const pos = { x: 50, y: 50 };
-    section.style.setProperty('--mouse-x', '50%');
-    section.style.setProperty('--mouse-y', '50%');
-
-    const handleMouseMove = (e) => {
-      const rect = section.getBoundingClientRect();
-      const targetX = ((e.clientX - rect.left) / rect.width) * 100;
-      const targetY = ((e.clientY - rect.top) / rect.height) * 100;
-
-      gsap.to(pos, {
-        x: targetX,
-        y: targetY,
-        duration: 1.0,
-        ease: 'power2.out',
-        overwrite: 'auto',
-        onUpdate: () => {
-          section.style.setProperty('--mouse-x', `${pos.x.toFixed(2)}%`);
-          section.style.setProperty('--mouse-y', `${pos.y.toFixed(2)}%`);
-        },
-      });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
+  // 入场编排（DESIGN.md 7.3：eyebrow → Display → 衬线 lede → actions，重叠推进）
   useEffect(() => {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
       mm.add(
         {
-          isDesktop: '(min-width: 901px)',
           reduceMotion: '(prefers-reduced-motion: reduce)',
         },
         (context) => {
-          const { isDesktop, reduceMotion } = context.conditions;
+          const { reduceMotion } = context.conditions;
 
           if (reduceMotion) {
             gsap.fromTo(
@@ -76,7 +42,6 @@ const Hero = () => {
             return undefined;
           }
 
-          // 入场编排（DESIGN.md 7.3：eyebrow → Display → summary → actions，重叠推进）
           gsap.fromTo(
             '[data-hero-part="eyebrow"]',
             { autoAlpha: 0, y: 16 },
@@ -88,7 +53,7 @@ const Hero = () => {
             { yPercent: 0, duration: 0.75, stagger: 0.04, ease: 'power3.out', delay: 0.28 },
           );
           gsap.fromTo(
-            '[data-hero-part="summary"]',
+            '[data-hero-part="lede"]',
             { autoAlpha: 0, y: 24 },
             { autoAlpha: 1, y: 0, duration: 0.65, ease: 'power3.out', delay: 0.72 },
           );
@@ -103,53 +68,18 @@ const Hero = () => {
             { autoAlpha: 1, duration: 0.6, ease: 'power2.out', delay: 1.4 },
           );
 
-          // 滚出联动：离开首屏时内容淡出、水印加速上移（scrub 仅用于有语义的进度）
+          // 滚出联动：离开首屏时内容整体淡出上移（轻量，不锁定）
           gsap.to(copyRef.current, {
-            y: -80,
+            y: -60,
             autoAlpha: 0,
             ease: 'none',
             scrollTrigger: {
               trigger: sectionRef.current,
               start: 'top top',
-              end: '80% top',
+              end: '75% top',
               scrub: true,
             },
           });
-          gsap.to(watermarkRef.current, {
-            yPercent: -30,
-            autoAlpha: 0,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: 'top top',
-              end: '60% top',
-              scrub: true,
-            },
-          });
-
-          // 鼠标视差：transform 分层位移（替代失效的 backgroundPosition 方案）
-          if (isDesktop) {
-            const handlePointerMove = (e) => {
-              const nx = e.clientX / window.innerWidth - 0.5;
-              const ny = e.clientY / window.innerHeight - 0.5;
-              gsap.to(watermarkRef.current, {
-                x: nx * 28,
-                y: ny * 18,
-                duration: 0.9,
-                ease: 'power2.out',
-                overwrite: 'auto',
-              });
-              gsap.to(glowRef.current, {
-                x: nx * -36,
-                y: ny * -24,
-                duration: 1.1,
-                ease: 'power2.out',
-                overwrite: 'auto',
-              });
-            };
-            window.addEventListener('pointermove', handlePointerMove);
-            return () => window.removeEventListener('pointermove', handlePointerMove);
-          }
 
           return undefined;
         },
@@ -161,45 +91,25 @@ const Hero = () => {
 
   return (
     <section
-      className="relative min-h-screen flex flex-col items-center justify-center grid-bg px-margin-mobile md:px-margin-desktop text-center overflow-hidden bg-[var(--color-bg-primary)]"
+      className="relative min-h-screen flex flex-col items-center justify-center px-margin-mobile md:px-margin-desktop text-center overflow-hidden bg-[var(--color-bg-primary)]"
       id="hero"
       ref={sectionRef}
     >
-      {/* Background Grid */}
-      <div
-        ref={gridRef}
-        className="absolute inset-0 pointer-events-none z-0 hero-grid-bg"
-      />
+      {/* 纯净深色背景：单一极弱网格线（DESIGN.md 4.2），无聚光灯/光晕/霓虹 */}
+      <div className="absolute inset-0 pointer-events-none z-0 hero-grid-bg" aria-hidden="true" />
 
-      {/* Spotlight overlay: dark everywhere except near cursor */}
-      <div className="absolute inset-0 pointer-events-none z-0 hero-grid-spotlight" />
-
-      {/* Edge vignette */}
-      <div className="absolute inset-0 pointer-events-none z-0 hero-grid-vignette" />
-
-      {/* Background Typography Watermark */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0">
-        <h2
-          className="font-display-hero text-[20vw] uppercase opacity-[0.03] leading-none whitespace-nowrap text-on-surface tracking-tighter"
-          ref={watermarkRef}
-        >
-          MENG WEN
-        </h2>
-      </div>
-
-      {/* Hero Content - Matches Figma Node 272:178 */}
-      <div className="relative z-10 max-w-5xl flex flex-col items-center pt-16 md:pt-20 space-y-6 md:space-y-8" ref={copyRef}>
+      {/* Hero Content */}
+      <div className="relative z-10 max-w-6xl flex flex-col items-center pt-16 md:pt-20 space-y-6 md:space-y-8" ref={copyRef}>
         {/* Eyebrow kicker */}
         <p className="hero-eyebrow" data-hero-part="eyebrow">
           {t('hero.stage.kicker') || '数字化产品系统 / 2025'}
         </p>
 
-        {/* Main H1 Title: Anton font, per-char mask reveal, gradient shimmer */}
+        {/* Main H1 Title: Anton Display, Mint→White gradient, per-char mask reveal */}
         <div className="relative">
           <h1
-            className="font-display-hero text-6xl sm:text-7xl md:text-8xl lg:text-[130px] leading-none uppercase tracking-[-0.03em] font-normal"
+            className="hero-display-title"
             aria-label={TITLE_TEXT}
-            data-hero-anim="title"
           >
             <span aria-hidden="true" className="hero-title-chars">
               {titleChars.map((char, index) =>
@@ -217,15 +127,19 @@ const Hero = () => {
           </h1>
         </div>
 
-        <p className="font-body text-base md:text-xl leading-relaxed text-white/90 max-w-2xl mx-auto font-light tracking-wide px-4" data-hero-part="summary" data-hero-anim="support">
+        {/* Merriweather 衬线定位句（DESIGN.md 3.2 Lede） */}
+        <p
+          className="hero-lede"
+          data-hero-part="lede"
+        >
           {t('hero.body') || '产品经理与设计复合型实践者。聚焦医疗数字化、流程重构与AI协作，在混乱的真实业务现场中，建立可执行、可观察的系统闭环。'}
         </p>
 
-        {/* CTA Buttons Container: Figma Node 272:194 */}
-        <div className="flex items-center justify-center gap-6 pt-2" data-hero-part="actions" data-hero-anim="support">
+        {/* CTA Buttons */}
+        <div className="flex items-center justify-center gap-6 pt-2 flex-wrap" data-hero-part="actions">
           {/* Button 1: 查看项目 */}
           <a
-            className="px-8 py-3.5 bg-[var(--color-accent)] text-[#1C1528] rounded-full font-semibold text-base md:text-lg hover:bg-[#BFAAF5] transition-all flex items-center gap-2.5 no-underline cursor-pointer shadow-none"
+            className="btn-hero-primary"
             href="#portfolio"
             data-motion-hover="button"
             onClick={(event) => scrollToSection(event, 'portfolio')}
@@ -238,7 +152,7 @@ const Hero = () => {
 
           {/* Button 2: 联系我 */}
           <a
-            className="px-8 py-3.5 bg-[var(--color-bg-elevated)] border border-[#3A3548] rounded-full font-semibold text-base md:text-lg text-[#D0BDFF] hover:border-[var(--color-accent)] hover:text-[#EADEFF] transition-all no-underline cursor-pointer shadow-none"
+            className="btn-hero-secondary"
             href="#contact"
             onClick={(event) => scrollToSection(event, 'contact')}
           >

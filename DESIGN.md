@@ -1,7 +1,9 @@
 # Design System: Complex Systems Portfolio
 
-> Version 2.0 · Product Manager for Complex Systems, with a Design Background
+> Version 3.0 · Product Manager for Complex Systems, with a Design Background
 > 本文档是本项目唯一的视觉、布局、组件与动效规范。任何页面、组件、CSS 变量或动画实现都必须先遵守本文档。
+>
+> **V3 变更摘要**（2026-08-14）：对齐 Harrison Wheeler 参考站的视觉机制——字体真实落地（Anton Display + Merriweather 衬线叙事 + Hanken Grotesk 正文 + IBM Plex Mono 标签）、色彩角色重定义（薄荷绿用于大标题渐变、浅粉用于案例标题渐变、紫色只做主交互）、Portfolio 启用 sticky 黏性堆叠与超大渐变标题、Hero 简化为渐变巨标题 + 衬线 lede。V2 中"Neudron / GT America"为未加载的假字体声明，已删除。
 
 ---
 
@@ -27,16 +29,16 @@
 
 本系统参考 Harrison Wheeler 网站的以下方法，但不复制其个人品牌：
 
-- 借用：固定胶囊导航、全视口 Hero、超大压缩标题、留白节奏、黏性案例堆叠、轻量进入动画、移动端重排。
-- 保留：本项目 Midnight Base、Digital Lavender、System Green 配色与 Anton / Inter / IBM Plex Mono 字体体系。
+- 借用：固定居中胶囊导航、全视口 Hero、超大渐变 Display 标题、衬线叙事层、留白节奏、黏性案例堆叠、文件夹式卡片描边、轻量进入动画、移动端重排。
+- 保留：本项目深色底色（`#0d0c11`）、Lavender / Mint 主色与 Anton / Hanken Grotesk / IBM Plex Mono 字体体系；新增 Merriweather 衬线叙事层与浅粉标题渐变（见 §2、§3）。
 - 改造：案例内容从视觉展示转为“背景 → 约束 → 决策 → 系统 → 结果 → 反思”的产品叙事。
-- 拒绝：照搬参考网站的字体、颜色、文案、作品结构或个人识别元素。
+- 拒绝：照搬参考网站的字体文件、文案、作品结构或个人识别元素；不引入未加载的假字体声明。
 
 ### 1.3 Key Characteristics
 
-1. **Editorial, not decorative**：大标题用于建立章节与观点，不用于填满每个模块。
+1. **Editorial, not decorative**：大标题用于建立章节与观点，不用于填满每个模块；标题可用同色系渐变填充制造编辑张力，但禁止光球、霓虹与玻璃拟态泛滥。
 2. **Evidence over claims**：界面截图、流程图、数据和决策依据优先于抽象形容词。
-3. **One focal point per viewport**：每个视口只建立一个主要视觉焦点。
+3. **One focal point per viewport**：每个视口只建立一个主要视觉焦点；首屏焦点是渐变 Display 姓名，案例区焦点是超大渐变标题的黏性卡片。
 4. **Quiet confidence**：动效、辉光和强调色都服务于阅读，不表演技术。
 5. **System clarity**：用网格、编号、标签、连接线和对比结构表达复杂系统。
 
@@ -47,9 +49,10 @@
 不使用以下方向：
 
 - 通用 SaaS 落地页、模板化 Bento Grid、过量小卡片。
-- 大面积渐变、霓虹光污染、玻璃拟态、装饰性 3D 球体。
+- 大面积霓虹光污染、装饰性玻璃拟态、装饰性 3D 球体。
 - Dribbble 式只展示结果图、不解释约束与决策。
 - 把所有标题都做成 Hero 尺寸，或用动效掩盖内容不足。
+- 声明未加载的字体（如 `Neudron`、`GT America`）造成静默 fallback。
 
 ---
 
@@ -61,25 +64,22 @@
 :root {
   color-scheme: dark;
 
-  --color-bg: #0b0f14;
-  --color-surface: #141922;
-  --color-surface-elevated: #1c2330;
+  --color-bg: #0d0c11;              /* Midnight Base（页面底色） */
+  --color-surface: #16151c;         /* Dark Surface（卡片/导航） */
+  --color-surface-elevated: #1f1d26;/* Elevated Surface（浮层/悬浮） */
+  --color-border: #2a2833;          /* Hairline Border */
 
-  --color-text-primary: #f2f2f5;
-  --color-text-secondary: #a7adb8;
-  --color-text-tertiary: #707784;
+  --color-text-primary: #ece9f1;
+  --color-text-secondary: #a39fb0;
+  --color-text-tertiary: #75717f;
 
-  --color-accent-primary: #c8b6ff;
-  --color-accent-success: #b8e6d0;
+  --color-accent: #d0bcff;          /* Digital Lavender（主交互） */
+  --color-mint: #b9f2c8;            /* System Mint（大标题渐变/结果） */
+  --color-pink: #ffd8e4;            /* Soft Pink（案例标题渐变/装饰） */
 
-  --color-border-subtle: rgba(255, 255, 255, 0.08);
-  --color-border-default: rgba(255, 255, 255, 0.12);
-  --color-border-strong: rgba(255, 255, 255, 0.22);
-  --color-overlay: rgba(11, 15, 20, 0.78);
+  --color-on-accent: #381e72;       /* 紫色按钮上的文字 */
 
-  --color-focus: #c8b6ff;
-  --color-selection-bg: rgba(200, 182, 255, 0.28);
-  --color-selection-text: #f2f2f5;
+  --color-focus: #d0bcff;
 }
 ```
 
@@ -87,35 +87,40 @@
 
 | Role | Semantic name | Value | Usage |
 | --- | --- | --- | --- |
-| Page background | Midnight Base | `#0B0F14` | 页面背景、Hero、页脚 |
-| Surface | Dark Surface | `#141922` | 案例卡、内容区、导航背景 |
-| Elevated surface | Elevated Surface | `#1C2330` | 浮层、重点数据、悬浮状态 |
-| Primary text | Soft White | `#F2F2F5` | 标题、关键结论 |
-| Secondary text | Cool Grey | `#A7ADB8` | 正文、说明 |
-| Tertiary text | Dim Grey | `#707784` | 元数据、禁用态 |
+| Page background | Midnight Base | `#0D0C11` | 页面背景、Hero、页脚 |
+| Surface | Dark Surface | `#16151C` | 案例卡、内容区、导航背景 |
+| Elevated surface | Elevated Surface | `#1F1D26` | 浮层、重点数据、悬浮状态 |
+| Primary text | Soft White | `#ECE9F1` | 标题、关键结论 |
+| Secondary text | Cool Grey | `#A39FB0` | 正文、说明 |
+| Tertiary text | Dim Grey | `#75717F` | 元数据、禁用态 |
+| Border | Hairline | `#2A2833` | 卡片、分隔线、导航描边 |
 
 ### 2.3 Accent Roles
 
 | Token | Value | Role | 使用上限 |
 | --- | --- | --- | --- |
-| Digital Lavender | `#C8B6FF` | 主 CTA、链接、焦点环、关键路径 | 单屏可见面积约 8% |
-| System Green | `#B8E6D0` | 成果、已验证状态、正向指标 | 单屏可见面积约 5% |
+| Digital Lavender | `#D0BCFF` | 主 CTA、链接、焦点环、关键路径 | 单屏可见面积约 8% |
+| System Mint | `#B9F2C8` | 大标题渐变、成果、已验证状态 | 标题渐变与结果标记 |
+| Soft Pink | `#FFD8E4` | 案例卡片标题渐变、小面积装饰 | 标题渐变与 hover 填充 |
 
 规则：
 
-- 不引入第三品牌强调色。错误、警告等系统状态优先使用图标、文案和边框模式；确需新增状态色时，必须先更新本文档。
-- 同一区块最多出现一种主强调色；绿色只用于“结果或验证”，不能作为普通装饰。
-- 禁止用紫绿渐变作为页面背景。允许同色透明度变化，但不允许制造彩色光球或模糊色斑。
+- 三种强调色职责固定：**Lavender 负责行动，Mint 负责大标题与结果，Pink 负责案例标题与装饰**。不得互换职责。
+- 标题渐变使用**同色系内部渐变**（Mint→浅 Mint、Pink→白），禁止紫绿、紫粉跨色相渐变。
+- 禁止用渐变作为页面背景；禁止制造彩色光球或模糊色斑。允许低透明度装饰（如参考站的浅粉 badge 描边）。
 - 文本与背景对比度：普通文本至少 `4.5:1`，大文本至少 `3:1`。
+- 不引入第四种品牌强调色。错误、警告等系统状态优先使用图标、文案和边框模式。
 
 ### 2.4 Quick Color Reference
 
 - 页面底色：`var(--color-bg)`
-- 默认卡片：`var(--color-surface)` + `var(--color-border-default)`
+- 默认卡片：`var(--color-surface)` + `var(--color-border)`
 - Hover 表面：`var(--color-surface-elevated)`
 - 正文：`var(--color-text-secondary)`
-- 主操作：`var(--color-accent-primary)`
-- 结果数据：`var(--color-accent-success)`
+- 主操作：`var(--color-accent)` + 文字 `var(--color-on-accent)`
+- Hero 大标题渐变：`linear-gradient(to top, #b9f2c8 0%, #d9f8e3 42%, #ece9f1 100%)`（background-clip: text）
+- 案例标题渐变：`linear-gradient(to bottom, #ffd8e4 0%, #ffffff 62%)`（background-clip: text）
+- 结果数据：`var(--color-mint)`
 - 键盘焦点：`2px solid var(--color-focus)`，外偏移 `3px`
 
 ---
@@ -126,16 +131,18 @@
 
 ```css
 :root {
-  --font-display: "Anton", "Inter", sans-serif;
-  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Anton", "Hanken Grotesk", sans-serif;
+  --font-body: "Hanken Grotesk", "Inter", -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Merriweather", Georgia, serif;
   --font-mono: "IBM Plex Mono", "JetBrains Mono", monospace;
 }
 ```
 
-- `Anton`：只用于首页姓名、案例大标题、关键章节号等高冲击 Display。
-- `Inter`：标题、正文、按钮和所有高频阅读内容。
+- `Anton`：只用于拉丁字母的 Display（姓名、英文标题、章节编号），全大写、可配合 `scaleY(1.05–1.2)` 纵向拉伸与渐变填充。Anton 不含中文字形。
+- `Merriweather`（weight 300/400）：衬线叙事层——Hero lede、卡片 meta、案例摘要等需要编辑感的长句。**这是参考站的关键视觉机制**。
+- `Hanken Grotesk`：正文、按钮、中英文标题与所有高频阅读内容（Anton 不覆盖中文，中文大标题回退到 Hanken Grotesk 700/800）。
 - `IBM Plex Mono` / `JetBrains Mono`：标签、年份、数据单位、系统字段和图表注释。
-- 不新增装饰字体；不用等宽字体承载长段正文。
+- 所有声明的字体必须真实加载（Google Fonts 或自托管），禁止声明未加载的字体名。
 
 ### 3.2 Fluid Type Scale
 
@@ -143,26 +150,29 @@
 
 | Role | Font | Size | Weight | Line height | Letter spacing | Notes |
 | --- | --- | --- | --- | --- | --- | --- |
-| Display XL | Anton | `clamp(4.5rem, 11vw, 10rem)` | 400 | `0.88` | `0` | 首页姓名或定位主句 |
-| Display L | Anton | `clamp(3.5rem, 8vw, 7.5rem)` | 400 | `0.92` | `0` | 案例标题、章节转场 |
-| H1 | Inter | `clamp(2.75rem, 6vw, 5.5rem)` | 700 | `1.0` | `0` | 页面主标题 |
-| H2 | Inter | `clamp(2rem, 4vw, 3.75rem)` | 650 | `1.08` | `0` | 一级章节标题 |
-| H3 | Inter | `clamp(1.5rem, 2.5vw, 2.25rem)` | 600 | `1.18` | `0` | 模块标题 |
-| H4 | Inter | `clamp(1.125rem, 1.5vw, 1.375rem)` | 600 | `1.3` | `0` | 卡片内标题 |
-| Lead | Inter | `clamp(1.25rem, 2vw, 1.75rem)` | 400 | `1.5` | `0` | 核心摘要、观点 |
-| Body L | Inter | `clamp(1.0625rem, 1.3vw, 1.25rem)` | 400 | `1.7` | `0` | 案例叙事正文 |
-| Body | Inter | `clamp(1rem, 1vw, 1.125rem)` | 400 | `1.65` | `0` | 通用正文 |
-| Small | Inter | `clamp(0.875rem, 0.9vw, 1rem)` | 450 | `1.5` | `0` | 注释、辅助说明 |
-| Label | IBM Plex Mono | `clamp(0.75rem, 0.8vw, 0.875rem)` | 500 | `1.4` | `0` | 标签、编号、年份 |
+| Display XL | Anton | `clamp(4.5rem, 14.5vw, 11rem)` | 400 | `0.92` | `0` | 首页姓名，可 `scaleY(1.15)` 拉伸 + Mint 渐变 |
+| Display L | Anton | `clamp(3.5rem, 8vw, 7.5rem)` | 400 | `0.92` | `0` | 案例大标题（拉丁） |
+| Case Card Title | Hanken / Anton | `clamp(2.5rem, 6.5vw, 5.5rem)` | 700–800 | `0.92` | `-0.01em` | 案例卡超大标题，Pink→白渐变 |
+| H1 | Hanken | `clamp(2.75rem, 6vw, 5.5rem)` | 700 | `1.0` | `-0.02em` | 页面主标题 |
+| H2 | Hanken | `clamp(2rem, 4vw, 3.75rem)` | 700 | `1.08` | `-0.02em` | 一级章节标题 |
+| H3 | Hanken | `clamp(1.5rem, 2.5vw, 2.25rem)` | 600 | `1.18` | `-0.01em` | 模块标题 |
+| H4 | Hanken | `clamp(1.125rem, 1.5vw, 1.375rem)` | 600 | `1.3` | `0` | 卡片内标题 |
+| Lede（衬线叙事） | Merriweather | `clamp(1.25rem, 2.2vw, 2rem)` | 300 | `1.4` | `0` | Hero 定位句、案例 meta |
+| Lead | Hanken | `clamp(1.25rem, 2vw, 1.75rem)` | 400 | `1.5` | `0` | 核心摘要、观点 |
+| Body L | Hanken | `clamp(1.0625rem, 1.3vw, 1.25rem)` | 400 | `1.7` | `0` | 案例叙事正文 |
+| Body | Hanken | `clamp(1rem, 1vw, 1.125rem)` | 400 | `1.65` | `0` | 通用正文 |
+| Small | Hanken | `clamp(0.875rem, 0.9vw, 1rem)` | 450 | `1.5` | `0` | 注释、辅助说明 |
+| Label | IBM Plex Mono | `clamp(0.72rem, 0.8vw, 0.85rem)` | 500 | `1.4` | `0.18em` | 标签、编号、年份（大写） |
 
 ### 3.3 Typographic Principles
 
-- Display 文本每行建议 `8–14` 个汉字或 `8–12` 个英文单词；长内容改用 H1/H2。
+- 拉丁 Display 标题：全大写、每行建议 `6–10` 个词；中文大标题每行建议 `6–10` 个汉字。
 - 正文最大行宽 `68ch`，核心摘要最大 `52ch`，元数据最大 `36ch`。
-- 中文正文使用自然换行；英文标题使用 `text-wrap: balance`，正文可用 `text-wrap: pretty`。
-- 字距统一为 `0`。Anton 的紧凑感来自字体本身，不通过负字距制造。
+- 中文正文使用自然换行；英文标题使用 `text-wrap: balance`。
+- 标题可适度负字距（`-0.01em` 至 `-0.04em`），正文字距为 `0`。
 - 数字与单位不换行；数据数字可用 `font-variant-numeric: tabular-nums`。
 - 每个段落只表达一个论点，正文段落建议 `2–5` 行。
+- 衬线叙事层（Lede/Meta）是编辑感的来源，必须有别于正文的密度与字号，不能与正文混淆。
 
 ---
 
@@ -181,15 +191,15 @@
   transform: translateX(-50%);
   min-height: 48px;
   padding: 6px;
-  border: 1px solid var(--color-border-default);
+  border: 1px solid var(--color-border);
   border-radius: 9999px;
-  background: rgba(20, 25, 34, 0.82);
+  background: rgba(22, 21, 28, 0.82);
   backdrop-filter: blur(16px);
 }
 ```
 
 - Desktop：品牌标识 + 3–4 个主导航项 + 联系入口；不得超过 6 个可见入口。
-- Mobile：保留品牌标识和菜单按钮，展开为全宽暗色面板；不用把文字硬塞进胶囊。
+- Mobile：保留品牌标识和菜单按钮，展开为全宽暗色面板。
 - 当前项用文字高对比和轻微表面变化表示，不依赖下划线动画。
 - 导航按钮最小触控区域 `44 × 44px`。
 - 页面滚动后可轻微提升背景不透明度，但不可改变尺寸造成跳动。
@@ -200,7 +210,7 @@ Hero 是作品集定位，不是功能介绍卡片。
 
 - 最小高度：Desktop `100svh`；Mobile `100svh`。
 - 内容不放在卡片中，直接位于页面背景上。
-- Desktop：姓名或定位占据主要画面；简介与 CTA 放在下部网格。
+- Desktop：姓名或定位占据主要画面；简介与 CTA 放在下部。
 - Mobile：主标题保持强度，CTA 靠近视口底部纵向排列且全宽。
 - 首屏必须露出下一章节的视觉提示：章节编号、标题上沿或滚动引导，不能形成封闭海报。
 - Hero 最多一个主 CTA 和一个次 CTA。
@@ -210,62 +220,51 @@ Hero 是作品集定位，不是功能介绍卡片。
 ```text
 [Fixed navigation]
 [Mono eyebrow: ROLE / LOCATION / YEAR]
-[Display name or literal positioning]
-[Short positioning statement, max 2 lines]
+[Display 姓名（Anton 全大写，Mint→白渐变，可 scaleY 拉伸）]
+[Merriweather 衬线定位句，max 2 行]
 [Primary CTA] [Secondary CTA]          [Scroll cue / next section hint]
 ```
+
+背景规则：
+
+- 背景保持**纯净深色**：可以保留极弱网格线或单一水印字，但**移除聚光灯跟随、大范围光晕、霓虹渐变**——参考站 Hero 的冲击力来自标题本身，不来自背景特效。
+- 允许标题逐字/整行入场（`opacity + y` 揭示，见 §7），不允许持续漂移、闪烁或滚动光效。
 
 ### 4.3 Buttons and Links
 
 | Variant | Background | Text | Border | Use |
 | --- | --- | --- | --- | --- |
-| Primary | `#C8B6FF` | `#0B0F14` | transparent | 查看案例、联系 |
-| Secondary | `#1C2330` | `#F2F2F5` | default | 简历、补充路径 |
-| Text link | transparent | `#C8B6FF` | none | 正文链接、次级跳转 |
+| Primary | `#D0BCFF` | `#381E72` | transparent | 查看案例、联系 |
+| Secondary | `#1F1D26` | `#ECE9F1` | `#2A2833` | 简历、补充路径 |
+| Text link | transparent | `#D0BCFF` | none | 正文链接、次级跳转 |
 
 按钮规范：
 
 - 高度 `56px`（紧凑场景最低 `48px`），水平内边距 `28px`。
 - 胶囊圆角 `9999px`；图标与文字间距 `8px`。
-- Hover：`translateY(-2px)`；Active：`translateY(0) scale(0.99)`。
+- Hover：`translateY(-1px)` 至 `-2px`；Active：`translateY(0) scale(0.99)`。
 - 不使用 `-4px` 以上的悬浮位移，不使用持续辉光。
-- 图标按钮使用熟悉图标并提供 `aria-label` 与 tooltip。
 - `:focus-visible` 必须保留清晰焦点环。
-
-**Primary CTA**
-
-- Background: `#C8B6FF`
-- Text: `#0B0F14`
-- Common size: `56px`
-- Radius: `9999px`
-- Text style: `clamp(0.875rem, 0.9vw, 1rem) / 600`
-
-**Secondary CTA**
-
-- Background: `#1C2330`
-- Text: `#F2F2F5`
-- Ring: `rgba(255,255,255,0.12)`
-- Radius: `9999px`
+- 主按钮文字使用 `var(--color-on-accent)`（深紫），保证对比度。
 
 ### 4.4 Cards and Containers
 
 首页项目不是彼此独立的小卡片，而是一组按顺序展开的案例章节。
 
 - Desktop 使用大幅双栏卡片：媒体约 `58%`，文本约 `42%`，相邻项目交替方向。
-- 背景 `#141922`，边框 `1px solid rgba(255,255,255,0.12)`，大卡片圆角 `16px`。
-- 内边距：`clamp(24px, 4vw, 64px)`；卡片间可通过黏性堆叠形成连续叙事。
-- 媒体容器圆角 `12px` 或 `16px`，不得嵌套第二层装饰卡片。
+- 背景 `#16151C`，文件夹式描边：顶部圆角 `24px`，用 masked `::before` 绘制 1px 边框并向下渐隐（参考站机制）；不使用完整闭合矩形边框。
+- 卡片标题为超大渐变文字（见 §3.2 Case Card Title），hover 时渐变填充为全 Pink。
+- 内边距：`clamp(28px, 3.5vw, 52px)`。
+- 媒体容器：16/10 或 16/9 比例、圆角 `16px`、真实产品图或系统蓝图、`object-fit: cover`、1px 边框 + 深色阴影。
 - 每张卡只包含：编号、项目名、业务问题、角色、时间、1–2 个结果、明确 CTA。
-- Hover 只改变边框、媒体缩放 `1.015` 和整体 `translateY(-3px)`；内容布局不位移。
-
-推荐 DOM 顺序：标题与摘要在媒体之前出现于文档流，移动端视觉顺序可调整为媒体 → 文本，但屏幕阅读器顺序必须连贯。
+- Hover 只改变边框、渐变填充和整体 `translateY(-2px)`；内容布局不位移。
 
 **Card Tokens**
 
-- Surface: `#141922`
-- Ring / border: `rgba(255,255,255,0.12)`
-- Radius: `16px`
-- Signature shadow stack: `0 16px 48px rgba(0, 0, 0, 0.32)`
+- Surface: `#16151C`
+- 描边: `rgba(255, 255, 255, 0.16)`，顶部圆角 `24px`
+- 标题渐变: `linear-gradient(to bottom, #ffd8e4 0%, #ffffff 62%)`（hover 填满为 `#ffd8e4`）
+- Signature shadow: `0 16px 48px rgba(0, 0, 0, 0.4)`
 
 ### 4.5 Sticky Case Stack
 
@@ -276,7 +275,7 @@ Hero 是作品集定位，不是功能介绍卡片。
   position: sticky;
   top: clamp(80px, 10vh, 120px);
   min-height: min(76svh, 760px);
-  border-radius: 16px 16px 0 0;
+  border-radius: 24px 24px 0 0;
 }
 
 .project-card + .project-card {
@@ -293,14 +292,14 @@ Hero 是作品集定位，不是功能介绍卡片。
 ### 4.6 Metrics
 
 - 每组 `1–3` 个指标，数字大、说明短、口径明确。
-- 数字使用 H2/H3 级别，颜色为 Soft White 或 System Green。
+- 数字使用 H2/H3 级别，颜色为 Soft White 或 System Mint。
 - 标签使用 Mono；说明必须写清基线、时间或样本，避免孤立百分比。
 - 无可靠定量结果时使用可验证定性证据，不虚构数字。
 
 ### 4.7 Diagrams
 
-- 节点背景用 Dark / Elevated Surface，主路径用 Lavender，验证结果用 Green。
-- 连接线 `1px rgba(255,255,255,0.22)`，箭头方向清晰。
+- 节点背景用 Dark / Elevated Surface，主路径用 Lavender，验证结果用 Mint。
+- 连接线 `1px rgba(255, 255, 255, 0.22)`，箭头方向清晰。
 - 一个图只表达一个关系：流程、角色、信息或状态，不混合四种语义。
 - 图中正文不低于 `14px`；移动端优先改为纵向流程或可横向滚动的完整图。
 - 不用装饰性网络线、无意义节点或假数据制造“复杂感”。
@@ -310,7 +309,7 @@ Hero 是作品集定位，不是功能介绍卡片。
 - 优先：真实产品界面、研究材料、流程图、决策记录、前后对比。
 - 媒体必须带简短 caption，说明“看什么”和“为什么重要”。
 - 截图保持清晰，不使用过暗遮罩或模糊背景影响检查。
-- 容器：`12px–16px` 圆角、hairline 边框、深色阴影。
+- 容器：`16px` 圆角、hairline 边框、深色阴影（`0 16px 48px rgba(0,0,0,0.4)`）。
 - 多图展示用无框网格或横向轨道；禁止卡片套卡片。
 - 所有图片设置稳定 `aspect-ratio`，避免加载时布局跳动。
 
@@ -337,7 +336,7 @@ Hero 是作品集定位，不是功能介绍卡片。
 ```css
 :root {
   --page-gutter: clamp(20px, 3vw, 32px);
-  --content-max: 1440px;
+  --content-max: 1320px;
   --reading-max: 760px;
   --grid-gap: clamp(16px, 2vw, 32px);
 }
@@ -378,10 +377,11 @@ Hero 是作品集定位，不是功能介绍卡片。
 | --- | --- | --- |
 | Small | `4px` | 小标签、状态标记 |
 | Standard | `12px` | 按钮以外的标准组件、媒体 |
-| Large | `16px` | 项目卡、大型容器 |
+| Large | `16px` | 媒体容器、次级卡片 |
+| Folder Top | `24px` | 首页案例卡顶部（sticky 堆叠） |
 | Pill | `9999px` | 导航、按钮、胶囊标签 |
 
-不自行使用 `6px`、`8px`、`20px`、`24px` 等新圆角。组件嵌套时，内层圆角必须小于外层。
+不自行使用 `6px`、`8px`、`20px` 等新圆角。组件嵌套时，内层圆角必须小于外层。
 
 ### 5.4 Case Study Narrative
 
@@ -412,23 +412,23 @@ Hero 是作品集定位，不是功能介绍卡片。
 
 | Level | Treatment | Use |
 | --- | --- | --- |
-| 0 Canvas | `#0B0F14` | 页面背景 |
-| 1 Surface | `#141922` + subtle border | 静态内容与项目卡 |
-| 2 Elevated | `#1C2330` + default border | Hover、浮层、重点数据 |
+| 0 Canvas | `#0D0C11` | 页面背景 |
+| 1 Surface | `#16151C` + subtle border | 静态内容与项目卡 |
+| 2 Elevated | `#1F1D26` + default border | Hover、浮层、重点数据 |
 | 3 Overlay | translucent surface + blur | 固定导航、菜单、模态框 |
 
 ```css
 :root {
-  --shadow-media: 0 16px 48px rgba(0, 0, 0, 0.32);
-  --shadow-overlay: 0 20px 64px rgba(0, 0, 0, 0.42);
-  --shadow-focus: 0 0 0 4px rgba(200, 182, 255, 0.18);
+  --shadow-media: 0 16px 48px rgba(0, 0, 0, 0.4);
+  --shadow-overlay: 0 20px 64px rgba(0, 0, 0, 0.5);
+  --shadow-focus: 0 0 0 4px rgba(208, 188, 255, 0.18);
 }
 ```
 
 ### 6.2 Depth Rules
 
 - 深度主要通过表面亮度、hairline 边框和遮挡顺序表达，阴影只做辅助。
-- 默认卡片不发光；Hover 可使用 `rgba(200,182,255,0.34)` 边框，但不做大范围紫色辉光。
+- 默认卡片不发光；Hover 可使用 `rgba(208,188,255,0.34)` 边框，但不做大范围紫色辉光。
 - 固定导航可用 `backdrop-filter`，普通卡片禁止玻璃拟态。
 - 同屏最多使用三层可感知深度，避免所有组件都浮起来。
 
@@ -469,11 +469,11 @@ Hero 是作品集定位，不是功能介绍卡片。
 | Stagger | `60–90ms` | — | standard | 一组最多 6 项 |
 | Menu open | `360ms` | `y: -8 → 0` | standard | 背景同步淡入 |
 | Media zoom | `360ms` | `1 → 1.015` | standard | 容器裁切 |
-| Route transition | `500–700ms` | `y: 16 → 0` | standard | 不阻塞导航 |
+| Title gradient fill | `600ms` | `background-position` | standard | 卡片标题 hover 填满 |
 
 ### 7.3 Reveal Rules
 
-- 首屏顺序：eyebrow → Display → summary → actions，每步重叠而非逐个等待。
+- 首屏顺序：eyebrow → Display → 衬线 lede → actions，每步重叠而非逐个等待。
 - 滚动 Reveal 默认 `once: true`，触发点约为元素顶部进入视口 `85%`。
 - 一屏最多两组 Reveal；长文段落不逐行弹出。
 - 不对导航、正文阅读核心或关键 CTA 设置长时间不可见初态。
@@ -487,7 +487,7 @@ const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
 timeline
   .from("[data-hero-eyebrow]", { autoAlpha: 0, y: 16, duration: 0.5 })
   .from("[data-hero-title]", { autoAlpha: 0, y: 30, duration: 0.75 }, "-=0.25")
-  .from("[data-hero-summary]", { autoAlpha: 0, y: 24, duration: 0.65 }, "-=0.42")
+  .from("[data-hero-lede]", { autoAlpha: 0, y: 24, duration: 0.65 }, "-=0.42")
   .from("[data-hero-action]", { autoAlpha: 0, y: 16, duration: 0.5, stagger: 0.08 }, "-=0.35");
 ```
 
@@ -497,45 +497,20 @@ timeline
 - `scrub` 仅用于进度具有语义的动画，如流程推进、对比切换。
 - Pin 区域必须提供足够滚动距离，且不能让用户误以为页面卡死。
 - 响应式逻辑使用 `gsap.matchMedia()`；不同断点分别建立和清理 Trigger。
-- 图像加载、字体加载或布局变化后再 `ScrollTrigger.refresh()`，不要在滚动中频繁 refresh。
+- 图像加载、字体加载或布局变化后再 `ScrollTrigger.refresh()`。
 - 默认不使用 ScrollSmoother；原生滚动优先。
 
 ### 7.5 React + GSAP Lifecycle
 
-React 页面优先使用 `@gsap/react` 的 `useGSAP()`：
-
-```jsx
-const root = useRef(null);
-
-useGSAP(() => {
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduceMotion) return;
-
-  gsap.from("[data-reveal]", {
-    autoAlpha: 0,
-    y: 30,
-    duration: 0.75,
-    stagger: 0.08,
-    ease: "power3.out",
-  });
-}, { scope: root });
-```
-
-- 使用单一根 `ref` 和 scoped selector，禁止全局选择器误伤其他页面。
-- 依赖变化需要重建时使用 `revertOnUpdate: true`。
-- 若必须用 `useEffect`，用 `gsap.context()` 包裹，并在 cleanup 中执行 `ctx.revert()`。
-- 事件回调产生的动画使用 `contextSafe()`。
-- 页面卸载后不得保留 timeline、listener 或 ScrollTrigger。
+React 页面优先使用 `@gsap/react` 的 `useGSAP()`；使用单一根 `ref` 和 scoped selector；依赖变化需要重建时使用 `revertOnUpdate: true`；事件回调产生的动画使用 `contextSafe()`；页面卸载后不得保留 timeline、listener 或 ScrollTrigger。
 
 ### 7.6 Performance Rules
 
-- 动画只改变 `transform` 和 `opacity`；避免动画 `width`、`height`、`top`、`left`、`margin`。
-- 读写 DOM 分批执行，避免滚动回调中反复测量布局。
-- `will-change` 只在动画即将发生时添加，结束后移除；禁止全局常驻。
-- 每页 ScrollTrigger 数量保持可解释且尽量少；多个同类 Reveal 使用批处理。
+- 动画只改变 `transform` 和 `opacity`（渐变填充例外：`background-position`）。
+- `will-change` 只在动画即将发生时添加，结束后移除。
+- 每页 ScrollTrigger 数量保持可解释且尽量少。
 - 图片提供正确尺寸、响应式源和懒加载；首屏主图不懒加载。
 - 动效不能造成 CLS；所有固定格式媒体和图表先定义尺寸或 `aspect-ratio`。
-- 以中端移动设备为基准检查滚动流畅度，不以开发机表现替代验证。
 
 ### 7.7 Reduced Motion
 
@@ -564,7 +539,6 @@ useGSAP(() => {
 
 - JS 在创建 timeline / ScrollTrigger 前检查媒体查询。
 - Reduced motion 下直接呈现最终状态，禁止用极短动画伪装“支持”。
-- 自动播放媒体需可暂停；非必要装饰媒体不自动播放。
 
 ---
 
@@ -578,8 +552,6 @@ useGSAP(() => {
 | Tablet | `768–1199px` | 8 columns | `24px` | 章节间距 `80–120px`，压缩双栏 |
 | Desktop | `≥ 1200px` | 12 columns | `32px` | 章节间距 `96–160px`，完整叙事布局 |
 
-断点按内容失效点选择，不因某款设备单独增加断点。
-
 ### 8.2 Collapsing Strategy
 
 Desktop → Mobile 的变化不是简单缩小：
@@ -588,23 +560,14 @@ Desktop → Mobile 的变化不是简单缩小：
 - Navigation：完整链接收进菜单；保留 44px 触控目标。
 - Project Card：双栏变单栏，媒体优先显示，文本随后；取消不适合低视口的 sticky。
 - Case Detail：侧栏元数据移到正文前；多列指标变为 1–2 列。
-- Diagrams：先改成纵向结构；无法重排时允许明确的横向滚动，不压缩到不可读。
-- Tables：优先转换为对比列表；必须保留表格时允许横向滚动并固定首列。
-- Footer：多列导航变为分组列表，不把所有内容居中堆叠。
+- Diagrams：先改成纵向结构；无法重排时允许明确的横向滚动。
+- Footer：多列导航变为分组列表。
 
 ### 8.3 Touch & Input
 
 - 所有触控目标至少 `44 × 44px`，相邻目标间距至少 `8px`。
-- Hover 效果不能承载唯一信息；触屏上默认展示必要标签与 CTA。
-- 不拦截浏览器返回、缩放、滚动等原生行为。
+- Hover 效果不能承载唯一信息。
 - 菜单打开时管理焦点、锁定背景滚动并支持 Escape 关闭。
-
-### 8.4 Content Safety
-
-- 标题容器使用可预测宽度和自然换行，最长单词设置 `overflow-wrap: anywhere` 作为兜底。
-- 按钮文字允许合理换行，但主按钮文案优先控制在 8 个汉字以内。
-- 固定导航、Hero CTA 与下一章节提示在 `320px` 宽度下不得重叠。
-- 使用 `100svh` 而非仅 `100vh`，处理移动浏览器工具栏变化。
 
 ---
 
@@ -631,7 +594,7 @@ Desktop → Mobile 的变化不是简单缩小：
 - 首页项目摘要：`80–140` 个中文字符，回答问题、角色、结果。
 - 案例开场摘要：`120–220` 个中文字符。
 - 每个正文段落：`60–160` 个中文字符，超过则拆分观点。
-- 图注：一句说明内容，一句说明意义；避免重复画面可见文字。
+- 图注：一句说明内容，一句说明意义。
 - 每个案例至少展示 2 个关键决策和 1 个未解决问题。
 
 ### 9.3 Labels
@@ -650,18 +613,18 @@ Desktop → Mobile 的变化不是简单缩小：
 - 用一条强主线组织每个页面，让每屏只承担一个核心论点。
 - 展示问题结构、取舍过程、产品机制与结果口径。
 - 使用真实界面和清晰图表，让访客可以检查细节。
-- 用大排版建立章节，用等宽标签提供结构线索。
-- 保持紫色负责行动、绿色负责结果的稳定语义。
+- 用渐变 Display 大标题与衬线叙事层建立编辑感。
+- 保持 Lavender 负责行动、Mint 负责标题与结果、Pink 负责案例标题的稳定语义。
 - 用 CSS sticky 和轻量 Reveal 建立节奏，并完整支持 reduced motion。
 - 在桌面、移动端和低高度视口分别验证排版和 sticky 行为。
 
 ### Don't
 
-- 不复制参考网站的个人姓名排版、文案、字体、配色或案例内容。
-- 不加入未定义的第三品牌色、大面积渐变、光球或纯装饰纹理。
+- 不复制参考网站的个人姓名排版、文案、字体文件、配色比例或案例内容。
+- 不声明未加载的字体（Neudron / GT America 等）。
+- 不加入未定义的第四品牌色、大面积渐变背景、光球或纯装饰纹理。
 - 不把每个区块包成卡片，不使用卡片套卡片。
-- 不把首页做成能力介绍型落地页；首屏直接呈现身份与作品。
-- 不使用 `translateY(-4px)` 以上的卡片 Hover 或夸张紫色辉光。
+- 不在 Hero 使用聚光灯跟随、大范围光晕或霓虹背景特效。
 - 不逐字、逐行、逐元素播放进入动画。
 - 不用 GSAP 替代简单 CSS transition，也不用 ScrollTrigger 替代原生 sticky。
 - 不在没有测量依据时虚构指标或把团队结果归为个人成果。
@@ -672,28 +635,31 @@ Desktop → Mobile 的变化不是简单缩小：
 
 ### Quick Color Reference
 
-- Background: `#0B0F14`
-- Elevated surface: `#1C2330`
-- Heading text: `#F2F2F5`
-- Body text: `#A7ADB8`
-- Ring / border: `rgba(255,255,255,0.12)`
-- Accent / focus: `#C8B6FF`
+- Background: `#0D0C11`
+- Elevated surface: `#1F1D26`
+- Heading text: `#ECE9F1`
+- Body text: `#A39FB0`
+- Border: `#2A2833`
+- Accent / focus: `#D0BCFF`
+- Mint (title gradient / results): `#B9F2C8`
+- Pink (case title gradient): `#FFD8E4`
 
 ### 11.1 Mandatory Context for Any AI Agent
-
-将以下内容作为生成或修改页面时的硬约束：
 
 ```text
 你正在为“具有设计背景的复杂业务系统产品经理”构建作品集。
 DESIGN.md 是唯一视觉规范，不得引入未定义的颜色、字体、圆角或动效模式。
 
-页面采用深色编辑型设计：#0B0F14 背景，#141922 / #1C2330 表面，
-#C8B6FF 只用于主交互，#B8E6D0 只用于结果与验证。
-Display 使用 Anton / Inter，正文使用 Inter，技术标签使用 IBM Plex Mono / JetBrains Mono。
-所有 Heading 与 Body 字号使用 clamp()，字距为 0。
+页面采用深色编辑型设计：#0D0C11 背景，#16151C / #1F1D26 表面，
+#D0BCFF 只用于主交互，#B9F2C8 用于大标题渐变与结果，#FFD8E4 用于案例标题渐变。
+Display 使用 Anton（仅拉丁，可 scaleY 拉伸 + 渐变），正文使用 Hanken Grotesk，
+衬线叙事层使用 Merriweather（300/400），技术标签使用 IBM Plex Mono。
+所有 Heading 与 Body 字号使用 clamp()；所有声明的字体必须真实加载。
 
+Hero 为 100svh 无框开场：纯深色背景 + Anton 渐变姓名 + Merriweather 衬线定位句 + 双 CTA。
+Portfolio 使用 sticky 黏性堆叠：超大渐变标题（Pink→白）、文件夹式顶部描边、真实产品图。
 优先使用全宽无框章节、强排版、真实产品证据和清晰案例叙事。
-避免模板化 Bento 卡片、卡片套卡片、渐变光球、装饰性插画和营销式 Hero。
+避免模板化 Bento 卡片、卡片套卡片、渐变光球、聚光灯背景、装饰性插画和营销式 Hero。
 动效克制：CSS 负责微交互；GSAP 负责序列；ScrollTrigger 只负责必要的 pin/scrub。
 默认支持 prefers-reduced-motion，并在移动端重新组织内容而不是等比缩小。
 ```
@@ -702,11 +668,12 @@ Display 使用 Anton / Inter，正文使用 Inter，技术标签使用 IBM Plex 
 
 ```text
 设计作品集首页。首屏为 100svh 无框 Hero，固定居中胶囊导航，
-以 Anton 超大标题显示姓名或字面定位，并在底部放简短定位、主 CTA 与下一章节提示。
+以 Anton 超大渐变姓名（Mint→白，可 scaleY 拉伸）作为唯一视觉焦点，
+Merriweather 衬线定位句置于其下，底部放主 CTA 与下一章节提示。
 首屏需露出下一章节线索。随后用 3–5 张大型黏性项目卡形成连续案例堆叠，
-桌面端媒体/文本交替双栏，移动端改为媒体在前的单栏。
-每张卡只展示业务问题、角色、时间、关键结果和查看案例入口。
-不要添加能力介绍卡片墙、客户 Logo 墙或装饰性统计。
+桌面端媒体/文本交替双栏，卡片标题为 Pink→白渐变超大文字，hover 填满为 Pink。
+移动端改为媒体在前的单栏。每张卡只展示业务问题、角色、时间、关键结果和查看案例入口。
+不要添加能力介绍卡片墙、客户 Logo 墙、装饰性统计或聚光灯背景。
 ```
 
 ### 11.3 Case Study Prompt
@@ -726,47 +693,47 @@ Validation、Reflection 组织叙事。章节标题必须表达观点，不使�
 cubic-bezier(0.22,1,0.36,1)，同组 stagger 60–90ms，默认只播放一次。
 按钮与卡片 Hover 仅上移 1–3px，200ms。CSS 处理微交互，GSAP timeline 处理首屏编排，
 ScrollTrigger 仅用于必要的 pin、scrub 或进度叙事。React 中优先 useGSAP，限制 selector scope，
-卸载时清理 context 和 triggers。只动画 transform / opacity；为 reduced motion 直接显示最终状态。
+卸载时清理 context 和 triggers。只动画 transform / opacity / background-position。
+为 reduced motion 直接显示最终状态。
 ```
 
 ### 11.5 Review Checklist for Agents
 
-生成后逐项检查：
-
 1. 是否首先表达作品与定位，而非网站功能？
 2. 是否只使用本文档定义的颜色、字体、间距和圆角？
 3. 所有 Heading 和 Body 是否使用 `clamp()`？
-4. 是否存在卡片套卡片、过多同级焦点或无意义强调色？
-5. 案例是否展示问题、约束、决策、证据、结果与反思？
-6. 动效是否有阅读或空间意义，并支持 reduced motion？
-7. Mobile 是否完成内容重排，320px 宽度和低高度视口是否无重叠？
-8. 键盘焦点、对比度、触控尺寸、语义顺序是否合格？
-
-若任何一项不通过，先修正规范偏差，再增加新视觉效果。
+4. 声明的字体是否真实加载（无 Neudron / GT America 假声明）？
+5. 是否存在卡片套卡片、过多同级焦点或无意义强调色？
+6. 案例是否展示问题、约束、决策、证据、结果与反思？
+7. 动效是否有阅读或空间意义，并支持 reduced motion？
+8. Mobile 是否完成内容重排，320px 宽度和低高度视口是否无重叠？
+9. 键盘焦点、对比度、触控尺寸、语义顺序是否合格？
 
 ---
 
 ## 12. Evidence Notes
 
-### 12.1 Observed from Harrison Wheeler
+### 12.1 Observed from Harrison Wheeler (2026-08-14 re-extraction)
 
 以下为通过实时页面 DOM、计算样式、CSS 变量与响应式规则观察到的参考特征：
 
-- 深色页面背景与分层表面；浅紫、薄荷绿和浅粉作为强调。
-- 固定居中的胶囊导航、全视口 Hero、超大压缩 Display 字体。
-- Desktop 页面边距约 `32px`，Mobile 约 `20px`。
-- Desktop 章节间距约 `120px`，Mobile 约 `80px`。
-- 大型案例卡采用黏性堆叠、媒体与文字交替布局、顶部圆角。
+- 深色页面背景 `#0d0c11` 与分层表面 `#16151c` / `#1f1d26`，边框 `#2a2833`。
+- 强调色：浅紫 `#d0bcff`（主按钮 + 深紫文字 `#381e72`）、薄荷绿 `#b9f2c8`（Hero 大标题渐变）、浅粉 `#ffd8e4`（案例标题渐变、装饰 badge）。
+- 字体：Display 用 Neudron（全大写、字重 800、`scaleY(1.5)` 拉伸、渐变 clip 文字）；正文 GT America；衬线 Merriweather（lede 32px / 卡片 meta 20px，字重 300）；标签 IBM Plex Mono（`.72rem`、字距 `.18em`）。
+- 固定居中的胶囊导航、全视口 Hero、超大 Display 字体（`19cqw` 级）。
+- Desktop 页面边距约 `32px`，Mobile 约 `20px`；章节间距约 `120px`。
+- 大型案例卡采用黏性堆叠（`top: var(--stick-top)`）、媒体与文字交替布局、顶部圆角 `24px` + 文件夹式 masked 描边。
+- 卡片标题为 Pink→白渐变文字，hover 通过 `background-position` 填满为 Pink。
 - Reveal 约为 `opacity 0→1`、`translateY(30px)→0`、`0.75s`、`cubic-bezier(0.22,1,0.36,1)`。
-- Hover 位移克制，约 `-1px` 至 `-3px`。
+- Hero 入场为内容整体上升（`hero-content-rise .7s`）。
 - Mobile Hero 操作区靠近底部，按钮纵向全宽；案例卡变单栏且图片在前。
 
 ### 12.2 Adapted for This Portfolio
 
-- 参考站字体替换为本项目规定的 Anton / Inter / IBM Plex Mono。
-- 参考站色彩替换为 Midnight Base / Digital Lavender / System Green。
-- 浅粉等第三强调色不进入本系统，以保持品牌语义稳定。
-- 案例卡从设计作品展示调整为复杂业务系统的产品决策摘要。
+- 参考站商业字体（Neudron / GT America）不可自由使用，替换为 Anton（Display，拉丁）+ Hanken Grotesk（正文），两者均真实加载。
+- 参考站衬线层 Merriweather 为 Google Fonts 免费字体，直接引入作为叙事层。
+- 参考站三色（紫 / 薄荷绿 / 浅粉）全部保留，但职责重新定义为：Lavender 行动、Mint 标题与结果、Pink 案例标题。
+- 案例卡从设计作品展示调整为复杂业务系统的产品决策摘要，保留文件夹式描边与渐变标题机制。
 - 黏性堆叠保留为首页标志性节奏，但增加低高度设备和 reduced motion 降级。
 - 动效参数保留其克制节奏，同时补充 React 生命周期、性能和无障碍约束。
 

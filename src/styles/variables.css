@@ -1,26 +1,33 @@
 :root {
-  /* ── Core Palette (Product System Designer Portfolio) ── */
+  /* ── Core Palette (Product System Designer Portfolio · DESIGN.md v3) ── */
   --bg-midnight:         #0d0c11;
   --surface-obsidian:    #16151c;
   --surface-elevated:    #1f1d26;
   --border-hairline:     #2a2833;
-  
+
   --color-bg-primary:    #0d0c11; /* Midnight Base */
   --color-bg-secondary:  #16151c; /* Obsidian Card */
   --color-bg-elevated:   #1f1d26; /* Elevated Surface */
-  
-  --color-text-primary:  #F2F2F5; /* Soft White */
-  --color-text-secondary: #aaa6b3; /* Cool Grey */
-  --color-text-muted:    #777381; /* Dim Grey */
-  --color-text-faint:    rgba(242, 242, 245, 0.25);
-  
-  /* Accents */
+
+  --color-text-primary:  #ECE9F1; /* Soft White */
+  --color-text-secondary: #A39FB0; /* Cool Grey */
+  --color-text-muted:    #75717F; /* Dim Grey */
+  --color-text-faint:    rgba(236, 233, 241, 0.25);
+
+  /* Accents (DESIGN.md v3: Lavender=action, Mint=title gradient/results, Pink=case titles) */
   --color-accent:        #d0bcff; /* Digital Lavender */
   --color-accent-dim:    rgba(208, 188, 255, 0.18);
   --color-accent-soft:   rgba(208, 188, 255, 0.08);
   --color-accent-dark:   #b8a4e8;
-  
-  --color-system-green:  #b9f2c8; /* System Green (Achievements/Status) */
+
+  --color-mint:          #b9f2c8; /* System Mint (title gradient / results) */
+  --color-pink:          #ffd8e4; /* Soft Pink (case title gradient / decoration) */
+
+  --color-on-accent:     #381e72; /* Text on lavender buttons */
+
+  /* Aliases kept for compatibility with components using old names */
+  --color-system-green:  #b9f2c8;
+  --color-accent-pink:   #ffd8e4;
 
   /* Borders & Glass */
   --color-border:        #2a2833; /* Hairline Border */
@@ -29,25 +36,29 @@
   --color-glass:         rgba(13, 12, 17, 0.86);
 
   /* ── Deprecated Light compatibility ── */
-  --color-light-bg:      #0B0F14;
-  --color-light-text:    #F2F2F5;
-  --color-light-muted:   #A7ADB8;
+  --color-light-bg:      #0d0c11;
+  --color-light-text:    #ECE9F1;
+  --color-light-muted:   #A39FB0;
   --color-light-border:  rgba(255, 255, 255, 0.12);
-  --color-light-accent:  #C8B6FF;
+  --color-light-accent:  #d0bcff;
 
-  --surface-warm:    rgba(20, 25, 34, 0.6);
-  --surface-neutral: rgba(28, 35, 48, 0.6);
+  --surface-warm:    rgba(22, 21, 28, 0.6);
+  --surface-neutral: rgba(31, 29, 38, 0.6);
 
   /* ── Hero Tokens ── */
-  --color-hero-bg:          #0B0F14;
-  --color-hero-purple:      #C8B6FF;
-  --color-hero-dark-purple: #352564;
+  --color-hero-bg:          #0d0c11;
+  --color-hero-purple:      #d0bcff;
+  --color-hero-dark-purple: #381e72;
 
-  /* ── Typography ── */
-  --font-title:   'Neudron', 'Hanken Grotesk', 'Inter', sans-serif;
-  --font-display: 'Neudron', 'Hanken Grotesk', 'Inter', sans-serif;
-  --font-body: 'GT America', 'Hanken Grotesk', 'Inter', sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* ── Typography (DESIGN.md v3 — all fonts must be actually loaded) ── */
+  --font-display: 'Anton', 'Hanken Grotesk', sans-serif;
+  --font-body: 'Hanken Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-serif: 'Merriweather', Georgia, serif;
+  --font-mono: 'IBM Plex Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Title gradients (DESIGN.md v3 §2.4) */
+  --grad-hero-title: linear-gradient(to top, #b9f2c8 0%, #d9f8e3 42%, #ece9f1 100%);
+  --grad-case-title: linear-gradient(to bottom, #ffd8e4 0%, #ffffff 62%);
 
   /* ── Spacing ── */
   --spacing-xs: 0.5rem;   /* 8px */
@@ -65,38 +76,42 @@
   --case-section-pad-y:  clamp(4.5rem, 8vw, 8rem);
   --case-section-pad-y-tight: clamp(3.5rem, 6vw, 6rem);
 
-  /* ── Radii ── */
-  --radius-sm:   10px;
-  --radius-md:   10px;
+  /* ── Radii (DESIGN.md v3 §5.3) ── */
+  --radius-sm:   4px;
+  --radius-md:   12px;
   --radius-lg:   16px;
   --radius-xl:   16px;
   --radius-2xl:  16px;
-  --radius-control: 10px;
+  --radius-folder: 24px;   /* Home case card top radius (sticky stack) */
+  --radius-control: 12px;
   --radius-card: 16px;
   --radius-pill: 9999px;
 
   /* ── Shadows ── */
-  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.35);
+  --shadow-card: 0 16px 48px rgba(0, 0, 0, 0.4);
+  --shadow-media: 0 16px 48px rgba(0, 0, 0, 0.4);
+  --shadow-overlay: 0 20px 64px rgba(0, 0, 0, 0.5);
 
   /* ── Layout ── */
   --header-height:    68px;
-  --content-max:      1280px;  /* Keynote 1280px container */
+  --content-max:      1320px;  /* DESIGN.md v3 §5.1 */
   --text-column-max:  40rem;
 
   /* ── Easing ── */
-  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
   --ease-spring: cubic-bezier(0.25, 0.1, 0.25, 1);
 
-  /* ── Text scale ── */
-  --text-hero: clamp(3rem, 7vw, 7.5rem);
-  --text-h1:   clamp(2rem, 3.8vw, 3.2rem);
-  --text-h2:   clamp(1.5rem, 2.4vw, 2.2rem);
+  /* ── Text scale (DESIGN.md v3 §3.2) ── */
+  --text-hero: clamp(4.5rem, 14.5vw, 11rem);
+  --text-h1:   clamp(2.75rem, 6vw, 5.5rem);
+  --text-h2:   clamp(2rem, 4vw, 3.75rem);
   --text-body: clamp(0.95rem, 1.1vw, 1.05rem);
   --text-small: clamp(0.75rem, 0.85vw, 0.85rem);
+  --text-lede: clamp(1.25rem, 2.2vw, 2rem);
   --text-case-h1: clamp(2rem, 3.8vw, 3.2rem);
   --text-case-h2: clamp(1.5rem, 2.4vw, 2.2rem);
   --text-case-h3: clamp(1.2rem, 1.8vw, 1.5rem);
   --text-case-body: clamp(0.95rem, 1.1vw, 1.05rem);
-  --text-case-label: clamp(0.68rem, 0.8vw, 0.78rem);
+  --text-case-label: clamp(0.72rem, 0.8vw, 0.85rem);
   --text-case-metric: clamp(1.8rem, 3.2vw, 2.8rem);
 }
