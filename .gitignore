@@ -6,3 +6,5 @@ dist/
 .agents/mcp_config.json
 .vscode/
 .obsidian/
+.workbuddy/
+
