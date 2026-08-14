@@ -4,10 +4,10 @@
 
 在本项目中修改、重构或新增任何前端代码（页面、组件、样式、CSS 变量、布局）时，**必须默认将根目录下的 [DESIGN.md](./DESIGN.md) 作为唯一视觉与 UI 规范依据**：
 
-1. **配色与暗黑主题**：使用 Midnight Base (`#0B0F14`)、Dark Surface (`#141922`)、Elevated Surface (`#1C2330`)、Digital Lavender (`#C8B6FF`) 与 System Green (`#B8E6D0`)。不得随意引入未在 `DESIGN.md` 中定义的第三配色。
-2. **字体与 Fluid Clamp 缩放**：标题与 Display 使用 `Anton` / `Inter`，正文使用 `Inter`，标签与数据使用 `IBM Plex Mono` / `JetBrains Mono`。所有 Heading 与 Body 字号必须采用 `clamp()` 流式字号响应规则。
-3. **圆角与间距系统**：小型元素 `4px`、标准组件 `12px`、大型卡片/容器 `16px`、胶囊 `9999px`，遵循 8px 网格基准。
-4. **组件风格**：卡片采用 `1px solid rgba(255,255,255,0.12)` 边框与演示文稿 Deck Slide 样式，悬停使用 `transform: translateY(-4px)` 及紫色辉光边框过渡。
+1. **配色与暗黑主题**：使用 Midnight Base (`#0d0c11`)、Dark Surface (`#16151c`)、Elevated Surface (`#1f1d26`)、Digital Lavender (`#d0bcff`，主交互)、System Mint (`#b9f2c8`，大标题渐变与结果) 与 Soft Pink (`#ffd8e4`，案例标题渐变与装饰)。三种强调色职责固定：Lavender 负责行动、Mint 负责标题与结果、Pink 负责案例标题，不得互换职责，也不得随意引入未在 `DESIGN.md` 中定义的第四配色。
+2. **字体与 Fluid Clamp 缩放**：Display 使用 `Anton`（仅拉丁，可 `scaleY(1.05–1.2)` 拉伸与渐变填充），正文使用 `Hanken Grotesk`，衬线叙事层使用 `Merriweather`（300/400），标签与数据使用 `IBM Plex Mono` / `JetBrains Mono`。所有声明的字体必须真实加载（Google Fonts 或自托管），禁止声明未加载的假字体。所有 Heading 与 Body 字号必须采用 `clamp()` 流式字号响应规则。
+3. **圆角与间距系统**：小型元素 `4px`、标准组件 `12px`、大型卡片/容器 `16px`、案例卡文件夹顶部 `24px`、胶囊 `9999px`，遵循 8px 网格基准；组件嵌套时内层圆角必须小于外层。
+4. **组件风格**：卡片采用文件夹式描边（顶部圆角 `24px`，用 masked `::before` 绘制 1px 边框向下渐隐），悬停使用 `transform: translateY(-2px)` 与 `rgba(208,188,255,0.34)` 边框过渡，不做大范围紫色辉光。
 5. **案例模块架构规范**：所有案例详情页统一放置于 `src/pages/cases/<CaseName>/` 目录下，保持独立自包含结构（独立 JSX 与 CSS 模块），由 `ProjectDetail/index.jsx` 统一进行路由分发。
 
 ## 待办同步规则 (Mandatory Todo Sync Rule)
