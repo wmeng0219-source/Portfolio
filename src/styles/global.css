@@ -334,6 +334,35 @@ main {
   background-position: 0% 0%;
 }
 
+/* 卡片顶部 mono 标签行（DESIGN.md 3.2 Label / 3.3 衬线叙事层）：替代原散乱工具类 */
+.portfolio-showcase-card-tag {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-case-label);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.portfolio-showcase-card-tag--mint {
+  color: var(--color-mint);
+}
+
+.portfolio-showcase-card-tag__dot {
+  color: var(--color-text-muted);
+}
+
+.portfolio-showcase-card-tag__short {
+  color: var(--color-text-secondary);
+}
+
+.portfolio-showcase-card-metric {
+  display: flex;
+  flex-direction: column;
+}
+
 /* 衬线叙事 meta（DESIGN.md 3.2 Lede） */
 .portfolio-showcase-card-meta {
   font-family: var(--font-serif);

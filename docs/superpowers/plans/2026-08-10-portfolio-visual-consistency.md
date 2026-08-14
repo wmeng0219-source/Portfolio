@@ -62,7 +62,7 @@
 
 - [x] 运行定向测试并确认设计契约通过。（2026-08-12：全量 22/22 通过）
 - [x] 运行完整测试、生产构建和 `git diff --check`。（2026-08-12：测试、build、diff check 均通过）
-- [ ] 在 1440×900、1024×768、390×844 检查四个页面的溢出与控制台错误。
+- [x] 在 1440×900、1024×768、390×844 检查四个页面的溢出与控制台错误。（2026-08-15：通过 `scripts/viewport-check.mjs`（CDP + headless Chrome）验证 12 组合全部无横向溢出、无 console 错误；修复了缺失 favicon 导致的 404；正畸时间线为设计内的横向滚动容器，非溢出）
 - [x] 检查待提交文件无凭据；提交所有安全的本地改动并推送 `origin/main`。（实现由 `091d791` 提交并推送，后续动效批次 `af7f338` 亦已推送）
 
 ## 2026-08-12 核对结果
@@ -72,8 +72,8 @@
 1. ~~`src/styles/variables.css` 色板仍为 `#0d0c11 / #16151c / #1f1d26 / #d0bcff / #b9f2c8`，未对齐 `DESIGN.md` / `AGENTS.md` 的 `#0B0F14 / #141922 / #1C2330 / #C8B6FF / #B8E6D0`~~ → **已解决**：8-14 参考站改版将 `DESIGN.md` 升级为 v3，v3 色板即 `#0d0c11 / #16151c / #1f1d26 / #d0bcff / #b9f2c8`（新增 `#ffd8e4`）；2026-08-15 `AGENTS.md` 已同步 v3 色板，旧 `#0B0F14` 系描述作废。
 2. ~~字体变量仍为 `Neudron / GT America`，未对齐 `DESIGN.md` 的 `Anton / Inter / IBM Plex Mono`~~ → **已解决**：8-14 已落地 `Anton / Hanken Grotesk / Merriweather / IBM Plex Mono` 并更新测试断言。
 3. ~~圆角体系：`--radius-sm / --radius-md / --radius-control` 目前为 10px~~ → **已解决**：`variables.css` 已按 v3 统一为 4px / 12px / 16px / 24px / 9999px。
-4. `src/components/Portfolio/index.jsx` 仍残留少量散乱工具类（如 `rounded-[12px]`、`rounded-[8px]`、`text-xl md:text-2xl`、`text-[11px]`），主要卡片已语义化但未完全清理。→ **部分残留**：2026-08-15 复核仍见 `text-[11px]` 等 9 处（L89/129/161 等）。
-5. 三档视口（1440×900 / 1024×768 / 390×844）的溢出与控制台错误检查尚未完成，需要浏览器验证。→ **未完成**。
+4. `src/components/Portfolio/index.jsx` 仍残留少量散乱工具类（如 `rounded-[12px]`、`rounded-[8px]`、`text-xl md:text-2xl`、`text-[11px]`），主要卡片已语义化但未完全清理。→ **已解决**：2026-08-15 新增 `.portfolio-showcase-card-tag`（含 `--mint` 变体、`__dot`、`__short`）与 `.portfolio-showcase-card-metric` 语义类，替换全部 `text-[11px]` / `flex flex-col` / 颜色工具类，并移除无配套的 `group` 残留类。
+5. 三档视口（1440×900 / 1024×768 / 390×844）的溢出与控制台错误检查尚未完成，需要浏览器验证。→ **已完成**：2026-08-15 通过 headless Chrome + CDP 脚本验证 12 组合全部通过。
 
 已完成并确认：
 
