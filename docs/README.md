@@ -15,7 +15,9 @@
 - `profile/`：个人资料层。
   保存个人定位、职业时间线、能力结构等正式整理内容。
 - `project/`：项目事实层。
-  保存每个项目的整理版主文档，是项目内容的主要事实来源；`project/content-readiness.md` 记录进入案例页前仍需回填的证据。
+  保存每个项目的整理版事实主文档，是项目内容的主要事实来源；`project/content-readiness.md` 记录进入案例页前仍需回填的证据。
+- `cases/`：案例母稿层（Master Copy）。
+  保存每个项目逐屏双语文案、7 步证据链、核心指标与 UX 策略母稿，作为页面文案审校与代码数据同步的黄金样板。
 - `design/`：设计归档层。
   保存最终设计图、关键截图和可展示的视觉材料。
 - `site/`：站点映射层。
@@ -32,14 +34,16 @@
 1. `site/README.md`
 2. `site/structure.md`
 3. `site/content-map.md`
+4. `cases/README.md`
 
 ### 想补充或修改页面内容
 
-先阅读 `CASE_STUDY_SPEC.md`，再按以下顺序取材：
+先阅读 `CASE_STUDY_SPEC.md`，再按以下顺序取材与定稿：
 
 1. `profile/`
 2. `project/`
-3. `design/`
+3. `cases/`（在案例母稿中定稿中英双语文案与 7 步证据链）
+4. `design/`
 
 不要直接从 `origin/` 或 `superpowers/` 抽网页文案。
 
@@ -47,8 +51,8 @@
 
 1. 查看 `project/content-readiness.md`，确认缺的是事实、口径、素材还是验证证据。
 2. 回填 `origin/`、`design/` 和对应项目主文档中的已确认材料。
-3. 更新 `site/content-map.md`，决定内容是否具备进入首页、详情页或扩展案例区的条件。
-4. 最后才更新页面和 `src/data/projects.js`。
+3. 在 `cases/` 中更新对应案例母稿，并更新 `site/content-map.md`。
+4. 最后同步至 `src/data/projects.js` 与前端页面组件。
 
 ### 想回看方案是怎么形成的
 
