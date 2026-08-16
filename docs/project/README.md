@@ -1,28 +1,30 @@
 # 项目事实与作品集案例规范 (Project Documentation Standard)
 
-## 目录定位
+## 项目资产全集注册表 (Project Master Registry)
 
-本目录用于沉淀真实项目事实、设计过程及作品集案例内容。
+| 序号 | 案例 Slug / ID | 中文项目名 | 事实文档 (`docs/project/`) | 呈现母稿 (`docs/cases/`) | 页面展示定位 |
+| :---: | :--- | :--- | :--- | :--- | :--- |
+| **01** | `member-automation` | 会员自动化与服务衔接 | [`会员自动化.md`](./会员自动化.md) | [`01-member-automation.md`](../cases/01-member-automation.md) | 首页主案例（规则系统） |
+| **02** | `orthodontics` | 正畸筛查与状态管理 | [`正畸筛查与状态管理.md`](./正畸筛查与状态管理.md) | [`02-orthodontics.md`](../cases/02-orthodontics.md) | 首页主案例（流程协作） |
+| **03** | `pacs-ai` | PACS 读片与 AI 辅助判断 | [`PACS读片与AI辅助判断.md`](./PACS读片与AI辅助判断.md) | [`03-pacs-ai.md`](../cases/03-pacs-ai.md) | 首页主案例（AI 闭环） |
+| **04** | `pre-visit-engine` | 接诊全流程预习与编排引擎 | [`接诊全流程预习与编排引擎.md`](./接诊全流程预习与编排引擎.md) | [`04-pre-visit-engine.md`](../cases/04-pre-visit-engine.md) | 深度候选/扩展案例（设计驱动产品） |
 
-目录包含两个层级：
+### 新增项目接入标准流程 (New Project Onboarding SOP)
+未来增加新项目时，按以下 4 步无缝扩展：
+1. **原始资料**：在 `docs/origin/<新项目名>/` 归档 PRD、原始表格或原型截图。
+2. **事实沉淀**：在 `docs/project/<新项目名>.md` 建立客观事实底稿。
+3. **母稿定稿**：在 `docs/cases/<编号>-<slug>.md` 编写 7 步证据链中英双语母稿。
+4. **全网注册**：在本注册表和 `docs/site/content-map.md` 登记，并按需同步至 `src/data/projects.js`。
 
-```
+---
 
-```
+## 目录分层架构
 
-```
-docs/project/
-项目事实库（Project Fact Base）
-
-docs/site/
-作品集展示案例（Portfolio Case Study）
-```
-
-其中：
-
-- `project/` 是唯一事实来源（Single Source of Truth） 
-- `site/` 是基于事实加工后的展示版本 
--  所有作品集内容必须能够追溯到真实项目事实 
+作品集文档体系分为严格的三层分工：
+- `docs/origin/`：原始材料追溯
+- `docs/project/`：事实知识库（Single Source of Fact）
+- `docs/cases/`：案例呈现母稿（Single Source of Page Copy）
+- `src/data/projects.js` & `src/pages/cases/`：前端代码与交互渲染
 
 ---
 
