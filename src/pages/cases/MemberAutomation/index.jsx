@@ -93,6 +93,22 @@ export default function MemberAutomationCase({ project }) {
           </div>
         </section>
 
+        {/* ── Constraints & Scope ──────────────────────────────── */}
+        {project.constraints && (
+          <section className={styles.section} data-animate>
+            <p className={styles.sectionKicker}>{t(project.constraints.title)}</p>
+            <div className={styles.constraintGrid}>
+              {project.constraints.items.map((item, i) => (
+                <article key={i} className={styles.constraintCard}>
+                  <span className={styles.constraintIndex}>0{i + 1}</span>
+                  <h3 className={styles.constraintTitle}>{t(item.title)}</h3>
+                  <p className={styles.constraintDesc}>{t(item.desc)}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* ── Iteration Path ───────────────────────────────────── */}
         {project.process && (
           <section className={styles.section} data-animate>
@@ -250,6 +266,22 @@ export default function MemberAutomationCase({ project }) {
             <p className={styles.bodyText}>{t(project.result)}</p>
           </div>
         </section>
+
+        {/* ── Retrospective & Limitations ───────────────────── */}
+        {project.retrospective && (
+          <section className={styles.section} data-animate>
+            <p className={styles.sectionKicker}>{t(project.retrospective.title)}</p>
+            <div className={styles.retrospectiveGrid}>
+              {project.retrospective.items.map((item, i) => (
+                <article key={i} className={styles.retrospectiveCard}>
+                  <span className={styles.retrospectiveIndex}>0{i + 1}</span>
+                  <h3 className={styles.retrospectiveTitle}>{t(item.title)}</h3>
+                  <p className={styles.retrospectiveDesc}>{t(item.desc)}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
 
         {project.images && project.images.length > 0 && (
           <section className={styles.imageSection} data-animate>

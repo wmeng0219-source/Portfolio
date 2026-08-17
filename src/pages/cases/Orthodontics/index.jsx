@@ -92,6 +92,22 @@ export default function OrthodonticsCase({ project }) {
         </div>
       </section>
 
+      {/* ── Constraints & Scope ──────────────────────────────── */}
+      {project.constraints && (
+        <section className={styles.section} data-animate-section>
+          <h2 className={styles.sectionTitle}>{t(project.constraints.title)}</h2>
+          <div className={pacsStyles.retrospectiveGrid}>
+            {project.constraints.items.map((item, i) => (
+              <article key={i} className={pacsStyles.retrospectiveCard}>
+                <span className={pacsStyles.retrospectiveIndex}>0{i + 1}</span>
+                <h3 className={pacsStyles.retrospectiveTitle}>{t(item.title)}</h3>
+                <p className={pacsStyles.retrospectiveDesc}>{t(item.desc)}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
       <section className={styles.section} data-animate-section>
         <h2 className={styles.sectionTitle}>{language === 'zh' ? '从开发到全门店上线' : 'From Build to Full Rollout'}</h2>
         <div className={styles.projectTimeline}>
@@ -342,6 +358,22 @@ export default function OrthodonticsCase({ project }) {
         <section className={styles.section} data-animate-section>
           <h2 className={styles.sectionTitle}>{language === 'zh' ? '同期结果与证据口径' : 'Comparable Results & Evidence'}</h2>
           <div className={pacsStyles.resultCard}><p>{t(project.result)}</p><small>{t(project.resultNote)}</small></div>
+        </section>
+      )}
+
+      {/* ── Retrospective & Limitations ───────────────────── */}
+      {project.retrospective && (
+        <section className={styles.section} data-animate-section>
+          <h2 className={styles.sectionTitle}>{t(project.retrospective.title)}</h2>
+          <div className={pacsStyles.retrospectiveGrid}>
+            {project.retrospective.items.map((item, i) => (
+              <article key={i} className={pacsStyles.retrospectiveCard}>
+                <span className={pacsStyles.retrospectiveIndex}>0{i + 1}</span>
+                <h3 className={pacsStyles.retrospectiveTitle}>{t(item.title)}</h3>
+                <p className={pacsStyles.retrospectiveDesc}>{t(item.desc)}</p>
+              </article>
+            ))}
+          </div>
         </section>
       )}
 

@@ -1,0 +1,475 @@
+.container {
+  min-height: 100vh;
+  background: var(--color-bg-primary);
+}
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  padding: 1.25rem var(--case-page-pad-x);
+  background: var(--color-glass);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.navInner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.backLink {
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: var(--text-case-label);
+  text-decoration: none;
+  transition: opacity 200ms ease;
+}
+
+.backLink:hover {
+  opacity: 0.8;
+}
+
+.page {
+  padding-top: calc(var(--header-height, 4rem) + 2rem);
+  background: var(--color-bg-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Hero ──────────────────────────────────────────── */
+.hero {
+  padding: var(--case-section-pad-y-tight) var(--case-page-pad-x);
+  max-width: calc(var(--content-max) + 2 * var(--case-page-pad-x));
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+
+.heroInner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.kickerIndex {
+  color: var(--color-text-faint);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-case-h1);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.heroSummary {
+  max-width: 38rem;
+  font-size: var(--text-case-body);
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+.heroMetricCard {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+.heroMetricRow {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.heroMetricItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.heroMetricValue {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-mint);
+  letter-spacing: -0.02em;
+}
+
+.heroMetricLabel {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ── Standard Sections ─────────────────────────────── */
+.section {
+  padding: var(--case-section-pad-y) var(--case-page-pad-x);
+  max-width: calc(var(--content-max) + 2 * var(--case-page-pad-x));
+  margin: 0 auto;
+  border-top: 1px solid var(--color-border);
+}
+
+.sectionKicker {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 1.25rem;
+}
+
+.sectionGrid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: start;
+}
+
+.bodyText {
+  font-size: var(--text-case-body);
+  line-height: 1.75;
+  color: var(--color-text-secondary);
+}
+
+.roleChip {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.roleChipLabel {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+.roleChipValue {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--color-text-primary);
+}
+
+.sysCode {
+  margin-top: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-accent);
+  background: rgba(200, 182, 255, 0.1);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-sm, 4px);
+  display: inline-block;
+}
+
+/* ── Grids & Cards ─────────────────────────────────── */
+.constraintGrid,
+.retrospectiveGrid,
+.solutionGrid,
+.taskModelGrid,
+.roleChainGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.constraintCard,
+.retrospectiveCard,
+.solutionCard,
+.taskModelCard,
+.roleChainCard {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+
+.constraintCard:hover,
+.retrospectiveCard:hover,
+.solutionCard:hover,
+.taskModelCard:hover,
+.roleChainCard:hover {
+  border-color: rgba(200, 182, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.constraintIndex,
+.retrospectiveIndex,
+.solutionIndex,
+.taskModelIndex {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  letter-spacing: 0.1em;
+}
+
+.constraintTitle,
+.retrospectiveTitle,
+.solutionTitle,
+.taskModelTitle,
+.roleChainTitle {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+}
+
+.constraintDesc,
+.retrospectiveDesc,
+.solutionDesc,
+.taskModelDesc,
+.roleChainDesc {
+  font-size: var(--text-case-body);
+  line-height: 1.65;
+  color: var(--color-text-secondary);
+}
+
+/* ── Interactive Tooth Quadrant Preview Widget ────── */
+.toothWidget {
+  background: rgba(20, 25, 34, 0.7);
+  border: 1px solid rgba(200, 182, 255, 0.2);
+  border-radius: var(--radius-card);
+  padding: 2rem;
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.toothCross {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: var(--radius-control, 12px);
+}
+
+.toothQuadrant {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.toothQuadrant:hover {
+  border-color: var(--color-mint);
+  background: rgba(184, 230, 208, 0.05);
+}
+
+.quadrantTag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-accent);
+}
+
+.quadrantName {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+/* ── Decisions ─────────────────────────────────────── */
+.decisionList {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.decisionRow {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: 1.5rem;
+  padding: 1.75rem;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+}
+
+.decisionIndex {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.decisionQuestion {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.decisionAnswerText {
+  font-size: var(--text-case-body);
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+/* ── Metrics ───────────────────────────────────────── */
+.metricRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.metricCell {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  text-align: center;
+}
+
+.metricCellAccent {
+  border-color: rgba(184, 230, 208, 0.4);
+}
+
+.metricCellValue {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
+  font-weight: 800;
+  color: var(--color-text-primary);
+}
+
+.metricCellAccent .metricCellValue {
+  color: var(--color-mint);
+}
+
+.metricCellLabel {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.resultCard {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: 2rem;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .hero,
+  .sectionGrid,
+  .toothWidget {
+    grid-template-columns: 1fr;
+  }
+  .metricRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Shared portfolio system overrides */
+.container,
+.page {
+  max-width: 100%;
+}
+
+.hero,
+.section,
+.imageFrame,
+.solutionCard,
+.decisionCard,
+.resultCard,
+.roleChip,
+.heroMetricFloating,
+.constraintCard,
+.retrospectiveCard,
+.taskModelCard {
+  border-radius: var(--radius-card);
+}
+
+.sectionTitle,
+.sectionKicker {
+  font-size: var(--text-case-h2);
+}
+
+.bodyText,
+.heroSummary,
+.sectionDesc,
+.solutionCard p,
+.decisionCard p,
+.resultCard p,
+.constraintDesc,
+.retrospectiveDesc,
+.taskModelDesc {
+  font-size: var(--text-case-body);
+}
+
+.solutionCard:hover,
+.decisionCard:hover,
+.resultCard:hover,
+.constraintCard:hover,
+.retrospectiveCard:hover,
+.taskModelCard:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-border-accent);
+  box-shadow: 0 12px 36px rgba(208, 188, 255, 0.08);
+}

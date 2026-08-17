@@ -174,6 +174,7 @@ test('case studies share the portfolio layout, typography, radius, and motion co
     'src/pages/cases/MemberAutomation/MemberAutomation.module.css',
     'src/pages/cases/Orthodontics/Orthodontics.module.css',
     'src/pages/cases/PacsAi/PacsAi.module.css',
+    'src/pages/cases/PreVisitEngine/PreVisitEngine.module.css',
   ];
   const caseStyles = caseStylePaths.map((file) => readFileSync(path.resolve(process.cwd(), file), 'utf8'));
 
@@ -248,4 +249,18 @@ test('pacs separates historical backend records from the later AI launch', () =>
   expect(screen.queryByText(/100% 留痕/)).not.toBeInTheDocument();
   expect(screen.queryByText('3.0s')).not.toBeInTheDocument();
   expect(screen.queryByText('< 100ms')).not.toBeInTheDocument();
+});
+
+test('pre-visit engine renders panoramic views, tooth quadrant ergonomics and structured task bundles', () => {
+  matchMediaAdd.mockImplementation((_queries, callback) => {
+    callback({ conditions: { reduceMotion: false, isDesktop: false } });
+  });
+
+  renderProjectDetail('/project/pre-visit-engine');
+
+  expect(screen.getByText(/接诊全流程预习与任务编排引擎/)).toBeInTheDocument();
+  expect(screen.getAllByText(/打通孤岛系统/).length).toBeGreaterThan(0);
+  expect(screen.getByText(/结构化任务包分层模型/)).toBeInTheDocument();
+  expect(screen.getByText(/十字象限牙位选择控件/)).toBeInTheDocument();
+  expect(screen.getByText(/复盘反思与未解局限/)).toBeInTheDocument();
 });

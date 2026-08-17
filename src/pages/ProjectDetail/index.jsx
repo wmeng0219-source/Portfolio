@@ -5,12 +5,14 @@ import { projects } from '../../data/projects';
 import MemberAutomationCase from '../cases/MemberAutomation';
 import OrthodonticsCase from '../cases/Orthodontics';
 import PacsAiCase from '../cases/PacsAi';
+import PreVisitEngineCase from '../cases/PreVisitEngine';
 import styles from './ProjectDetail.module.css';
 
 const caseMap = {
   'member-automation': MemberAutomationCase,
   'orthodontics': OrthodonticsCase,
   'pacs-ai': PacsAiCase,
+  'pre-visit-engine': PreVisitEngineCase,
 };
 
 export default function ProjectDetail() {
