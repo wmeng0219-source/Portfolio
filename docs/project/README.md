@@ -2,18 +2,18 @@
 
 ## 项目资产全集注册表 (Project Master Registry)
 
-| 序号 | 案例 Slug / ID | 中文项目名 | 事实文档 (`docs/project/`) | 呈现母稿 (`docs/cases/`) | 页面展示定位 |
+| 序号 | 案例 Slug / ID | 中文项目名 | 事实文档 (`docs/project/`) | 内容母稿 (`docs/pages/`) | 页面展示定位 |
 | :---: | :--- | :--- | :--- | :--- | :--- |
-| **01** | `member-automation` | 会员自动化与服务衔接 | [`会员自动化.md`](./会员自动化.md) | [`01-member-automation.md`](../cases/01-member-automation.md) | 首页主案例（规则系统） |
-| **02** | `orthodontics` | 正畸筛查与状态管理 | [`正畸筛查与状态管理.md`](./正畸筛查与状态管理.md) | [`02-orthodontics.md`](../cases/02-orthodontics.md) | 首页主案例（流程协作） |
-| **03** | `pacs-ai` | PACS 读片与 AI 辅助判断 | [`PACS读片与AI辅助判断.md`](./PACS读片与AI辅助判断.md) | [`03-pacs-ai.md`](../cases/03-pacs-ai.md) | 首页主案例（AI 闭环） |
-| **04** | `pre-visit-engine` | 接诊全流程预习与编排引擎 | [`接诊全流程预习与编排引擎.md`](./接诊全流程预习与编排引擎.md) | [`04-pre-visit-engine.md`](../cases/04-pre-visit-engine.md) | 深度候选/扩展案例（设计驱动产品） |
+| **01** | `member-automation` | 会员自动化与服务衔接 | [`会员自动化.md`](./会员自动化.md) | [`content.md`](../pages/member-automation/content.md) | 首页主案例（规则系统） |
+| **02** | `orthodontics` | 正畸筛查与状态管理 | [`正畸筛查与状态管理.md`](./正畸筛查与状态管理.md) | [`content.md`](../pages/orthodontics/content.md) | 首页主案例（流程协作） |
+| **03** | `pacs-ai` | PACS 读片与 AI 辅助判断 | [`PACS读片与AI辅助判断.md`](./PACS读片与AI辅助判断.md) | [`content.md`](../pages/pacs-ai/content.md) | 首页主案例（AI 闭环） |
+| **04** | `pre-visit-engine` | 接诊全流程预习与编排引擎 | [`接诊全流程预习与编排引擎.md`](./接诊全流程预习与编排引擎.md) | [`content.md`](../pages/pre-visit-engine/content.md) | 深度候选/扩展案例（设计驱动产品） |
 
 ### 新增项目接入标准流程 (New Project Onboarding SOP)
 未来增加新项目时，按以下 4 步无缝扩展：
 1. **原始资料**：在 `docs/origin/<新项目名>/` 归档 PRD、原始表格或原型截图。
 2. **事实沉淀**：在 `docs/project/<新项目名>.md` 建立客观事实底稿。
-3. **母稿定稿**：在 `docs/cases/<编号>-<slug>.md` 编写 7 步证据链中英双语母稿。
+3. **母稿定稿**：在 `docs/pages/<slug>/content.md` 编写 7 步证据链中英双语母稿，并视需要建立 `design.md` 设计规范。
 4. **全网注册**：在本注册表和 `docs/site/content-map.md` 登记，并按需同步至 `src/data/projects.js`。
 
 ---
@@ -23,7 +23,7 @@
 作品集文档体系分为严格的三层分工：
 - `docs/origin/`：原始材料追溯
 - `docs/project/`：事实知识库（Single Source of Fact）
-- `docs/cases/`：案例呈现母稿（Single Source of Page Copy）
+- `docs/pages/`：页面内容与设计母稿层（Single Source of Page Copy & Design）
 - `src/data/projects.js` & `src/pages/cases/`：前端代码与交互渲染
 
 ---
@@ -556,7 +556,7 @@ AI处理项目资料时：
 
 每次补充项目材料，按以下顺序处理：
 
-1. 将原始 PRD、报表、会议纪要、截图或访谈记录归档到 `docs/origin/` 或 `docs/design/`。
+1. 将原始 PRD、报表、会议纪要、截图或访谈记录归档到 `docs/origin/`，设计稿与截图归档到对应 `docs/pages/<slug>/` 目录。
 2. 在对应项目主文档中补充已确认的事实、来源、角色边界或判断。
 3. 在 `content-readiness.md` 把相应待补项更新为“已具备”，并附上来源路径。
 4. 只有事实层完整后，才更新 `docs/site/` 或页面内容。

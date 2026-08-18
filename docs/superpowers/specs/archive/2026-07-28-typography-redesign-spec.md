@@ -1,4 +1,4 @@
-> **已归档（2026-08-14）**：本计划方向已被 `DESIGN.md` v3（2026-08-14 参考站机制对齐改版）取代，未执行项不再单独推进。参见 `docs/superpowers/plans/2026-08-14-reference-alignment-redesign.md`。
+> **已归档（2026-08-14）**：本计划方向已被 `DESIGN.md` v3（2026-08-14 参考站机制对齐改版）取代，未执行项不再单独推进。参见 `docs/superpowers/plans/current/2026-08-14-reference-alignment-redesign.md`。
 
 # Typography & Editorial Layout Redesign Spec
 

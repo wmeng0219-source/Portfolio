@@ -19,6 +19,10 @@
 
 - `current/2026-07-17-gsap-brand-stage-redesign-implementation.md`
 - `current/2026-07-17-system-showcase-secondary-sections-implementation.md`
+- `current/2026-08-10-growth-path.md`
+- `current/2026-08-10-portfolio-visual-consistency.md`
+- `current/2026-08-12-system-blueprint-covers.md`
+- `current/2026-08-14-reference-alignment-redesign.md`
 
 ## 归档判断标准
 

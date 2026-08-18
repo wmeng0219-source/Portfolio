@@ -27,7 +27,11 @@
 ## 文件说明
 
 - `structure.md`：当前网站项目结构与源码职责说明。
-- `content-map.md`：页面区块与 `profile / project / design` 的取材映射。
+- `content-map.md`：页面区块与 `profile / project / pages / design` 的取材映射；回答"页面现在从哪取材、后续怎么维护"。
+
+### 与 `docs/pages/` 的分工
+
+`docs/pages/` 保存每个页面的内容结构（`content.md`）与设计规范（`design.md`），是页面文案与视觉的唯一母稿层。`content-map.md` 只维护"区块 ↔ 资料层映射"这类长期信息，**不重复堆叠首页逐句文案**；首页逐字文案见 [`pages/homepage/content.md`](../pages/homepage/content.md)，视觉基准见 [`pages/homepage/design.md`](../pages/homepage/design.md)。两者分工不同，更新首页文案时只改 `pages/homepage/content.md`，并同步 `content-map.md` 中受影响的结果指标，避免口径分叉。
 
 ## 使用建议
 
@@ -39,7 +43,8 @@
 
 - 个人背景相关内容：优先看 `docs/profile/`
 - 项目事实相关内容：优先看 `docs/project/`
-- 视觉截图和设计依据：补充查看 `docs/design/`
+- 页面文案与内容结构：优先看 `docs/pages/<slug>/content.md`
+- 页面设计规范与视觉素材：优先看 `docs/pages/<slug>/design.md` 与根目录 `DESIGN.md`
 
 ### 想回看这轮方案为什么会变成现在这样
 

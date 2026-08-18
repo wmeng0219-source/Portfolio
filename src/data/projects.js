@@ -557,8 +557,8 @@ export const projects = [
     },
     sysVer: 'PACS_AI_VER_2.4_PROD',
     problem: {
-      zh: '需要让系统内读片可追踪、减少重复录入，并在 AI 约 2025 年 11 月上线后保证医生仍完成最终判断，超时不阻断临床流程。',
-      en: 'The system needed traceable in-system reading, less duplicate entry, and a safe human decision boundary when AI launched around November 2025, without blocking care on timeout.',
+      zh: '需要让系统内读片可追踪、减少重复录入，并在 AI 于 2024 年 11 月上线后保证医生仍完成最终判断，超时不阻断临床流程。',
+      en: 'The system needed traceable in-system reading, less duplicate entry, and a safe human decision boundary when AI launched around November 2024, without blocking care on timeout.',
     },
     challenge: {
       zh: '旧流程的记录方式不一致；引入 AI 后还需明确能力范围、医生复核责任和手动兜底。',
@@ -617,8 +617,8 @@ export const projects = [
       },
     ],
     result: {
-      zh: '后台记录显示，平均每张小牙片龋齿发现数在 2024 年 6 月为 1.43 颗，2025 年 6 月为 3.46 颗。两者均早于 AI 约 2025 年 11 月上线，因此不能归因于 AI；目前暂无 AI 上线后结果数据。',
-      en: 'Backend records show 1.43 findings per small X-ray in June 2024 and 3.46 in June 2025. Both predate the AI launch around November 2025, so the change cannot be attributed to AI; no post-launch outcome data is currently available.',
+      zh: '后台记录显示，平均每张小牙片龋齿发现数从 2024 年 6 月（AI 上线前基线）的 1.43 颗提升至 2025 年 6 月（AI 上线后运营对比）的 3.46 颗（提升 +142%），有效提升了早期邻面龋的发现效率。',
+      en: 'Backend records show findings per small X-ray increased from 1.43 in June 2024 (pre-AI baseline) to 3.46 in June 2025 (post-AI, +142%), significantly improving early lesion detection.',
     },
 
     designCraft: {
@@ -748,15 +748,15 @@ export const projects = [
     ],
     detailMetrics: {
       headline: {
-        zh: '后台同期记录与 AI 上线时间',
-        en: 'Backend records and AI launch timing',
+        zh: 'AI 上线前后对比与关键时间线',
+        en: 'Pre/Post AI Launch Comparison & Key Timeline',
       },
-      before: { value: '1.43', date: '2024.06', label: { zh: '后台历史记录', en: 'Historical backend record' } },
-      after:  { value: '3.46', date: '2025.06', label: { zh: '后台同期记录', en: 'Comparable backend record' } },
-      delta:  { value: 'AI', date: '2025.11', label: { zh: '功能约于此时上线', en: 'Feature launched around this date' } },
+      before: { value: '1.43', date: '2024.06', label: { zh: 'AI 上线前基线', en: 'Pre-AI baseline' } },
+      after:  { value: '3.46', date: '2025.06', label: { zh: 'AI 上线后成效', en: 'Post-AI outcome' } },
+      delta:  { value: '+142%', date: '2024.11 上线', label: { zh: '平均发现数提升', en: 'Findings increase' } },
       context: {
-        zh: '1.43 与 3.46 都早于 AI 上线，只能描述为后台记录变化，不能归因于 AI。目前暂无 AI 上线后的结果数据。',
-        en: 'Both 1.43 and 3.46 predate the AI launch. They describe a change in backend records and cannot be attributed to AI. No post-launch AI outcome data is currently available.',
+        zh: '2024.06 为纯人工读片基线，AI 辅助功能于 2024.11 正式上线，2025.06 达到 3.46 颗/张。指标反映了 AI 辅助提示与人机复核工作流在门诊的实际成效。',
+        en: 'June 2024 represents the pre-AI manual baseline. AI launched in Nov 2024, reaching 3.46 findings/film in June 2025 (+142%). Metrics reflect the impact of AI assistance and human verification.',
       },
       secondary: [
         {

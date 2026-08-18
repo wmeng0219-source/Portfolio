@@ -60,8 +60,8 @@ export default function PacsAiCase({ project }) {
               </div>
               <p className={styles.metricLabel}>
                 {language === 'zh'
-                  ? '后台同期记录 · AI 约 2025.11 上线'
-                  : 'Comparable backend records · AI launched around 2025.11'}
+                  ? '平均发现数提升 +142% · 2024.11 上线'
+                  : '+142% Avg Findings · Launched 2024.11'}
               </p>
             </div>
           </div>

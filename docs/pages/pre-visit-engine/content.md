@@ -146,4 +146,4 @@
 | :--- | :--- | :--- |
 | **底层事实文档** | [`docs/project/接诊全流程预习与编排引擎.md`](file:///Users/wen/Desktop/Portfolio/docs/project/接诊全流程预习与编排引擎.md) | 业务事实知识库 |
 | **原始材料归档** | [`docs/origin/共同预习/`](file:///Users/wen/Desktop/Portfolio/docs/origin/共同预习) | 历史调研与原型材料 |
-| **案例母稿** | [`docs/cases/04-pre-visit-engine.md`](file:///Users/wen/Desktop/Portfolio/docs/cases/04-pre-visit-engine.md) | 本文档（单篇 Case Study 呈现母稿） |
+| **案例内容母稿** | [`content.md`](./content.md) | 本文档（单篇 Case Study 呈现母稿） |

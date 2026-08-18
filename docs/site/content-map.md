@@ -1,6 +1,6 @@
 # 内容映射 (Content Map · 定稿版)
 
-本文用于说明当前页面各区块的内容职责、主要来源和维护边界。已与 [`docs/site/homepage-content-structure.md`](./homepage-content-structure.md) 正式定稿版本完全对齐。
+本文用于说明当前页面各区块的内容职责、主要来源和维护边界。首页逐字文案与视觉基准分别见 [`pages/homepage/content.md`](../pages/homepage/content.md) 与 [`pages/homepage/design.md`](../pages/homepage/design.md)，本文只维护区块职责与取材映射，不重复堆叠首页文案。
 
 ---
 
@@ -24,7 +24,7 @@
 
 ## 01 Hero (首屏主张)
 
-- 主要来源：`docs/site/homepage-content-structure.md` §1
+- 主要来源：`docs/pages/homepage/content.md` §1
 - 当前页面角色：品牌舞台式开场
 - 主表达：`化繁为简，落地生根`
 - 支撑信息：把复杂业务，拆解为清晰、可用、可落地的产品系统。
@@ -62,7 +62,7 @@
 - 真实问题：影像读片依赖医生个人习惯，缺乏系统性质控机制，存在漏读风险；且 AI 初筛结果与医生临床工作动线脱节。
 - 关键决策：将 AI 初筛深度嵌入医生读片动线，通过轻量交互引导快速复核，建立读片率质控机制与数据反馈闭环。
 - 结构化结果：
-  - `+140%` 均单龋齿检出能力提升 (1.43 ➔ 3.46 颗)
+  - `+142%` 均单龋齿发现数提升 (1.43 ➔ 3.46 颗)
   - `全流程` 读片状态可追踪、可质控
   - `人机闭环` 医生复核结果沉淀为算法迭代反馈
 
@@ -104,12 +104,12 @@
   - 更完整的背景、角色、方案和结果交给项目详情页承接
 - 维护规则：
   - 首页只保留入口级信息，不在首页堆完整项目说明
-  - 项目事实更新时，先改 `docs/project/`，在 `docs/cases/` 母稿定稿后，再同步至页面数据
+  - 项目事实更新时，先改 `docs/project/`，在 `docs/pages/<slug>/content.md` 母稿定稿后，再同步至页面数据
 
 ### 项目 1：会员自动化
 
 - 事实来源：`docs/project/会员自动化.md`
-- 呈现母稿：`docs/cases/01-member-automation.md`
+- 呈现母稿：`docs/pages/member-automation/content.md`
 - 页面定位：规则系统重构
 - 页面承接重点：
   - 复杂规则梳理
@@ -119,7 +119,7 @@
 ### 项目 2：正畸筛查与状态管理
 
 - 事实来源：`docs/project/正畸筛查与状态管理.md`
-- 呈现母稿：`docs/cases/02-orthodontics.md`
+- 呈现母稿：`docs/pages/orthodontics/content.md`
 - 页面定位：漏斗与角色协作
 - 页面承接重点：
   - 前置流程重构
@@ -129,7 +129,7 @@
 ### 项目 3：PACS 读片与 AI 辅助判断
 
 - 事实来源：`docs/project/PACS读片与AI辅助判断.md`
-- 呈现母稿：`docs/cases/03-pacs-ai.md`
+- 呈现母稿：`docs/pages/pacs-ai/content.md`
 - 页面定位：人机协作闭环
 - 页面承接重点：
   - 结构化专业流程
@@ -139,7 +139,7 @@
 ### 候选项目 4：接诊全流程预习与任务编排引擎
 
 - 事实来源：`docs/project/接诊全流程预习与编排引擎.md`
-- 呈现母稿：`docs/cases/04-pre-visit-engine.md`
+- 呈现母稿：`docs/pages/pre-visit-engine/content.md`
 - 当前定位：第 4 个候选项目，暂不进入首页主案例区
 - 能力代表：
   - 设计驱动产品
@@ -169,9 +169,9 @@
 
 - 页面内容维护优先引用正式整理文档，不直接从原始材料复制。
 - 若页面结构已改动，先更新本文的“区块职责”和“来源映射”。
-- 若新增或修改项目案例，先更新 `docs/project/`，在 `docs/cases/` 中定稿母稿，再同步到前端数据与组件。
+- 若新增或修改项目案例，先更新 `docs/project/`，在 `docs/pages/<slug>/content.md` 中定稿母稿，再同步到前端数据与组件。
 - 若要追溯某一轮设计和实现决策，前往 `docs/superpowers/` 查看过程文档。
-- 当前整理顺序保持为：`先整理事实 (docs/project/) -> 再定稿母稿 (docs/cases/) -> 最后同步页面 (src/data/projects.js)`。
+- 当前整理顺序保持为：`先整理事实 (docs/project/) -> 再定稿母稿 (docs/pages/) -> 最后同步页面 (src/data/projects.js)`。
 
 ## 内容准入与更新顺序
 

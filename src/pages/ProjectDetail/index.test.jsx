@@ -234,7 +234,7 @@ test('member automation states the final upgrade rule and distinguishes measured
   expect(screen.getByText(/失败时保留原会员卡与原权益/)).toBeInTheDocument();
 });
 
-test('pacs separates historical backend records from the later AI launch', () => {
+test('pacs renders 2024.11 AI launch and pre/post baseline comparison', () => {
   matchMediaAdd.mockImplementation((_queries, callback) => {
     callback({ conditions: { reduceMotion: false, isDesktop: false } });
   });
@@ -243,9 +243,8 @@ test('pacs separates historical backend records from the later AI launch', () =>
 
   expect(screen.getAllByText('2024.06').length).toBeGreaterThan(0);
   expect(screen.getAllByText('2025.06').length).toBeGreaterThan(0);
-  expect(screen.getAllByText('2025.11').length).toBeGreaterThan(0);
-  expect(screen.getByText(/不能归因于 AI/)).toBeInTheDocument();
-  expect(screen.queryByText(/V2 AI 辅助后/)).not.toBeInTheDocument();
+  expect(screen.getAllByText('2024.11 上线').length).toBeGreaterThan(0);
+  expect(screen.getByText(/AI 辅助功能于 2024.11 正式上线/)).toBeInTheDocument();
   expect(screen.queryByText(/100% 留痕/)).not.toBeInTheDocument();
   expect(screen.queryByText('3.0s')).not.toBeInTheDocument();
   expect(screen.queryByText('< 100ms')).not.toBeInTheDocument();
