@@ -1,18 +1,18 @@
 :root {
-  /* ── Core Palette (Product System Designer Portfolio · DESIGN.md v3) ── */
-  --bg-midnight:         #0d0c11;
-  --surface-obsidian:    #16151c;
-  --surface-elevated:    #1f1d26;
-  --border-hairline:     #2a2833;
+  /* ── Core Palette (True Neutral Obsidian & Carbon · DESIGN.md v3) ── */
+  --bg-midnight:         #080808;
+  --surface-obsidian:    #121212;
+  --surface-elevated:    #1a1a1a;
+  --border-hairline:     rgba(255, 255, 255, 0.08);
 
-  --color-bg-primary:    #0d0c11; /* Midnight Base */
-  --color-bg-secondary:  #16151c; /* Obsidian Card */
-  --color-bg-elevated:   #1f1d26; /* Elevated Surface */
+  --color-bg-primary:    #080808; /* True Neutral Pure Dark Base */
+  --color-bg-secondary:  #121212; /* Neutral Obsidian Card */
+  --color-bg-elevated:   #1a1a1a; /* Elevated Neutral Surface */
 
-  --color-text-primary:  #ECE9F1; /* Soft White */
-  --color-text-secondary: #A39FB0; /* Cool Grey */
-  --color-text-muted:    #75717F; /* Dim Grey */
-  --color-text-faint:    rgba(236, 233, 241, 0.25);
+  --color-text-primary:  #F4F4F5; /* Pure Neutral White (Zinc-100) */
+  --color-text-secondary: #A1A1AA; /* Cool Neutral Silver (Zinc-400) */
+  --color-text-muted:    #71717A; /* Medium Neutral Grey (Zinc-500) */
+  --color-text-faint:    rgba(244, 244, 245, 0.2);
 
   /* Accents (DESIGN.md v3: Lavender=action, Mint=title gradient/results, Pink=case titles) */
   --color-accent:        #d0bcff; /* Digital Lavender */
@@ -21,7 +21,9 @@
   --color-accent-dark:   #b8a4e8;
 
   --color-mint:          #b9f2c8; /* System Mint (title gradient / results) */
+  --color-mint-glow:     rgba(185, 242, 200, 0.25);
   --color-pink:          #ffd8e4; /* Soft Pink (case title gradient / decoration) */
+  --color-pink-glow:     rgba(255, 216, 228, 0.2);
 
   --color-on-accent:     #381e72; /* Text on lavender buttons */
 
@@ -30,23 +32,24 @@
   --color-accent-pink:   #ffd8e4;
 
   /* Borders & Glass */
-  --color-border:        #2a2833; /* Hairline Border */
-  --color-border-strong: rgba(255, 255, 255, 0.22);
-  --color-border-accent: rgba(208, 188, 255, 0.55);
-  --color-glass:         rgba(13, 12, 17, 0.86);
+  --color-border:        rgba(255, 255, 255, 0.08); /* Hairline Translucent Border */
+  --color-border-subtle: rgba(255, 255, 255, 0.04);
+  --color-border-strong: rgba(255, 255, 255, 0.16);
+  --color-border-accent: rgba(208, 188, 255, 0.45);
+  --color-glass:         rgba(8, 8, 8, 0.88);
 
   /* ── Deprecated Light compatibility ── */
-  --color-light-bg:      #0d0c11;
-  --color-light-text:    #ECE9F1;
-  --color-light-muted:   #A39FB0;
-  --color-light-border:  rgba(255, 255, 255, 0.12);
+  --color-light-bg:      #080808;
+  --color-light-text:    #F4F4F5;
+  --color-light-muted:   #A1A1AA;
+  --color-light-border:  rgba(255, 255, 255, 0.1);
   --color-light-accent:  #d0bcff;
 
-  --surface-warm:    rgba(22, 21, 28, 0.6);
-  --surface-neutral: rgba(31, 29, 38, 0.6);
+  --surface-warm:    rgba(18, 18, 18, 0.6);
+  --surface-neutral: rgba(26, 26, 26, 0.6);
 
   /* ── Hero Tokens ── */
-  --color-hero-bg:          #0d0c11;
+  --color-hero-bg:          #080808;
   --color-hero-purple:      #d0bcff;
   --color-hero-dark-purple: #381e72;
 
@@ -56,9 +59,10 @@
   --font-serif: 'Merriweather', Georgia, serif;
   --font-mono: 'IBM Plex Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* Title gradients (DESIGN.md v3 §2.4) */
-  --grad-hero-title: linear-gradient(to top, #b9f2c8 0%, #d9f8e3 42%, #ece9f1 100%);
+  /* Title & Metric gradients (DESIGN.md v3 §2.4 — Neutral & Clean) */
+  --grad-hero-title: linear-gradient(to top, #b9f2c8 0%, #d9f8e3 42%, #f4f4f5 100%);
   --grad-case-title: linear-gradient(to bottom, #ffd8e4 0%, #ffffff 62%);
+  --grad-metric-mint: linear-gradient(180deg, #ffffff 15%, #b9f2c8 100%);
 
   /* ── Spacing ── */
   --spacing-xs: 0.5rem;   /* 8px */

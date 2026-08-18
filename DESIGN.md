@@ -64,14 +64,14 @@
 :root {
   color-scheme: dark;
 
-  --color-bg: #0d0c11;              /* Midnight Base（页面底色） */
-  --color-surface: #16151c;         /* Dark Surface（卡片/导航） */
-  --color-surface-elevated: #1f1d26;/* Elevated Surface（浮层/悬浮） */
-  --color-border: #2a2833;          /* Hairline Border */
+  --color-bg: #080808;              /* True Neutral Pure Dark Base（纯净中性极深底色） */
+  --color-surface: #121212;         /* Neutral Obsidian Surface（纯正黑曜石卡片/导航） */
+  --color-surface-elevated: #1a1a1a;/* Elevated Neutral Surface（浮层/悬浮） */
+  --color-border: rgba(255, 255, 255, 0.08); /* Hairline Translucent Border */
 
-  --color-text-primary: #ece9f1;
-  --color-text-secondary: #a39fb0;
-  --color-text-tertiary: #75717f;
+  --color-text-primary: #f4f4f5;
+  --color-text-secondary: #a1a1aa;
+  --color-text-tertiary: #71717a;
 
   --color-accent: #d0bcff;          /* Digital Lavender（主交互） */
   --color-mint: #b9f2c8;            /* System Mint（大标题渐变/结果） */
@@ -87,13 +87,13 @@
 
 | Role | Semantic name | Value | Usage |
 | --- | --- | --- | --- |
-| Page background | Midnight Base | `#0D0C11` | 页面背景、Hero、页脚 |
-| Surface | Dark Surface | `#16151C` | 案例卡、内容区、导航背景 |
-| Elevated surface | Elevated Surface | `#1F1D26` | 浮层、重点数据、悬浮状态 |
-| Primary text | Soft White | `#ECE9F1` | 标题、关键结论 |
-| Secondary text | Cool Grey | `#A39FB0` | 正文、说明 |
-| Tertiary text | Dim Grey | `#75717F` | 元数据、禁用态 |
-| Border | Hairline | `#2A2833` | 卡片、分隔线、导航描边 |
+| Page background | True Neutral Dark Base | `#080808` | 页面背景、Hero、页脚 |
+| Surface | Neutral Obsidian Surface | `#121212` | 案例卡、内容区、导航背景 |
+| Elevated surface | Elevated Neutral Surface | `#1A1A1A` | 浮层、重点数据、悬浮状态 |
+| Primary text | Pure Neutral White | `#F4F4F5` | 标题、关键结论 |
+| Secondary text | Cool Neutral Silver | `#A1A1AA` | 正文、说明 |
+| Tertiary text | Medium Neutral Grey | `#71717A` | 元数据、禁用态 |
+| Border | Hairline | `rgba(255,255,255,0.08)` | 卡片、分隔线、导航描边 |
 
 ### 2.3 Accent Roles
 
@@ -118,7 +118,7 @@
 - Hover 表面：`var(--color-surface-elevated)`
 - 正文：`var(--color-text-secondary)`
 - 主操作：`var(--color-accent)` + 文字 `var(--color-on-accent)`
-- Hero 大标题渐变：`linear-gradient(to top, #b9f2c8 0%, #d9f8e3 42%, #ece9f1 100%)`（background-clip: text）
+- Hero 大标题渐变：`linear-gradient(to top, #b9f2c8 0%, #d9f8e3 42%, #f3f1f7 100%)`（background-clip: text）
 - 案例标题渐变：`linear-gradient(to bottom, #ffd8e4 0%, #ffffff 62%)`（background-clip: text）
 - 结果数据：`var(--color-mint)`
 - 键盘焦点：`2px solid var(--color-focus)`，外偏移 `3px`

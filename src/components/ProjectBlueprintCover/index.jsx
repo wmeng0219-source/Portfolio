@@ -80,7 +80,7 @@ function MemberBlueprint() {
       <circle className="project-blueprint-cover__signal" cx="160" cy="168" r="5" />
       <circle className="project-blueprint-cover__signal project-blueprint-cover__signal--delay" cx="476" cy="168" r="5" />
       <BlueprintLabel tone="green" x="32" y="327">AUDIT_READY</BlueprintLabel>
-      <BlueprintLabel x="360" y="327">EXCEPTION / RETURN</BlueprintLabel>
+      <BlueprintLabel tone="pink" x="360" y="327">EXCEPTION / RETURN</BlueprintLabel>
     </Frame>
   );
 }
@@ -128,7 +128,7 @@ function OrthodonticsBlueprint() {
       </g>
 
       <circle className="project-blueprint-cover__signal project-blueprint-cover__signal--green" cx="573" cy="168" r="6" />
-      <BlueprintLabel x="32" y="327">WAIT / EXTERNAL / EXPIRED</BlueprintLabel>
+      <BlueprintLabel tone="pink" x="32" y="327">WAIT / EXTERNAL / EXPIRED</BlueprintLabel>
       <BlueprintLabel tone="green" x="420" y="327">RE-ENTRY ENABLED</BlueprintLabel>
     </Frame>
   );
@@ -173,7 +173,7 @@ function PacsBlueprint() {
         <text x="332" y="283">CHART SYNC</text>
       </g>
 
-      <BlueprintLabel x="32" y="327">AI / NON-BLOCKING</BlueprintLabel>
+      <BlueprintLabel tone="pink" x="32" y="327">AI / NON-BLOCKING</BlueprintLabel>
       <BlueprintLabel tone="green" x="404" y="327">DOCTOR_VERIFIED</BlueprintLabel>
     </Frame>
   );

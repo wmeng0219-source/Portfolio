@@ -25,7 +25,7 @@ export default function ProjectDetail() {
     return (
       <div className={styles.notFound}>
         <h2>{language === 'zh' ? '未找到该案例' : 'Project Not Found'}</h2>
-        <Link to="/" className={styles.backLink}>
+        <Link to="/" state={{ scrollTo: 'portfolio' }} className={styles.backLink}>
           ← {language === 'zh' ? '返回首页' : 'Back to Home'}
         </Link>
       </div>

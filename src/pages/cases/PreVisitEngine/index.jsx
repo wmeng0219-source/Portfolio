@@ -26,7 +26,7 @@ export default function PreVisitEngineCase({ project }) {
     <div className={styles.container}>
       <nav className={styles.nav}>
         <div className={styles.navInner}>
-          <Link to="/" className={styles.backLink} data-animate>
+          <Link to="/" state={{ scrollTo: 'portfolio' }} className={styles.backLink} data-animate>
             ← {language === 'zh' ? '返回首页' : 'Back to Home'}
           </Link>
         </div>

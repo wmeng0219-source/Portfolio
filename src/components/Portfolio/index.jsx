@@ -86,29 +86,31 @@ const Portfolio = () => {
               <ProjectBlueprintCover kind="member" />
             </div>
             <div className="portfolio-showcase-body">
-              <div className="portfolio-showcase-card-tag">
-                <span>MEMBER AUTOMATION</span>
-                <span className="portfolio-showcase-card-tag__dot">•</span>
-                <span className="portfolio-showcase-card-tag__short">{t('portfolio.stage.item.1.short') || '规则系统重构'}</span>
+              <div className="portfolio-showcase-card-header">
+                <span className="portfolio-showcase-badge">{t('portfolio.item.1.tag') || '01 / 规则治理'}</span>
+                <span className="portfolio-showcase-role">{t('portfolio.item.1.role')}</span>
               </div>
               <h3 className="portfolio-showcase-card-title">
-                {t('portfolio.item.1.title') || '会员自动化与服务衔接'}
+                {t('portfolio.item.1.title') || '会员与收银自动化'}
               </h3>
-              <p className="portfolio-showcase-card-meta">
-                {t('portfolio.item.1.cardDesc') || '打通会员卡、卡券、收费与账单，实现高频收银流程自动化与财务合规治理。'}
+              <p className="portfolio-showcase-problem">
+                {t('portfolio.item.1.problem')}
+              </p>
+              <p className="portfolio-showcase-decision">
+                {t('portfolio.item.1.decision')}
               </p>
               <div className="portfolio-showcase-card-metrics">
                 <div className="portfolio-showcase-card-metric">
-                  <span className="portfolio-showcase-metric-value" data-countup>{t('portfolio.item.1.metric.1.val') || '~1 分钟'}</span>
-                  <span className="portfolio-showcase-metric-label">{t('portfolio.item.1.metric.1.lbl') || '门店操作耗时'}</span>
+                  <span className="portfolio-showcase-metric-value" data-countup>{t('portfolio.item.1.metric.1.val') || '~80% ↓'}</span>
+                  <span className="portfolio-showcase-metric-label">{t('portfolio.item.1.metric.1.lbl')}</span>
                 </div>
                 <div className="portfolio-showcase-card-metric">
-                  <span className="portfolio-showcase-metric-value" data-countup>{t('portfolio.item.1.metric.2.val') || '1 天'}</span>
-                  <span className="portfolio-showcase-metric-label">{t('portfolio.item.1.metric.2.lbl') || '财务月底对账'}</span>
+                  <span className="portfolio-showcase-metric-value">{t('portfolio.item.1.metric.2.val') || '20+ 门店'}</span>
+                  <span className="portfolio-showcase-metric-label">{t('portfolio.item.1.metric.2.lbl')}</span>
                 </div>
                 <div className="portfolio-showcase-card-metric">
-                  <span className="portfolio-showcase-metric-value" data-countup>{t('portfolio.item.1.metric.3.val') || '20+'}</span>
-                  <span className="portfolio-showcase-metric-label">{t('portfolio.item.1.metric.3.lbl') || '落地覆盖门店'}</span>
+                  <span className="portfolio-showcase-metric-value">{t('portfolio.item.1.metric.3.val') || '降低风控'}</span>
+                  <span className="portfolio-showcase-metric-label">{t('portfolio.item.1.metric.3.lbl')}</span>
                 </div>
               </div>
               <span className="sr-only">VIEW CASE ↗</span>
@@ -126,21 +128,31 @@ const Portfolio = () => {
               <ProjectBlueprintCover kind="orthodontics" />
             </div>
             <div className="portfolio-showcase-body">
-              <div className="portfolio-showcase-card-tag portfolio-showcase-card-tag--mint">
-                <span>ORTHO FUNNEL</span>
-                <span className="portfolio-showcase-card-tag__dot">•</span>
-                <span className="portfolio-showcase-card-tag__short">{t('portfolio.stage.item.2.short') || '漏斗与角色协作'}</span>
+              <div className="portfolio-showcase-card-header">
+                <span className="portfolio-showcase-badge portfolio-showcase-badge--mint">{t('portfolio.item.2.tag') || '02 / 流程协作'}</span>
+                <span className="portfolio-showcase-role">{t('portfolio.item.2.role')}</span>
               </div>
               <h3 className="portfolio-showcase-card-title">
-                {t('portfolio.item.2.title') || '正畸筛查与状态管理'}
+                {t('portfolio.item.2.title') || '正畸筛查与协作工作流'}
               </h3>
-              <p className="portfolio-showcase-card-meta">
-                {t('portfolio.item.2.cardDesc') || '重构儿牙与正畸医生协作流程，建立从推荐到预约的可追踪状态机漏斗。'}
+              <p className="portfolio-showcase-problem">
+                {t('portfolio.item.2.problem')}
+              </p>
+              <p className="portfolio-showcase-decision">
+                {t('portfolio.item.2.decision')}
               </p>
               <div className="portfolio-showcase-card-metrics">
                 <div className="portfolio-showcase-card-metric">
-                  <span className="portfolio-showcase-metric-value" data-countup>{t('portfolio.item.2.metric.val') || '50-60%'}</span>
-                  <span className="portfolio-showcase-metric-label">{t('portfolio.item.2.metric.lbl') || '矫正转化率 (原 30-40%)'}</span>
+                  <span className="portfolio-showcase-metric-value" data-countup>{t('portfolio.item.2.metric.1.val') || '50–60%'}</span>
+                  <span className="portfolio-showcase-metric-label">{t('portfolio.item.2.metric.1.lbl')}</span>
+                </div>
+                <div className="portfolio-showcase-card-metric">
+                  <span className="portfolio-showcase-metric-value">{t('portfolio.item.2.metric.2.val') || '全流程'}</span>
+                  <span className="portfolio-showcase-metric-label">{t('portfolio.item.2.metric.2.lbl')}</span>
+                </div>
+                <div className="portfolio-showcase-card-metric">
+                  <span className="portfolio-showcase-metric-value">{t('portfolio.item.2.metric.3.val') || '持续管理'}</span>
+                  <span className="portfolio-showcase-metric-label">{t('portfolio.item.2.metric.3.lbl')}</span>
                 </div>
               </div>
               <span className="sr-only">VIEW CASE ↗</span>
@@ -158,25 +170,31 @@ const Portfolio = () => {
               <ProjectBlueprintCover kind="pacs" />
             </div>
             <div className="portfolio-showcase-body">
-              <div className="portfolio-showcase-card-tag">
-                <span>AI REVIEW LOOP</span>
-                <span className="portfolio-showcase-card-tag__dot">•</span>
-                <span className="portfolio-showcase-card-tag__short">{t('portfolio.stage.item.3.short') || '人机协作闭环'}</span>
+              <div className="portfolio-showcase-card-header">
+                <span className="portfolio-showcase-badge portfolio-showcase-badge--pink">{t('portfolio.item.3.tag') || '03 / 人机协同'}</span>
+                <span className="portfolio-showcase-role">{t('portfolio.item.3.role')}</span>
               </div>
               <h3 className="portfolio-showcase-card-title">
-                {t('portfolio.item.3.title') || 'PACS 读片与 AI 辅助判断'}
+                {t('portfolio.item.3.title') || 'PACS 影像 AI 辅助读片'}
               </h3>
-              <p className="portfolio-showcase-card-meta">
-                {t('portfolio.item.3.cardDesc') || '构建影像读片结构化留痕与 AI 人机协作闭环，形成算法与医生复核的数据飞轮。'}
+              <p className="portfolio-showcase-problem">
+                {t('portfolio.item.3.problem')}
+              </p>
+              <p className="portfolio-showcase-decision">
+                {t('portfolio.item.3.decision')}
               </p>
               <div className="portfolio-showcase-card-metrics">
                 <div className="portfolio-showcase-card-metric">
-                  <span className="portfolio-showcase-metric-value" data-countup>{t('portfolio.item.3.metric.1.val') || '3.46 颗'}</span>
-                  <span className="portfolio-showcase-metric-label">{t('portfolio.item.3.metric.1.lbl') || '均单龋齿检出'}</span>
+                  <span className="portfolio-showcase-metric-value" data-countup>{t('portfolio.item.3.metric.1.val') || '+140%'}</span>
+                  <span className="portfolio-showcase-metric-label">{t('portfolio.item.3.metric.1.lbl')}</span>
                 </div>
                 <div className="portfolio-showcase-card-metric">
-                  <span className="portfolio-showcase-metric-value" data-countup>{t('portfolio.item.3.metric.2.val') || '+140%'}</span>
-                  <span className="portfolio-showcase-metric-label">{t('portfolio.item.3.metric.2.lbl') || '检出率提升'}</span>
+                  <span className="portfolio-showcase-metric-value">{t('portfolio.item.3.metric.2.val') || '全留痕'}</span>
+                  <span className="portfolio-showcase-metric-label">{t('portfolio.item.3.metric.2.lbl')}</span>
+                </div>
+                <div className="portfolio-showcase-card-metric">
+                  <span className="portfolio-showcase-metric-value">{t('portfolio.item.3.metric.3.val') || '人机闭环'}</span>
+                  <span className="portfolio-showcase-metric-label">{t('portfolio.item.3.metric.3.lbl')}</span>
                 </div>
               </div>
               <span className="sr-only">VIEW CASE ↗</span>

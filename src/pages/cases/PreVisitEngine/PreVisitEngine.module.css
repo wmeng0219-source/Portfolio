@@ -94,10 +94,13 @@
 }
 
 .heroSummary {
-  max-width: 38rem;
+  max-width: min(100%, 46rem);
+  font-family: var(--font-serif);
+  font-weight: 300;
   font-size: var(--text-case-body);
-  line-height: 1.7;
+  line-height: 1.8;
   color: var(--color-text-secondary);
+  text-wrap: pretty;
 }
 
 .heroMetricCard {
@@ -200,7 +203,7 @@
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--color-accent);
-  background: rgba(200, 182, 255, 0.1);
+  background: rgba(208, 188, 255, 0.08);
   padding: 0.25rem 0.6rem;
   border-radius: var(--radius-sm, 4px);
   display: inline-block;
@@ -238,7 +241,7 @@
 .solutionCard:hover,
 .taskModelCard:hover,
 .roleChainCard:hover {
-  border-color: rgba(200, 182, 255, 0.3);
+  border-color: rgba(208, 188, 255, 0.35);
   transform: translateY(-2px);
 }
 
@@ -277,8 +280,8 @@
 
 /* ── Interactive Tooth Quadrant Preview Widget ────── */
 .toothWidget {
-  background: rgba(20, 25, 34, 0.7);
-  border: 1px solid rgba(200, 182, 255, 0.2);
+  background: var(--surface-obsidian);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   padding: 2rem;
   margin-top: 2rem;
@@ -286,6 +289,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
   align-items: center;
+  box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.65);
 }
 
 .toothCross {
@@ -312,7 +316,7 @@
 
 .toothQuadrant:hover {
   border-color: var(--color-mint);
-  background: rgba(184, 230, 208, 0.05);
+  background: rgba(185, 242, 200, 0.05);
 }
 
 .quadrantTag {
@@ -385,7 +389,7 @@
 }
 
 .metricCellAccent {
-  border-color: rgba(184, 230, 208, 0.4);
+  border-color: rgba(185, 242, 200, 0.4);
 }
 
 .metricCellValue {

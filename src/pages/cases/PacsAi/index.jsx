@@ -25,7 +25,7 @@ export default function PacsAiCase({ project }) {
     <div className={styles.container}>
       <nav className={styles.nav}>
         <div className={styles.navInner}>
-          <Link to="/" className={styles.backLink}>
+          <Link to="/" state={{ scrollTo: 'portfolio' }} className={styles.backLink}>
             ← {language === 'zh' ? '返回首页' : 'Back to Home'}
           </Link>
         </div>

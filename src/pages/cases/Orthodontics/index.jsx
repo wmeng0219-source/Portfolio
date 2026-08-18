@@ -50,7 +50,7 @@ export default function OrthodonticsCase({ project }) {
     <div className={styles.caseContainer}>
       <nav className={styles.nav}>
         <div className={styles.navInner}>
-          <Link to="/" className={styles.backLink}>
+          <Link to="/" state={{ scrollTo: 'portfolio' }} className={styles.backLink}>
             ← {language === 'zh' ? '返回首页' : 'Back to Home'}
           </Link>
         </div>
@@ -58,12 +58,12 @@ export default function OrthodonticsCase({ project }) {
 
       {/* ── Module 1: Hero & Role ────────────────────────────── */}
       <section className={styles.hero} data-animate-hero>
-        <p className={pacsStyles.kicker}>
-          <span className={pacsStyles.kickerIndex}>02</span> / ORTHODONTICS FUNNEL
+        <p className={styles.kicker}>
+          <span className={styles.kickerIndex}>02</span> / ORTHODONTICS FUNNEL
         </p>
         <h1 className={styles.heroTitle}>{t(project.title)}</h1>
-        <p className={pacsStyles.tag}>{t(project.tag)}</p>
-        <p className={pacsStyles.heroSummary}>{t(project.background)}</p>
+        <p className={styles.tag}>{t(project.tag)}</p>
+        <p className={styles.heroSummary}>{t(project.background)}</p>
 
         <div className={styles.metricsContainer} style={{ marginTop: '2rem' }}>
           <div className={styles.metricBox}>

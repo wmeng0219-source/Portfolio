@@ -62,56 +62,56 @@ test('renders homepage sections with updated responsibilities and portfolio emph
   expect(
     screen.getByRole('heading', {
       level: 1,
-      name: /MENG WEN/i,
+      name: /WEN MENG/i,
     }),
   ).toBeInTheDocument();
 
-  expect(screen.getByRole('link', { name: /查看项目/ })).toHaveAttribute('href', '#portfolio');
-  expect(screen.getByText(/产品经理与设计复合型实践者/)).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: /查看精选项目/ })).toHaveAttribute('href', '#portfolio');
+  expect(screen.getByText(/化繁为简，落地生根/)).toBeInTheDocument();
 
   const aboutSection = screen.getByRole('heading', {
     level: 2,
-    name: '把复杂业务变成可执行系统',
+    name: /工作方法 · 我如何把复杂问题变成系统/i,
   }).closest('section');
   expect(aboutSection).toHaveAttribute('data-motion-section');
-  expect(within(aboutSection).getByText('01 / Method')).toBeInTheDocument();
-  expect(within(aboutSection).getByText('Context')).toBeInTheDocument();
-  expect(within(aboutSection).getByText('Structure')).toBeInTheDocument();
-  expect(within(aboutSection).getByText('AI Workflow')).toBeInTheDocument();
+  expect(within(aboutSection).getByText(/02 \/ HOW I WORK/i)).toBeInTheDocument();
+  expect(within(aboutSection).getByText(/深入现场/i)).toBeInTheDocument();
+  expect(within(aboutSection).getByText(/定义问题 · 核心关键/i)).toBeInTheDocument();
+  expect(within(aboutSection).getByText(/系统建模/i)).toBeInTheDocument();
+  expect(within(aboutSection).getByText(/真实验证/i)).toBeInTheDocument();
+  expect(within(aboutSection).getByText(/持续演进/i)).toBeInTheDocument();
 
   const experienceSection = screen.getByRole('heading', {
     level: 2,
-    name: '从界面执行，到系统落地',
+    name: /职业历程 · 能力的演进与蜕变/i,
   }).closest('section');
   expect(experienceSection).toHaveAttribute('data-motion-section');
-  expect(within(experienceSection).getByText('03 / Growth Path')).toBeInTheDocument();
-  expect(within(experienceSection).getByText('界面设计者')).toBeInTheDocument();
-  expect(within(experienceSection).getByText('复杂系统设计者')).toBeInTheDocument();
-  expect(within(experienceSection).getByText('产品方案参与者')).toBeInTheDocument();
-  expect(within(experienceSection).getByText('业务与交付连接者')).toBeInTheDocument();
-  expect(within(experienceSection).queryByText('2019 - 2020')).not.toBeInTheDocument();
-  expect(within(experienceSection).queryByText('2023.04 - 至今')).not.toBeInTheDocument();
+  expect(within(experienceSection).getByText(/03 \/ CAREER PATH/i)).toBeInTheDocument();
+  expect(within(experienceSection).getByText('2019 – 2020')).toBeInTheDocument();
+  expect(within(experienceSection).getByText('2023 – 至今')).toBeInTheDocument();
+  expect(within(experienceSection).getByText(/交互规范 · 用户同理心 · 组件化设计/i)).toBeInTheDocument();
   expect(experienceSection.querySelector('.growth-path')).not.toBeNull();
   expect(experienceSection.querySelectorAll('.growth-path-node')).toHaveLength(4);
 
   const portfolioSection = screen.getByRole('heading', {
     level: 2,
-    name: '精选案例',
+    name: /精选项目 · 复杂业务系统实践/i,
   }).closest('section');
   expect(portfolioSection).toHaveAttribute('data-motion-section');
-  expect(within(portfolioSection).getByText('SELECTED WORK')).toBeInTheDocument();
+  expect(within(portfolioSection).getByText(/01 \/ SELECTED WORK/i)).toBeInTheDocument();
   const caseLinks = within(portfolioSection).getAllByRole('link');
   expect(caseLinks).toHaveLength(3);
-  expect(within(portfolioSection).getByText('会员自动化与服务衔接')).toBeInTheDocument();
-  expect(within(portfolioSection).getByText('正畸筛查与状态管理')).toBeInTheDocument();
-  expect(within(portfolioSection).getByText('PACS 读片与 AI 辅助判断')).toBeInTheDocument();
+  expect(within(portfolioSection).getByText('会员与收银自动化')).toBeInTheDocument();
+  expect(within(portfolioSection).getByText('正畸筛查与协作工作流')).toBeInTheDocument();
+  expect(within(portfolioSection).getByText('PACS 影像 AI 辅助读片')).toBeInTheDocument();
 
   const contactSection = screen.getByRole('heading', {
     level: 2,
-    name: '如果你要推进复杂产品，就来联系我。',
+    name: /化繁为简，期待与您同行/i,
   }).closest('section');
   expect(contactSection).toHaveAttribute('data-motion-section');
-  expect(within(contactSection).getByRole('link', { name: 'wmeng0219@gmail.com' })).toHaveAttribute(
+  expect(within(contactSection).getByText(/04 \/ CONTACT/i)).toBeInTheDocument();
+  expect(within(contactSection).getByRole('link', { name: /wmeng0219@gmail.com/i })).toHaveAttribute(
     'href',
     'mailto:wmeng0219@gmail.com',
   );
@@ -129,11 +129,11 @@ test('toggles language to English seamlessly across navbar, hero, portfolio, and
   const langBtns = screen.getAllByRole('button', { name: /EN/i });
   fireEvent.click(langBtns[0]);
 
-  expect(screen.getByText('View Projects')).toBeInTheDocument();
-  expect(screen.getByText('Member automation and service continuity')).toBeInTheDocument();
-  expect(screen.getByText('Orthodontic screening and status management')).toBeInTheDocument();
-  expect(screen.getByText('PACS interpretation and AI-assisted review')).toBeInTheDocument();
-  expect(screen.getByText("Let’s Build What Complex Teams Can Actually Use")).toBeInTheDocument();
+  expect(screen.getByText('Explore Work')).toBeInTheDocument();
+  expect(screen.getByText('Membership & Automated Billing')).toBeInTheDocument();
+  expect(screen.getByText('Orthodontic Screening & Handoff')).toBeInTheDocument();
+  expect(screen.getByText('PACS AI-Assisted Reading & QA')).toBeInTheDocument();
+  expect(screen.getByText("Let's Build Clarity Together")).toBeInTheDocument();
 });
 
 test('renders case studies and handles invalid project ID 404 fallback', () => {

@@ -13,7 +13,7 @@ const scrollToSection = (event, id) => {
   }
 };
 
-const TITLE_TEXT = 'MENG WEN';
+const TITLE_TEXT = 'WEN MENG';
 
 const Hero = () => {
   const { t } = useLanguage();
@@ -58,9 +58,14 @@ const Hero = () => {
             { autoAlpha: 1, y: 0, duration: 0.65, ease: 'power3.out', delay: 0.72 },
           );
           gsap.fromTo(
+            '[data-hero-part="tags"]',
+            { autoAlpha: 0, y: 16 },
+            { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power3.out', delay: 0.84 },
+          );
+          gsap.fromTo(
             '[data-hero-part="actions"]',
             { autoAlpha: 0, y: 16 },
-            { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power3.out', delay: 0.92 },
+            { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power3.out', delay: 0.96 },
           );
           gsap.fromTo(
             '[data-hero-part="scrollhint"]',
@@ -91,18 +96,19 @@ const Hero = () => {
 
   return (
     <section
-      className="relative min-h-screen flex flex-col items-center justify-center px-margin-mobile md:px-margin-desktop text-center overflow-hidden bg-[var(--color-bg-primary)]"
+      className="relative min-h-[100dvh] flex flex-col items-center justify-between pt-24 pb-8 px-margin-mobile md:px-margin-desktop text-center overflow-hidden bg-[var(--color-bg-primary)]"
       id="hero"
       ref={sectionRef}
     >
-      {/* 纯净深色背景：单一极弱网格线（DESIGN.md 4.2），无聚光灯/光晕/霓虹 */}
+      {/* 纯净深色背景：微环境光韵与极弱网格线（DESIGN.md 4.2） */}
+      <div className="absolute inset-0 pointer-events-none z-0 hero-ambient-glow" aria-hidden="true" />
       <div className="absolute inset-0 pointer-events-none z-0 hero-grid-bg" aria-hidden="true" />
 
-      {/* Hero Content */}
-      <div className="relative z-10 max-w-6xl flex flex-col items-center pt-16 md:pt-20 space-y-6 md:space-y-8" ref={copyRef}>
+      {/* Hero Content - centered in viewport */}
+      <div className="relative z-10 max-w-5xl flex flex-col items-center my-auto py-6 space-y-4 md:space-y-6" ref={copyRef}>
         {/* Eyebrow kicker */}
         <p className="hero-eyebrow" data-hero-part="eyebrow">
-          {t('hero.stage.kicker') || '数字化产品系统 / 2025'}
+          {t('hero.stage.kicker') || 'PRODUCT MANAGER · PRODUCT DESIGNER'}
         </p>
 
         {/* Main H1 Title: Anton Display, Mint→White gradient, per-char mask reveal */}
@@ -127,24 +133,34 @@ const Hero = () => {
           </h1>
         </div>
 
-        {/* Merriweather 衬线定位句（DESIGN.md 3.2 Lede） */}
-        <p
-          className="hero-lede"
-          data-hero-part="lede"
-        >
-          {t('hero.body') || '产品经理与设计复合型实践者。聚焦医疗数字化、流程重构与AI协作，在混乱的真实业务现场中，建立可执行、可观察的系统闭环。'}
+        {/* Headline & Narrative Lede */}
+        <div className="flex flex-col items-center gap-2 max-w-3xl">
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-[var(--color-text-primary)]">
+            {t('hero.title') || '化繁为简，落地生根'}
+          </h2>
+          <p
+            className="hero-lede"
+            data-hero-part="lede"
+          >
+            {t('hero.body') || '把复杂业务，拆解为清晰、可用、可落地的产品系统。'}
+          </p>
+        </div>
+
+        {/* Micro capability tags */}
+        <p className="font-mono text-xs md:text-sm tracking-widest text-[var(--color-text-muted)] uppercase" data-hero-part="tags">
+          {t('hero.tags') || 'Product Thinking · Systems Design · Design Craft · AI-assisted'}
         </p>
 
         {/* CTA Buttons */}
-        <div className="flex items-center justify-center gap-6 pt-2 flex-wrap" data-hero-part="actions">
-          {/* Button 1: 查看项目 */}
+        <div className="flex items-center justify-center gap-5 pt-2 flex-wrap" data-hero-part="actions">
+          {/* Button 1: 查看精选项目 */}
           <a
             className="btn-hero-primary"
             href="#portfolio"
             data-motion-hover="button"
             onClick={(event) => scrollToSection(event, 'portfolio')}
           >
-            <span>{t('hero.stage.cta') || '查看项目'}</span>
+            <span>{t('hero.stage.cta') || '查看精选项目'}</span>
             <span className="material-symbols-outlined text-xl" aria-hidden="true">
               arrow_outward
             </span>
@@ -161,8 +177,8 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Scroll hint */}
-      <div className="hero-scroll-hint" data-hero-part="scrollhint" aria-hidden="true">
+      {/* Scroll hint - in natural flow below content, never overlaps */}
+      <div className="relative z-10 hero-scroll-hint shrink-0 pt-4" data-hero-part="scrollhint" aria-hidden="true">
         <span className="hero-scroll-hint-label">{t('hero.scrollHint') || 'SCROLL'}</span>
         <span className="hero-scroll-line">
           <span className="hero-scroll-dot" />

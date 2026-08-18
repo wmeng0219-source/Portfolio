@@ -29,10 +29,7 @@ const Contact = () => {
         <div className="space-y-12 max-w-4xl" data-motion-item>
           <div className="flex flex-col items-center gap-2 mb-4">
             <span className="font-mono text-xs text-[var(--color-accent)] tracking-[0.2em] uppercase">
-              04 / Contact
-            </span>
-            <span className="font-mono text-xs text-[var(--color-text-muted)] opacity-70">
-              {t('contact.stage.sub') || '数字化产品系统 / 2025'}
+              {t('contact.stage.kicker') || '05 / CONTACT'}
             </span>
           </div>
 

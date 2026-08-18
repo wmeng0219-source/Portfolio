@@ -30,10 +30,12 @@ const Experience = () => {
                 <span className="growth-path-node" />
                 {item < items.length && <span className="growth-path-line" />}
               </div>
-              <p className="growth-path-index">0{item}</p>
+              <p className="growth-path-index">{t(`experience.item.${item}.period`)}</p>
               <div className="growth-path-content">
-                <p className="growth-path-action">{t(`experience.stage.item.${item}.short`)}</p>
-                <h3 className="growth-path-role">{t(`experience.item.${item}.title`)}</h3>
+                <div className="growth-path-heading-group">
+                  <h3 className="growth-path-role">{t(`experience.item.${item}.title`)}</h3>
+                  <p className="growth-path-tags">{t(`experience.item.${item}.tags`)}</p>
+                </div>
                 <p className="growth-path-body">{t(`experience.item.${item}.body`)}</p>
               </div>
             </article>
