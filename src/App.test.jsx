@@ -67,7 +67,6 @@ test('renders homepage sections with updated responsibilities and portfolio emph
   ).toBeInTheDocument();
 
   expect(screen.getByRole('link', { name: /查看精选项目/ })).toHaveAttribute('href', '#portfolio');
-  expect(screen.getByText(/化繁为简，落地生根/)).toBeInTheDocument();
 
   const experienceSection = screen.getByRole('heading', {
     level: 2,
@@ -77,7 +76,9 @@ test('renders homepage sections with updated responsibilities and portfolio emph
   expect(within(experienceSection).getByText(/02 \/ CAREER PATH/i)).toBeInTheDocument();
   expect(within(experienceSection).getByText('2019 – 2020')).toBeInTheDocument();
   expect(within(experienceSection).getByText('2023 – 至今')).toBeInTheDocument();
-  expect(within(experienceSection).getByText(/界面设计 · 设计规范 · 组件体系/i)).toBeInTheDocument();
+  expect(within(experienceSection).getByText('界面设计')).toBeInTheDocument();
+  expect(within(experienceSection).getByText('设计规范')).toBeInTheDocument();
+  expect(within(experienceSection).getByText('组件体系')).toBeInTheDocument();
   expect(experienceSection.querySelector('.growth-path')).not.toBeNull();
   expect(experienceSection.querySelectorAll('.growth-path-node')).toHaveLength(4);
 

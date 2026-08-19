@@ -228,10 +228,10 @@ test('member automation states the final upgrade rule and distinguishes measured
 
   renderProjectDetail('/project/member-automation');
 
-  expect(screen.getByText(/只要会员卡仍在有效期内即可升级/)).toBeInTheDocument();
+  expect(screen.getByText(/自动判定升级\/续卡/)).toBeInTheDocument();
   expect(screen.getAllByText(/门店现场实测/).length).toBeGreaterThan(0);
   expect(screen.getByText(/据财务团队估算/)).toBeInTheDocument();
-  expect(screen.getByText(/失败时保留原会员卡与原权益/)).toBeInTheDocument();
+  expect(screen.getAllByText(/保留原卡与原权益/).length).toBeGreaterThan(0);
 });
 
 test('pacs renders 2024.11 AI launch and pre/post baseline comparison', () => {

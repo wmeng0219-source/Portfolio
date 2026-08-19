@@ -21,59 +21,56 @@ const Contact = () => {
 
   return (
     <section
-      className="w-full py-24 px-margin-mobile md:px-margin-desktop bg-[var(--color-bg-primary)] border-t border-[var(--color-border)] min-h-screen flex items-center justify-center relative overflow-hidden"
+      className="page-section contact-stage-section"
       id="contact"
       data-motion-section
     >
-      <div className="max-w-container-max mx-auto flex flex-col items-center text-center relative z-10">
-        <div className="space-y-12 max-w-4xl" data-motion-item>
-          <div className="flex flex-col items-center gap-2 mb-4">
-            <span className="font-mono text-xs text-[var(--color-accent)] tracking-[0.2em] uppercase">
-              {t('contact.stage.kicker') || '05 / CONTACT'}
+      <div className="section-shell">
+        <div className="contact-stage-card" data-motion-item>
+          <div className="contact-stage-head">
+            <span className="contact-stage-kicker">
+              {t('contact.stage.kicker') || '03 / CONTACT'}
             </span>
+            <h2 className="contact-stage-title">
+              {t('contact.stage.title') || '联系我'}
+            </h2>
+            <p className="contact-stage-intro">
+              {t('contact.stage.body') || '欢迎直接交流。'}
+            </p>
           </div>
 
-          <h2 className="font-display text-4xl md:text-6xl lg:text-7xl leading-[1.0] text-[var(--color-text-primary)] uppercase tracking-tight mb-6 font-extrabold">
-            {t('contact.stage.title') || '联系我'}
-          </h2>
-          <p className="text-[var(--color-text-secondary)] text-sm md:text-base max-w-xl mx-auto leading-relaxed font-serif font-light">
-            {t('contact.stage.body') || '欢迎直接交流。'}
-          </p>
+          <div className="contact-stage-actions">
+            {/* WeChat Button */}
+            <div className="contact-action-group">
+              <span className="contact-action-label">
+                {t('contact.stage.wechatLabel') || 'Phone / WeChat'}
+              </span>
+              <button
+                type="button"
+                onClick={() => copyText('wmeng219', 'wechat')}
+                className="contact-action-btn"
+              >
+                <span>wmeng219</span>
+                <span className="material-symbols-outlined contact-action-icon" aria-hidden="true">
+                  {copiedWeChat ? 'check' : 'content_copy'}
+                </span>
+              </button>
+            </div>
 
-          <div className="flex flex-col items-center gap-6 pt-4">
-            <div className="flex flex-col sm:flex-row gap-6 mt-4">
-              {/* WeChat Button */}
-              <div className="group flex flex-col items-center">
-                <p className="font-mono text-xs text-[var(--color-text-muted)] uppercase tracking-widest mb-3">
-                  {t('contact.stage.wechatLabel') || 'Phone / WeChat'}
-                </p>
-                <button
-                  type="button"
-                  onClick={() => copyText('wmeng219', 'wechat')}
-                  className="px-8 py-4 bg-[var(--color-bg-secondary)] border border-[var(--color-border)] rounded-[12px] font-mono text-base md:text-lg text-[var(--color-text-primary)] hover:border-[var(--color-border-accent)] hover:-translate-y-1 transition-all duration-200 active:scale-95 flex items-center gap-3 cursor-pointer"
-                >
-                  <span>wmeng219</span>
-                  <span className="material-symbols-outlined text-[var(--color-accent)] text-lg" aria-hidden="true">
-                    {copiedWeChat ? 'check' : 'content_copy'}
-                  </span>
-                </button>
-              </div>
-
-              {/* Email Button */}
-              <div className="group flex flex-col items-center">
-                <p className="font-mono text-xs text-[var(--color-text-muted)] uppercase tracking-widest mb-3">
-                  {t('contact.stage.emailLabel') || 'Email'}
-                </p>
-                <a
-                  href="mailto:wmeng0219@gmail.com"
-                  className="px-8 py-4 bg-[var(--color-bg-secondary)] border border-[var(--color-border)] rounded-[12px] font-mono text-base md:text-lg text-[var(--color-text-primary)] hover:border-[var(--color-border-accent)] hover:-translate-y-1 transition-all duration-200 active:scale-95 flex items-center gap-3 no-underline"
-                >
-                  <span>wmeng0219@gmail.com</span>
-                  <span className="material-symbols-outlined text-[var(--color-accent)] text-lg" aria-hidden="true">
-                    mail
-                  </span>
-                </a>
-              </div>
+            {/* Email Button */}
+            <div className="contact-action-group">
+              <span className="contact-action-label">
+                {t('contact.stage.emailLabel') || 'Email'}
+              </span>
+              <a
+                href="mailto:wmeng0219@gmail.com"
+                className="contact-action-btn"
+              >
+                <span>wmeng0219@gmail.com</span>
+                <span className="material-symbols-outlined contact-action-icon" aria-hidden="true">
+                  mail
+                </span>
+              </a>
             </div>
           </div>
         </div>

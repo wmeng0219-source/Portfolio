@@ -118,21 +118,16 @@ const Hero = () => {
           </h1>
         </div>
 
-        {/* Headline & Narrative Lede */}
-        <div className="flex flex-col items-center gap-2 max-w-3xl">
-          <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-[var(--color-text-primary)]">
-            {t('hero.title') || '化繁为简，落地生根'}
-          </h2>
-          <p
-            className="hero-lede"
-            data-hero-part="lede"
-          >
-            {t('hero.body') || '把复杂业务，拆解为清晰、可用、可落地的产品系统。'}
-          </p>
-        </div>
+        {/* Narrative Lede */}
+        <p
+          className="hero-lede"
+          data-hero-part="lede"
+        >
+          {t('hero.body') || '把复杂业务，拆解为清晰、可用、可落地的产品系统。'}
+        </p>
 
         {/* CTA Buttons */}
-        <div className="flex items-center justify-center gap-5 pt-2 flex-wrap" data-hero-part="actions">
+        <div className="flex items-center justify-center gap-5 pt-6 md:pt-10 flex-wrap" data-hero-part="actions">
           {/* Button 1: 查看精选项目 */}
           <a
             className="btn-hero-primary"

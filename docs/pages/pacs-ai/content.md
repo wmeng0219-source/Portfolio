@@ -67,7 +67,7 @@
 
 ## 5. 关键机制与产品决策 (Mechanism & Product Decisions)
 
-### 5.1 三大核心解决方案 (Core Solutions)
+### 5.1 核心解决方案 (Core Solutions)
 
 ```text
 ┌─────────────────────────┐   ┌─────────────────────────┐   ┌─────────────────────────┐
@@ -88,7 +88,7 @@
 
 ---
 
-### 5.2 核心产品决策与权衡 (Key Decisions & Trade-offs)
+### 5.2 核心决策与权衡 (Key Decisions & Trade-offs)
 
 | 决策点 (Decision Question) | 最终选择与方案 (Choice) | 权衡考量与代价 (Trade-off & Rationale) |
 | :--- | :--- | :--- |
@@ -99,7 +99,7 @@
 
 ---
 
-### 5.3 机制演进历程 (Process: V1 ➔ V2)
+### 5.3 机制细节：演进历程 (Mechanism Detail: V1 ➔ V2)
 
 ```text
 [V1 阶段：建立基础 · Make Reading Trackable]

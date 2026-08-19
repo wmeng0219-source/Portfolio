@@ -11,152 +11,150 @@
 
 ### 中文
 - **项目标题**：会员自动化与服务衔接
-- **个人职责**：产品经理 / 产品设计，负责门店与财务调研、规则梳理、流程与界面设计，以及全门店上线推进。
-- **核心命题**：将复杂的优惠叠加与跨店结算规则转化为层级清晰的逻辑判定树，通过后台静默算价与全链路链式审计日志，实现 20+ 门店快速收银与财务合规治理。
+- **个人职责**：产品经理 / 产品设计，负责门店与财务调研、升/续/退规则梳理、流程与界面设计，以及全门店上线推进。
+- **核心命题**：把依赖人工拼凑的会员卡升级、续卡、退卡与优惠核销，重构为「系统自动判定升/续规则、自动处理账单与权益对应、优惠额度受控」的线上化流程，让前台从「数据录入」转变为「异常处理」。
 
 ### English
 - **Project Title**: Member Automation and Service Continuity
-- **Role**: Product Manager / Product Designer, responsible for clinic and finance research, rule design, workflow and UI design, and rollout across all clinics.
-- **Mission**: Converted complex stacking discount and cross-store settlement rules into a clear hierarchy logic tree, enabling rapid POS checkout and finance audit compliance across 20+ stores via background price computation and immutable audit ledgers.
+- **Role**: Product Manager / Product Designer, responsible for clinic and finance research, upgrade/renewal/refund rule design, workflow and UI design, and rollout across all clinics.
+- **Mission**: Replaced manual member-card upgrade, renewal, refund and discount workflows with an automated flow that judges upgrade-vs-renewal, maps bills and benefits automatically, and enforces discount quotas — shifting frontline staff from data entry to exception handling.
 
 ---
 
 ## 1. 首屏与核心指标 (Hero & Key Metrics)
 
 ### 1.1 一句话背景 (Hero Summary)
-- **中文**：旧有的会员系统由于数据结构碎片化，导致会员卡、优惠券与结算流程之间缺乏有效联动。由于 20 多家门店每天产生数千笔交易，高昂的人工核对成本导致财务差异显著，同时也严重拖慢了前台的收银效率。
-- **English**: Membership, coupons, payments, and billing were disconnected across 20+ stores, creating heavy manual audit costs for finance and slowing frontline checkout.
+- **中文**：会员卡开卡、升级、续卡、退卡与优惠核销依赖前台手工查卡、算差额、核账单，跨店升级还涉及账单归属与资金划转；操作慢、易出错，财务月底靠人工逐笔平账。
+- **English**: Membership-card opening, upgrade, renewal, refund and discount operations relied on manual lookups, calculations and bill reconciliation, including cross-clinic transfers — slow, error-prone, and a month-end audit burden for finance.
 
 ### 1.2 首屏悬浮指标卡 (Hero Floating Metrics)
-| 测量维度 | 改版前 (Before) | 改版后 (After) | 变化幅度 / 状态 |
-| :--- | :--- | :--- | :--- |
-| **单笔升级操作耗时** | `4-5 min` (人工核对) | `1 min` (自动化 POS) | **-75% 耗时大幅缩短** |
-| **月底财务对账周期** | `3 天` (逐笔人工核账) | `1 天` (异常抽样核对) | **-66.7% 效率显著提升** |
-| **网络覆盖规模** | - | - | **20+ 高端连锁门店** |
+- **核心指标**：典型会员升级操作耗时 `4-5 min`（人工核对）→ `约 1 min`（系统自动处理），门店现场实测。
+- **落地范围**：全门店。
+
+> **口径说明**：对账周期 3 天 → 1 天为财务团队估算、未做精细统计，按底稿约定不作为首屏核心成果，仅作次级说明（见 §6.2）。
 
 ---
 
 ## 2. 现场与代价 (Context & Tension)
 
 ### 2.1 业务现场
-- 门诊与零售前台每天面临大量会员升级、卡券叠加、多账单组合支付场景。
-- 原系统各模块割裂：收银人员需在系统内手动查询会员卡有效状态、手动计算剩余折扣差额、手动校验优惠券互斥规则。
+- 门诊前台每天面对会员卡开卡、升级、续卡、退卡、囤卡开卡、发券、冻结/解冻、有效期调整等高频操作。
+- 旧系统各模块割裂：前台需手工查询会员卡有效状态、计算折扣差额、校验优惠券互斥规则；跨店升级需联系原门店退费、补差。
 
 ### 2.2 现实代价
-1. **前台拥堵与客户流失**：单笔复杂结算耗时长达 4–5 分钟，高峰期造成顾客长时间排队等待。
-2. **错刷降损与财务黑盒**：人工算价容易算错折扣，出现超额让利或违规叠加；跨门店结算时资金流向不清晰，月底财务需全量人工平账，平均耗时 3 天。
-3. **资金合规隐患**：缺乏不可篡改的操作留痕，大宗会员资产变动存在合规审计风险。
+1. **操作慢**：单次会员升级耗时 4-5 分钟，高峰期前台拥堵，客户长时间等待。
+2. **易出错**：手工算价容易算错差额与优惠，优惠金额缺乏系统边界，绕过审批的违规优惠难以追溯。
+3. **财务黑盒**：月底对账靠人工逐笔核对，全量平账约需 3 天；缺乏操作留痕，异常难追责。
 
 ---
 
 ## 3. 根因分析与设计命题 (Diagnosis & Mission)
 
 ### 3.1 表面痛点 vs 系统根因
-- **表面痛点**：“前台收银太慢，经常算错优惠券，财务对账麻烦”。
-- **系统根因**：系统缺乏统一的**卡券规则引擎**与**确定性的状态机流转**，将原本应由算法判定的规则校验完全推给了人工肉眼核对。
+- **表面痛点**："升级/退卡操作太慢、优惠总得审批、月底对账麻烦"。
+- **系统根因**：卡、券、账单、优惠分散在不同模块，规则靠人脑记忆与手工执行，缺少统一的「升/续判定 + 账单自动对应 + 优惠额度控制」逻辑层。
 
 ### 3.2 设计命题
-> **将“前台人工手动拼接与算价”重构为“后台规则引擎自动匹配与链式审计留痕”，使前台操作人员的角色从“数据录入员”彻底转变为“异常处理器”。**
+> **将「前台手工拼接」重构为「系统自动判定与处理」：自动识别升级/续卡、自动计算差价与有效期、自动对应账单与权益，额度内放行、超额阻断，前台只处理必要选择与异常。**
 
 ---
 
 ## 4. 核心约束与边界 (Constraints & Scope)
 
-1. **业务连续性约束**：20+ 门店全天候运营，升级过程不能停机，必须支持新旧会员卡体系平滑过渡。
-2. **资金安全红线**：优惠叠加必须设置硬性额度保护上限，严禁任何形式的负毛利或无限叠加漏洞。
-3. **一线认知负荷约束**：前台收银人员流动性较高，新系统学习成本必须控制在 15 分钟以内，主流程必须具备键盘流极速操作能力。
+1. **底层系统不可重构**：会员数据与收费能力由领健系统承载，本系统通过接口调用领健完成注销、开卡、收费、发券；接口失败时不能产生半完成状态。
+2. **资金安全**：优惠（券 + 手动优惠）必须受额度控制，超额阻断并提示原因，防止违规优惠绕开审批。
+3. **一线可用性**：全门店上线，高频场景默认路径只保留必要信息，复杂异常收纳到二级处理，前台操作门槛需足够低。
 
 ---
 
 ## 5. 关键机制与产品决策 (Mechanism & Product Decisions)
 
-### 5.1 三大核心解决方案 (Core Solutions)
+### 5.1 核心解决方案 (Core Solutions)
 
-```text
-┌─────────────────────────┐   ┌─────────────────────────┐   ┌─────────────────────────┐
-│     1. 规则系统化       │   │      2. 流程自动化       │   │    3. 合规与财务治理     │
-│  优惠叠加判定树与层级消除歧义 │ ➔ │  一键式极速收银与静默匹配最优解 │ ➔ │  不可篡改链式审计与额度边界控制 │
-└─────────────────────────┘   └─────────────────────────┘   └─────────────────────────┘
-```
-
-1. **规则系统化 (Systematizing Rules)**
-   - *中*：将复杂的优惠叠加规则转化为层级清晰的逻辑判定树，消除歧义，统一管理卡券与权益资产。
-   - *En*: Converted complex stacking discount rules into a clear hierarchy logic tree, eliminating ambiguity.
-2. **流程自动化 (Workflow Automation)**
-   - *中*：一键式极速收银，后台自动匹配会员身份与最优卡券组合，大幅减少前台人工干预。
-   - *En*: Single-click rapid checkout; backend automatically matches member identities and optimal coupon combinations.
-3. **合规与财务治理 (Compliance & Governance)**
-   - *中*：每笔交易生成不可篡改的链式审计记录，引入优惠额度边界，保障大宗会员交易资金安全。
-   - *En*: Generates immutable audit logs for every transaction, establishing clear discount limits for security.
+1. **升/续/退流程自动化 (Automated Upgrade / Renewal / Refund)**
+   - *中*：系统自动判定升/续规则，自动计算差价与有效期，自动调用领健接口完成原卡注销/退费、新卡开通与欠费补充，前台只做必要选择。
+   - *En*: The system judges upgrade-vs-renewal automatically, computes price differences and validity, and calls the backend to handle old-card cancellation/refund, new-card activation and balance settlement — leaving only necessary choices to the frontline.
+2. **账单与权益自动对应 (Automated Bill & Benefit Mapping)**
+   - *中*：系统统一处理单年卡、多年卡、长期卡、囤卡、优惠券、手动优惠与跨店账单的对应关系，记录每次变更前后的卡、账单与权益。
+   - *En*: The system maps bills and benefits for all card types, stored cards, coupons and cross-clinic transactions, and logs every before/after change of card, bill and benefit.
+3. **优惠额度治理 (Discount Quota Governance)**
+   - *中*：用运营/门店优惠额度控制总边界，额度内现场执行无需审批，超额明确阻断并提示；额度每月重置，需提前录入卡标。
+   - *En*: Discounts are governed by operator/store quotas: within-quota execution needs no approval, over-quota is blocked with a clear reason; quotas reset monthly and must be pre-registered.
 
 ---
 
-### 5.2 核心产品决策与权衡 (Key Decisions & Trade-offs)
+### 5.2 核心决策与权衡 (Key Decisions & Trade-offs)
 
 | 决策点 (Decision Question) | 最终选择与方案 (Choice) | 权衡考量与代价 (Trade-off & Rationale) |
 | :--- | :--- | :--- |
-| **自动匹配还是手动选择？** | **强制自动匹配（覆盖 95% 高频场景）**，仅验证过的异常情况开放手动干预。 | 剥夺前台随意改动折扣的自由度，换取 100% 的规则合规性与零错刷率；收银员从“数据输入员”变为“异常处理器”。 |
-| **状态机驱动的界面设计？** | **动态自适应 UI**：基于会员画像与规则命中动态显隐选项。 | 消除认知负荷，保证默认黄金路径（Happy Path）一屏直达。 |
-| **异常审计抽样逻辑？** | **基于离群值的智能审计标记**，取代全量流水核对。 | 财务不再逐笔人肉对账，将精力集中于系统自动高亮的“离群交易”，对账周期缩短 66.7%。 |
+| **自动匹配还是人工选择？** | 高频标准场景由系统自动匹配，仅定义的异常开放人工干预。 | 避免每笔业务都重新解释规则，前台从"数据录入"转为"异常处理"。 |
+| **升级 vs 续卡怎么判定？** | 固化为确定性规则：现有卡为短期卡、购买新卡为长期卡、现有卡有效期逾期 6 个月内、卡内有剩余项目 → 升级；否则续卡。恒橙卡可升级金橙卡（特殊）。 | 把门店靠经验与口头执行的规则固化为系统逻辑，减少判断差异与培训成本。 |
+| **失败如何兜底？** | 任一步骤失败时保留原卡与原权益，明确失败原因，禁止出现半完成状态。 | 防止"旧卡已注销、新卡未生效"的资金与权益断裂，保证业务连续性。 |
+
+> **口径备注**：升级判定中「现有卡有效期逾期」期限，需求文档 250811 曾记为 3 个月，收银手册（ODOS 试行版）记为 6 个月；经与现行规则确认，以 **6 个月** 为准。
 
 ---
 
-### 5.3 规则迭代演进 (Process & Rule Evolution)
+### 5.3 机制细节：升/续判定与账单对应 (Mechanism Detail: Upgrade/Renewal & Bill Mapping)
 
-```text
-[V1 初版限制]
-规则：距离到期 3 个月内才可升级
-原因：希望通过剩余有效期简化权益折算公式
-代价：阻断了仍在有效期内、但已有明确高额消费意愿的高净值会员，造成一线销售阻力
+#### 升级与续卡的判定
+- 升级需同时满足：现有卡为短期卡（一年/两年卡）、购买新卡为长期卡（有效期更长）、现有卡有效期逾期在 6 个月内、卡内还有剩余项目。
+- 满足条件 → 按**升级**处理：退原卡账单、计算补差、开通新卡并沿用合理有效期。
+- 不满足 → 按**续卡**处理：发放新卡券/开通新卡，不涉及原卡退费。
 
-       ↓ (现场反馈与规则重构)
+#### 同店与跨店升级
+- **同门店**：系统用当前诊所账号退原卡账单项目、收欠费（补差），一次完成。
+- **不同门店**：系统用原账单诊所的账号退原卡账单项目、收欠费，完成跨店账单归属与资金划转。
 
-[V2 最终规则]
-规则：有效期内均可无缝升级
-机制：取消 3 个月限制，由系统底层自动折算原卡残值、新卡权益差额并校验账单归属
-价值：释放高价值客户转化潜力，流程顺畅无卡点
-```
+#### 多账单 / 无账单的兜底
+- 查询到多个原账单时，提示并允许前台选择退费账单（按收费时间、收费诊所、实付金额、就诊时间等），并在优惠明细中支持切换。
+- 查询不到原账单时，给出明确提示并引导在领健核对，避免错误退费。
+
+#### 边界状态
+- 冻结：每张卡仅可冻结一次、最长一年、冻结期间有效期自动延后；使用权益后自动解冻。
+- 退卡：按账单退费并注销卡券；已使用权益可查看使用记录。
+- 有效期调整：根据患者年龄可自动切换对应年龄的金橙卡（生日当天生效）；长期卡修改有效期需填理由，且不能早于当前截止日。
 
 ---
 
 ### 5.4 设计体系与 UX 手艺 (Design System & UX Craft)
 
-#### 1. 色彩与卡券业务语义 (Color & Coupon Semantics)
-在大宗会员结算与卡券叠加场景中，建立高对比度色彩业务映射：
-- `#C8B6FF`（最优权益紫 / Optimal Discount Purple）：系统推荐最高折扣，标识主结算路径。
-- `#B8E6D0`（合规校验绿 / Verified Audit Green）：风控校验通过，资金账户记账成功。
-- `#FFD6A5`（额度预警橙 / Limit Alert Orange）：优惠叠加达到临界阈值，触发二次确认。
-- `#141922`（暗暗卡片基底 / Dark Card Base）：模块化卡片容器，减轻前台全天候操作的视觉疲劳。
+#### 1. 高频场景聚焦 (High-frequency Focus)
+- 默认路径只展示完成典型升级/续卡所需的信息，减少前台在页面间的往返。
 
-#### 2. 渐进式暴露与键盘流极速操作 (Progressive Disclosure & Keyboard Ergonomics)
-- **快捷键流**：支持 `Enter`（确认/下一步）、`Tab`（焦点切换）、`Esc`（取消/回退），实现 100% 全程无鼠标极速收银。
-- **渐进暴露**：默认路径深度为 1 屏，多账单、无账单或额度不足等复杂异常收纳于二级抽屉。
-- **认知响应**：主流程交互认知延迟控制在 `< 1s`。
+#### 2. 即时校验 (Inline Validation)
+- 提交前显示原卡状态、差价、目标权益与限制原因，降低收银员心算与记忆负担。
 
-#### 3. 边界保护与容错机制 (Edge Protection)
-- 冻结卡、退卡、超额、跨店、网络超时等异常均有明确状态机定义与回退机制，彻底杜绝“旧卡已扣减、新卡未生效”的半完成断裂状态。
+#### 3. 渐进式暴露 (Progressive Disclosure)
+- 只有出现多账单、无账单、额度不足或冻结等异常时，才展开二级处理选项。
+
+#### 4. 结果反馈 (Outcome Feedback)
+- 成功后明确展示新旧卡关系、权益生效时间与账单归属，便于现场向会员解释。
+
+#### 5. 操作留痕 (Audit Log)
+- 记录执行人、时间、操作类型（升级/开通/囤卡/冻结/解冻/变更/注销/权益升级）、规则命中、失败原因与回退结果，供追查与对账。
 
 ---
 
 ## 6. 业务结果与指标口径 (Business Impact & Rigor)
 
-### 6.1 核心指标对比 (Core Metric)
-- **单笔高复杂度交易处理耗时**：
-  - 改版前：`4-5 min`（传统人工核对）
-  - 改版后：`1 min`（系统极速收银）
-  - 变化：**-75%** 耗时下降。
-  - **口径说明**：数据来自门店现场实测，抽取复杂卡券叠加与会员升级结算场景。
+### 6.1 核心指标 (Core Metric)
+- **典型会员升级操作耗时**：
+  - 改版前：`4-5 min`（人工核对）
+  - 改版后：`约 1 min`（系统自动处理）
+  - **变化**：耗时缩短约 75%。
+  - **口径说明**：门店现场实测，抽取典型会员升级结算场景。
 
 ### 6.2 次级指标与组织价值 (Secondary Metrics)
-1. **财务对账效率**：月底对账由 `3 天` 缩短至 `1 天`（-66.7%）。*说明：据财务团队估算，未做精细埋点统计，因此作为次级说明，不作为首页夸大宣传。*
-2. **门店网络落地**：成功覆盖 20+ 高端零售与连锁门诊，系统稳定性达到 99.9% 以上。
-3. **合规治理**：不可篡改链式审计日志全局生效，错刷让利与违规叠加降为零。
+1. **财务对账**：据财务团队估算，月底对账由约 `3 天` 缩短至约 `1 天`。*未做精细统计，仅作辅助反馈。*
+2. **门店覆盖**：全门店落地，会员业务全流程线上化操作。
+3. **合规治理**：优惠额度受控、超额阻断，违规操作有据可查并配套处罚机制（工资扣款 + 双倍扣额）。
 
 ---
 
 ## 7. 复盘反思与未解局限 (Retrospective)
 
-1. **反直觉发现**：初版以为“限制规则越多越安全”（如 3 个月到期限制），但在真实商业世界中，过度限制会扼杀业务弹性。最好的风控不是限制业务发生，而是**在底层建立精确的折算公式与不可篡改的留痕机制**。
+1. **规则固化比"限制更多"更重要**：早期倾向用更多限制保障安全，但真实商业中过度限制会扼杀业务弹性。最好的风控不是阻止业务发生，而是把规则固化为系统逻辑、用自动计算与留痕守住边界。
 2. **未解局限与后续演进**：跨组织主体的不同法人门店之间的结算清算，目前依赖夜间批处理任务完成；未来可进一步演进为实时分账引擎。
 
 ---

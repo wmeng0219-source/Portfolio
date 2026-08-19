@@ -68,7 +68,7 @@
 
 ## 5. 关键机制与产品决策 (Mechanism & Product Decisions)
 
-### 5.1 三大核心解决方案 (Core Solutions)
+### 5.1 核心解决方案 (Core Solutions)
 
 1. **流程机制改版 (Workflow Mechanism Redesign)**
    - *中*：取消快筛这一独立前置动作，将筛查从“当次是否做”转成“什么时候做、由谁做、何时再次进入流程”的推荐机制。
@@ -82,7 +82,7 @@
 
 ---
 
-### 5.2 核心产品决策与权衡 (Key Decisions & Trade-offs)
+### 5.2 核心决策与权衡 (Key Decisions & Trade-offs)
 
 | 决策点 (Decision Question) | 最终选择与方案 (Choice) | 权衡考量与代价 (Trade-off & Rationale) |
 | :--- | :--- | :--- |
@@ -92,7 +92,7 @@
 
 ---
 
-### 5.3 替牙期发育 5 级优先级调度机制 (Eruption Priority Pipeline)
+### 5.3 机制细节：替牙期发育优先级调度 (Mechanism Detail: Eruption Priority Pipeline)
 
 系统根据患儿年龄与牙位档案，动态计算推荐干预优先级：
 
@@ -106,7 +106,7 @@
 
 ---
 
-### 5.4 医护运 4 角色权责矩阵 (Role Matrix & Tab System)
+### 5.4 机制细节：医护运角色权责矩阵 (Mechanism Detail: Role Matrix & Tab System)
 
 ```text
 ┌─────────────────┐   ┌─────────────────┐   ┌─────────────────┐   ┌─────────────────┐

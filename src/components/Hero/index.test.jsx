@@ -56,7 +56,6 @@ test('renders hero with WEN MENG title and dual action buttons matching design s
       name: /WEN MENG/i,
     }),
   ).toBeInTheDocument();
-  expect(screen.getByText(/化繁为简，落地生根/)).toBeInTheDocument();
   expect(screen.getByRole('link', { name: /查看精选项目/ })).toHaveAttribute('href', '#portfolio');
   expect(screen.getByRole('link', { name: /查看精选项目/ })).toHaveAttribute('data-motion-hover', 'button');
   expect(fromTo).toHaveBeenCalled();

@@ -16,17 +16,17 @@ export const projects = [
       en: 'Rule System / Member Automation',
     },
     background: {
-      zh: '旧有的会员系统由于数据结构碎片化，导致会员卡、优惠券与结算流程之间缺乏有效联动。由于 20 多家门店每天产生数千笔交易，高昂的人工核对成本导致财务差异显著，同时也严重拖慢了前台的收银效率。',
-      en: 'Membership, coupons, payments, and billing were disconnected across 20+ stores, creating heavy manual audit costs for finance and slowing frontline checkout.',
+      zh: '会员卡开卡、升级、续卡、退卡与优惠核销依赖前台手工查卡、算差额、核账单，跨店升级还涉及账单归属与资金划转；操作慢、易出错，财务月底靠人工逐笔平账。',
+      en: 'Membership-card opening, upgrade, renewal, refund and discount operations relied on manual lookups, calculations and bill reconciliation, including cross-clinic transfers — slow, error-prone, and a month-end audit burden for finance.',
     },
     role: {
-      zh: '产品经理 / 产品设计，负责门店与财务调研、规则梳理、流程与界面设计，以及全门店上线推进。',
-      en: 'Product Manager / Product Designer, responsible for clinic and finance research, rule design, workflow and UI design, and rollout across all clinics.',
+      zh: '产品经理 / 产品设计，负责门店与财务调研、升/续/退规则梳理、流程与界面设计，以及全门店上线推进。',
+      en: 'Product Manager / Product Designer, responsible for clinic and finance research, upgrade/renewal/refund rule design, workflow and UI design, and rollout across all clinics.',
     },
     sysVer: 'SYS_MA_VER_3.2_STABLE',
     problem: {
-      zh: '会员收银流程不规范，高频操作步骤多易错，跨门店结算需大量人工介入。数据同步延迟导致资金合规隐患。',
-      en: 'Frontline operations were slow and error-prone, while finance spent days manually reconciling disconnected records across stores.',
+      zh: '卡、券、账单、优惠分散在不同模块，前台需手工查卡、算差额、核账单，跨店升级依赖原门店人工配合；优惠缺乏系统边界，月底对账靠人工逐笔核对。',
+      en: 'Cards, coupons, bills and discounts lived in disconnected modules; frontline manually looked up cards, computed price differences and reconciled bills, with cross-clinic upgrades depending on manual coordination and month-end audit done line by line.',
     },
 
     // ── 核心约束与范围 ──────────────────────────────────
@@ -34,24 +34,24 @@ export const projects = [
       title: { zh: '核心约束与边界', en: 'Core Constraints & Scope' },
       items: [
         {
-          title: { zh: '业务连续性', en: 'Business Continuity' },
+          title: { zh: '底层系统不可重构', en: 'Backend Immutability' },
           desc: {
-            zh: '20+ 门店全天候运营，升级过程不能停机，必须支持新旧会员卡体系平滑过渡。',
-            en: '20+ clinics operate continuously; upgrade cannot interrupt checkout and must support smooth legacy transition.',
+            zh: '会员数据与收费能力由领健系统承载，本系统通过接口调用领健完成注销、开卡、收费、发券；接口失败时不能产生半完成状态。',
+            en: 'Member data and billing are owned by the backend system; we integrate via APIs for cancellation, activation, charging and coupon issuance, and must never leave half-completed states on failure.',
           },
         },
         {
-          title: { zh: '资金安全红线', en: 'Fund Security Redline' },
+          title: { zh: '资金安全', en: 'Fund Security' },
           desc: {
-            zh: '优惠叠加必须设置硬性额度保护上限，严禁任何形式的负毛利或无限叠加漏洞。',
-            en: 'Discounts must enforce strict ceiling limits, preventing margin leakage or infinite stacking exploits.',
+            zh: '优惠（券 + 手动优惠）必须受额度控制，超额阻断并提示原因，防止违规优惠绕开审批。',
+            en: 'Discounts (coupons + manual discounts) must stay within quota; over-quota is blocked with a clear reason to prevent unapproved concessions.',
           },
         },
         {
-          title: { zh: '一线认知负荷', en: 'Cognitive Ergonomics' },
+          title: { zh: '一线可用性', en: 'Frontline Usability' },
           desc: {
-            zh: '前台收银人员流动性较高，新系统学习成本必须控制在 15 分钟以内，支持键盘流极速操作。',
-            en: 'Staff turnover is high; learning curve must stay under 15 minutes with keyboard-first navigation.',
+            zh: '全门店上线，高频场景默认路径只保留必要信息，复杂异常收纳到二级处理，前台操作门槛需足够低。',
+            en: 'Rolled out to all clinics; the default path shows only essential info with complex exceptions in secondary flows to keep the frontline barrier low.',
           },
         },
       ],
@@ -59,24 +59,24 @@ export const projects = [
 
     solution: [
       {
-        title: { zh: '规则系统化', en: 'Systematizing Rules' },
+        title: { zh: '升/续/退流程自动化', en: 'Automated Upgrade / Renewal / Refund' },
         desc: {
-          zh: '将复杂的优惠叠加规则转化为层级清晰的逻辑判定树，消除歧义，统一管理卡券与权益资产。',
-          en: 'Converted complex stacking discount rules into a clear hierarchy logic tree, eliminating ambiguity.',
+          zh: '系统自动判定升/续规则，自动计算差价与有效期，自动调用后端完成原卡注销/退费、新卡开通与欠费补充，前台只做必要选择。',
+          en: 'The system judges upgrade-vs-renewal automatically, computes price differences and validity, and handles old-card cancellation, new-card activation and balance settlement via backend APIs.',
         },
       },
       {
-        title: { zh: '流程自动化', en: 'Workflow Automation' },
+        title: { zh: '账单与权益自动对应', en: 'Automated Bill & Benefit Mapping' },
         desc: {
-          zh: '一键式极速收银，后台自动匹配会员身份与最优卡券组合，大幅减少前台人工干预。',
-          en: 'Single-click rapid checkout; backend automatically matches member identities and optimal coupon combinations.',
+          zh: '系统统一处理单年卡、多年卡、长期卡、囤卡、优惠券、手动优惠与跨店账单的对应关系，记录每次变更前后的卡、账单与权益。',
+          en: 'The system maps bills and benefits across card types, stored cards, coupons and cross-clinic transactions, logging every before/after change.',
         },
       },
       {
-        title: { zh: '合规与财务治理', en: 'Compliance & Governance' },
+        title: { zh: '优惠额度治理', en: 'Discount Quota Governance' },
         desc: {
-          zh: '每笔交易生成不可篡改的链式审计记录，引入优惠额度边界，保障大宗会员交易资金安全。',
-          en: 'Generates immutable audit logs for every transaction, establishing clear discount limits for security.',
+          zh: '用运营/门店优惠额度控制总边界，额度内现场执行无需审批，超额明确阻断并提示；额度每月重置，需提前录入卡标。',
+          en: 'Discounts are governed by operator/store quotas: within-quota execution needs no approval, over-quota is blocked with a clear reason; quotas reset monthly.',
         },
       },
     ],
@@ -89,32 +89,32 @@ export const projects = [
       opTimeAfter: '1m',
       reconcileBefore: '3d',
       reconcileAfter: '1d',
-      deployment: '20+ 家门店',
+      deployment: '全门店',
     },
     detailMetrics: {
       headline: {
-        zh: '单笔高复杂度交易处理耗时',
-        en: 'Single high-complexity checkout processing time',
+        zh: '典型会员升级操作耗时',
+        en: 'Typical member upgrade processing time',
       },
-      before: { value: '4-5 min', label: { zh: '传统人工核对', en: 'Manual Checkout' } },
-      after:  { value: '1 min', label: { zh: '系统极速收银', en: 'Automated POS' } },
-      delta:  { value: '-75%', label: { zh: '效率提升', en: 'Time Saved' } },
+      before: { value: '4-5 min', label: { zh: '人工核对', en: 'Manual Checkout' } },
+      after:  { value: '~1 min', label: { zh: '系统自动处理', en: 'Automated Flow' } },
+      delta:  { value: '-75%', label: { zh: '耗时缩短', en: 'Time Saved' } },
       context: {
-        zh: '高频会员收银环节由后台静默算价与审计日志承接，前台操作人员的角色从数据录入转变为异常处理。',
-        en: 'Automated settlement engine replaces manual price computation, shifting staff focus to anomaly handling.',
+        zh: '系统自动判定升/续规则、自动算差与对应账单，前台只处理必要选择与异常；操作全程留痕，失败不产生半完成状态。',
+        en: 'The system auto-judges upgrade-vs-renewal, computes differences and maps bills; frontline handles only essential choices and exceptions, with full audit logging and no half-completed failures.',
       },
       secondary: [
         {
           label: { zh: '财务对账', en: 'Month-end Audit' },
-          value: { zh: '月底对账由 3 天缩短至 1 天 (-66.7%)', en: 'Reconciliation cut from 3 days to 1 day' },
+          value: { zh: '据财务估算月底对账由约 3 天缩短至约 1 天', en: 'Finance estimates month-end reconciliation fell from ~3 days to ~1 day' },
         },
         {
-          label: { zh: '门店覆盖', en: 'Store Deployment' },
-          value: { zh: '落地覆盖 20+ 高端零售与诊所门店', en: 'Deployed across 20+ retail clinics' },
+          label: { zh: '门店覆盖', en: 'Deployment' },
+          value: { zh: '全门店落地，会员业务全流程线上化', en: 'Rolled out across all clinics with fully online member operations' },
         },
         {
           label: { zh: '合规治理', en: 'Compliance' },
-          value: { zh: '不可篡改链式审计日志全局生效', en: 'Immutable audit logs active across network' },
+          value: { zh: '优惠额度受控、超额阻断，操作全程留痕', en: 'Discounts quota-governed with over-quota blocking and full audit trail' },
         },
       ],
     },
@@ -122,102 +122,79 @@ export const projects = [
       {
         version: 'V1',
         label: { zh: '初版限制', en: 'Initial constraint' },
-        title: { zh: '距离到期 3 个月内才可升级', en: 'Upgrade only within 3 months of expiry' },
+        title: { zh: '手工流程与逐笔审批', en: 'Manual flow with per-transaction approval' },
         desc: {
-          zh: '初版用剩余有效期控制升级，希望简化权益计算，但阻断了仍在有效期内、已有明确意愿的会员。',
-          en: 'The initial rule constrained upgrades by remaining validity. It simplified calculation but blocked members with valid cards and clear intent.',
+          zh: '升级、续卡、退卡全凭前台手工查卡、算差、核账单，优惠走逐笔人工审批；跨店升级需联系原门店配合，月底财务逐笔平账。',
+          en: 'Upgrade, renewal and refund relied on manual lookups and calculations with per-transaction discount approval; cross-clinic upgrades needed manual coordination and month-end reconciliation was done line by line.',
         },
       },
       {
         version: 'V2',
-        label: { zh: '最终规则', en: 'Final rule' },
-        title: { zh: '有效期内均可升级', en: 'Upgrade anytime while valid' },
+        label: { zh: '最终方案', en: 'Final solution' },
+        title: { zh: '系统自动判定与额度治理', en: 'Automated decisioning with quota governance' },
         desc: {
-          zh: '取消“距离到期 3 个月”的限制。只要会员卡仍在有效期内即可升级，系统继续校验卡状态、账单和权益。',
-          en: 'Removed the three-month restriction. A member can upgrade whenever the card remains valid, while status, bills, and benefits are still validated.',
+          zh: '系统按规则自动判定升级/续卡，自动计算差价与有效期、自动对应账单与权益；优惠改为额度制，额度内免审批、超额阻断，全程留痕。',
+          en: 'The system auto-judges upgrade-vs-renewal, computes price differences and validity, and maps bills and benefits automatically; discounts moved to a quota model with full audit logging.',
         },
       },
     ],
     designCraft: {
       title: { zh: '设计体系与交互策略', en: 'Design System & UX Craft' },
       subtitle: {
-        zh: '从资金安全隐喻到高频收银场景下的认知负荷优化',
-        en: 'From fund safety metaphors to cognitive load optimization in high-frequency POS environment',
+        zh: '从高频场景聚焦到异常兜底与操作留痕',
+        en: 'From high-frequency focus to exception fallbacks and audit logging',
       },
       pillars: [
         {
-          tag: { zh: '色彩与卡券语义', en: 'Color & Coupon Semantics' },
-          title: { zh: '交易状态与权益的层次化表达', en: 'Hierarchical Representation of Rights & Discounts' },
+          tag: { zh: '高频场景聚焦', en: 'High-frequency Focus' },
+          title: { zh: '默认路径只保留必要信息', en: 'Default path keeps only essentials' },
           desc: {
-            zh: '在大宗会员结算与卡券叠加场景中，清晰直观的权益标识是防范错刷降损的关键。我们建立了高对比度颜色区分：',
-            en: 'In high-volume checkout, clear coupon tiering prevents cashier errors and protects margin compliance:',
-          },
-          swatches: [
-            {
-              color: '#C8B6FF',
-              name: { zh: '最优权益紫', en: 'Optimal Discount Purple' },
-              role: { zh: '系统推荐最高折扣 / 主结算路径', en: 'Auto-matched best discount / Primary path' },
-            },
-            {
-              color: '#B8E6D0',
-              name: { zh: '合规校验绿', en: 'Verified Audit Green' },
-              role: { zh: '风控校验通过 / 资金账户记账', en: 'Audit passed / Account ledger sync' },
-            },
-            {
-              color: '#FFD6A5',
-              name: { zh: '额度预警橙', en: 'Limit Alert Orange' },
-              role: { zh: '优惠叠加临界值 / 触发二次确认', en: 'Threshold limit reached / Require secondary confirmation' },
-            },
-            {
-              color: '#141922',
-              name: { zh: '暗暗卡片基底', en: 'Dark Card Base' },
-              role: { zh: '减轻前台全天候操作视觉疲劳', en: 'Reduces visual fatigue during long shifts' },
-            },
-          ],
-        },
-        {
-          tag: { zh: '渐进式暴露与快捷操作', en: 'Progressive Disclosure & Keyboard Ergonomics' },
-          title: { zh: '极速收银环境下的键盘流交互', en: 'Keyboard-first Navigation for Express Checkout' },
-          desc: {
-            zh: '收银人员长期保持极高操作频次。界面支持 Enter / Tab / Esc 快捷键全程无鼠标收银，高级规则配置收纳于二级面板，确保 95% 主流程 1 秒完成。',
-            en: 'Cashiers require rapid keyboard interaction. Enter/Tab hotkeys allow mouse-free checkout, while advanced override options remain accessible via secondary drawer.',
+            zh: '升级/续卡默认路径只展示完成操作所需的信息，减少前台在页面间往返；提交前即时显示原卡状态、差价、目标权益与限制原因，降低心算与记忆负担。',
+            en: 'The default upgrade/renewal path shows only what is needed, and inline validation surfaces current card status, price difference, target benefits and restrictions before submission.',
           },
           specs: [
-            { label: { zh: '快捷键覆盖', en: 'Shortcut Coverage' }, value: '100%' },
-            { label: { zh: '默认路径层级', en: 'Primary Path Depth' }, value: '1 Screen' },
-            { label: { zh: '认知响应', en: 'Cognitive Latency' }, value: '< 1s' },
+            { label: { zh: '默认路径', en: 'Default Path' }, value: '1 Screen' },
+            { label: { zh: '提前校验', en: 'Pre-submit Check' }, value: 'INLINE' },
           ],
         },
         {
-          tag: { zh: '反馈与留痕', en: 'Feedback & Traceability' },
-          title: { zh: '每一步都有可解释的系统反馈', en: 'Explainable feedback at every step' },
+          tag: { zh: '渐进式暴露', en: 'Progressive Disclosure' },
+          title: { zh: '复杂异常收纳到二级处理', en: 'Complex exceptions in secondary flows' },
           desc: {
-            zh: '成功后明确新旧卡关系与账单归属；失败时保留原会员卡与原权益，并记录执行人、规则命中和失败原因。',
-            en: 'Success states explain old-to-new card linkage and bill ownership. On failure, the original card and benefits remain intact, with operator, rule, and failure reason logged.',
+            zh: '只有出现多账单、无账单、额度不足或冻结等异常时，才展开二级处理选项（选账单、切换账单、超额阻断提示），主流程保持清爽。',
+            en: 'Only when exceptions arise — multiple bills, no bill, quota exceeded or frozen card — do secondary flows expand for bill selection, switching or over-quota blocking.',
+          },
+        },
+        {
+          tag: { zh: '反馈与留痕', en: 'Feedback & Audit Log' },
+          title: { zh: '成功可解释，失败不产生半完成态', en: 'Explainable success, no half-completed failure' },
+          desc: {
+            zh: '成功后明确展示新旧卡关系、权益生效时间与账单归属，便于现场向会员解释；任一步骤失败时保留原卡与原权益并记录执行人、操作类型、失败原因与回退结果。',
+            en: 'Success states explain old-to-new card linkage, benefit timing and bill ownership; on failure the original card and benefits remain intact, with operator, operation type, failure reason and rollback logged.',
           },
         },
       ],
     },
     decisions: [
       {
-        question: { zh: '自动匹配还是手动选择？', en: 'Automatic matching or manual choice?' },
+        question: { zh: '自动匹配还是人工选择？', en: 'Automatic matching or manual choice?' },
         choice: {
-          zh: '优先采用“强制自动匹配”覆盖 95% 的高频场景，仅针对验证过的异常情况开放手动干预。这让收银员的角色从“数据输入员”转变为“异常处理器”。',
-          en: 'Prioritized forced auto-matching for 95% of cases, reserving manual overrides only for verified anomalies.',
+          zh: '高频标准场景由系统自动匹配，仅定义的异常开放人工干预，避免每笔业务都重新解释规则；前台角色从“数据录入”转为“异常处理”。',
+          en: 'High-frequency standard scenarios are auto-matched, with manual override reserved for defined exceptions — shifting frontline staff from data entry to exception handling.',
         },
       },
       {
-        question: { zh: '状态机驱动的界面设计？', en: 'State-machine driven interface?' },
+        question: { zh: '升级 vs 续卡怎么判定？', en: 'How to judge upgrade vs renewal?' },
         choice: {
-          zh: '基于状态的 UI 转换。界面根据会员画像和规则命中情况动态调整，隐藏无关选项，降低前台人员的认知负担。',
-          en: 'State-based UI transitions dynamically show relevant options, eliminating cognitive load.',
+          zh: '固化为确定性规则：现有卡为短期卡、购买新卡为长期卡、现有卡有效期逾期 6 个月内、卡内有剩余项目 → 升级；否则续卡。恒橙卡可升级金橙卡（特殊）。',
+          en: 'A deterministic rule: existing short-term card, buying a longer-term card, current validity within 6 months overdue and remaining benefits → upgrade; otherwise renewal. Special-case: Orange → Gold upgrade allowed.',
         },
       },
       {
-        question: { zh: '异常审计抽样逻辑？', en: 'Exception-based audit logic?' },
+        question: { zh: '失败如何兜底？', en: 'How to fail safely?' },
         choice: {
-          zh: '基于异常的审计机制。系统自动标记异常差异，使财务部门能够专注于处理“离群交易”，而非逐一核对全量流水。',
-          en: 'System flags anomalies automatically so finance focuses on outliers rather than line-by-line checks.',
+          zh: '任一步骤失败时保留原卡与原权益，明确失败原因并记录留痕，禁止出现“旧卡已注销、新卡未生效”的半完成状态。',
+          en: 'On any failure the original card and benefits are preserved with the reason logged — no half-completed state where the old card is voided but the new one is not active.',
         },
       },
     ],
@@ -227,10 +204,10 @@ export const projects = [
       title: { zh: '复盘反思与未解局限', en: 'Retrospective & Limitations' },
       items: [
         {
-          title: { zh: '反思过度限制规则', en: 'Rethinking Over-Constrained Rules' },
+          title: { zh: '规则固化比"限制更多"更重要', en: 'Codify rules over adding restrictions' },
           desc: {
-            zh: '初版以为“限制规则越多越安全”（如 3 个月到期限制），但在真实商业中会扼杀业务弹性。最好的风控不是限制业务发生，而是在底层建立精确的折算公式与不可篡改的留痕机制。',
-            en: 'Initially assumed more constraints meant safer margins (e.g. 3-month expiry block), but it hindered sales. Optimal governance balances flexibility with automated ledger calculation.',
+            zh: '早期倾向用更多限制保障安全，但真实商业中过度限制会扼杀业务弹性。最好的风控不是阻止业务发生，而是把规则固化为系统逻辑、用自动计算与留痕守住边界。',
+            en: 'Early instincts leaned toward more restrictions, but over-constraining stifles real business. Better governance codifies rules into system logic and guards boundaries with automated calculation and audit trails.',
           },
         },
         {
