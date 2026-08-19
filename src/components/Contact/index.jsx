@@ -34,10 +34,10 @@ const Contact = () => {
           </div>
 
           <h2 className="font-display text-4xl md:text-6xl lg:text-7xl leading-[1.0] text-[var(--color-text-primary)] uppercase tracking-tight mb-6 font-extrabold">
-            {t('contact.stage.title') || '欢迎联系我'}
+            {t('contact.stage.title') || '联系我'}
           </h2>
           <p className="text-[var(--color-text-secondary)] text-sm md:text-base max-w-xl mx-auto leading-relaxed font-serif font-light">
-            {t('contact.stage.body') || '适合讨论流程复杂、协作困难、需要系统化落地的产品问题。'}
+            {t('contact.stage.body') || '欢迎直接交流。'}
           </p>
 
           <div className="flex flex-col items-center gap-6 pt-4">

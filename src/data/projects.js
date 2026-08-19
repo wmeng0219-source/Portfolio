@@ -365,15 +365,15 @@ export const projects = [
       secondary: [
         {
           label: { zh: '推荐目标', en: 'Target Recommended' },
-          value: { zh: '9,274 患儿全量覆盖', en: '9,274 patient pool mapped' },
+          value: { zh: '54,990 患儿累计覆盖', en: '54,990 cumulative patients mapped' },
         },
         {
           label: { zh: '筛查转交', en: 'Screening Handoff' },
-          value: { zh: '4,579 例精准转交率 49.4%', en: '4,579 handoffs (49.4% rate)' },
+          value: { zh: '19,640 例精准转交率 35.7%', en: '19,640 handoffs (35.7% rate)' },
         },
         {
-          label: { zh: '签约锁定', en: 'Contract Booked' },
-          value: { zh: '1,239 例跟进预约锁死', en: '1,239 contracts locked in funnel' },
+          label: { zh: '预约锁定', en: 'Follow-up Booked' },
+          value: { zh: '5,495 例跟进预约锁定', en: '5,495 follow-up appointments booked' },
         },
       ],
     },
@@ -499,10 +499,10 @@ export const projects = [
       en: 'Internal business statistics comparing Feb–Apr 2025 with Feb–Apr 2026; the metric is all-clinic orthodontic sales conversion.',
     },
     funnelData: [
-      { stage: { zh: '系统推荐目标', en: 'System Recommended' }, value: 9274, percentage: 100 },
-      { stage: { zh: '筛查转交', en: 'Screening Handoff' }, value: 4579, percentage: 49.37 },
-      { stage: { zh: '识别需矫', en: 'Ortho Required' }, value: 2466, percentage: 26.59 },
-      { stage: { zh: '矫正跟进预约', en: 'Follow-up Booked' }, value: 1239, percentage: 13.36 },
+      { stage: { zh: '系统推荐目标', en: 'System Recommended' }, value: 54990, percentage: 100 },
+      { stage: { zh: '筛查转交', en: 'Screening Handoff' }, value: 19640, percentage: 35.72 },
+      { stage: { zh: '识别需矫', en: 'Ortho Required' }, value: 9923, percentage: 18.05 },
+      { stage: { zh: '矫正跟进预约', en: 'Follow-up Booked' }, value: 5495, percentage: 10 },
     ],
 
     // ── 复盘反思与未解局限 ──────────────────────────────

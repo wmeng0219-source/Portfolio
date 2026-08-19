@@ -33,7 +33,6 @@ const Navbar = () => {
   const navItems = useMemo(
     () => [
       { key: 'nav.portfolio', href: '#portfolio', label: 'Work' },
-      { key: 'nav.about', href: '#about', label: 'Method' },
       { key: 'nav.experience', href: '#experience', label: 'Path' },
       { key: 'nav.contact', href: '#contact', label: 'Contact' },
     ],
@@ -78,7 +77,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['hero', 'portfolio', 'about', 'experience', 'contact'];
+      const sections = ['hero', 'portfolio', 'experience', 'contact'];
       const scrollPosition = window.scrollY + 250;
 
       for (let i = sections.length - 1; i >= 0; i--) {

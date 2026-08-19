@@ -43,7 +43,7 @@ pages/
 
 | 序号 | 页面 Slug | 对象目录 | 内容母稿 | 设计规范 | 事实来源 (`docs/project/`) | 页面定位 |
 | :---: | :--- | :--- | :--- | :--- | :--- | :--- |
-| **00** | `homepage` | `homepage/` | `homepage/content.md` | `homepage/design.md` | — | 首页（Hero / Selected Work / How I Work / Career / Contact） |
+| **00** | `homepage` | `homepage/` | `homepage/content.md` | `homepage/design.md` | — | 首页（Hero / Selected Work / Career / Contact） |
 | **01** | `member-automation` | `member-automation/` | `content.md` | `design.md` | `会员自动化.md` | 首页主案例（规则系统） |
 | **02** | `orthodontics` | `orthodontics/` | `content.md` | `design.md` | `正畸筛查与状态管理.md` | 首页主案例（流程协作） |
 | **03** | `pacs-ai` | `pacs-ai/` | `content.md` | `design.md` | `PACS读片与AI辅助判断.md` | 首页主案例（AI 闭环） |

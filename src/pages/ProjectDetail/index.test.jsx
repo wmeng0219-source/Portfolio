@@ -218,7 +218,7 @@ test('orthodontics presents the verified rollout, ownership, iteration decision,
   expect(screen.getAllByText(/独立完成门诊调研/).length).toBeGreaterThan(0);
   expect(screen.getByText(/产品减法/)).toBeInTheDocument();
   expect(screen.getAllByText(/2025 年 2—4 月与 2026 年 2—4 月/).length).toBeGreaterThan(0);
-  expect(screen.getByText('9274')).toBeInTheDocument();
+  expect(screen.getByText('54990')).toBeInTheDocument();
 });
 
 test('member automation states the final upgrade rule and distinguishes measured from estimated outcomes', () => {

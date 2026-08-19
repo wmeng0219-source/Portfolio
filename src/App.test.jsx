@@ -69,27 +69,15 @@ test('renders homepage sections with updated responsibilities and portfolio emph
   expect(screen.getByRole('link', { name: /查看精选项目/ })).toHaveAttribute('href', '#portfolio');
   expect(screen.getByText(/化繁为简，落地生根/)).toBeInTheDocument();
 
-  const aboutSection = screen.getByRole('heading', {
-    level: 2,
-    name: /工作方法 · 我如何把复杂问题变成系统/i,
-  }).closest('section');
-  expect(aboutSection).toHaveAttribute('data-motion-section');
-  expect(within(aboutSection).getByText(/02 \/ HOW I WORK/i)).toBeInTheDocument();
-  expect(within(aboutSection).getByText(/深入现场/i)).toBeInTheDocument();
-  expect(within(aboutSection).getByText(/定义问题 · 核心关键/i)).toBeInTheDocument();
-  expect(within(aboutSection).getByText(/系统建模/i)).toBeInTheDocument();
-  expect(within(aboutSection).getByText(/真实验证/i)).toBeInTheDocument();
-  expect(within(aboutSection).getByText(/持续演进/i)).toBeInTheDocument();
-
   const experienceSection = screen.getByRole('heading', {
     level: 2,
-    name: /职业历程 · 能力的演进与蜕变/i,
+    name: /职业历程/i,
   }).closest('section');
   expect(experienceSection).toHaveAttribute('data-motion-section');
-  expect(within(experienceSection).getByText(/03 \/ CAREER PATH/i)).toBeInTheDocument();
+  expect(within(experienceSection).getByText(/02 \/ CAREER PATH/i)).toBeInTheDocument();
   expect(within(experienceSection).getByText('2019 – 2020')).toBeInTheDocument();
   expect(within(experienceSection).getByText('2023 – 至今')).toBeInTheDocument();
-  expect(within(experienceSection).getByText(/交互规范 · 用户同理心 · 组件化设计/i)).toBeInTheDocument();
+  expect(within(experienceSection).getByText(/界面设计 · 设计规范 · 组件体系/i)).toBeInTheDocument();
   expect(experienceSection.querySelector('.growth-path')).not.toBeNull();
   expect(experienceSection.querySelectorAll('.growth-path-node')).toHaveLength(4);
 
@@ -107,10 +95,10 @@ test('renders homepage sections with updated responsibilities and portfolio emph
 
   const contactSection = screen.getByRole('heading', {
     level: 2,
-    name: /化繁为简，期待与您同行/i,
+    name: /联系我/i,
   }).closest('section');
   expect(contactSection).toHaveAttribute('data-motion-section');
-  expect(within(contactSection).getByText(/04 \/ CONTACT/i)).toBeInTheDocument();
+  expect(within(contactSection).getByText(/03 \/ CONTACT/i)).toBeInTheDocument();
   expect(within(contactSection).getByRole('link', { name: /wmeng0219@gmail.com/i })).toHaveAttribute(
     'href',
     'mailto:wmeng0219@gmail.com',
@@ -133,7 +121,7 @@ test('toggles language to English seamlessly across navbar, hero, portfolio, and
   expect(screen.getByText('Membership & Automated Billing')).toBeInTheDocument();
   expect(screen.getByText('Orthodontic Screening & Handoff')).toBeInTheDocument();
   expect(screen.getByText('PACS AI-Assisted Reading & QA')).toBeInTheDocument();
-  expect(screen.getByText("Let's Build Clarity Together")).toBeInTheDocument();
+  expect(screen.getByRole('heading', { level: 2, name: /^Contact$/i })).toBeInTheDocument();
 });
 
 test('renders case studies and handles invalid project ID 404 fallback', () => {

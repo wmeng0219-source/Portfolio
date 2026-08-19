@@ -96,9 +96,6 @@ const Portfolio = () => {
               <p className="portfolio-showcase-problem">
                 {t('portfolio.item.1.problem')}
               </p>
-              <p className="portfolio-showcase-decision">
-                {t('portfolio.item.1.decision')}
-              </p>
               <div className="portfolio-showcase-card-metrics">
                 <div className="portfolio-showcase-card-metric">
                   <span className="portfolio-showcase-metric-value" data-countup>{t('portfolio.item.1.metric.1.val') || '~80% ↓'}</span>
@@ -138,9 +135,6 @@ const Portfolio = () => {
               <p className="portfolio-showcase-problem">
                 {t('portfolio.item.2.problem')}
               </p>
-              <p className="portfolio-showcase-decision">
-                {t('portfolio.item.2.decision')}
-              </p>
               <div className="portfolio-showcase-card-metrics">
                 <div className="portfolio-showcase-card-metric">
                   <span className="portfolio-showcase-metric-value" data-countup>{t('portfolio.item.2.metric.1.val') || '50–60%'}</span>
@@ -179,9 +173,6 @@ const Portfolio = () => {
               </h3>
               <p className="portfolio-showcase-problem">
                 {t('portfolio.item.3.problem')}
-              </p>
-              <p className="portfolio-showcase-decision">
-                {t('portfolio.item.3.decision')}
               </p>
               <div className="portfolio-showcase-card-metrics">
                 <div className="portfolio-showcase-card-metric">

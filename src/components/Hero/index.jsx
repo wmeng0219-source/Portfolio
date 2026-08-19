@@ -43,11 +43,6 @@ const Hero = () => {
           }
 
           gsap.fromTo(
-            '[data-hero-part="eyebrow"]',
-            { autoAlpha: 0, y: 16 },
-            { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power3.out', delay: 0.1 },
-          );
-          gsap.fromTo(
             '.hero-char',
             { yPercent: 115 },
             { yPercent: 0, duration: 0.75, stagger: 0.04, ease: 'power3.out', delay: 0.28 },
@@ -56,11 +51,6 @@ const Hero = () => {
             '[data-hero-part="lede"]',
             { autoAlpha: 0, y: 24 },
             { autoAlpha: 1, y: 0, duration: 0.65, ease: 'power3.out', delay: 0.72 },
-          );
-          gsap.fromTo(
-            '[data-hero-part="tags"]',
-            { autoAlpha: 0, y: 16 },
-            { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power3.out', delay: 0.84 },
           );
           gsap.fromTo(
             '[data-hero-part="actions"]',
@@ -106,11 +96,6 @@ const Hero = () => {
 
       {/* Hero Content - centered in viewport */}
       <div className="relative z-10 max-w-5xl flex flex-col items-center my-auto py-6 space-y-4 md:space-y-6" ref={copyRef}>
-        {/* Eyebrow kicker */}
-        <p className="hero-eyebrow" data-hero-part="eyebrow">
-          {t('hero.stage.kicker') || 'PRODUCT MANAGER · PRODUCT DESIGNER'}
-        </p>
-
         {/* Main H1 Title: Anton Display, Mint→White gradient, per-char mask reveal */}
         <div className="relative">
           <h1
@@ -145,11 +130,6 @@ const Hero = () => {
             {t('hero.body') || '把复杂业务，拆解为清晰、可用、可落地的产品系统。'}
           </p>
         </div>
-
-        {/* Micro capability tags */}
-        <p className="font-mono text-xs md:text-sm tracking-widest text-[var(--color-text-muted)] uppercase" data-hero-part="tags">
-          {t('hero.tags') || 'Product Thinking · Systems Design · Design Craft · AI-assisted'}
-        </p>
 
         {/* CTA Buttons */}
         <div className="flex items-center justify-center gap-5 pt-2 flex-wrap" data-hero-part="actions">

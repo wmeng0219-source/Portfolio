@@ -15,7 +15,6 @@ const Experience = () => {
           </div>
           <div className="experience-stage-head-body">
             <h2 className="experience-stage-title">{t('experience.stage.title')}</h2>
-            <p className="experience-stage-intro">{t('experience.stage.intro')}</p>
           </div>
         </div>
 
@@ -36,7 +35,6 @@ const Experience = () => {
                   <h3 className="growth-path-role">{t(`experience.item.${item}.title`)}</h3>
                   <p className="growth-path-tags">{t(`experience.item.${item}.tags`)}</p>
                 </div>
-                <p className="growth-path-body">{t(`experience.item.${item}.body`)}</p>
               </div>
             </article>
           ))}

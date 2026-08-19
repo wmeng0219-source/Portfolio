@@ -41,14 +41,13 @@ test('removes closed mobile navigation links from the accessibility tree after s
   await user.click(screen.getByRole('button', { name: '菜单' }));
 
   expect(screen.getByRole('link', { name: '精选项目' })).toHaveAttribute('href', '#portfolio');
-  expect(screen.getByRole('link', { name: '工作方法' })).toHaveAttribute('href', '#about');
   expect(screen.getByRole('link', { name: '职业历程' })).toHaveAttribute('href', '#experience');
   expect(screen.getByRole('link', { name: '联系我' })).toHaveAttribute('href', '#contact');
 
-  await user.click(screen.getByRole('link', { name: '工作方法' }));
+  await user.click(screen.getByRole('link', { name: '职业历程' }));
 
   expect(screen.getByRole('button', { name: '菜单' })).toBeInTheDocument();
-  expect(screen.queryByRole('link', { name: '工作方法' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('link', { name: '职业历程' })).not.toBeInTheDocument();
   expect(document.getElementById('primary-navigation')).toHaveAttribute('hidden');
   expect(document.getElementById('primary-navigation')).toHaveAttribute('aria-hidden', 'true');
 });
@@ -87,7 +86,7 @@ test('marks navbar links and language button for motion hover hooks', async () =
 
   await user.click(screen.getByRole('button', { name: '菜单' }));
 
-  expect(screen.getByRole('link', { name: '工作方法' })).toHaveAttribute('data-motion-hover', 'nav');
+  expect(screen.getByRole('link', { name: '精选项目' })).toHaveAttribute('data-motion-hover', 'nav');
   expect(screen.getByRole('button', { name: 'EN' })).toHaveAttribute('data-motion-hover', 'button');
 });
 
