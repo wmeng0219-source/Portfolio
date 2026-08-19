@@ -13,15 +13,16 @@
 
 - `current/2026-07-01-docs-three-layer-structure-design.md`
 - `current/2026-07-01-positioning-and-content-principles-design.md`
-- `current/2026-07-10-site-content-structure-design.md`
 
 ### 当前首页最终方案
 
-- `current/2026-07-17-gsap-brand-stage-redesign.md`
-- `current/2026-07-17-system-showcase-secondary-sections.md`
+- `current/2026-07-18-previsit-orchestration-project-fact-design.md`
+- `current/2026-08-07-content-readiness-documentation-design.md`
 - `current/2026-08-10-growth-path-design.md`
 - `current/2026-08-10-portfolio-visual-consistency-design.md`
 - `current/2026-08-12-system-blueprint-covers-design.md`
+
+> 说明：2026-08-19 归档了描述旧首页结构的规格（`07-10-site-content`、`07-17-gsap-brand-stage`、`07-17-system-showcase`、`07-20-homepage-and-pacs`、`07-28-experience-redesign`），其对应结构已被后续迭代取代；首页视觉基准以 `DESIGN.md` v3 为准。
 
 ## 归档判断标准
 

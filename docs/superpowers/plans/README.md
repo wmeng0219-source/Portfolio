@@ -13,16 +13,17 @@
 
 - `current/2026-07-01-docs-three-layer-structure.md`
 - `current/2026-07-01-positioning-and-content-principles.md`
-- `current/2026-07-10-site-content-implementation.md`
 
 ### 当前首页最终实现路径
 
-- `current/2026-07-17-gsap-brand-stage-redesign-implementation.md`
-- `current/2026-07-17-system-showcase-secondary-sections-implementation.md`
+- `current/2026-07-18-previsit-orchestration-project-fact-implementation.md`
+- `current/2026-08-07-content-readiness-documentation.md`
 - `current/2026-08-10-growth-path.md`
 - `current/2026-08-10-portfolio-visual-consistency.md`
 - `current/2026-08-12-system-blueprint-covers.md`
 - `current/2026-08-14-reference-alignment-redesign.md`
+
+> 说明：2026-08-19 归档了描述旧首页结构的实现计划（`07-10-site-content`、`07-17-gsap-brand-stage`、`07-17-system-showcase`、`07-20-homepage-and-pacs`、`07-28-experience-redesign`），它们对应的 Hero / Selected Work / How I Work / Experience / Contact 结构已被后续迭代取代。
 
 ## 归档判断标准
 
