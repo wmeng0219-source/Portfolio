@@ -2,170 +2,132 @@
 
 > **项目 Slug**：`pacs-ai`  
 > **页面分类标签**：`专业流程 / AI 协作` (`Specialist Workflow / AI Collaboration`)  
-> **当前状态**：线上主案例（第 3 顺位）
+> **案例定位**：把高风险影像判断拆成可记录、可复核、可继续工作的产品流程。
 
----
+## 先看懂这个项目
 
-## 0. 元数据与个人定位 (Metadata & Scope)
+- **原来的问题**：读片依赖个人习惯，影像、标注和病历没有稳定关联。
+- **我当时的角色**：V1 以设计为主并参与规则确认；V2 负责 AI 辅助读片的产品规则、交互和 UI 设计。
+- **核心判断**：先把人工读片变成可记录流程，再让 AI 以辅助角色进入医生复核环节。
+- **关键改变**：结构化标注与病历同步、医生三选一复核（确认并写入、确认但不写入、判错删除）、AI 超时后的手动降级。
+- **已确认结果**：平均每张小牙片龋齿发现数从 1.43 颗变为 3.46 颗；该指标不等同于医学检出率。
+
+### Read this first (English)
+
+- **The original problem**: Reading depended on individual habits, with no stable link between images, annotations, and charts.
+- **My role**: I focused on design and rule alignment in V1; in V2 I owned the product rules, interaction, and UI design for AI-assisted reading.
+- **Core judgment**: Make manual reading recordable first, then bring AI into a doctor-review step as assistance.
+- **Key changes**: Structured annotations with chart sync, three doctor review choices (confirm and write, confirm without writing, or reject and remove), and a manual fallback when AI times out.
+- **Confirmed result**: Average cavities found per small dental X-ray changed from 1.43 to 3.46; this is not a medical detection-rate measure.
+
+## 1. 为什么需要改变读片方式
 
 ### 中文
-- **项目标题**：PACS 读片与 AI 辅助判断
-- **个人职责**：V1 以设计为主，参与部分产品规则确认。V2 全权负责产品与设计，主导 AI 读片的交互逻辑、人机协作流程设计、AI 声明与免责边界定义。两版 PRD 均为我编写。
-- **核心命题**：在专业医疗影像场景中，构建“影像结构化标注 (V1) ➔ AI 辅助识别与医生三选一复核 (V2) ➔ 差异数据回收与模型迭代”的完整人机协作闭环，并在产品设计中明确人机责任边界与非阻断兜底机制。
+
+原始需求要解决的不是“再加一个 AI 按钮”，而是让影像读片在系统中留下可追踪记录。影像同步后，电子检查表显示“未读片”“读片不完整”或“已读片”，让状态可见。医生在影像上框选异常区域，填写牙位、方位、密度、影像诊断和描述所见，形成结构化记录。完成后的描述再按规则同步到领健病历的“辅助检查”。
+
+这先解决了流程可见性和重复录入的产品问题。至于真实使用规模、读片完成率或临床效果，现有 PRD 没有提供验证数据。
 
 ### English
-- **Project Title**: PACS Interpretation and AI-Assisted Review
-- **Role**: V1: Designer role, co-authored product rules. V2: Full product + design ownership — drove human-AI interaction loop, interface design, and liability boundaries. Authored both PRDs.
-- **Mission**: In specialized clinical imaging, built a complete human-AI collaboration loop: structured annotation (V1) ➔ AI anomaly detection & 3-way doctor verification (V2) ➔ divergence data recovery & model iteration, establishing explicit liability boundaries and non-blocking fallbacks.
 
----
+The first problem was not adding an AI button. It was making image interpretation traceable inside the system. After an image was synced, the checklist showed whether it was unread, incomplete, or complete, making its status visible. Doctors marked abnormal areas and filled in tooth position, location, density, diagnosis, and findings to create a structured record. The completed description was then synced to the chart’s auxiliary-exam field according to the defined rules.
 
-## 1. 首屏与核心指标 (Hero & Key Metrics)
+This addressed workflow visibility and duplicate entry at the product-mechanism level. The PRDs do not provide evidence for adoption scale, completion rate, or clinical effectiveness.
 
-### 1.1 一句话背景 (Hero Summary)
-- **中文**：诊室中可能直接对着影像向家长解释，也可能把部分判断写入病例。记录方式不一致，影像、标注、诊断文本和病历之间缺少稳定关联。
-- **English**: Clinicians might explain images directly to parents or record only part of the interpretation. Imaging, annotations, diagnostic text, and charts lacked a consistent link.
+## 2. 我的角色如何从 V1 变化到 V2
 
-### 1.2 首屏悬浮指标卡 (Hero Floating Metrics)
-- **指标序列**：`2024.06 · 1.43 颗` ➔ `2025.06 · 3.46 颗`（平均每张小牙片龋齿发现数，提升 `+142%`）
-- **时间线锚点**：AI 辅助功能于 `2024.11` 正式上线。
-- **严格口径说明**：2024.06 为上线前人工读片基线，2025.06 为 AI 辅助上线半年后的实际运营对比；指标为平均每张小牙片发现数，与医学金标准检出率（Sensitivity）作严格概念区分。
+### 中文
 
----
+- **V1**：以设计工作为主，参与产品规则确认并编写读片相关产品文档。重点是把读片动作、完成状态和病历同步规则定义清楚。
+- **V2**：负责 AI 辅助读片的产品规则、交互与 UI 设计，并编写 V2 PRD。重点从“记录医生做了什么”扩展到“医生如何处理 AI 的每个提示”。
 
-## 2. 现场与代价 (Context & Tension)
+这里的“负责”指产品与设计范围，不延伸为算法开发、医学责任或上线运营结果的全权负责。
 
-### 2.1 业务现场
-- 传统门诊中，医生拍完 X 光牙片后，往往直接在显示器前口头向家长解释，或仅在病历中简短手写几句。
-- 影像存储在本地 PACS 中，与电子病历（EMR）完全脱节。
+### English
 
-### 2.2 现实代价
-1. **拍了片没人读（读片不可见）**：管理层完全无法监控影像的阅片率与应检尽检执行情况，存在医疗纠纷隐患。
-2. **重复录入与标准不一**：医生在 PACS 里看一遍，又要在病历里手动打字一遍，格式混乱且极易遗漏。
-3. **AI 引入后的临床风险**：若 AI 模型直接给出“确定性结论”，容易引发医生盲从或产生抗拒；若 AI 响应缓慢或报错，容易阻断门诊接诊节奏。
+- **V1**: I focused on design, aligned product rules, and wrote the reading-related product documentation. The work defined reading actions, completion states, and chart-sync rules.
+- **V2**: I owned the product rules, interaction, and UI design for AI-assisted reading, and wrote the V2 PRD. The focus expanded from recording doctor actions to defining how doctors handle each AI prompt.
 
----
+“Ownership” here refers to the product and design scope. It does not imply ownership of algorithm development, medical responsibility, or operating results.
 
-## 3. 根因分析与设计命题 (Diagnosis & Mission)
+## 3. 第一步：让人工读片可记录、可同步
 
-### 3.1 表面痛点 vs 系统根因
-- **表面痛点**：“读片容易漏、写病历麻烦、AI 识别不一定准”。
-- **系统根因**：缺乏**影像与病历的结构化数据通道**，以及缺乏**针对 AI 算法置信度的“人机权责分工机制”**。
+### 中文
 
-### 3.2 设计命题
-> **先建立系统内读片留痕与病历一键同步通道 (V1)，再引入 AI 作为非阻断的辅助副驾驶（Copilot），通过强制复核动作构建数据飞轮与免责屏障 (V2)。**
+V1 把一次读片拆成几个可检查的动作：同步当前预约的影像；在影像上框选区域；填写结构化详情；点击完成读片。任一必填项缺失，状态保持为“读片不完整”，不能把未完成内容当作已完成。已完成的描述按 PRD 规则逐条写入或拼接到病历，未读片或不完整的影像不参与同步。
 
----
+系统也保留了异常处理：影像分类错误时，可以改选小牙片或全景片后再进入读片；同步影像超时则提示重试。换句话说，先建立的是一条可核对的记录通道（未读、信息不完整、已完成三种状态），而不是宣称读片质量已经被证明提升。
 
-## 4. 核心约束与范围 (Constraints & Scope)
+### English
 
-1. **医疗法规与责任红线**：AI 算法绝对不能替代医生做临床确诊。界面必须常驻“AI 结果仅供参考，医生对最终诊断负责”的法律免责边界。
-2. **临床时效不阻断原则**：门诊看病争分夺秒，AI 响应超时（如 >5 秒）绝不能卡死界面，必须无缝降级为手动读片。
-3. **算法能力边界**：当前 AI 模型仅针对小牙片（根尖片/咬翼片）训练，严禁超范围应用于全景片（CBCT/曲断片）。
+V1 broke a reading session into checkable actions: sync the current appointment’s images, mark an area, complete structured details, and finish reading. If a required field was missing, the status stayed incomplete. Completed descriptions were written or concatenated to the chart according to the PRD; unread or incomplete images were excluded.
 
----
+The flow also handled exceptions: a misclassified image could be changed to an intraoral or panoramic image before reading, and an image-sync timeout exposed a retry path. The result was a checkable record channel (unread, incomplete, complete), not a claim that reading quality had been proven to improve.
 
-## 5. 关键机制与产品决策 (Mechanism & Product Decisions)
+## 4. 第二步：让 AI 提示进入医生复核流程
 
-### 5.1 核心解决方案 (Core Solutions)
+### 中文
 
-```text
-┌─────────────────────────┐   ┌─────────────────────────┐   ┌─────────────────────────┐
-│  1. 读片基础功能 (V1)    │   │  2. AI 辅助读片闭环 (V2)  │   │  3. 人机协作边界设计    │
-│  结构化标注与三态质控留痕 │ ➔ │  医生三选一复核与数据飞轮 │ ➔ │  常驻免责/超时非阻断降级 │
-└─────────────────────────┘   └─────────────────────────┘   └─────────────────────────┘
-```
+V2 先确认影像类型，再决定是否展示 AI。AI 适用于根尖片和咬翼片；全景片不展示 AI 数据。AI 加载超过约 5 秒或超时后，页面提供“手动读片”入口，医生可以继续工作。AI 成功调用后再次进入不重复调用；失败时可在读片阶段再次调用。
 
-1. **读片基础功能 (Core Image Reading - V1)**
-   - *中*：让医生在系统内完成影像标注和结构化记录，并支持一键同步到病历，实现拍片读片的可追踪。读片状态三分法（未读片 / 读片不完整 / 已读片）配合红色提示，让管理层第一次能实时看到应检尽检的完成情况。
-   - *En*: Enabled structured image annotation and one-click chart synchronization. A three-state reading status (unread / incomplete / complete) with visual alerts gave management real-time visibility into compliance for the first time.
-2. **AI 辅助读片闭环 (AI-Assisted Loop - V2)**
-   - *中*：AI 自动识别异常区域，医生对每个标记做出三种判断之一：继续读片（确认并写入病历）、正确但无需写入、判断错误。每次操作都被转化为标注数据，形成“AI 识别 → 医生复核 → 差异数据回收 → 模型迭代”的完整数据飞轮。
-   - *En*: AI highlights anomalies, and doctors make one of three judgments per mark: confirm and write to chart, confirm but skip, or reject. Each decision feeds back into training data, completing a flywheel: AI identifies → doctor reviews → divergence collected → model improves.
-3. **人机协作边界设计 (Human-AI Boundary Design)**
-   - *中*：明确“AI 结果仅供参考，医生对诊断结果负责”原则，常驻页面底部。全景片不展示 AI（模型仅支持小牙片/咬翼片），AI 超时不阻断操作——这些边界都是有意设计的，而非默认值。
-   - *En*: Established "AI as reference only, doctor owns the diagnosis" as a permanent on-screen disclaimer. Panoramic X-rays intentionally excluded from AI. AI timeout does not block workflow — all intentional boundaries, not defaults.
+每个 AI 标记都进入医生复核，而不是直接成为诊断：医生可以选择“判断正确，继续读片”，进入详情填写并按规则决定是否同步；也可以选择“判断正确，无需写入病历”；如果判断错误，则删除该 AI 标记和卡片。医生仍可手动框选，页面常驻声明“AI 影像分析结果仅供参考，医生对影像诊断结果负责”。复核差异会被记录，供后续模型分析使用；现有材料没有差异样本量或模型效果报表。
 
----
+### English
 
-### 5.2 核心决策与权衡 (Key Decisions & Trade-offs)
+V2 confirmed the image type before deciding whether to show AI. AI applied to periapical and bitewing images; panoramic images showed no AI data. If loading took about five seconds or timed out, a manual-reading entry let the doctor continue. A successful call was not repeated on re-entry; a failed call could be attempted again during reading.
 
-| 决策点 (Decision Question) | 最终选择与方案 (Choice) | 权衡考量与代价 (Trade-off & Rationale) |
-| :--- | :--- | :--- |
-| **全景片要不要展示 AI 结果？** | **坚决不展示**。严格限定仅在小牙片上运行。 | 宁可限制功能范围，也绝不因全景片误识别产生误导性标记，防止污染医生判断与训练集。 |
-| **AI 超时时要不要阻断医生？** | **不阻断**。超过 5 秒自动提示手动入口。 | AI 是辅助工具，临床效率永远优先。系统记录降级原因，保证门诊流程绝对顺畅。 |
-| **读片类型确认弹窗为什么要前置？** | **前置人工确认片型**（小牙片 vs 全景片）。 | 解决底层系统自动分类偶发错误，从源头杜绝“用错算法模型”带来的系统性污染。 |
-| **为什么必须设计“正确但不写入病历”选项？** | **提供“三选一”细分判断选项**，而非非黑即白。 | 历史已知病灶无需重复写入当次病历，避免病历冗余；同时保留该标注行为用于模型飞轮训练。 |
+Each AI mark went through doctor review instead of becoming a diagnosis. The doctor could confirm and continue to details, confirm but skip chart writing, or mark it as wrong and remove it. Manual marking remained available, with a persistent notice that AI analysis was for reference and the doctor was responsible for the diagnosis. Review differences were recorded for later model analysis; no sample count or model-performance report is available.
 
----
+## 5. 三个关键产品判断
 
-### 5.3 机制细节：演进历程 (Mechanism Detail: V1 ➔ V2)
+### 判断一：AI 不直接写病历
 
-```text
-[V1 阶段：建立基础 · Make Reading Trackable]
-目标：解决“拍了片没人读”在系统里完全不可见的问题。
-机制：医生在系统内框选异常、填写结构化描述；建立“未读 / 不完整 / 已读”三态流转与病历同步。
+AI 只提供提示，医生必须完成复核和详情填写后，内容才按规则进入病历。这个选择增加了一次医生复核操作，换取模型输出与医生最终诊断分离，并让记录与责任边界更清晰。
 
-       ↓ (完成数字化底座后引入 AI)
+**Decision 1: AI does not write directly to the chart.** AI provides a prompt only. A doctor must review it and complete the details before anything is synced. This adds one doctor-review action in exchange for separating model output from the final diagnosis and making the record and responsibility boundary clearer.
 
-[V2 阶段：AI 引入 · Assist + Data Flywheel]
-目标：解决“读得快不快、准不准”的问题。
-机制：引入 AI 辅助病灶初筛；设计医生三选一覆核动作，形成“AI 推理 ➔ 人类把关 ➔ 样本沉淀 ➔ 算法迭代”的数据飞轮。
-```
+### 判断二：需要“确认但无需写入”
 
----
+真实读片不只有“对”或“错”：提示可能被医生认可，但不适合写入本次病历。因此保留“判断正确、无需写入病历”，记录复核动作，同时不制造不必要的病历内容。
 
-### 5.4 设计体系与 UX 手艺 (Design System & UX Craft)
+**Decision 2: Keep “confirmed, no chart entry.”** A prompt can be accepted without belonging in the current chart. This option records the review without forcing redundant text into the medical record.
 
-#### 1. 色彩与人机权责语义 (Color & Role Semantics)
-在医疗人机交互中，算法推断绝不能在视觉上被误认为临床确诊：
-- `#C8B6FF`（AI 推断紫 / AI Inference Purple）：算法初步病灶高亮，非阻断建议提示。
-- `#B8E6D0`（临床确诊绿 / Doctor Confirmed Green）：医生点击复核确认，数据正式同步写入电子病历。
-- `#FFD6A5`（标注纠偏橙 / Label Override Orange）：医生修正或驳回 AI 标记，作为负样本回流飞轮。
-- `#0B0F14`（诊室暗光基底 / Dark Slate Base）：深度适配放射科/暗光诊室全天候看片的视力保护底色。
+### 判断三：AI 超时仍可手动读片
 
-#### 2. 暗光诊室 F 型视线引导 (Visual Hierarchy & Cognitive Load)
-- **左图右卡**：左侧为高保真 DICOM 影像画布，右侧为 AI 识别建议卡片（按置信度与严重度降序排列）。
-- **渐进式暴露**：默认隐藏底层技术参数，仅在医生悬停或点击时展开深度切片指标。
+这里的取舍是为超时状态增加明确的手动入口，让医生不必等待 AI 即可继续读片。它保留了医生工作的连续性，但只能证明降级路径被设计，不代表 AI 可用率或兜底成功率。
 
-#### 3. 容错与兜底指标 (Specs)
-- 信息扫描顺序：`IMAGE ➔ REVIEW`（先看影像，再看建议）
-- 降级阈值：`5s` 超时即显手动入口
-- 最终责任主体：`DOCTOR`（医生终审负责制）
+**Decision 3: Manual reading remains available on AI timeout.** The tradeoff was to add an explicit manual entry for timeout states so doctors could continue without waiting for AI. This preserved workflow continuity, but proves only that a fallback path was designed, not AI availability or fallback success.
 
----
+**异常边界：影像类型校验。** 若影像类型未知，医生必须在进入读片前确认全景片、根尖片或咬翼片中的一种；不支持的类型不展示 AI 数据，分类错误需纠正后再继续流程。
 
-## 6. 业务结果与指标口径 (Business Impact & Rigor)
+**异常边界 / Exception boundary — image type validation.** If the type is unknown, the doctor must confirm one of panoramic, periapical, or bitewing before entering reading. An unsupported type does not show AI data; a classification error is corrected before the workflow continues.
 
-### 6.1 后台记录变化与时间线 (Headline Metrics)
-- **2024.06**：平均每张小牙片龋齿发现数 **`1.43 颗`**（AI 上线前基线）
-- **2024.11**：AI 辅助读片功能（V2）正式灰度上线。
-- **2025.06**：平均每张小牙片龋齿发现数达到 **`3.46 颗`**（AI 上线后运营对比，提升 **`+142%`**）
+## 6. 结果、证据与不能下的结论
 
-### 6.2 严谨归因说明 (Rigor & Attribution Boundary)
-> **重要说明**：`1.43 ➔ 3.46 颗`（+142%）的提升反映了 AI 异常辅助标记与医生三选一复核机制在儿童门诊中的落地成效。低龄儿童早期邻面龋在 X 光片上对比度低，AI 提示有效辅助了医生识别人眼易忽略的早期病灶。在医学严谨定义中，该指标为“单片平均发现数”，需与严格金标准下的敏感度/检出率作区分。
+### 中文
 
-### 6.3 组织与系统价值 (System Capabilities)
-1. **读片全流程可追踪**：未读、不完整、已读状态实时呈现在门诊检查看板上，消除漏读隐患。
-2. **病历录入提效**：结构化标记一键同步病历，消除二次打字，格式标准化程度达到 100%。
+已确认的运营对比是：2024 年 6 月平均每张小牙片龋齿发现数为 **1.43 颗**；AI 辅助功能约于 2024 年 11 月上线；2025 年 6 月为 **3.46 颗**，相对增加 **142%**。现有材料把它定义为平均每张小牙片的发现数。
 
----
+这个数字可以作为上线前后对比，不能单凭它证明医学检出率提升、归因于 AI、病历录入效率提升，或代表全量留痕。正式报表路径、筛选条件、样本量和统计明细仍待补充。
 
-## 7. 复盘反思与未解局限 (Retrospective)
+### English
 
-1. **人机协作的核心不是“替代”，而是“权责边界的舒适感”**：AI 进临床，医生最大的顾虑是“被算法替代”或“为算法背锅”。通过常驻免责、非阻断超时降级、三选一复核机制，成功消除了医生的抵触情绪。
-2. **数据质量依赖前端前置拦截**：垃圾进导致垃圾出（Garbage in, garbage out）。片型校验前置确认的细节，避免了后续几千张影像对训练数据集的污染。
+The confirmed operating comparison is 1.43 average cavities found per small dental X-ray in June 2024, AI-assisted functionality launching around November 2024, and 3.46 in June 2025, a relative increase of 142%. The metric is defined as average findings per small dental X-ray.
 
----
+It supports a before-and-after comparison only. By itself it cannot prove higher medical detection, attribute the change to AI, demonstrate faster chart entry, or represent complete traceability. The formal report path, filters, sample size, and statistical detail are still missing.
 
-## 8. 视觉资产与代码映射 (Assets & Code Mapping)
+## 7. 这段经历证明了什么
 
-| 资产类型 | 路径 / 标识 | 页面对应位置 |
-| :--- | :--- | :--- |
-| **首屏主视觉** | [`public/images/pacs/generated/pacs_hero_1784477678972.jpg`](file:///Users/wen/Desktop/Portfolio/public/images/pacs/generated/pacs_hero_1784477678972.jpg) | Hero 区域主图 |
-| **Bento 卡片 1 (读片留痕)** | [`public/images/pacs/generated/pacs_trace_1784477779066.jpg`](file:///Users/wen/Desktop/Portfolio/public/images/pacs/generated/pacs_trace_1784477779066.jpg) | 解决方案 Bento 网格 1 |
-| **Bento 卡片 2 (数据飞轮)** | [`public/images/pacs/generated/pacs_loop_1784477797633.jpg`](file:///Users/wen/Desktop/Portfolio/public/images/pacs/generated/pacs_loop_1784477797633.jpg) | 解决方案 Bento 网格 2 |
-| **Bento 卡片 3 (权责边界)** | [`public/images/pacs/generated/pacs_boundary_1784477816064.jpg`](file:///Users/wen/Desktop/Portfolio/public/images/pacs/generated/pacs_boundary_1784477816064.jpg) | 解决方案 Bento 网格 3 |
-| **数据源文件** | [`src/data/projects.js`](file:///Users/wen/Desktop/Portfolio/src/data/projects.js) (`id: 'pacs-ai'`) | 注入页面 React 数据 |
-| **页面组件** | [`src/pages/cases/PacsAi/index.jsx`](file:///Users/wen/Desktop/Portfolio/src/pages/cases/PacsAi/index.jsx) | 独立案例路由页面渲染 |
-| **样式模块** | [`src/pages/cases/PacsAi/PacsAi.module.css`](file:///Users/wen/Desktop/Portfolio/src/pages/cases/PacsAi/PacsAi.module.css) | 独立 CSS 模块 |
+### 中文
+
+这段经历证明我能在专业且有责任边界的场景里，把模糊的“读片体验”拆成可执行规则：先让人工动作可记录、可校验、可同步，再把 AI 放进医生能复核、能拒绝、能继续工作的流程。我的工作价值不在于替模型或医生下结论，而在于把产品机制、异常边界和证据口径一起定义清楚。
+
+### English
+
+This project shows that I can turn an ambiguous reading experience into executable rules in a specialized, responsibility-sensitive setting. I made manual actions recordable, checkable, and syncable before placing AI inside a flow that doctors can review, reject, and continue. The value of my work was not making a diagnosis for the model or the doctor, but defining the product mechanism, exception boundaries, and evidence language together.
+
+### Sources
+
+- `docs/origin/读片/读片PRD.v1.md`
+- `docs/origin/读片/读片新增AI判断PRD-v2.md`
+- `docs/project/PACS读片与AI辅助判断.md`

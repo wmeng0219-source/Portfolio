@@ -16,6 +16,8 @@
 
 ### 当前首页最终实现路径
 
+- `current/2026-08-20-pacs-case-content-reorganization.md`
+- `current/2026-08-21-orthodontics-case-content-reorganization.md`
 - `current/2026-07-18-previsit-orchestration-project-fact-implementation.md`
 - `current/2026-08-07-content-readiness-documentation.md`
 - `current/2026-08-10-growth-path.md`

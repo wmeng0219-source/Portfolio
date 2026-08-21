@@ -1,178 +1,148 @@
 # 案例母稿 02：正畸筛查与状态管理 (Orthodontics Screening & Status Management)
 
 > **项目 Slug**：`orthodontics`  
-> **页面分类标签**：`主流程重构 / 筛查机制` (`Core Flow Redesign / Screening System`)  
-> **当前状态**：线上主案例（第 2 顺位）
+> **页面定位**：深度案例 / 跨角色流程重构
+> **阅读目标**：让读者在几分钟内看懂问题、我的责任、三个产品判断、流程改变和结果边界。
 
----
-
-## 0. 元数据与个人定位 (Metadata & Scope)
+## 0. 先看懂这个项目 (One-minute Summary)
 
 ### 中文
-- **项目标题**：正畸筛查与状态管理
-- **个人职责**：产品与设计负责人：独立完成门诊调研、流程与规则设计、PRD/产品文档、交互与 UI，并管理开发与测试进度，协调业务、正畸总监和研发推进上线。
-- **核心命题**：打破离散低效的线下快筛与面评会模式，建立基于替牙发育优先级的“状态机转化漏斗”与“儿牙-正畸多角色线上协同链路”，实现全门店正畸转化率从 30-40% 提升至 50-60%。
+
+- **问题**：正畸筛查依赖快筛、面评会和口头转交，临时患者容易漏掉，筛查、专业结论、报告和预约也彼此断开。
+- **我的角色**：产品与设计负责人，负责门诊调研、流程与规则、PRD、交互/UI，以及开发、测试、专业验收和上线推进协作。
+- **核心判断**：取消重复的独立快筛；按替牙发育窗口安排推荐和再筛查；让儿牙做轻量前置筛查，把专业结论交给正畸医生。
+- **关键改变**：患者从一次性筛查对象变成有状态、有下一责任人和跟进时间的流程对象。
+- **结果**：内部业务统计显示，全门店正畸成交转化率在 2025 年 2—4 月约 30%—40%，2026 年 2—4 月约 50%—60%；这是一组同期周期对比，不单独归因于本项目。上线至今累计漏斗为 `54,990 → 19,640 → 18,460 → 9,923 → 5,495`。
+- **证据边界**：流程、角色、优先级、状态和资料有效期有原始材料支持；异常处理效果、分阶段采纳率、正式权限表和脱敏界面素材仍待补。
 
 ### English
-- **Project Title**: Orthodontic Screening and Status Management
-- **Role**: Product and Design Lead: independently conducted clinic research, workflow and rule design, PRDs, interaction and UI, while managing development and test progress and coordinating business, orthodontic leadership, and engineering.
-- **Mission**: Replaced disconnected offline review meetings with an eruption-priority-driven state machine funnel and pedodontist-orthodontist collaboration system, boosting all-clinic orthodontic sales conversion from 30–40% to 50–60%.
 
----
+- **Problem**: Orthodontic screening relied on one-off checks, review meetings, and verbal handoffs. Walk-in patients could be missed, while screening, specialist conclusions, reports, and bookings stayed disconnected.
+- **Role**: Product and Design Lead responsible for clinic research, workflow and rule design, PRDs, interaction/UI, and coordination across engineering, QA, specialist review, and rollout.
+- **Key judgments**: Remove duplicate fast screening; schedule recommendations and re-screening around eruption windows; keep pediatric screening lightweight while reserving specialist conclusions for orthodontists.
+- **Change**: Patients became trackable workflow objects with a state, an owner, and a next follow-up date instead of one-off screening records.
+- **Evidence**: Internal reporting compares all-clinic conversion at approximately 30–40% in Feb–Apr 2025 with 50–60% in Feb–Apr 2026. This is a period comparison, not a single-project causal claim. The cumulative funnel since rollout is `54,990 → 19,640 → 18,460 → 9,923 → 5,495`.
 
-## 1. 首屏与核心指标 (Hero & Key Metrics)
+## 1. 为什么要改变筛查 (Context & Tension)
 
-### 1.1 一句话背景 (Hero Summary)
-- **中文**：矫正前置管理长期缺少一套清晰、连续的流程。过去更多依赖各门店自行组织面评会，由正畸医生主导，儿牙医生主要承担患者信息传递的角色。流程不够清晰，也缺少对筛查、结论、报告和后续预约的连续管理。
-- **English**: Orthodontic pre-management relied on review events and offline coordination, leaving screening, conclusions, and follow-up disconnected.
+过去，门诊会提前按周安排面评会，再叠加快筛和儿牙面评。这样的流程有三个现场问题：
 
-### 1.2 首屏悬浮指标卡 (Hero Floating Metrics)
-- **主标题**：破除运营黑盒，建立全链路状态机追踪 (From Operational Black Box to Full-Funnel Tracking)
-- **改版前全门店正畸成交转化率**：`30-40%`（线下黑盒跟进）
-- **改版后全门店正畸成交转化率**：`50-60%`（状态机漏斗追踪）
-- **转化净提升**：**+20%** 显著增长
+1. 同一患者可能被重复筛选，儿牙医生的结论还要再找正畸医生确认。
+2. 面评会只看未来一周的排期，临时就诊患者可能没有进入筛查。
+3. 管理者很难知道患者停在筛查、结论、报告还是预约环节，也无法清楚判断下一步由谁负责。
 
----
+所以设计挑战不是“再做一个入口”，而是把一次性动作改成可持续跟进的跨角色流程。
 
-## 2. 现场与代价 (Context & Tension)
+**English**: The challenge was not to add another entry point, but to turn disconnected screening events into a trackable workflow with explicit handoffs.
 
-### 2.1 业务现场
-- 传统门诊通过线下“面评会”进行正畸筛查，正畸专家按周巡店，儿牙医生在日常接诊中仅承担口头带话和患者信息搬运的角色。
-- 筛查属于“一次性动作”（当次看了就看了，未立项的患者直接沉没）。
+## 2. 我的角色与推进方式 (Role & Delivery)
 
-### 2.2 现实代价
-1. **高危患儿大量漏诊**：儿童牙齿发育迅速，错失 7–12 岁替牙黄金干预窗口期后，骨性畸形治疗代价成倍上升。
-2. **多角色协作脱节与利益矛盾**：儿牙医生缺乏筛选动力（缺少留痕依据），正畸专家时间被低价值咨询挤占。
-3. **转化漏斗处于完全黑盒**：管理层无法得知推荐了多少、流失在哪个环节、下一步由谁负责。
+我承担产品与设计负责人及项目管理职责，具体包括：
 
----
+- 走访门诊，梳理快筛、面评会、儿牙面评和转诊中的断点；
+- 定义推荐条件、替牙优先级、患者状态、资料有效期和异常路径；
+- 输出 PRD、交互与 UI，协调前端、后端、测试和正畸总监验收；
+- 以单店试点、多店验证、全门店上线的节奏推进，而不是直接把首版规则推向所有门店。
 
-## 3. 根因分析与设计命题 (Diagnosis & Mission)
+成交结果由门店和业务团队共同承担。我的案例重点是：如何把业务判断转成可执行、可交接、可验证的产品规则。
 
-### 3.1 表面痛点 vs 系统根因
-- **表面痛点**：“医生没时间做筛查、家长矫正意愿低、转诊跟进容易忘”。
-- **系统根因**：缺乏**连续的状态机定义**与**跨角色的利益激励闭环**。筛查被设计成了孤立的“功能”，而非贯穿患者全生命周期的“动态推荐机制”。
+## 3. 从一次性快筛到持续推荐 (Strategy Evolution)
 
-### 3.2 设计命题
-> **取消孤立的“一次性快筛”，重构为“基于替牙发育时钟的状态化推荐与多角色任务流转机制”，并用系统精准留痕打通转诊激励。**
+### 初版：把更多判断放在前端
 
----
+初版希望儿牙医生一次收集更多影像和判断信息，再交给正畸医生。单店试点发现，接诊高峰下字段多、判断重，流程难以持续执行。
 
-## 4. 核心约束与范围 (Constraints & Scope)
+### 迭代：做减法，再把专业判断放回专业角色
 
-1. **门诊接诊带宽约束**：儿牙医生单次接诊时间仅 15–20 分钟，绝不能在接诊现场增加高负荷的复杂影像测量表单。
-2. **医学专业权责红线**：儿牙医生只负责“发现异常与前置推荐”，最终临床矫正方案与结论必须 100% 由正畸专科医生把关。
-3. **多店推广节奏**：必须经过单店试点、正畸总监验收、多店验证，方可全网推开。
+迭代后的链路是：系统推荐 → 护士采集资料 → 儿牙医生轻量筛查与沟通 → 正畸医生确认结论 → 运营推进报告和预约。取消独立快筛，是为了减少重复操作并接住临时患者，不是删除筛查能力。
 
----
+**策略变化**：从“尽量一次收齐资料”转向“先让流程跑起来，再在正确的专业节点补足信息”。
 
-## 5. 关键机制与产品决策 (Mechanism & Product Decisions)
+## 4. 核心机制：让患者进入一条可跟进的链路 (Core Mechanism)
 
-### 5.1 核心解决方案 (Core Solutions)
+### 4.1 按发育窗口推荐，而不是无差别推送
 
-1. **流程机制改版 (Workflow Mechanism Redesign)**
-   - *中*：取消快筛这一独立前置动作，将筛查从“当次是否做”转成“什么时候做、由谁做、何时再次进入流程”的推荐机制。
-   - *En*: Transitioned screening from a one-off action to a continuous recommendation and re-screening mechanism.
-2. **状态化管理 (Status Management)**
-   - *中*：通过正畸状态设计，把患者放入可持续跟进的流程中，让团队知道患者当前处在什么阶段、下一步由谁推进。
-   - *En*: Used orthodontic status to place patients in a trackable flow, clarifying the current stage and next steps for the team.
-3. **角色协作重构 (Role Collaboration Restructuring)**
-   - *中*：让儿牙医生前置参与筛查，正畸医生负责专业结论，建立清晰的角色协作路径，并辅以系统任务看板。
-   - *En*: Moved pediatric dentists forward in the screening process, clarifying boundaries and building systemic task handoffs.
+系统结合年龄、牙列发育、历史结论、跟进时间和家长诉求推荐筛查。待处理量较大时，按以下五级顺序调度：
 
----
+`恒牙列 → 剩余四颗乳牙 → 2-2 萌出完毕 → 上 1 萌出完毕 → 其余替牙期`
 
-### 5.2 核心决策与权衡 (Key Decisions & Trade-offs)
+这是一套门诊承接量的调度优先级，不等同于医学风险等级或最终诊断。无结论患者按“未曾面评”重新进入推荐；到达指定再筛查时间的患者优先处理。
 
-| 决策点 (Decision Question) | 最终选择与方案 (Choice) | 权衡考量与代价 (Trade-off & Rationale) |
-| :--- | :--- | :--- |
-| **为什么放弃全量筛查推流？** | **按 5 级替牙发育阶段分流调度**，放弃无差别全量推流。 | 门诊专家带宽有限。无差别推流会导致高危患儿被淹没；按发育时钟推流确保核心窗口期患儿获得 100% 专家覆盖。 |
-| **儿牙医生角色为何升级为“前置筛查”？** | **赋权儿牙医生初筛 + 系统记录转诊费激励**。 | 儿牙医生与患儿家庭粘性最高；系统留痕为门诊发放转诊激励提供不可篡改依据，彻底激活前端积极性。 |
-| **试点后的关键产品减法** | **大幅削减儿牙端的影像填报字段**。 | 初版试图一次收齐影像数据，导致门诊阻力巨大；果断做减法，儿牙仅做轻量初筛，复杂分析归还正畸专科。 |
+### 4.2 角色分工：每一步都有明确接力人
 
----
+| 角色 | 负责什么 | 交接到哪里 |
+| --- | --- | --- |
+| 护士 | 采集面相、口扫、全景片等资料 | 进入儿牙筛查待办 |
+| 儿牙医生 | 基础筛查、机会识别、家长沟通、发起会诊/转诊 | 进入正畸结论或会诊 |
+| 正畸医生/总监 | 专业判断、结论确认和专业验收 | 进入报告、方案或后续预约 |
+| 运营/业务 | 报告沟通、补充信息、预约和转化跟进 | 更新患者状态 |
 
-### 5.3 机制细节：替牙期发育优先级调度 (Mechanism Detail: Eruption Priority Pipeline)
+### 4.3 状态和资料有效期：把“下一步”写进系统
 
-系统根据患儿年龄与牙位档案，动态计算推荐干预优先级：
+患者状态覆盖“未筛查—筛查中—待结论—需矫—推进中—已预约—完成”等阶段，每个阶段显示下一责任人和跟进时间。推荐人、筛查人和结论确认人留痕，方便跨角色交接和后续业务核对。
 
-```text
-[Step 1] 恒牙列 (Permanent)         ➔ 最高优：骨骼发育定型关键期，必须立即干预
-[Step 2] 余四颗乳牙 (4 Primary Left) ➔ 次高优：即将完成换牙，制定前期矫正方案
-[Step 3] 2-2 萌出 (2-2 Erupted)     ➔ 中优：前牙区萌出评估，排查反颌与拥挤
-[Step 4] 上 1 萌出 (Upper 1 Erupted) ➔ 中低优：初期替牙阶段，建立基线档案
-[Step 5] 其余替牙期 (Other Mixed)   ➔ 常规跟进：定期随访与口腔健康宣教
-```
+面相照片有效期为 6 个月，口扫数据和全景 X 光片有效期为 1 年；资料超期进入重新采集待办。暂不干预、外院矫正、异常结束和早期矫正结束等状态保留再评估时间，允许患者按发育节点重新进入推荐。
 
----
+## 5. 三个关键产品判断 (Key Decisions)
 
-### 5.4 机制细节：医护运角色权责矩阵 (Mechanism Detail: Role Matrix & Tab System)
+### 判断一：为什么取消独立快筛？
 
-```text
-┌─────────────────┐   ┌─────────────────┐   ┌─────────────────┐   ┌─────────────────┐
-│     1. 护士      │   │   2. 儿牙医生    │   │   3. 正畸医生    │   │     4. 运营      │
-│  资料采集/基础影像 │ ➔ │  前置筛查/激励留痕 │ ➔ │  专业诊断/方案把关 │ ➔ │  看板跟进/预约转化 │
-└─────────────────┘   └─────────────────┘   └─────────────────┘   └─────────────────┘
-```
+- **方案 A**：保留快筛，再把结果交给面评会。
+- **方案 B**：取消重复快筛，系统推荐后直接进入儿牙面评。
+- **选择 B 的理由**：原流程存在重复筛选，周排期还可能漏掉临时患者；直接进入儿牙面评能减少一次交接，同时保留后续正畸专业确认。
+- **代价与边界**：推荐规则和状态管理必须更准确；取消快筛不代表所有患者都完成了筛查。
 
-1. **护士 (Nurse)**：负责资料采集与前置准备，为后续筛查提供基础影像与信息。
-2. **儿牙医生 (Pedodontist)**：前置筛查链路的核心。通过系统的精准留痕，系统为儿牙医生的“转诊费激励”提供确凿的财务结算依据。
-3. **正畸医生 (Orthodontist)**：负责专业结论确认与最终把关，承接进一步的矫正判断和治疗计划。
-4. **运营 (Operations)**：负责推动流程并建立后续预约，通过系统看板实时跟进转化漏斗。
+### 判断二：为什么按替牙发育窗口分流？
 
----
+- **方案 A**：按年龄或全量患者无差别推送。
+- **方案 B**：按恒牙列、剩余四颗乳牙、2-2、上 1 等发育节点排序，并结合指定再筛查时间。
+- **选择 B 的理由**：在专家承接量有限时，先处理更接近关键干预窗口的患者，减少排期拥堵。
+- **代价与边界**：优先级是运营调度规则，不是医学风险分级；实际误判量和处理效果仍需要独立统计。
 
-### 5.5 设计体系与 UX 手艺 (Design System & UX Craft)
+### 判断三：为什么削减儿牙端字段？
 
-#### 1. 状态机色彩语义 (State Machine Color Semantics)
-- `#B8E6D0`（转化完成绿 / Conversion Success Green）：签约锁定，矫正治疗计划正式成立。
-- `#C8B6FF`（会诊推进紫 / Consultation Purple）：正畸专家评估中，状态持续跟进。
-- `#FFD6A5`（紧迫干预橙 / Urgent Intervention Orange）：处于发育关键窗口期，需优先复筛或转诊。
-- `#1C2330`（状态容器底色 / State Container Surface）：网格化分块与卡片高亮。
+- **方案 A**：让儿牙医生一次填完更多影像和专业判断。
+- **方案 B**：儿牙端保留轻量初筛和沟通，复杂影像判断与最终结论交给正畸医生。
+- **选择 B 的理由**：单店试点显示，前端字段过多会增加接诊负担；减法让关键角色更容易持续执行，也守住专业权责边界。
+- **代价与边界**：后端必须承接补充资料、会诊、审核和超期重采集，不能把“完成初筛”写成“完成诊断”。
 
-#### 2. 推进里程碑 (Project Timeline)
-- `2025.04` 启动开发：完成门诊调研、规则制定与首版方案构建（首轮开发约 1 个月）。
-- `2025.05—08` 单店试点：正畸总监带队验收，1 家门诊完成 2 轮深度优化。
-- `2025.08—12` 持续迭代：基于一线反馈做产品减法，完成 2–3 轮迭代。
-- `2026.01` 多店验证：扩大至 3–4 家门诊进行为期 1 个月的验证。
-- `2026.02` 全门店正式上线：覆盖全部连锁门诊。
+## 6. 结果与证据 (Results & Evidence)
 
----
+### 同期成交转化率
 
-## 6. 业务结果与指标口径 (Business Impact & Rigor)
+| 周期 | 全门店正畸成交转化率 | 口径 |
+| --- | --- | --- |
+| 2025 年 2—4 月 | 约 30%—40% | 内部业务系统统计 |
+| 2026 年 2—4 月 | 约 50%—60% | 内部业务系统统计 |
 
-### 6.1 核心转化率对比 (Core Metric)
-- **全门店正畸成交转化率**：
-  - 改版前：`30-40%`（2025 年 2—4 月）
-  - 改版后：`50-60%`（2026 年 2—4 月）
-  - **变化**：**+20% 净增幅**。
-  - **口径说明**：内部业务系统统计，对比周期为 2025 年 2–4 月与 2026 年 2–4 月同比数据；指标为全门店正畸最终签约成交转化率。
+这组数据可描述为同期周期的区间变化，不能直接写成单一功能带来的因果提升。
 
-### 6.2 漏斗全链路量化表现 (Funnel Volume Breakdown)
-基于系统追踪的真实漏斗流转数据（样本：累计上线至今推荐目标 54,990 名患儿）：
-1. **系统推荐目标 (System Recommended)**：`54,990` 例（100% 覆盖）
-2. **筛查转交完成 (Screening Handoff)**：`19,640` 例（精准转交率 **35.72%**）
-3. **提交结论 (Conclusion Submitted)**：`18,460` 例（三级医生结论率 **93.99%**，咬合筛查率 33.6%）
-4. **识别需矫患者 (Ortho Required)**：`9,923` 例（需矫率 **53.75%**，占推荐目标 18.1%）
-5. **矫正跟进预约锁定 (Follow-up Booked)**：`5,495` 例（需矫预约率 **55.38%**）
+### 上线至今累计漏斗
 
-报告链补充：报告生成 `17,630` 例（生成率 95.49%）→ 报告发送 `14,150` 例（发送率 80.27%）→ 报告查看 `14,000` 例（查看率 98.95%）。
-**口径说明**：内部业务系统追踪，周期为上线至今累计数据；人工取消筛查 `6,394` 例未计入转交；需矫率分母为提交结论数，需矫预约率分母为需矫数。
+`推荐目标 54,990 → 筛查转交 19,640 → 提交结论 18,460 → 需矫 9,923 → 预约锁定 5,495`
 
----
+- 需矫率：`9,923 / 18,460 = 53.75%`；
+- 需矫预约率：`5,495 / 9,923 = 55.38%`；
+- 周期为全门店上线至今累计，和上面的同期转化率不是同一统计口径。
 
-## 7. 复盘反思与未解局限 (Retrospective)
+### 仍待补的证据
 
-1. **产品设计需要克制**：做 B 端医疗系统最容易犯的错误是“试图在第一个环节收集全部完美数据”。通过单店试点的惨痛教训，我们学会了**“初筛极简化、专业深度化”**的权责分离。
-2. **激励机制与系统结合的力量**：单纯靠行政命令推不动跨科室转诊，系统必须为业务激励机制（转诊费留痕）提供绝对客观的技术保障，产品才能真正落地生根。
+正式权限矩阵、异常状态发生量、分阶段门店与样本量、试点采纳证据，以及脱敏流程图/状态图/看板/报表素材，补齐前只作为待验证项。
 
----
+## 7. 能力迁移与复盘 (Transferable Learning)
 
-## 8. 视觉资产与代码映射 (Assets & Code Mapping)
+这个项目让我把“流程优化”具体化为三种可迁移能力：
 
-| 资产类型 | 路径 / 标识 | 页面对应位置 |
-| :--- | :--- | :--- |
-| **首屏状态机与漏斗插图** | [`public/images/ortho/ortho_cover.svg`](file:///Users/wen/Desktop/Portfolio/public/images/ortho/ortho_cover.svg) | Hero 区域与漏斗核心模块展示 |
-| **数据源文件** | [`src/data/projects.js`](file:///Users/wen/Desktop/Portfolio/src/data/projects.js) (`id: 'orthodontics'`) | 注入页面 React 数据 |
-| **页面组件** | [`src/pages/cases/Orthodontics/index.jsx`](file:///Users/wen/Desktop/Portfolio/src/pages/cases/Orthodontics/index.jsx) | 独立案例路由页面渲染 |
-| **样式模块** | [`src/pages/cases/Orthodontics/Orthodontics.module.css`](file:///Users/wen/Desktop/Portfolio/src/pages/cases/Orthodontics/Orthodontics.module.css) | 独立 CSS 模块 |
+1. **把现场问题翻译成规则**：不是增加入口，而是定义推荐、状态、责任人和再进入条件。
+2. **用角色边界降低系统负担**：让前端做能持续执行的轻量判断，把专业判断交给正确角色。
+3. **用阶段性验证推进上线**：单店试点暴露负担，多店验证检验协作，全门店上线后再用报表观察漏斗。
+
+**English**: The transferable lesson is to translate operational ambiguity into explicit rules, keep each role within a sustainable workload, and validate rollout in stages instead of treating a first release as a universal proof.
+
+## 8. 事实来源与页面资产 (Sources & Assets)
+
+- 事实底稿：[`docs/project/正畸筛查与状态管理.md`](../../project/正畸筛查与状态管理.md)
+- 原始流程材料：`docs/origin/咬合筛查/面评拆分梳理.md`、`docs/origin/咬合筛查/250507-面评拆分.md`
+- 流程结构核对：`docs/origin/咬合筛查/正畸全流程.pdf`
+- 设计规范：[`design.md`](./design.md) 与根目录 [`DESIGN.md`](../../DESIGN.md)
+- 页面视觉素材和代码映射：待补脱敏导出图后，再同步 `src/data/projects.js` 与 `src/pages/cases/Orthodontics/`。
