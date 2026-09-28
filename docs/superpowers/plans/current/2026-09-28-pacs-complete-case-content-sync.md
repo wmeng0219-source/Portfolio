@@ -149,7 +149,7 @@ rg -n "达到 60%|降低漏诊|避免误诊|提升医学检出率|全权负责|�
 
 预期：章节 0–8 各出现一次；中英文均说明 60% 是当前目标而非达成结果；风险词只出现在限制性表述中。
 
-- [ ] **步骤 7：提交页面母稿**
+- [x] **步骤 7：提交页面母稿**
 
 ```bash
 git add docs/pages/pacs-ai/content.md docs/superpowers/plans/current/2026-09-28-pacs-complete-case-content-sync.md
@@ -163,7 +163,7 @@ git commit -m "docs: 重写 PACS 完整读片页面母稿"
 - 修改：`docs/superpowers/specs/current/2026-09-26-pacs-case-study-page-outline.md`
 - 修改：`docs/superpowers/plans/current/2026-09-28-pacs-complete-case-content-sync.md`
 
-- [ ] **步骤 1：检查三层文档的核心事实一致**
+- [x] **步骤 1：检查三层文档的核心事实一致**
 
 运行：
 
@@ -173,7 +173,7 @@ rg -n "数字化基础|读片完成率|60%|医疗主任|算法同事" docs/proje
 
 预期：四份文档均保持相同的项目起点、职责边界和指标属性。
 
-- [ ] **步骤 2：检查 Markdown 格式**
+- [x] **步骤 2：检查 Markdown 格式**
 
 运行：
 
@@ -183,11 +183,11 @@ git diff --check -- docs/project/PACS读片与AI辅助判断.md docs/project/con
 
 预期：没有尾随空格、冲突标记或格式错误。
 
-- [ ] **步骤 3：更新评审稿状态**
+- [x] **步骤 3：更新评审稿状态**
 
 将页面大纲状态更新为“已同步至正式母稿（2026-09-28）”，并注明后续文案维护以 `docs/pages/pacs-ai/content.md` 为准。
 
-- [ ] **步骤 4：完成最终提交**
+- [x] **步骤 4：完成最终提交**
 
 ```bash
 git add docs/superpowers/specs/current/2026-09-26-pacs-case-study-page-outline.md docs/superpowers/plans/current/2026-09-28-pacs-complete-case-content-sync.md
