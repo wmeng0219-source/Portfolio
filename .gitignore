@@ -8,3 +8,7 @@ dist/
 .obsidian/
 .workbuddy/
 
+# Local verification artifacts and recovery snapshots
+output/
+.uploads/
+.superpowers/

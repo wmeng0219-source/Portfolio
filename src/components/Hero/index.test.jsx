@@ -1,49 +1,10 @@
-import { render, screen } from '@testing-library/react';
-import { vi } from 'vitest';
-import { LanguageProvider } from '../../context/LanguageContext';
-import Hero from './index';
+import { fireEvent, render, screen } from "@testing-library/react";
+import { vi } from "vitest";
+import { LanguageProvider } from "../../context/LanguageContext";
+import Hero from "./index";
+import { readFileSync } from "node:fs";
 
-const {
-  fromTo,
-  to,
-  matchMediaAdd,
-  matchMediaRevert,
-} = vi.hoisted(() => ({
-  fromTo: vi.fn(),
-  to: vi.fn(),
-  matchMediaAdd: vi.fn(),
-  matchMediaRevert: vi.fn(),
-}));
-
-vi.mock('gsap', () => {
-  const context = (callback) => {
-    callback();
-    return { revert: () => {} };
-  };
-
-  return {
-    default: {
-      registerPlugin: () => {},
-      context,
-      fromTo,
-      to,
-      matchMedia: () => ({
-        add: matchMediaAdd,
-        revert: matchMediaRevert,
-      }),
-    },
-  };
-});
-
-vi.mock('gsap/ScrollTrigger', () => ({
-  ScrollTrigger: {},
-}));
-
-test('renders hero with WEN MENG title and dual action buttons matching design spec', () => {
-  matchMediaAdd.mockImplementation((_queries, callback) => {
-    callback({ conditions: { reduceMotion: false, isDesktop: true } });
-  });
-
+test("renders the identity and scroll cue without hero action buttons", () => {
   render(
     <LanguageProvider>
       <Hero />
@@ -51,12 +12,52 @@ test('renders hero with WEN MENG title and dual action buttons matching design s
   );
 
   expect(
-    screen.getByRole('heading', {
+    screen.getByRole("heading", {
       level: 1,
       name: /WEN MENG/i,
     }),
   ).toBeInTheDocument();
-  expect(screen.getByRole('link', { name: /查看精选项目/ })).toHaveAttribute('href', '#portfolio');
-  expect(screen.getByRole('link', { name: /查看精选项目/ })).toHaveAttribute('data-motion-hover', 'button');
-  expect(fromTo).toHaveBeenCalled();
+  expect(screen.getAllByRole("link")).toHaveLength(1);
+  expect(screen.queryByText("温萌")).not.toBeInTheDocument();
+  expect(screen.getByRole("link", { name: "向下滚动" })).toHaveAttribute(
+    "href",
+    "#experience",
+  );
+  expect(
+    screen.queryByRole("link", { name: "联系我" }),
+  ).not.toBeInTheDocument();
+  expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+    "WEN MENG",
+  );
+  expect(
+    screen.getByRole("heading", { level: 1 }).querySelector(".hero-char"),
+  ).toBeNull();
+});
+
+test("homepage reduced-motion presents final content and disables sticky cards", () => {
+  const styles = readFileSync("src/pages/Home/Home.css", "utf8");
+  expect(styles).toMatch(
+    /@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*animation:\s*none/,
+  );
+  expect(styles).toMatch(
+    /@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*position:\s*relative/,
+  );
+});
+
+test("Hero reduced-motion anchors use instant scrolling despite global smooth CSS", () => {
+  const previous = window.matchMedia;
+  window.matchMedia = vi.fn(() => ({ matches: true }));
+  const target = document.createElement("section");
+  target.id = "experience";
+  target.scrollIntoView = vi.fn();
+  document.body.append(target);
+  render(
+    <LanguageProvider>
+      <Hero />
+    </LanguageProvider>,
+  );
+  fireEvent.click(screen.getByRole("link", { name: "向下滚动" }));
+  expect(target.scrollIntoView).toHaveBeenCalledWith({ behavior: "instant" });
+  target.remove();
+  window.matchMedia = previous;
 });

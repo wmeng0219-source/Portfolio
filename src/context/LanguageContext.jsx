@@ -5,39 +5,45 @@ import React, {
   useEffect,
   useMemo,
   useState,
-} from 'react';
-import zh from '../locales/zh.json';
-import en from '../locales/en.json';
+} from "react";
+import zh from "../locales/zh.json";
+import en from "../locales/en.json";
+import { ENGLISH_ENABLED } from "../config/features";
 
 const LanguageContext = createContext();
 const translations = { zh, en };
 
 const getInitialLanguage = () => {
+  if (!ENGLISH_ENABLED) return "zh";
   try {
-    const saved = window.localStorage.getItem('language');
-    return translations[saved] ? saved : 'zh';
+    const saved = window.localStorage.getItem("language");
+    return translations[saved] ? saved : "zh";
   } catch {
-    return 'zh';
+    return "zh";
   }
 };
 
 export const LanguageProvider = ({ children }) => {
-  const [language, setLanguage] = useState(getInitialLanguage);
+  const [selectedLanguage, setLanguage] = useState(getInitialLanguage);
+  const language = ENGLISH_ENABLED ? selectedLanguage : "zh";
 
   useEffect(() => {
-    document.documentElement.lang = language === 'zh' ? 'zh-CN' : 'en';
-    window.localStorage.setItem('language', language);
+    document.documentElement.lang = language === "zh" ? "zh-CN" : "en";
+    window.localStorage.setItem("language", language);
   }, [language]);
 
   const toggleLanguage = useCallback(() => {
-    setLanguage((current) => (current === 'zh' ? 'en' : 'zh'));
+    if (!ENGLISH_ENABLED) return;
+    setLanguage((current) => (current === "zh" ? "en" : "zh"));
   }, []);
 
   const t = useCallback(
     (key) => {
       const translation = translations[language][key];
       if (!translation) {
-        console.warn(`[i18n] Translation missing for key: "${key}" in language: "${language}"`);
+        console.warn(
+          `[i18n] Translation missing for key: "${key}" in language: "${language}"`,
+        );
         return key;
       }
       return translation;
@@ -46,11 +52,15 @@ export const LanguageProvider = ({ children }) => {
   );
 
   const value = useMemo(
-    () => ({ language, t, toggleLanguage }),
+    () => ({ language, t, toggleLanguage, englishEnabled: ENGLISH_ENABLED }),
     [language, t, toggleLanguage],
   );
 
-  return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
+  return (
+    <LanguageContext.Provider value={value}>
+      {children}
+    </LanguageContext.Provider>
+  );
 };
 
 export const useLanguage = () => useContext(LanguageContext);

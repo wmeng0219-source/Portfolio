@@ -1,41 +1,51 @@
-import React, { useState } from 'react';
-import { useLanguage } from '../../context/LanguageContext';
+import React, { useEffect, useRef, useState } from "react";
+import { useLanguage } from "../../context/LanguageContext";
+import HomeIcon from "../HomeIcon";
 
 const Contact = () => {
   const { t } = useLanguage();
-  const [copiedWeChat, setCopiedWeChat] = useState(false);
-  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copyState, setCopyState] = useState("idle");
+  const requestRef = useRef(0);
+  const pendingRef = useRef(false);
+  useEffect(
+    () => () => {
+      requestRef.current += 1;
+    },
+    [],
+  );
 
-  const copyText = (text, type) => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(text);
-      if (type === 'wechat') {
-        setCopiedWeChat(true);
-        setTimeout(() => setCopiedWeChat(false), 2000);
-      } else {
-        setCopiedEmail(true);
-        setTimeout(() => setCopiedEmail(false), 2000);
-      }
+  const copyText = async (text) => {
+    if (pendingRef.current) return;
+    if (!navigator.clipboard?.writeText) {
+      setCopyState("unavailable");
+      return;
+    }
+    pendingRef.current = true;
+    const request = ++requestRef.current;
+    setCopyState("pending");
+    try {
+      await navigator.clipboard.writeText(text);
+      if (request === requestRef.current) setCopyState("success");
+    } catch {
+      if (request === requestRef.current) setCopyState("error");
+    } finally {
+      pendingRef.current = false;
     }
   };
 
   return (
-    <section
-      className="page-section contact-stage-section"
-      id="contact"
-      data-motion-section
-    >
+    <section className="page-section contact-stage-section" id="contact">
       <div className="section-shell">
-        <div className="contact-stage-card" data-motion-item>
+        <div className="contact-stage-card">
           <div className="contact-stage-head">
             <span className="contact-stage-kicker">
-              {t('contact.stage.kicker') || '03 / CONTACT'}
+              {t("contact.stage.kicker") || "03 / CONTACT"}
             </span>
             <h2 className="contact-stage-title">
-              {t('contact.stage.title') || '联系我'}
+              {t("contact.stage.title") || "联系我"}
             </h2>
             <p className="contact-stage-intro">
-              {t('contact.stage.body') || '欢迎直接交流。'}
+              {t("contact.stage.body") || "欢迎直接交流。"}
             </p>
           </div>
 
@@ -43,35 +53,44 @@ const Contact = () => {
             {/* WeChat Button */}
             <div className="contact-action-group">
               <span className="contact-action-label">
-                {t('contact.stage.wechatLabel') || 'Phone / WeChat'}
+                {t("contact.stage.wechatLabel") || "Phone / WeChat"}
               </span>
               <button
                 type="button"
-                onClick={() => copyText('wmeng219', 'wechat')}
+                onClick={() => copyText("wmeng219")}
                 className="contact-action-btn"
+                disabled={copyState === "pending"}
+                aria-describedby="wechat-copy-status"
               >
                 <span>wmeng219</span>
-                <span className="material-symbols-outlined contact-action-icon" aria-hidden="true">
-                  {copiedWeChat ? 'check' : 'content_copy'}
-                </span>
+                <HomeIcon
+                  name={copyState === "success" ? "check" : "copy"}
+                  className="home-icon-control"
+                />
               </button>
             </div>
 
             {/* Email Button */}
             <div className="contact-action-group">
               <span className="contact-action-label">
-                {t('contact.stage.emailLabel') || 'Email'}
+                {t("contact.stage.emailLabel") || "Email"}
               </span>
               <a
                 href="mailto:wmeng0219@gmail.com"
                 className="contact-action-btn"
               >
                 <span>wmeng0219@gmail.com</span>
-                <span className="material-symbols-outlined contact-action-icon" aria-hidden="true">
-                  mail
-                </span>
+                <HomeIcon name="mail" className="home-icon-control" />
               </a>
             </div>
+            <p
+              id="wechat-copy-status"
+              role="status"
+              aria-live="polite"
+              className="contact-copy-status"
+            >
+              {copyState !== "idle" && t(`contact.copy.${copyState}`)}
+            </p>
           </div>
         </div>
       </div>

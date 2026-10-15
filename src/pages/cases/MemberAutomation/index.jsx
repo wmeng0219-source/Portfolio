@@ -1,310 +1,389 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useLanguage } from '../../../context/LanguageContext';
-import styles from './MemberAutomation.module.css';
-import gsap from 'gsap';
+import React, { Fragment, useEffect, useRef, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { useLanguage } from "../../../context/LanguageContext";
+import { caseContent } from "./content";
+import styles from "./MemberAutomation.module.css";
 
-export default function MemberAutomationCase({ project }) {
-  const { language } = useLanguage();
+function InlineText({ text }) {
+  return text
+    .split(/(\*\*.*?\*\*)/g)
+    .map((part, index) =>
+      part.startsWith("**") ? (
+        <strong key={index}>{part.slice(2, -2)}</strong>
+      ) : (
+        part
+      ),
+    );
+}
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '[data-animate]',
-        { y: 24, autoAlpha: 0 },
-        { y: 0, autoAlpha: 1, duration: 0.8, stagger: 0.1, ease: 'power3.out' }
-      );
-    });
-    return () => ctx.revert();
-  }, []);
-
-  if (!project) return null;
-  const t = (obj) => (obj ? (obj[language] ?? obj.zh) : '');
-
+function Evidence({ slotId, language }) {
+  const slot = caseContent.diagrams.visuals[slotId];
   return (
-    <div className={styles.container}>
-      <nav className={styles.nav}>
-        <div className={styles.navInner}>
-          <Link to="/" state={{ scrollTo: 'portfolio' }} className={styles.backLink} data-animate>
-            ← {language === 'zh' ? '返回首页' : 'Back to Home'}
-          </Link>
+    <figure className={styles.evidence} data-visual-slot={slotId}>
+      <div
+        className={styles.evidenceFrame}
+        role="img"
+        aria-label={
+          (language === "zh" ? "素材准备中：" : "Image pending: ") +
+          slot.title[language]
+        }
+      >
+        <span>{language === "zh" ? "素材准备中" : "Image pending"}</span>
+        <strong>{slot.title[language]}</strong>
+      </div>
+      <figcaption>{slot.brief[language]}</figcaption>
+    </figure>
+  );
+}
+
+function SimpleFlow({ steps, caption }) {
+  return (
+    <figure className={styles.flow} aria-label={caption}>
+      <ol className={styles.flowSteps}>
+        {steps.map((step) => (
+          <li key={step}>{step}</li>
+        ))}
+      </ol>
+      <figcaption>{caption}</figcaption>
+    </figure>
+  );
+}
+
+function BusinessFlow({ language }) {
+  return (
+    <figure
+      className={styles.businessFlow}
+      aria-label={
+        language === "zh"
+          ? "会员办理与异常分支"
+          : "Membership processing and exception paths"
+      }
+    >
+      <ol>
+        {caseContent.diagrams.system[language].map((step) => (
+          <li key={step.label}>
+            <div className={styles.flowNode}>{step.label}</div>
+            {step.branches?.map((branch) => (
+              <p className={styles.branch} key={branch}>
+                {branch}
+              </p>
+            ))}
+          </li>
+        ))}
+      </ol>
+      <figcaption>
+        {language === "zh"
+          ? "业务处理关系示意，不代表接口调用顺序；跨店结算仍依赖底层系统和批处理。"
+          : "Business-flow overview, not an interface-call sequence. Cross-clinic settlement still depends on the underlying platform and batch processing."}
+      </figcaption>
+    </figure>
+  );
+}
+
+function Table({ block }) {
+  return (
+    <dl className={styles.ruleRows}>
+      {block.rows.map(([label, detail]) => (
+        <div key={label}>
+          <dt>
+            <InlineText text={label} />
+          </dt>
+          <dd>
+            <InlineText text={detail} />
+          </dd>
         </div>
-      </nav>
+      ))}
+    </dl>
+  );
+}
 
-      <main className={styles.page}>
-        {/* ── Hero (Split Screen) ──────────────────────────── */}
-        <section className={styles.hero} data-animate>
-          <div className={styles.heroInner}>
-            <p className={styles.kicker}>
-              <span className={styles.kickerIndex}>01</span> / MEMBER AUTOMATION
-            </p>
-            <h1 className={styles.title}>{t(project.title)}</h1>
-            <p className={styles.tag}>{t(project.tag)}</p>
-            <p className={styles.heroSummary}>{t(project.background)}</p>
-          </div>
+function Metrics({ block, language }) {
+  return (
+    <div className={styles.metricRows}>
+      {block.rows.map(([label, change, source], index) => (
+        <div
+          key={label}
+          className={index ? styles.estimate : styles.measured}
+          data-evidence={index ? "estimated" : "measured"}
+        >
+          <h4>{label}</h4>
+          <p className={styles.metricChange}>
+            {change.split(" → ").map((value, i) => (
+              <Fragment key={value}>
+                {i > 0 && (
+                  <span className={styles.metricArrow} aria-hidden="true">
+                    {" "}
+                    →{" "}
+                  </span>
+                )}
+                <span>{value}</span>
+              </Fragment>
+            ))}
+          </p>
+          <p className={styles.note}>{source}</p>
+          <p className={styles.note}>
+            {language === "zh"
+              ? index
+                ? "财务反馈估算，不与现场实测混为同一种证据。"
+                : "只说明典型升级结算场景，不代表全部交易的平均耗时。"
+              : index
+                ? "Finance feedback is an estimate, not the same evidence as on-site measurement."
+                : "A typical upgrade task, not an average across all transactions."}
+          </p>
+        </div>
+      ))}
+    </div>
+  );
+}
 
-          <div className={styles.heroVisual} data-animate>
-            {project.images && project.images[0] && (
-              <img
-                src={project.images[0].src}
-                alt={t(project.images[0].alt)}
-                className={styles.heroVisualImg}
-                width="1600"
-                height="900"
-                loading="eager"
+function RenderBlocks({ section, language }) {
+  const items = section[language];
+  return items.map((block, index) => {
+    let element;
+    if (block.type === "heading") {
+      const solution = block.text.match(/^4\.([123])/);
+      element = (
+        <h3
+          id={solution ? "solution-" + solution[1] : undefined}
+          tabIndex={solution ? -1 : undefined}
+          className={styles.subheading}
+        >
+          {block.text}
+        </h3>
+      );
+    } else if (block.type === "paragraph") {
+      if (section.id === "system" && block.text.includes("→"))
+        element = <BusinessFlow language={language} />;
+      else
+        element = (
+          <p className={styles.paragraph}>
+            <InlineText text={block.text} />
+          </p>
+        );
+    } else if (block.type === "list") {
+      element = (
+        <ul className={styles.list}>
+          {block.items.map((item) => (
+            <li key={item}>
+              <InlineText text={item} />
+            </li>
+          ))}
+        </ul>
+      );
+    } else if (block.type === "table") {
+      element =
+        section.id === "impact" ? (
+          <Metrics block={block} language={language} />
+        ) : (
+          <Table block={block} />
+        );
+    }
+    const endGroup =
+      section.id === "solution" &&
+      (items[index + 1]?.type === "heading" || index === items.length - 1);
+    const group = items
+      .slice(0, index + 1)
+      .filter(
+        (item) => item.type === "heading" && /^4\.[123]/.test(item.text),
+      ).length;
+    const judgmentEnd =
+      section.id === "thinking" &&
+      block.type === "paragraph" &&
+      (items[index + 1]?.type === "heading" || index === items.length - 1);
+    const judgment = items
+      .slice(0, index + 1)
+      .filter((item) => item.type === "heading").length;
+    return (
+      <Fragment key={section.id + index}>
+        {element}
+        {judgmentEnd && (
+          <Link to={"#solution-" + judgment} className={styles.solutionLink}>
+            {language === "zh" ? "查看对应方案" : "See the solution"} 4.
+            {judgment} →
+          </Link>
+        )}
+        {endGroup && (
+          <div
+            data-mechanism={
+              group === 2 ? "quota" : group === 3 ? "recovery" : undefined
+            }
+          >
+            {group > 1 && (
+              <Table
+                block={{
+                  rows: caseContent.diagrams.solutionRules[
+                    group === 2 ? "quota" : "recovery"
+                  ][language],
+                }}
               />
             )}
-            {project.heroMetrics && (
-              <div className={styles.heroMetricFloating}>
-                <div className={styles.metricBlock}>
-                  <span className={styles.metricBefore}>{project.heroMetrics.opTimeBefore}</span>
-                  <span className={styles.metricArrow}>→</span>
-                  <span className={styles.metricAfter}>{project.heroMetrics.opTimeAfter}</span>
-                </div>
-                <p className={styles.metricLabel}>
-                  {language === 'zh' ? '典型会员升级 · 门店现场实测' : 'Typical member upgrade · on-site test'}
-                </p>
-              </div>
-            )}
+            <Evidence
+              slotId={["transaction", "quota", "recovery"][group - 1]}
+              language={language}
+            />
           </div>
-        </section>
-
-        {/* ── Background & System Identity ─────────────────────── */}
-        <section className={styles.section} data-animate>
-          <div className={styles.sectionGrid}>
-            <div>
-              <p className={styles.sectionKicker}>
-                {language === 'zh' ? '项目背景与定位' : 'Background & Scope'}
-              </p>
-              <p className={styles.bodyText}>{t(project.problem)}</p>
-            </div>
-            <div>
-              <div className={styles.roleChip}>
-                <span className={styles.roleChipLabel}>
-                  {language === 'zh' ? '我的角色' : 'My Role'}
-                </span>
-                <span className={styles.roleChipValue}>{t(project.role)}</span>
-                {project.sysVer && (
-                  <code className={styles.sysCode}>{project.sysVer}</code>
-                )}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ── Constraints & Scope ──────────────────────────────── */}
-        {project.constraints && (
-          <section className={styles.section} data-animate>
-            <p className={styles.sectionKicker}>{t(project.constraints.title)}</p>
-            <div className={styles.constraintGrid}>
-              {project.constraints.items.map((item, i) => (
-                <article key={i} className={styles.constraintCard}>
-                  <span className={styles.constraintIndex}>0{i + 1}</span>
-                  <h3 className={styles.constraintTitle}>{t(item.title)}</h3>
-                  <p className={styles.constraintDesc}>{t(item.desc)}</p>
-                </article>
-              ))}
-            </div>
-          </section>
         )}
+      </Fragment>
+    );
+  });
+}
 
-        {/* ── Iteration Path ───────────────────────────────────── */}
-        {project.process && (
-          <section className={styles.section} data-animate>
-            <p className={styles.sectionKicker}>
-              {language === 'zh' ? '迭代路径' : 'Iteration Path'}
+export default function MemberAutomationCase() {
+  const { language, toggleLanguage, englishEnabled } = useLanguage();
+  const { hash, key: locationKey } = useLocation();
+  const previousHash = useRef(hash);
+  const [activeSection, setActiveSection] = useState("overview");
+  const sections = caseContent.sections.slice(1);
+  const focusSection = (id) => {
+    const node = document.getElementById(id);
+    node?.scrollIntoView?.({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "instant"
+        : "smooth",
+      block: "start",
+    });
+    node?.focus({ preventScroll: true });
+  };
+
+  useEffect(() => {
+    if (hash) focusSection(hash.slice(1));
+    else if (previousHash.current) window.scrollTo(0, 0);
+    previousHash.current = hash;
+  }, [hash, locationKey]);
+
+  useEffect(() => {
+    if (typeof IntersectionObserver === "undefined") return undefined;
+    const visible = new Set();
+    let observer;
+    const observe = () => {
+      observer?.disconnect();
+      visible.clear();
+      const top = Math.min(96, Math.floor(window.innerHeight * 0.15));
+      const bottom = Math.max(0, window.innerHeight - top - 128);
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) visible.add(entry.target.id);
+            else visible.delete(entry.target.id);
+          });
+          const current = [...caseContent.sections]
+            .reverse()
+            .find((section) => visible.has(section.id));
+          if (current) setActiveSection(current.id);
+        },
+        {
+          rootMargin: "-" + top + "px 0px -" + bottom + "px 0px",
+          threshold: 0,
+        },
+      );
+      caseContent.sections.forEach(({ id }) => {
+        const node = document.getElementById(id);
+        if (node) observer.observe(node);
+      });
+    };
+    observe();
+    window.addEventListener("resize", observe);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", observe);
+    };
+  }, []);
+
+  return (
+    <div className={styles.root} lang={language === "zh" ? "zh-CN" : "en"}>
+      <header className={styles.topbar}>
+        <Link to="/" state={{ scrollTo: "portfolio" }} className={styles.back}>
+          ← {language === "zh" ? "返回首页" : "Back to Home"}
+        </Link>
+        {englishEnabled && (
+          <button
+            type="button"
+            className={styles.language}
+            onClick={toggleLanguage}
+            aria-label={language === "zh" ? "Switch to English" : "切换至中文"}
+          >
+            {language === "zh" ? "EN" : "中文"}
+          </button>
+        )}
+      </header>
+      <main className={styles.page}>
+        <section
+          id="overview"
+          tabIndex={-1}
+          aria-labelledby="case-title"
+          className={styles.overview}
+        >
+          <div className={styles.hero} data-case-intro>
+            <h1 id="case-title" className={styles.title}>
+              {caseContent.hero.title[language]}
+            </h1>
+            <p className={styles.summary}>
+              {caseContent.hero.summary[language]}
             </p>
-            <div className={styles.iterationList}>
-              {project.process.map((iter, i) => (
-                <article key={i} className={styles.iterationRow}>
-                  <div className={styles.iterationMeta}>
-                    <span className={styles.iterationBadge}>{iter.version}</span>
-                    <span className={styles.iterationLabel}>{t(iter.label)}</span>
-                  </div>
-                  <div className={styles.iterationBody}>
-                    <h3 className={styles.iterationTitle}>{t(iter.title)}</h3>
-                    <p className={styles.bodyText}>{t(iter.desc)}</p>
-                  </div>
-                </article>
+          </div>
+          <div className={styles.roles} data-case-roles>
+            <h2 id="overview-title" className={styles.overviewTitle}>
+              {language === "zh" ? "我的职责与协作" : "My role & collaboration"}
+            </h2>
+            <div>
+              {caseContent.hero.roles[language].map((text) => (
+                <p key={text}>{text}</p>
               ))}
             </div>
-          </section>
-        )}
+          </div>
 
-        {/* ── Solutions ────────────────────────────────────── */}
-        <section className={styles.section} data-animate>
-          <p className={styles.sectionKicker}>
-            {language === 'zh' ? '关键系统架构方案' : 'Key Solutions'}
-          </p>
-          <div className={styles.solutionList}>
-            {project.solution.map((sol, i) => (
-              <article key={i} className={styles.solutionRow}>
-                {project.images && project.images[i + 1] && (
-                  <img
-                    src={project.images[i + 1].src}
-                    alt={t(sol.title)}
-                    className={styles.solutionImage}
-                    loading="lazy"
-                    width="1024"
-                    height="768"
+          <Evidence slotId="workspace" language={language} />
+        </section>
+        <div className={styles.body}>
+          <aside>
+            <nav
+              aria-label={language === "zh" ? "章节目录" : "Contents"}
+              className={styles.contents}
+            >
+              {caseContent.sections.map((section, index) => (
+                <Link
+                  key={section.id}
+                  to={"#" + section.id}
+                  aria-current={
+                    activeSection === section.id ? "location" : undefined
+                  }
+                  onClick={() => {
+                    setActiveSection(section.id);
+                  }}
+                >
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  {section.title[language]}
+                </Link>
+              ))}
+            </nav>
+          </aside>
+          <div className={styles.articles}>
+            {sections.map((section) => (
+              <section
+                key={section.id}
+                id={section.id}
+                tabIndex={-1}
+                aria-labelledby={section.id + "-title"}
+                className={styles.section}
+              >
+                <h2 id={section.id + "-title"} className={styles.sectionTitle}>
+                  {section.title[language]}
+                </h2>
+                {section.id === "problem" && (
+                  <SimpleFlow
+                    steps={caseContent.diagrams.old[language]}
+                    caption={
+                      language === "zh"
+                        ? "旧业务流程示意，依据原流程整理"
+                        : "Previous business workflow, based on the original process"
+                    }
                   />
                 )}
-                <div className={styles.solutionCopy}>
-                  <span className={styles.solutionIndex}>0{i + 1}</span>
-                  <h3 className={styles.solutionTitle}>{t(sol.title)}</h3>
-                  <p className={styles.bodyText}>{t(sol.desc)}</p>
-                </div>
-              </article>
+                <RenderBlocks section={section} language={language} />
+              </section>
             ))}
           </div>
-        </section>
-
-        {/* ── Design System & UX Craft ─────────────────────── */}
-        {project.designCraft && (
-          <section className={styles.section} data-animate>
-            <p className={styles.sectionKicker}>{t(project.designCraft.title)}</p>
-            <p className={styles.decisionSubtitle}>{t(project.designCraft.subtitle)}</p>
-
-            <div className={styles.craftGrid}>
-              {project.designCraft.pillars.map((pillar, i) => (
-                <article key={i} className={styles.craftCard}>
-                  <div className={styles.craftHeader}>
-                    <span className={styles.craftTag}>{t(pillar.tag)}</span>
-                    <h3 className={styles.craftTitle}>{t(pillar.title)}</h3>
-                  </div>
-                  <p className={styles.bodyText}>{t(pillar.desc)}</p>
-
-                  {/* Render Swatches if available */}
-                  {pillar.swatches && (
-                    <div className={styles.swatchGrid}>
-                      {pillar.swatches.map((swatch, idx) => (
-                        <div key={idx} className={styles.swatchCard}>
-                          <div
-                            className={styles.swatchChip}
-                            style={{ backgroundColor: swatch.color }}
-                          />
-                          <div className={styles.swatchMeta}>
-                            <div className={styles.swatchNameRow}>
-                              <span className={styles.swatchName}>{t(swatch.name)}</span>
-                              <span className={styles.swatchHex}>{swatch.color}</span>
-                            </div>
-                            <span className={styles.swatchRole}>{t(swatch.role)}</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Render Specs if available */}
-                  {pillar.specs && (
-                    <div className={styles.specRow}>
-                      {pillar.specs.map((spec, idx) => (
-                        <div key={idx} className={styles.specItem}>
-                          <span className={styles.specValue}>{spec.value}</span>
-                          <span className={styles.specLabel}>{t(spec.label)}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </article>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* ── Design Decisions ─────────────────────────────── */}
-        {project.decisions && (
-          <section className={styles.section} data-animate>
-            <p className={styles.sectionKicker}>
-              {language === 'zh' ? '关键设计决策' : 'Key Design Decisions'}
-            </p>
-            <div className={styles.decisionList}>
-              {project.decisions.map((d, i) => (
-                <article key={i} className={styles.decisionRow}>
-                  <span className={styles.decisionIndex}>Q{i + 1}</span>
-                  <div className={styles.decisionMain}>
-                    <h3 className={styles.decisionQuestion}>{t(d.question)}</h3>
-                    <span className={styles.decisionAnswerLabel}>
-                      {language === 'zh' ? '决策推演' : 'Decision Rationale'}
-                    </span>
-                    <p className={styles.decisionAnswerText}>{t(d.choice)}</p>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* ── Results & Interface Flow ─────────────────────────── */}
-        {project.detailMetrics && (
-          <section className={styles.section} data-animate>
-            <p className={styles.resultHeadline}>{t(project.detailMetrics.headline)}</p>
-
-            <div className={styles.metricRow}>
-              <div className={styles.metricCell}>
-                <span className={styles.metricCellValue}>{project.detailMetrics.before.value}</span>
-                <span className={styles.metricCellLabel}>{t(project.detailMetrics.before.label)}</span>
-              </div>
-              <div className={`${styles.metricCell} ${styles.metricCellAccent}`}>
-                <span className={styles.metricCellValue}>{project.detailMetrics.after.value}</span>
-                <span className={styles.metricCellLabel}>{t(project.detailMetrics.after.label)}</span>
-              </div>
-              <div className={`${styles.metricCell} ${styles.metricCellDelta}`}>
-                <span className={styles.metricCellValue}>{project.detailMetrics.delta.value}</span>
-                <span className={styles.metricCellLabel}>{t(project.detailMetrics.delta.label)}</span>
-              </div>
-            </div>
-          </section>
-        )}
-
-        <section className={styles.section} data-animate>
-          <p className={styles.resultHeadline}>
-            {language === 'zh' ? '项目落地成果' : 'Project Results'}
-          </p>
-          <div className={styles.resultCard}>
-            <p className={styles.bodyText}>{t(project.result)}</p>
-          </div>
-        </section>
-
-        {/* ── Retrospective & Limitations ───────────────────── */}
-        {project.retrospective && (
-          <section className={styles.section} data-animate>
-            <p className={styles.sectionKicker}>{t(project.retrospective.title)}</p>
-            <div className={styles.retrospectiveGrid}>
-              {project.retrospective.items.map((item, i) => (
-                <article key={i} className={styles.retrospectiveCard}>
-                  <span className={styles.retrospectiveIndex}>0{i + 1}</span>
-                  <h3 className={styles.retrospectiveTitle}>{t(item.title)}</h3>
-                  <p className={styles.retrospectiveDesc}>{t(item.desc)}</p>
-                </article>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {project.images && project.images.length > 0 && (
-          <section className={styles.imageSection} data-animate>
-            <p className={styles.sectionKicker}>
-              {language === 'zh' ? '界面流程与架构视图' : 'Interface Flow'}
-            </p>
-            <div className={styles.imageList}>
-              {project.images.map((img, i) => (
-                <figure key={i} className={styles.imageRow}>
-                  <img
-                    src={img.src}
-                    alt={t(img.alt)}
-                    className={styles.image}
-                    loading="lazy"
-                    width="1024"
-                    height="768"
-                  />
-                  <figcaption className={styles.imageCaption}>{t(img.alt)}</figcaption>
-                </figure>
-              ))}
-            </div>
-          </section>
-        )}
+        </div>
       </main>
     </div>
   );

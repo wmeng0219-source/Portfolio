@@ -1,85 +1,23 @@
-import { readFileSync } from 'node:fs';
-import path from 'node:path';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { vi } from 'vitest';
-import { LanguageProvider } from '../../context/LanguageContext';
-import ProjectDetail from './index';
+import { readFileSync } from "node:fs";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { vi } from "vitest";
+import { LanguageProvider } from "../../context/LanguageContext";
+import ProjectDetail from "./index";
+import {
+  publicParagraphs,
+  normalizeManuscriptText,
+} from "../../test/manuscript";
 
-const {
-  fromTo,
-  to,
-  matchMediaAdd,
-  matchMediaRevert,
-  scrollTriggerCreate,
-} = vi.hoisted(() => ({
-  fromTo: vi.fn(),
-  to: vi.fn(),
-  matchMediaAdd: vi.fn(),
-  matchMediaRevert: vi.fn(),
-  scrollTriggerCreate: vi.fn(),
-}));
-
-vi.mock('gsap', () => {
-  const context = (callback) => {
-    callback();
-    return { revert: () => {} };
-  };
-
-  return {
-    default: {
-      registerPlugin: () => {},
-      context,
-      fromTo,
-      to,
-      matchMedia: () => ({
-        add: matchMediaAdd,
-        revert: matchMediaRevert,
-      }),
-      utils: {
-        toArray: (value) => {
-          if (typeof value === 'string') {
-            return Array.from(document.querySelectorAll(value));
-          }
-
-          if (value && typeof value.length === 'number') {
-            return Array.from(value);
-          }
-
-          return value ? [value] : [];
-        },
-      },
+vi.mock("gsap", () => ({
+  default: {
+    context: (callback) => {
+      callback();
+      return { revert() {} };
     },
-    gsap: {
-      registerPlugin: () => {},
-      context,
-      fromTo,
-      to,
-      matchMedia: () => ({
-        add: matchMediaAdd,
-        revert: matchMediaRevert,
-      }),
-      utils: {
-        toArray: (value) => {
-          if (typeof value === 'string') {
-            return Array.from(document.querySelectorAll(value));
-          }
-
-          if (value && typeof value.length === 'number') {
-            return Array.from(value);
-          }
-
-          return value ? [value] : [];
-        },
-      },
-    },
-  };
-});
-
-vi.mock('gsap/ScrollTrigger', () => ({
-  ScrollTrigger: {
-    create: scrollTriggerCreate,
+    fromTo: vi.fn(),
+    set: vi.fn(),
   },
 }));
 
@@ -94,168 +32,295 @@ const renderProjectDetail = (initialEntry) =>
     </MemoryRouter>,
   );
 
-test('orthodontics role tabs expose pressed state and update selection after click', async () => {
-  matchMediaAdd.mockImplementation((_queries, callback) => {
-    callback({ conditions: { reduceMotion: false, isDesktop: false } });
-  });
-
-  const user = userEvent.setup();
-  renderProjectDetail('/project/orthodontics');
-
-  const nurseTab = screen.getByRole('tab', { name: '护士' });
-  const pedoTab = screen.getByRole('tab', { name: '儿牙医生' });
-
-  expect(nurseTab).toHaveAttribute('aria-pressed', 'true');
-  expect(pedoTab).toHaveAttribute('aria-pressed', 'false');
-
-  await user.click(pedoTab);
-
-  expect(nurseTab).toHaveAttribute('aria-pressed', 'false');
-  expect(pedoTab).toHaveAttribute('aria-pressed', 'true');
-  expect(screen.getByRole('tabpanel', { name: '儿牙医生' })).toHaveTextContent(/转诊费激励/);
-});
-
-test('pacs detail images define explicit dimensions to reduce layout shift', () => {
-  matchMediaAdd.mockImplementation((_queries, callback) => {
-    callback({ conditions: { reduceMotion: false, isDesktop: false } });
-  });
-
-  renderProjectDetail('/project/pacs-ai');
-
-  const heroImage = screen.getByRole('img', { name: 'PACS AI UI' });
-  const flowImage = screen.getByRole('img', { name: '读片状态与病历同步' });
-  const solutionImage = screen.getByRole('img', { name: '读片基础功能 (V1)' });
-
-  expect(heroImage).toHaveAttribute('width');
-  expect(heroImage).toHaveAttribute('height');
-  expect(flowImage).toHaveAttribute('width');
-  expect(flowImage).toHaveAttribute('height');
-  expect(heroImage.getAttribute('src')).not.toContain('/Portfolio/Portfolio/');
-  expect(solutionImage.getAttribute('src')).not.toContain('/Portfolio/Portfolio/');
-});
-
-test('pacs detail renders sequential reading sections instead of scroll-stage containers', () => {
-  matchMediaAdd.mockImplementation((_queries, callback) => {
-    callback({ conditions: { reduceMotion: false, isDesktop: false } });
-  });
-
-  const { container } = renderProjectDetail('/project/pacs-ai');
-
-  expect(screen.getByText('项目背景与挑战')).toBeInTheDocument();
-  expect(screen.getByText('迭代路径')).toBeInTheDocument();
-  expect(screen.getByText('关键方案')).toBeInTheDocument();
-  expect(screen.getByText('关键设计判断')).toBeInTheDocument();
-  expect(container.querySelector('[class*="iterationList"]')).not.toBeNull();
-  expect(container.querySelector('[class*="decisionList"]')).not.toBeNull();
-  expect(container.querySelector('[class*="panTrack"]')).toBeNull();
-  expect(container.querySelector('[class*="stackContainer"]')).toBeNull();
-});
-
-test('detail page styles include visible focus treatment for back link and role tabs', () => {
-  const projectDetailStyles = readFileSync(
-    path.resolve(process.cwd(), 'src/pages/ProjectDetail/ProjectDetail.module.css'),
-    'utf8',
+test("orthodontics keeps clinical responsibilities visible in one shared record", () => {
+  renderProjectDetail("/project/orthodontics");
+  const flow = screen.getByRole("figure", { name: "角色协作示意" });
+  ["护士", "儿牙医生", "正畸医生"].forEach((role) =>
+    expect(flow).toHaveTextContent(role),
   );
-  const orthodonticsStyles = readFileSync(
-    path.resolve(process.cwd(), 'src/pages/cases/Orthodontics/Orthodontics.module.css'),
-    'utf8',
+  expect(flow).toHaveTextContent("资料采集");
+  expect(flow).toHaveTextContent("专业判断与结论填写");
+  expect(flow).toHaveTextContent("门店与业务团队");
+});
+
+test("pacs detail exposes six evidence placeholders without loading legacy screenshots", () => {
+  const { container } = renderProjectDetail("/project/pacs-ai");
+
+  const visualSlots = [...container.querySelectorAll("[data-visual-slot]")];
+  const uniqueSlotIds = new Set(
+    visualSlots.map((slot) => slot.dataset.visualSlot),
+  );
+  const legacyScreenshots = [...container.querySelectorAll("img")].filter(
+    (image) => image.getAttribute("src")?.includes("/images/pacs/screen-"),
   );
 
-  expect(projectDetailStyles).toContain('.backLink:focus-visible');
-  expect(orthodonticsStyles).toContain('.roleTab:focus-visible');
-});
-
-test('case studies share the portfolio layout, typography, radius, and motion contract', () => {
-  const variables = readFileSync(
-    path.resolve(process.cwd(), 'src/styles/variables.css'),
-    'utf8',
-  );
-  const caseStylePaths = [
-    'src/pages/cases/MemberAutomation/MemberAutomation.module.css',
-    'src/pages/cases/Orthodontics/Orthodontics.module.css',
-    'src/pages/cases/PacsAi/PacsAi.module.css',
-    'src/pages/cases/PreVisitEngine/PreVisitEngine.module.css',
+  const coreSlotIds = [
+    "workspace",
+    "record-sync",
+    "manual-reading",
+    "ai-linked-focus",
+    "doctor-review",
+    "timeout-fallback",
   ];
-  const caseStyles = caseStylePaths.map((file) => readFileSync(path.resolve(process.cwd(), file), 'utf8'));
 
-  expect(variables).toMatch(/--content-max:\s*1320px/);
-  expect(variables).toContain("--font-display: 'Anton'");
-  expect(variables).toContain("--font-body: 'Hanken Grotesk'");
-  expect(variables).toContain("--font-serif: 'Merriweather'");
-  expect(variables).toContain("--font-mono: 'IBM Plex Mono'");
-  expect(variables).toMatch(/--case-page-pad-x:\s*clamp\(/);
-  expect(variables).toMatch(/--case-section-pad-y:\s*clamp\(/);
-  expect(variables).toMatch(/--text-case-h1:\s*clamp\(/);
-  expect(variables).toMatch(/--text-case-h2:\s*clamp\(/);
-  expect(variables).toMatch(/--text-case-h3:\s*clamp\(/);
-  expect(variables).toMatch(/--text-case-body:\s*clamp\(/);
-  expect(variables).toMatch(/--text-case-label:\s*clamp\(/);
-  expect(variables).toMatch(/--radius-card:\s*16px/);
-  expect(variables).toMatch(/--radius-control:\s*12px/);
-
-  caseStyles.forEach((css) => {
-    expect(css).toContain('var(--content-max)');
-    expect(css).toContain('var(--text-case-h2)');
-    expect(css).toContain('var(--text-case-body)');
-    expect(css).toContain('var(--radius-card)');
-    expect(css).toContain('translateY(-2px)');
-    expect(css).not.toContain('max-width: 1000px');
-    expect(css).not.toContain('border-radius: 18px');
-    expect(css).not.toContain('translateY(-4px)');
-  });
+  expect(coreSlotIds.every((slotId) => uniqueSlotIds.has(slotId))).toBe(true);
+  expect(uniqueSlotIds).toContain("image-classification");
+  expect(
+    screen.getAllByRole("img", { name: /完整读片工作台/ }).length,
+  ).toBeGreaterThan(0);
+  expect(
+    screen.getAllByRole("img", { name: /医生三种复核结果/ }).length,
+  ).toBeGreaterThan(0);
+  expect(screen.getAllByText("素材准备中").length).toBeGreaterThanOrEqual(6);
+  expect(legacyScreenshots).toHaveLength(0);
 });
 
-test('orthodontics presents the verified rollout, ownership, iteration decision, and comparison scope', () => {
-  matchMediaAdd.mockImplementation((_queries, callback) => {
-    callback({ conditions: { reduceMotion: false, isDesktop: false } });
-  });
+test("pacs detail presents the complete reading project instead of a V1 V2 feature story", () => {
+  renderProjectDetail("/project/pacs-ai");
 
-  renderProjectDetail('/project/orthodontics');
-
-  expect(screen.getByText('2025.04')).toBeInTheDocument();
-  expect(screen.getByText('2026.02')).toBeInTheDocument();
-  expect(screen.getAllByText(/全门店正式上线/).length).toBeGreaterThan(0);
-  expect(screen.getAllByText(/独立完成门诊调研/).length).toBeGreaterThan(0);
-  expect(screen.getByText(/产品减法/)).toBeInTheDocument();
-  expect(screen.getAllByText(/2025 年 2—4 月与 2026 年 2—4 月/).length).toBeGreaterThan(0);
-  expect(screen.getByText('54990')).toBeInTheDocument();
+  expect(
+    screen.getByRole("heading", { level: 1, name: "PACS 读片与 AI 辅助" }),
+  ).toBeInTheDocument();
+  const headings = [
+    "我的职责与协作",
+    "问题",
+    "我的判断",
+    "方案",
+    "关键流程与系统机制",
+    "结果",
+    "反思",
+  ];
+  expect(
+    screen
+      .getAllByRole("heading", { level: 2 })
+      .map((heading) => heading.textContent),
+  ).toEqual(headings);
+  const navigation = screen.getByRole("navigation", { name: "章节目录" });
+  const links = [...navigation.querySelectorAll("a")];
+  expect(links).toHaveLength(7);
+  links.forEach((link) =>
+    expect(
+      document.getElementById(link.getAttribute("href").split("#").at(-1)),
+    ).toBeInTheDocument(),
+  );
+  expect(screen.queryByText("迭代路径")).not.toBeInTheDocument();
+  expect(screen.queryByText(/V1 主导/)).not.toBeInTheDocument();
+  expect(screen.queryByText(/V2 全权负责/)).not.toBeInTheDocument();
+  expect(screen.queryByText(/数据飞轮/)).not.toBeInTheDocument();
+  expect(screen.queryByText(/平均发现数提升 \+142%/)).not.toBeInTheDocument();
 });
 
-test('member automation states the final upgrade rule and distinguishes measured from estimated outcomes', () => {
-  matchMediaAdd.mockImplementation((_queries, callback) => {
-    callback({ conditions: { reduceMotion: false, isDesktop: false } });
-  });
+test("global typography defines distinct display, body, serif, and mono roles", () => {
+  const variables = readFileSync("src/styles/variables.css", "utf8");
+  for (const role of ["display", "body", "serif", "mono"]) {
+    expect(variables).toMatch(new RegExp(`--font-${role}:\\s*[^;]+;`));
+  }
+});
 
-  renderProjectDetail('/project/member-automation');
+test("orthodontics presents the verified rollout, ownership, iteration decision, and comparison scope", () => {
+  renderProjectDetail("/project/orthodontics");
 
-  expect(screen.getByText(/自动判定升级\/续卡/)).toBeInTheDocument();
+  expect(screen.getByText(/2025\.04 - 2026\.02/)).toBeInTheDocument();
+  expect(
+    screen.getByText(/方案经过试点与调整，于 2026 年 2 月/),
+  ).toBeInTheDocument();
+  expect(screen.getAllByText(/全门店上线/).length).toBeGreaterThan(0);
+  expect(
+    screen.getByText(/我负责门诊调研、流程与规则梳理/),
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole("heading", {
+      name: "区分推荐与执行任务，让工作安排更清晰",
+    }),
+  ).toBeInTheDocument();
+  expect(screen.getByText("2025 年 2—4 月")).toBeInTheDocument();
+  expect(screen.getByText("2026 年 2—4 月")).toBeInTheDocument();
+  expect(screen.queryByText("54,990")).not.toBeInTheDocument();
+  expect(
+    screen.getByText(/方案经过试点与调整，于 2026 年 2 月/),
+  ).toHaveTextContent("18,460");
+  expect(screen.queryByText(/独立完成门诊调研/)).not.toBeInTheDocument();
+});
+
+test("member automation states the final upgrade rule and distinguishes measured from estimated outcomes", () => {
+  renderProjectDetail("/project/member-automation");
+
+  expect(screen.getByText(/系统判断升级还是续卡/)).toBeInTheDocument();
   expect(screen.getAllByText(/门店现场实测/).length).toBeGreaterThan(0);
-  expect(screen.getByText(/据财务团队估算/)).toBeInTheDocument();
+  expect(screen.getByText(/财务团队估算，未做精细统计/)).toBeInTheDocument();
   expect(screen.getAllByText(/保留原卡与原权益/).length).toBeGreaterThan(0);
 });
 
-test('pacs renders 2024.11 AI launch and pre/post baseline comparison', () => {
-  matchMediaAdd.mockImplementation((_queries, callback) => {
-    callback({ conditions: { reduceMotion: false, isDesktop: false } });
-  });
+test("pacs distinguishes the dynamic completion target from measured scale and unverified outcomes", () => {
+  renderProjectDetail("/project/pacs-ai");
 
-  renderProjectDetail('/project/pacs-ai');
-
-  expect(screen.getAllByText('2024.06').length).toBeGreaterThan(0);
-  expect(screen.getAllByText('2025.06').length).toBeGreaterThan(0);
-  expect(screen.getAllByText('2024.11 上线').length).toBeGreaterThan(0);
-  expect(screen.getByText(/AI 辅助功能于 2024.11 正式上线/)).toBeInTheDocument();
-  expect(screen.queryByText(/100% 留痕/)).not.toBeInTheDocument();
-  expect(screen.queryByText('3.0s')).not.toBeInTheDocument();
-  expect(screen.queryByText('< 100ms')).not.toBeInTheDocument();
+  expect(screen.getByText("60%")).toBeInTheDocument();
+  expect(
+    screen.getByText(/是在上线后形成、随实际情况调整的目标，不是已达到的结果/),
+  ).toBeInTheDocument();
+  expect(screen.getByText("147,793 张")).toBeInTheDocument();
+  expect(screen.getByText("约 96.3%")).toBeInTheDocument();
+  expect(screen.getByText("3,736 条")).toBeInTheDocument();
+  expect(
+    screen.getByText(/不说明诊断准确率或实际读片完成率/),
+  ).toBeInTheDocument();
+  expect(screen.queryByText(/1.43/)).not.toBeInTheDocument();
+  expect(screen.queryByText(/提升医学检出率/)).not.toBeInTheDocument();
+  expect(screen.queryByText(/成功消除医生的抵触情绪/)).not.toBeInTheDocument();
 });
 
-test('pre-visit engine renders panoramic views, tooth quadrant ergonomics and structured task bundles', () => {
-  matchMediaAdd.mockImplementation((_queries, callback) => {
-    callback({ conditions: { reduceMotion: false, isDesktop: false } });
-  });
+test("pacs explains checklist synchronization and preserves the post-launch doctor feedback", () => {
+  renderProjectDetail("/project/pacs-ai");
+  expect(
+    screen.getByText(/护士拍片后上传影像并关联本次预约/),
+  ).toBeInTheDocument();
+  expect(screen.getByText(/但它不直接触发病历同步/)).toBeInTheDocument();
+  expect(screen.getByText(/复用只在这三项都未填写时提供/)).toBeInTheDocument();
+  expect(
+    screen.getByRole("heading", { name: "少打字，不等于填写更快" }),
+  ).toBeInTheDocument();
+  expect(
+    screen.getByText(/但上线后调研中，医生反馈填写路径仍然偏长/),
+  ).toBeInTheDocument();
+  expect(screen.queryByText(/尚未验证的效果与下一步/)).not.toBeInTheDocument();
+  expect(
+    screen.getByRole("heading", {
+      level: 3,
+      name: "管理人员知道是否建议拍片，却不知道读片有没有完成",
+    }),
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole("heading", { level: 3, name: "从影像到病历" }),
+  ).toBeInTheDocument();
+});
 
-  renderProjectDetail('/project/pre-visit-engine');
+test("pacs contents links keep the case route when navigating between sections", async () => {
+  const user = userEvent.setup();
+  const scrollIntoView = vi.fn();
+  vi.stubGlobal("IntersectionObserver", undefined);
+  const previous = Element.prototype.scrollIntoView;
+  Element.prototype.scrollIntoView = scrollIntoView;
+  try {
+    renderProjectDetail("/project/pacs-ai");
+    const link = screen.getByRole("link", { name: /05.*关键流程与系统机制/ });
+    expect(link).toHaveAttribute("href", "/project/pacs-ai#system");
+    await user.click(link);
+    expect(
+      screen.getByRole("heading", { level: 1, name: "PACS 读片与 AI 辅助" }),
+    ).toBeInTheDocument();
+    expect(link).toHaveAttribute("aria-current", "location");
+    expect(scrollIntoView).toHaveBeenCalledWith(
+      expect.objectContaining({ block: "start" }),
+    );
+  } finally {
+    Element.prototype.scrollIntoView = previous;
+    vi.unstubAllGlobals();
+  }
+});
+
+test("pacs active contents use a nonempty viewport-height observer band and resize cleanup", () => {
+  const observations = [];
+  vi.stubGlobal("innerHeight", 600);
+  vi.stubGlobal(
+    "IntersectionObserver",
+    class {
+      constructor(callback, options) {
+        this.observe = vi.fn();
+        this.disconnect = vi.fn();
+        observations.push({ callback, options, observer: this });
+      }
+    },
+  );
+  try {
+    const { unmount } = renderProjectDetail("/project/pacs-ai");
+    expect(observations[0].options.rootMargin).not.toContain("%");
+    const margins = observations[0].options.rootMargin
+      .split(" ")
+      .map(Number.parseFloat);
+    expect(600 + margins[0] + margins[2]).toBeGreaterThan(0);
+    expect(observations[0].observer.observe).toHaveBeenCalledTimes(7);
+    window.dispatchEvent(new Event("resize"));
+    expect(observations[0].observer.disconnect).toHaveBeenCalled();
+    expect(observations).toHaveLength(2);
+    unmount();
+    expect(observations[1].observer.disconnect).toHaveBeenCalled();
+  } finally {
+    vi.unstubAllGlobals();
+  }
+});
+
+test("pacs judgment links scroll again when the same target is clicked twice", async () => {
+  const user = userEvent.setup();
+  const scrollIntoView = vi.fn();
+  const previous = Element.prototype.scrollIntoView;
+  Element.prototype.scrollIntoView = scrollIntoView;
+  try {
+    renderProjectDetail("/project/pacs-ai");
+    const link = screen.getByRole("link", { name: "4.1 →" });
+    await user.click(link);
+    expect(scrollIntoView).toHaveBeenCalledTimes(1);
+    await user.click(link);
+    expect(scrollIntoView).toHaveBeenCalledTimes(2);
+  } finally {
+    Element.prototype.scrollIntoView = previous;
+  }
+});
+
+test.each(["zh", "en"])(
+  "pacs renders all approved %s paragraphs without editorial notes",
+  (language) => {
+    window.localStorage.setItem("language", language);
+    const { container } = renderProjectDetail("/project/pacs-ai");
+    const manuscript = readFileSync("docs/pages/pacs-ai/content.md", "utf8");
+    const paragraphs = publicParagraphs(manuscript, language);
+    const visible = normalizeManuscriptText(container.textContent);
+    paragraphs.forEach((paragraph) =>
+      expect(visible).toContain(normalizeManuscriptText(paragraph)),
+    );
+    expect(container).not.toHaveTextContent("编辑备注与资料来源");
+    expect(container).not.toHaveTextContent("周期待确认");
+  },
+);
+
+test("pacs switches all seven sections and evidence captions to English", async () => {
+  const user = userEvent.setup();
+  renderProjectDetail("/project/pacs-ai");
+  await user.click(screen.getByRole("button", { name: "Switch to English" }));
+  expect(
+    screen.getByRole("heading", {
+      level: 1,
+      name: "PACS Reading with AI Assistance",
+    }),
+  ).toBeInTheDocument();
+  expect(
+    screen
+      .getAllByRole("heading", { level: 2 })
+      .map((heading) => heading.textContent),
+  ).toEqual([
+    "My role & collaboration",
+    "Problem",
+    "Product Thinking",
+    "Solution",
+    "System",
+    "Impact",
+    "Reflection",
+  ]);
+  expect(
+    screen.getByRole("navigation", { name: "Contents" }).querySelectorAll("a"),
+  ).toHaveLength(7);
+  expect(screen.getAllByText("Image pending").length).toBeGreaterThanOrEqual(6);
+  expect(
+    screen.getByText(/but does not trigger chart synchronization/),
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole("heading", {
+      name: "Less typing does not necessarily mean faster documentation",
+    }),
+  ).toBeInTheDocument();
+});
+
+test("pre-visit engine renders panoramic views, tooth quadrant ergonomics and structured task bundles", () => {
+  renderProjectDetail("/project/pre-visit-engine");
 
   expect(screen.getByText(/接诊全流程预习与任务编排引擎/)).toBeInTheDocument();
   expect(screen.getAllByText(/打通孤岛系统/).length).toBeGreaterThan(0);
@@ -263,3 +328,6 @@ test('pre-visit engine renders panoramic views, tooth quadrant ergonomics and st
   expect(screen.getByText(/十字象限牙位选择控件/)).toBeInTheDocument();
   expect(screen.getByText(/复盘反思与未解局限/)).toBeInTheDocument();
 });
+
+// 保留启用开关后的英文恢复路径测试；生产默认停用英文。
+vi.mock("../../config/features", () => ({ ENGLISH_ENABLED: true }));

@@ -1,196 +1,165 @@
-import React, { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { useLanguage } from '../../context/LanguageContext';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import ProjectBlueprintCover from '../ProjectBlueprintCover';
+import React, { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import { useLanguage } from "../../context/LanguageContext";
+import HomeIcon from "../HomeIcon";
 
-gsap.registerPlugin(ScrollTrigger);
+const projects = [
+  { id: "member-automation", item: 1 },
+  { id: "orthodontics", item: 2 },
+  { id: "pacs-ai", item: 3 },
+];
 
 const Portfolio = () => {
   const { t, language } = useLanguage();
   const sectionRef = useRef(null);
 
-  // 指标数字滚动：进入视口后从 0 计数到目标值（保留单位/前后缀/小数位）
+  // Measure the group after fonts/layout changes; never mix sticky and long-flow cards.
   useEffect(() => {
-    const root = sectionRef.current;
-    if (!root || typeof window.matchMedia !== 'function') {
-      return undefined;
-    }
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      return undefined;
-    }
-
-    const nodes = Array.from(root.querySelectorAll('[data-countup]'));
-    const tweens = nodes
-      .map((node) => {
-        const finalText = node.textContent || '';
-        if (!/\d/.test(finalText)) {
-          return null;
+    const section = sectionRef.current;
+    const cards = Array.from(
+      section.querySelectorAll(".portfolio-showcase-card"),
+    );
+    const grid = section.querySelector(".portfolio-stage-grid");
+    const head = section.querySelector(".portfolio-showcase-head");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let active = true;
+    let frame = null;
+    const updateCover = () => {
+      frame = null;
+      if (!active) return;
+      let progress = 0;
+      if (head.dataset.coverEnabled === "true") {
+        const rect = head.getBoundingClientRect();
+        progress = Math.min(
+          1,
+          Math.max(
+            0,
+            (rect.bottom - grid.getBoundingClientRect().top) /
+              Math.max(1, rect.height),
+          ),
+        );
+      }
+      head.style.setProperty("--head-opacity", String(1 - progress));
+      head.style.setProperty("--head-y", `${-36 * progress}px`);
+    };
+    const scheduleCover = () => {
+      if (frame === null) frame = window.requestAnimationFrame(updateCover);
+    };
+    const measure = () => {
+      if (!active) return;
+      const eligible =
+        window.innerWidth >= 861 &&
+        window.innerHeight >= 700 &&
+        !reduce.matches;
+      const highest = Math.max(...cards.map((card) => card.offsetHeight));
+      const base = Math.min(96, window.innerHeight - highest - 16);
+      const navBottom =
+        document.querySelector(".home-nav-shell")?.getBoundingClientRect()
+          .bottom ?? 70;
+      const enabled =
+        eligible &&
+        base >= navBottom + 2 &&
+        cards.every(
+          (card, index) =>
+            base + index * 8 + card.offsetHeight <= window.innerHeight,
+        );
+      grid.dataset.stackEnabled = String(enabled);
+      head.dataset.coverEnabled = String(
+        eligible && head.offsetHeight <= window.innerHeight - 96 - 16,
+      );
+      cards.forEach((card, index) => {
+        if (enabled) {
+          card.style.setProperty("--folder-top", `${base + index * 8}px`);
+          card.style.setProperty("--folder-layer", String(index + 1));
+        } else {
+          card.style.removeProperty("--folder-top");
+          card.style.removeProperty("--folder-layer");
         }
-        const state = { progress: 0 };
-        const renderValue = () => {
-          node.textContent = finalText.replace(/\d+(?:\.\d+)?/g, (raw) => {
-            const decimals = raw.includes('.') ? raw.split('.')[1].length : 0;
-            const value = parseFloat(raw) * state.progress;
-            return decimals > 0 ? value.toFixed(decimals) : String(Math.round(value));
-          });
-        };
-        return gsap.to(state, {
-          progress: 1,
-          duration: 1.2,
-          ease: 'power2.out',
-          onStart: renderValue,
-          onUpdate: renderValue,
-          scrollTrigger: { trigger: node, start: 'top 90%', once: true },
-        });
-      })
-      .filter(Boolean);
-
-    return () => {
-      tweens.forEach((tween) => {
-        if (tween.scrollTrigger) {
-          tween.scrollTrigger.kill();
-        }
-        tween.kill();
       });
+      scheduleCover();
+    };
+    const observer =
+      typeof ResizeObserver === "function" ? new ResizeObserver(measure) : null;
+    cards.forEach((card) => observer?.observe(card));
+    observer?.observe(head);
+    window.addEventListener("resize", measure);
+    window.addEventListener("scroll", scheduleCover, { passive: true });
+    reduce.addEventListener?.("change", measure);
+    document.fonts?.ready.then(measure);
+    measure();
+    return () => {
+      active = false;
+      observer?.disconnect();
+      window.removeEventListener("resize", measure);
+      window.removeEventListener("scroll", scheduleCover);
+      reduce.removeEventListener?.("change", measure);
+      if (frame !== null) window.cancelAnimationFrame(frame);
     };
   }, [language]);
 
   return (
-    <section className="portfolio-showcase page-section" id="portfolio" data-motion-section>
+    <section
+      className="portfolio-showcase page-section"
+      id="portfolio"
+      ref={sectionRef}
+    >
       <div className="section-shell">
-        {/* Clean, Breathable Section Header */}
-        <div className="portfolio-showcase-head" data-motion-item>
-          <span className="portfolio-showcase-kicker">
-            {t('portfolio.stage.kicker') || 'SELECTED WORK'}
-          </span>
-          <h2 className="portfolio-showcase-title">
-            {t('portfolio.stage.title') || '精选案例'}
-          </h2>
-          <p className="portfolio-showcase-intro">
-            {t('portfolio.stage.intro') || '三个复杂系统案例，展示我如何把流程、规则与协作重组为可执行产品。'}
-          </p>
+        <div className="portfolio-showcase-head">
+          <div className="portfolio-head-copy">
+            <div>
+              <span className="portfolio-showcase-kicker">
+                {t("portfolio.stage.kicker")}
+              </span>
+              <h2 className="portfolio-showcase-title">
+                {t("portfolio.stage.title")}
+              </h2>
+            </div>
+            <p className="portfolio-showcase-intro">
+              {t("portfolio.stage.intro")}
+            </p>
+          </div>
         </div>
-
-        {/* Sticky Case Stack（DESIGN.md 4.5：连续案例堆叠，文件夹式描边 + 超大渐变标题） */}
-        <div className="portfolio-stage-grid" data-motion-group="portfolio-stage">
-          {/* Case 01 — Member Automation */}
-          <Link
-            to="/project/member-automation"
-            className="portfolio-showcase-card portfolio-showcase-card--stack"
-            data-motion-item
-            data-motion-hover="card"
-          >
-            <div className="portfolio-showcase-visual portfolio-showcase-visual--stack">
-              <ProjectBlueprintCover kind="member" />
-            </div>
-            <div className="portfolio-showcase-body">
-              <div className="portfolio-showcase-card-header">
-                <span className="portfolio-showcase-badge">{t('portfolio.item.1.tag') || '01 / 规则治理'}</span>
-                <span className="portfolio-showcase-role">{t('portfolio.item.1.role')}</span>
-              </div>
-              <h3 className="portfolio-showcase-card-title">
-                {t('portfolio.item.1.title') || '会员与收银自动化'}
-              </h3>
-              <p className="portfolio-showcase-problem">
-                {t('portfolio.item.1.problem')}
-              </p>
-              <div className="portfolio-showcase-card-metrics">
-                <div className="portfolio-showcase-card-metric">
-                  <span className="portfolio-showcase-metric-value" data-countup>{t('portfolio.item.1.metric.1.val') || '~80% ↓'}</span>
-                  <span className="portfolio-showcase-metric-label">{t('portfolio.item.1.metric.1.lbl')}</span>
-                </div>
-                <div className="portfolio-showcase-card-metric">
-                  <span className="portfolio-showcase-metric-value">{t('portfolio.item.1.metric.2.val') || '20+ 门店'}</span>
-                  <span className="portfolio-showcase-metric-label">{t('portfolio.item.1.metric.2.lbl')}</span>
-                </div>
-                <div className="portfolio-showcase-card-metric">
-                  <span className="portfolio-showcase-metric-value">{t('portfolio.item.1.metric.3.val') || '降低风控'}</span>
-                  <span className="portfolio-showcase-metric-label">{t('portfolio.item.1.metric.3.lbl')}</span>
+        <div className="portfolio-stage-grid">
+          {projects.map(({ id, item }) => (
+            <Link
+              to={`/project/${id}`}
+              className="portfolio-showcase-card"
+              key={id}
+              onFocus={(event) => {
+                if (event.currentTarget.matches(":focus-visible")) {
+                  event.currentTarget.scrollIntoView?.({
+                    behavior: "instant",
+                    block: "start",
+                  });
+                }
+              }}
+            >
+              <div className="portfolio-showcase-visual">
+                <div
+                  className="home-image-placeholder"
+                  role="img"
+                  aria-label={t(`portfolio.item.${item}.imageLabel`)}
+                >
+                  <HomeIcon name="image" />
+                  <span className="home-image-caption">
+                    {t("portfolio.imagePending")}
+                  </span>
                 </div>
               </div>
-              <span className="sr-only">VIEW CASE ↗</span>
-            </div>
-          </Link>
-
-          {/* Case 02 — Orthodontics Funnel */}
-          <Link
-            to="/project/orthodontics"
-            className="portfolio-showcase-card portfolio-showcase-card--stack"
-            data-motion-item
-            data-motion-hover="card"
-          >
-            <div className="portfolio-showcase-visual portfolio-showcase-visual--stack">
-              <ProjectBlueprintCover kind="orthodontics" />
-            </div>
-            <div className="portfolio-showcase-body">
-              <div className="portfolio-showcase-card-header">
-                <span className="portfolio-showcase-badge portfolio-showcase-badge--mint">{t('portfolio.item.2.tag') || '02 / 流程协作'}</span>
-                <span className="portfolio-showcase-role">{t('portfolio.item.2.role')}</span>
+              <div className="portfolio-showcase-body">
+                <h3 className="portfolio-showcase-card-title">
+                  {t(`portfolio.item.${item}.title`)}
+                </h3>
+                <p className="portfolio-showcase-problem">
+                  {t(`portfolio.item.${item}.problem`)}
+                </p>
+                <span className="home-case-cta">
+                  {t("portfolio.viewCase")}{" "}
+                  <HomeIcon name="external" className="home-icon-external" />
+                </span>
               </div>
-              <h3 className="portfolio-showcase-card-title">
-                {t('portfolio.item.2.title') || '正畸筛查与协作工作流'}
-              </h3>
-              <p className="portfolio-showcase-problem">
-                {t('portfolio.item.2.problem')}
-              </p>
-              <div className="portfolio-showcase-card-metrics">
-                <div className="portfolio-showcase-card-metric">
-                  <span className="portfolio-showcase-metric-value" data-countup>{t('portfolio.item.2.metric.1.val') || '50–60%'}</span>
-                  <span className="portfolio-showcase-metric-label">{t('portfolio.item.2.metric.1.lbl')}</span>
-                </div>
-                <div className="portfolio-showcase-card-metric">
-                  <span className="portfolio-showcase-metric-value">{t('portfolio.item.2.metric.2.val') || '全流程'}</span>
-                  <span className="portfolio-showcase-metric-label">{t('portfolio.item.2.metric.2.lbl')}</span>
-                </div>
-                <div className="portfolio-showcase-card-metric">
-                  <span className="portfolio-showcase-metric-value">{t('portfolio.item.2.metric.3.val') || '持续管理'}</span>
-                  <span className="portfolio-showcase-metric-label">{t('portfolio.item.2.metric.3.lbl')}</span>
-                </div>
-              </div>
-              <span className="sr-only">VIEW CASE ↗</span>
-            </div>
-          </Link>
-
-          {/* Case 03 — PACS AI Review Loop */}
-          <Link
-            to="/project/pacs-ai"
-            className="portfolio-showcase-card portfolio-showcase-card--stack"
-            data-motion-item
-            data-motion-hover="card"
-          >
-            <div className="portfolio-showcase-visual portfolio-showcase-visual--stack">
-              <ProjectBlueprintCover kind="pacs" />
-            </div>
-            <div className="portfolio-showcase-body">
-              <div className="portfolio-showcase-card-header">
-                <span className="portfolio-showcase-badge portfolio-showcase-badge--pink">{t('portfolio.item.3.tag') || '03 / 人机协同'}</span>
-                <span className="portfolio-showcase-role">{t('portfolio.item.3.role')}</span>
-              </div>
-              <h3 className="portfolio-showcase-card-title">
-                {t('portfolio.item.3.title') || 'PACS 影像 AI 辅助读片'}
-              </h3>
-              <p className="portfolio-showcase-problem">
-                {t('portfolio.item.3.problem')}
-              </p>
-              <div className="portfolio-showcase-card-metrics">
-                <div className="portfolio-showcase-card-metric">
-                  <span className="portfolio-showcase-metric-value" data-countup>{t('portfolio.item.3.metric.1.val') || '+140%'}</span>
-                  <span className="portfolio-showcase-metric-label">{t('portfolio.item.3.metric.1.lbl')}</span>
-                </div>
-                <div className="portfolio-showcase-card-metric">
-                  <span className="portfolio-showcase-metric-value">{t('portfolio.item.3.metric.2.val') || '全留痕'}</span>
-                  <span className="portfolio-showcase-metric-label">{t('portfolio.item.3.metric.2.lbl')}</span>
-                </div>
-                <div className="portfolio-showcase-card-metric">
-                  <span className="portfolio-showcase-metric-value">{t('portfolio.item.3.metric.3.val') || '人机闭环'}</span>
-                  <span className="portfolio-showcase-metric-label">{t('portfolio.item.3.metric.3.lbl')}</span>
-                </div>
-              </div>
-              <span className="sr-only">VIEW CASE ↗</span>
-            </div>
-          </Link>
+            </Link>
+          ))}
         </div>
       </div>
     </section>

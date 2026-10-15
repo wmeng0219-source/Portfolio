@@ -1,0 +1,10 @@
+{
+  "identifier": "cola/career-ops",
+  "slug": "career-ops",
+  "version": "2026.07.26",
+  "sha256": "58f2107ee44a31ee952c936a94283859536bbee43548c124cb8dfab21a35ccc3",
+  "apiBase": "https://api.colaos.ai",
+  "agent": "antigravity",
+  "scope": "project",
+  "installedAt": "2026-08-25T04:12:04.140Z"
+}

@@ -3,54 +3,39 @@
 ## 根目录
 
 - `src/`：前端源码目录。
-- `docs/`：项目文档目录。
-- `chatgpt记忆.md`：原始背景资料，保留。
-- `职业背景信息chatgpt.md`：原始背景资料，保留。
-- `package.json`：项目依赖与脚本配置。
-- `vite.config.js`：Vite 配置。
-- `index.html`：页面入口模板。
+- `docs/`：项目文档目录（统一入口见 [`docs/README.md`](../README.md)）。
+- `AGENTS.md`：AI 协作边界、读取路径与条件式追问规则。
+- `DESIGN.md` / `DESIGN-preview.html`：通用设计采用值与直接读取 Markdown 的查看器。
+- `package.json` / `vite.config.js` / `index.html`：项目依赖、构建配置与页面入口模板。
 
 ## `src/`
 
-- `components/`：页面区块组件，目前包含 `Navbar`、`Hero`、`Portfolio`、`About`、`Experience`、`Contact` 等首页区块。
-- `context/`：语言上下文。
-- `locales/`：中英文文案。
-- `styles/`：全局样式与变量。
-- `App.jsx`：页面路由装配文件，当前包含首页和项目详情页两类入口。
-- `main.jsx`：应用入口。
+- `components/`：通用与首页区块组件，包含 `Navbar`、`Hero`、`Portfolio`、`Experience`、`Contact`、`HomeIcon` 等。
+- `pages/`：
+  - `Home/`：首页装配与私有样式（`Home.css`）。
+  - `ProjectDetail/`：案例详情独立路由分发容器。
+  - `cases/<CaseName>/`：自包含案例模块（`MemberAutomation`、`Orthodontics`、`PacsAi`、`PreVisitEngine`），各含独立组件、私有样式与 `content.js`；公共阅读样式位于 `cases/shared/`。
+- `context/` 与 `locales/`：多语言上下文与中英文文案字典。
+- `data/projects.js`：案例路由注册表。
+- `styles/`：全局基础样式与 CSS 变量。
 
-## 当前页面结构
+## 当前首页结构
 
-### 首页
+首页按 4 个核心区块顺序组织：
 
-当前首页的主要顺序为：
-
-1. `Hero`
-2. `Portfolio`
-3. `About`
-4. `Experience`
-5. `Contact`
-
-其中：
-
-- `Hero + Portfolio` 已完成品牌舞台化重构。
-- `About + Experience + Contact` 已完成后半页系统化收口。
-- 区块文案与结构已经整合到页面，`docs/site/` 当前主要负责维护映射关系和结构说明。
+1. `Hero`（首屏主张）
+2. `Portfolio`（精选项目：会员自动化 → 正畸筛查 → PACS）
+3. `Experience`（职业历程交错时间线）
+4. `Contact`（合作连接）
 
 ## `docs/`
 
-- `origin/`：项目原始材料、草稿和过程性整理。
-- `profile/`：个人背景资料、结构化总结与来源归档（含 `resume.pdf` 简历）。
-- `project/`：已整理完成的项目事实文档，是项目内容的唯一整理入口。
-- `pages/`：页面内容与设计母稿层——每个页面对象（首页 / 会员 / 正畸 / PACS / 预习）含 `content.md`（内容结构）与 `design.md`（设计规范）（见 `docs/pages/README.md`）。
-- `site/`：当前作品集网站的结构说明、内容映射与提炼规则。
-- `superpowers/`：AI 协作过程中的规格与计划文档。
+- `origin/`：项目原始材料、报表与过程草稿（仅供追溯）。
+- `profile/`：个人履历事实、时间线与背景来源归档。
+- `project/`：整理后的项目事实底稿与证据就绪清单（[`content-readiness.md`](../project/content-readiness.md)）。
+- `pages/`：各页面内容审核母稿（`content.md`）与设计说明（`design.md`）。
+- `design/`：参考站拆解与独立 HTML 视觉样稿。
+- `site/`：页面路由注册表（[`content-map.md`](content-map.md)）与站点结构说明。
+- `superpowers/`：当前任务计划（`plans/current/`）与历史归档（`plans/archive/`、`specs/archive/`）。
 
-## 当前整理原则
-
-- 运行相关文件尽量保持稳定，不因资料整理而变动。
-- 个人背景资料统一沉淀到 `docs/profile/`。
-- 原始项目材料保留在 `docs/origin/`。
-- 整理后的项目事实统一沉淀到 `docs/project/`，页面内容母稿与设计规范沉淀到 `docs/pages/`。
-- 面向网页展示的内容从 `docs/project/` 和 `docs/profile/` 提炼到 `docs/pages/`，页面映射见 `docs/site/`。
-- 页面内容开发前，优先参考 `docs/profile/`、`docs/project/`、`docs/pages/` 与 `docs/site/content-map.md`。
+`scripts/` 为本地验证工具；`output/` 保存被 Git 忽略的截图、测量与恢复备份。

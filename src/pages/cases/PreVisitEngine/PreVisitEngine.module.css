@@ -104,7 +104,7 @@
 }
 
 .heroMetricCard {
-  background: var(--color-bg-card);
+  background: var(--color-bg-secondary);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   padding: 2rem;
@@ -198,35 +198,20 @@
   color: var(--color-text-primary);
 }
 
-.sysCode {
-  margin-top: 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--color-accent);
-  background: rgba(208, 188, 255, 0.08);
-  padding: 0.25rem 0.6rem;
-  border-radius: var(--radius-sm, 4px);
-  display: inline-block;
-}
-
 /* ── Grids & Cards ─────────────────────────────────── */
-.constraintGrid,
 .retrospectiveGrid,
 .solutionGrid,
-.taskModelGrid,
-.roleChainGrid {
+.taskModelGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
   margin-top: 1.5rem;
 }
 
-.constraintCard,
 .retrospectiveCard,
 .solutionCard,
-.taskModelCard,
-.roleChainCard {
-  background: var(--color-bg-card);
+.taskModelCard {
+  background: var(--color-bg-secondary);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   padding: 1.75rem;
@@ -236,16 +221,13 @@
   transition: border-color 0.25s ease, transform 0.25s ease;
 }
 
-.constraintCard:hover,
 .retrospectiveCard:hover,
 .solutionCard:hover,
-.taskModelCard:hover,
-.roleChainCard:hover {
+.taskModelCard:hover {
   border-color: rgba(208, 188, 255, 0.35);
   transform: translateY(-2px);
 }
 
-.constraintIndex,
 .retrospectiveIndex,
 .solutionIndex,
 .taskModelIndex {
@@ -256,11 +238,9 @@
   letter-spacing: 0.1em;
 }
 
-.constraintTitle,
 .retrospectiveTitle,
 .solutionTitle,
-.taskModelTitle,
-.roleChainTitle {
+.taskModelTitle {
   font-family: var(--font-display);
   font-size: 1.15rem;
   font-weight: 700;
@@ -268,11 +248,9 @@
   letter-spacing: -0.02em;
 }
 
-.constraintDesc,
 .retrospectiveDesc,
 .solutionDesc,
-.taskModelDesc,
-.roleChainDesc {
+.taskModelDesc {
   font-size: var(--text-case-body);
   line-height: 1.65;
   color: var(--color-text-secondary);
@@ -343,7 +321,7 @@
   grid-template-columns: 3rem minmax(0, 1fr);
   gap: 1.5rem;
   padding: 1.75rem;
-  background: var(--color-bg-card);
+  background: var(--color-bg-secondary);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
 }
@@ -370,49 +348,9 @@
 }
 
 /* ── Metrics ───────────────────────────────────────── */
-.metricRow {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-}
-
-.metricCell {
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-card);
-  padding: 2rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  text-align: center;
-}
-
-.metricCellAccent {
-  border-color: rgba(185, 242, 200, 0.4);
-}
-
-.metricCellValue {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 3.5vw, 2.75rem);
-  font-weight: 800;
-  color: var(--color-text-primary);
-}
-
-.metricCellAccent .metricCellValue {
-  color: var(--color-mint);
-}
-
-.metricCellLabel {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-}
 
 .resultCard {
-  background: var(--color-bg-card);
+  background: var(--color-bg-secondary);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   padding: 2rem;
@@ -421,11 +359,8 @@
 
 @media (max-width: 900px) {
   .hero,
-  .sectionGrid,
-  .toothWidget {
-    grid-template-columns: 1fr;
-  }
-  .metricRow {
+.sectionGrid,
+.toothWidget {
     grid-template-columns: 1fr;
   }
 }
@@ -438,42 +373,48 @@
 
 .hero,
 .section,
-.imageFrame,
 .solutionCard,
-.decisionCard,
 .resultCard,
 .roleChip,
-.heroMetricFloating,
-.constraintCard,
 .retrospectiveCard,
 .taskModelCard {
   border-radius: var(--radius-card);
 }
 
-.sectionTitle,
 .sectionKicker {
   font-size: var(--text-case-h2);
 }
 
 .bodyText,
 .heroSummary,
-.sectionDesc,
 .solutionCard p,
-.decisionCard p,
 .resultCard p,
-.constraintDesc,
 .retrospectiveDesc,
 .taskModelDesc {
   font-size: var(--text-case-body);
 }
 
 .solutionCard:hover,
-.decisionCard:hover,
 .resultCard:hover,
-.constraintCard:hover,
 .retrospectiveCard:hover,
 .taskModelCard:hover {
   transform: translateY(-2px);
   border-color: var(--color-border-accent);
   box-shadow: 0 12px 36px rgba(208, 188, 255, 0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .container *,
+  .container *::before,
+  .container *::after {
+    animation: none;
+    transition: none;
+  }
+
+  .solutionCard:hover,
+  .resultCard:hover,
+  .retrospectiveCard:hover,
+  .taskModelCard:hover {
+    transform: none;
+  }
 }

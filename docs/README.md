@@ -1,71 +1,25 @@
-# 文档总览
+# 文档入口
 
-本目录用于管理作品集网站的资料、整理结果和过程文档。
+> 更新：2026-10-15。审核页面内容或设计时，直接从下表进入对应文件；协作与读取边界见根目录 [AGENTS.md](../AGENTS.md)。
 
-当前站点内容已经完成一轮整合，因此文档层的职责不再是"替页面写文案"，而是分清以下 4 类信息：
+## 我要审核哪一份？
 
-- **事实资料**：项目事实、个人背景、原始来源。
-- **页面母稿**：每个页面的内容结构（content）与设计规范（design）。
-- **站点映射**：当前页面结构、区块定位、后续维护边界。
-- **过程归档**：设计讨论、实现计划、阶段性决策。
+| 页面 | 内容结构、文案与配图要求 | 页面设计（特例、审核与实施状态） |
+| --- | --- | --- |
+| 首页 | [内容稿](pages/homepage/content.md) | [设计说明](pages/homepage/design.md) |
+| 会员自动化 | [内容稿](pages/member-automation/content.md) | [设计说明](pages/member-automation/design.md) |
+| 正畸筛查 | [内容稿](pages/orthodontics/content.md) | [设计说明](pages/orthodontics/design.md) |
+| PACS | [内容审核稿](pages/pacs-ai/content.md) | [设计稿说明](pages/pacs-ai/design.md) |
+| 接诊预习（候选案例） | [内容稿](pages/pre-visit-engine/content.md) | [设计说明](pages/pre-visit-engine/design.md) |
 
-## 目录分层
+## 当前焦点与规范入口
 
-```text
-docs/
-├── origin/      原始材料层（PRD、表格、PPT、过程稿，只追溯，不直接上页面）
-├── profile/     个人资料层（overview / career-timeline / resume.pdf + sources/ 归档副本）
-├── project/     项目事实层（4 个项目主文档 + content-readiness.md 证据缺口清单）
-├── pages/       页面母稿层 ★ 每个对象 = content.md + design.md（详见 pages/README.md）
-├── site/        站点映射层（structure.md / content-map.md）
-└── superpowers/ 过程归档层（plans/ + specs/，各含 current/ + archive/）
-```
-
-- `origin/`：原始材料层。保存 PRD、表格、PPT、会议整理稿和过程材料，只用于追溯，不直接给页面使用。
-- `profile/`：个人资料层。保存个人定位、职业时间线、能力结构、简历等正式整理内容。
-- `project/`：项目事实层。保存每个项目的整理版事实主文档，是项目内容的主要事实来源；`project/content-readiness.md` 记录进入案例页前仍需回填的证据。
-- `pages/`：页面母稿层（Master Copy）。每个页面对象一个目录，内含 `content.md`（逐字文案与 7 步证据链）与 `design.md`（视觉与交互规范）；是页面文案与设计的黄金样板。
-- `site/`：站点映射层。说明当前页面结构、区块职责和内容映射，反映"页面现在长什么样、后续怎么维护"。
-- `superpowers/`：过程归档层。保存 AI 协作中的规格、计划和阶段性方案，用于回看决策过程，不作为当前页面内容的事实来源。
-
-## 当前建议阅读顺序
-
-### 想了解当前页面怎么维护
-
-按以下顺序查看：
-
-1. `site/README.md`
-2. `site/structure.md`
-3. `site/content-map.md`
-4. `pages/README.md`
-
-### 想补充或修改页面内容
-
-先阅读 `CASE_STUDY_SPEC.md`，再按以下顺序取材与定稿：
-
-1. `profile/`（个人背景）
-2. `project/`（项目事实，指标唯一来源）
-3. `pages/<slug>/content.md`（在内容母稿中定稿文案与 7 步证据链）
-4. `pages/<slug>/design.md`（视觉与交互规范，或全局 `DESIGN.md`）
-
-不要直接从 `origin/` 或 `superpowers/` 抽网页文案。
-
-补充项目材料时，再执行以下顺序：
-
-1. 查看 `project/content-readiness.md`，确认缺的是事实、口径、素材还是验证证据。
-2. 回填 `origin/` 和对应项目主文档中的已确认材料。
-3. 在 `pages/<slug>/content.md` 中更新对应母稿，并更新 `site/content-map.md`。
-4. 最后同步至 `src/data/projects.js` 与前端页面组件。
-
-### 想回看方案是怎么形成的
-
-前往 `superpowers/` 查看对应日期的 `specs/` 和 `plans/`（`current/` 为当前有效，`archive/` 为已归档）。
-
-## 当前维护原则
-
-- 页面表达以当前已上线实现为准。
-- 文档负责解释来源、结构和边界，不重复堆叠页面文案。
-- 若页面内容已整合上线，优先更新 `site/` 文档，而不是继续堆新的设计说明。
-- 若新增项目或补充个人资料，先更新 `project/` 或 `profile/`，再决定是否需要同步到页面。
-- 改指标数字先去 `project/`（唯一事实源），再同步 `pages/` 母稿；调视觉交互去 `pages/<slug>/design.md` 或 `DESIGN.md`；改文案去 `pages/<slug>/content.md`。
-- `CASE_STUDY_SPEC.md` 定义案例质量，`project/content-readiness.md` 记录资料缺口；两者都不替代项目事实。
+- **当前工作顺序：** 先完善PC中文版，整体确认后再统一适配移动端；英文版暂时停用、隐藏切换入口，文案与代码保留供按需恢复。协作规则见根目录[AGENTS.md](../AGENTS.md)。
+- **当前实施计划：** [结构精简与当前待办](superpowers/plans/current/2026-09-30-architecture-simplification-and-single-source-of-truth.md)（已完成与被替代的历史记录归档于 [`superpowers/plans/archive/`](superpowers/plans/archive/)）。
+- **当前待查看页面：**
+  - **运行首页**：已按本轮满屏Hero、极简案例入口、对齐履历列表与紧凑联系区落地并检查运行页，待查看实际视觉（见[首页设计说明](pages/homepage/design.md)）。
+  - **正畸实际页面**：已按用户确认的 Figma 适配落实窄文宽图、阅读字阶与解释图形，待查看实际视觉；验证与阻塞状态见[正畸设计说明](pages/orthodontics/design.md)。
+  - **PACS 交互样稿**：[portfolio-v4-preview.html](design/portfolio-v4-preview.html) 待视觉审核，运行页尚未迁移 V4。
+- **视觉与设计规范：** 通用设计值由根目录 [DESIGN.md](../DESIGN.md)（[原文查看器](../DESIGN-preview.html)）维护；页面特例仅在对应 `pages/<slug>/design.md` 维护并明确覆盖范围（[Harrison Wheeler 原站拆解](design/reference-harrison-wheeler.md)仅作参考证据）。
+- **案例质量与证据要求：** [CASE_STUDY_SPEC.md](CASE_STUDY_SPEC.md)。
+- **证据就绪与页面准入：** 证据与素材缺口见 [content-readiness.md](project/content-readiness.md)；路由与准入状态见 [content-map.md](site/content-map.md)；项目事实与履历事实见 [`project/`](project/README.md) 与 [`profile/`](profile/README.md)。

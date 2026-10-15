@@ -8,5 +8,8 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/test/setup.js',
     globals: true,
+    // Retired HTML prototypes under docs/ are historical evidence, not runtime gates.
+    include: ['src/**/*.{test,spec}.{js,jsx}'],
+    exclude: ['**/node_modules/**', '**/.vscode/**', '**/dist/**'],
   },
 })

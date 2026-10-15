@@ -1,151 +1,146 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { useLanguage } from '../../context/LanguageContext';
+import React, { useEffect, useRef, useState } from "react";
+import { useLanguage } from "../../context/LanguageContext";
+import HomeIcon from "../HomeIcon";
 
-const MOBILE_NAV_MEDIA_QUERY = '(max-width: 900px)';
+const MOBILE_NAV_MEDIA_QUERY = "(max-width: 767px)";
+const sectionIds = ["hero", "experience", "portfolio", "contact"];
+const navItems = [
+  { key: "nav.experience", href: "#experience" },
+  { key: "nav.portfolio", href: "#portfolio" },
+  { key: "nav.contact", href: "#contact" },
+];
 
-const getIsMobileViewport = () => {
-  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
-    return false;
-  }
-  return window.matchMedia(MOBILE_NAV_MEDIA_QUERY).matches;
-};
+const getIsMobileViewport = () =>
+  window.matchMedia?.(MOBILE_NAV_MEDIA_QUERY).matches ?? false;
 
 const scrollToHashTarget = (href) => {
-  if (!href || !href.startsWith('#')) {
-    return;
-  }
-  const target = document.getElementById(href.slice(1));
-  if (target) {
-    target.scrollIntoView({ behavior: 'smooth' });
-  }
+  if (!href?.startsWith("#")) return;
+  document.getElementById(href.slice(1))?.scrollIntoView({
+    behavior: window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+      ? "instant"
+      : "smooth",
+  });
 };
 
 const Navbar = () => {
-  const { t, language, toggleLanguage } = useLanguage();
+  const { t, language, toggleLanguage, englishEnabled } = useLanguage();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('hero');
+  const [activeSection, setActiveSection] = useState("hero");
+  const [heroTitleGone, setHeroTitleGone] = useState(false);
   const [isMobileViewport, setIsMobileViewport] = useState(getIsMobileViewport);
   const menuButtonRef = useRef(null);
   const headerRef = useRef(null);
   const progressBarRef = useRef(null);
   const shouldRestoreFocusRef = useRef(false);
 
-  const navItems = useMemo(
-    () => [
-      { key: 'nav.portfolio', href: '#portfolio', label: 'Work' },
-      { key: 'nav.experience', href: '#experience', label: 'Path' },
-      { key: 'nav.contact', href: '#contact', label: 'Contact' },
-    ],
-    [],
-  );
-
   useEffect(() => {
-    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
-      return undefined;
-    }
-
-    const mediaQueryList = window.matchMedia(MOBILE_NAV_MEDIA_QUERY);
-    const handleViewportChange = (event) => {
+    const media = window.matchMedia?.(MOBILE_NAV_MEDIA_QUERY);
+    if (!media) return undefined;
+    const update = (event) => {
       setIsMobileViewport(event.matches);
-      if (!event.matches) {
-        setMenuOpen(false);
-      }
+      if (!event.matches) setMenuOpen(false);
     };
-
-    setIsMobileViewport(mediaQueryList.matches);
-
-    if (typeof mediaQueryList.addEventListener === 'function') {
-      mediaQueryList.addEventListener('change', handleViewportChange);
-      return () => mediaQueryList.removeEventListener('change', handleViewportChange);
+    update(media);
+    if (media.addEventListener) {
+      media.addEventListener("change", update);
+      return () => media.removeEventListener("change", update);
     }
-
-    mediaQueryList.addListener(handleViewportChange);
-    return () => mediaQueryList.removeListener(handleViewportChange);
+    media.addListener(update);
+    return () => media.removeListener(update);
   }, []);
 
-  // Prevent background scroll when mobile drawer is open
   useEffect(() => {
-    if (isMobileViewport && menuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    if (!isMobileViewport || !menuOpen) return undefined;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const closeOnEscape = (event) => {
+      if (event.key !== "Escape") return;
+      shouldRestoreFocusRef.current = true;
+      setMenuOpen(false);
+    };
+    document.addEventListener("keydown", closeOnEscape);
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", closeOnEscape);
     };
   }, [isMobileViewport, menuOpen]);
 
+  // One reading line drives section state, scroll-cue visibility, and progress.
   useEffect(() => {
-    const handleScroll = () => {
-      const sections = ['hero', 'portfolio', 'experience', 'contact'];
-      const scrollPosition = window.scrollY + 250;
-
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const element = document.getElementById(sections[i]);
-        if (element && element.offsetTop <= scrollPosition) {
-          setActiveSection(sections[i]);
-          break;
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // 顶部滚动进度条 + 滚动后加深导航玻璃底（仅 transform，无布局抖动）
-  useEffect(() => {
-    const bar = progressBarRef.current;
-    const headerEl = headerRef.current;
-    if (!bar || !headerEl) {
-      return undefined;
-    }
-
+    let alive = true;
     let rafId = null;
     const update = () => {
       rafId = null;
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
-      bar.style.transform = `scaleX(${progress})`;
-      headerEl.dataset.scrolled = window.scrollY > 24 ? 'true' : 'false';
-    };
-    const handleScroll = () => {
-      if (rafId === null) {
-        rafId = window.requestAnimationFrame(update);
+      if (!alive) return;
+      // Anchors stop at 96px; allow a small margin for fractional layout pixels.
+      const readingLine = Math.max(
+        100,
+        (headerRef.current?.getBoundingClientRect().bottom ?? 70) + 24,
+      );
+      let current = "hero";
+      for (const id of sectionIds) {
+        const section = document.getElementById(id);
+        if (section && section.getBoundingClientRect().top <= readingLine)
+          current = id;
       }
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      if (
+        max > 0 &&
+        window.scrollY >= max - 2 &&
+        document.getElementById("contact")
+      )
+        current = "contact";
+      const title = document.querySelector("#hero .hero-display-title");
+      setActiveSection(current);
+      setHeroTitleGone(
+        Boolean(title && title.getBoundingClientRect().bottom <= 0),
+      );
+      const progress =
+        max > 0 ? Math.min(Math.max(window.scrollY / max, 0), 1) : 0;
+      if (progressBarRef.current)
+        progressBarRef.current.style.transform = `scaleX(${progress})`;
+      if (headerRef.current)
+        headerRef.current.dataset.scrolled = String(window.scrollY > 24);
     };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    const schedule = () => {
+      if (alive && rafId === null) rafId = window.requestAnimationFrame(update);
+    };
+    const observer =
+      typeof ResizeObserver === "function"
+        ? new ResizeObserver(schedule)
+        : null;
+    for (const id of sectionIds) {
+      const section = document.getElementById(id);
+      if (section) observer?.observe(section);
+    }
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    document.fonts?.ready.then(schedule);
     update();
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (rafId !== null) {
-        window.cancelAnimationFrame(rafId);
-      }
+      alive = false;
+      observer?.disconnect();
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
     };
-  }, []);
+  }, [language]);
 
-  const handleMenuItemClick = (event, href, id) => {
+  const navigate = (event) => {
     event.preventDefault();
-    scrollToHashTarget(event.currentTarget.getAttribute('href'));
-    if (isMobileViewport) {
-      shouldRestoreFocusRef.current = true;
+    scrollToHashTarget(event.currentTarget.getAttribute("href"));
+    if (
+      event.currentTarget.classList.contains("home-nav-brand") &&
+      event.detail === 0
+    ) {
+      document
+        .querySelector("#hero .hero-display-title")
+        ?.focus({ preventScroll: true });
     }
+    if (isMobileViewport && menuOpen) shouldRestoreFocusRef.current = true;
     setMenuOpen(false);
   };
-
-  const handleLogoClick = (event) => {
-    event.preventDefault();
-    scrollToHashTarget('#hero');
-    if (isMobileViewport) {
-      shouldRestoreFocusRef.current = true;
-    }
-    setMenuOpen(false);
-  };
-
   const hideNavLinks = isMobileViewport && !menuOpen;
-
   useEffect(() => {
     if (hideNavLinks && shouldRestoreFocusRef.current) {
       menuButtonRef.current?.focus();
@@ -154,72 +149,70 @@ const Navbar = () => {
   }, [hideNavLinks]);
 
   return (
-    <header ref={headerRef} className="fixed top-0 left-0 w-full z-50 px-margin-mobile md:px-margin-desktop py-4 md:py-5 pointer-events-none">
-      {/* Scroll progress */}
+    <header
+      ref={headerRef}
+      className="home-nav-header"
+      data-hero-title-gone={heroTitleGone}
+    >
       <div className="nav-progress" aria-hidden="true">
         <div className="nav-progress-bar" ref={progressBarRef} />
       </div>
-      <div className="max-w-container-max mx-auto flex items-center justify-center relative">
-        {/* Left MW Badge */}
-        <div className="nav-glass absolute left-0 pointer-events-auto bg-[var(--color-glass)] backdrop-blur-[16px] border border-[var(--color-border)] px-4 py-2 rounded-full hidden md:block">
-          <a href="#hero" onClick={handleLogoClick} className="font-label-caps text-[14px] tracking-widest text-[var(--color-text-primary)] no-underline">
-            MW
-          </a>
-        </div>
-
-        {/* Mobile Toggle Button */}
-        <button
-          ref={menuButtonRef}
-          className="nav-glass pointer-events-auto md:hidden absolute right-0 bg-[var(--color-glass)] backdrop-blur-[16px] border border-[var(--color-border)] p-2.5 rounded-full text-[var(--color-text-primary)]"
-          type="button"
-          aria-controls="primary-navigation"
-          aria-expanded={menuOpen}
-          aria-label={menuOpen ? t('nav.close') : t('nav.menu')}
-          onClick={() => {
-            shouldRestoreFocusRef.current = false;
-            setMenuOpen((current) => !current);
-          }}
-        >
-          <span className="material-symbols-outlined text-lg">{menuOpen ? 'close' : 'menu'}</span>
-        </button>
-
-        {/* Centered Desktop Nav Pill / Mobile Nav Drawer */}
+      <a
+        href="#hero"
+        onClick={navigate}
+        className="home-nav-brand"
+        hidden={!heroTitleGone}
+      >
+        WEN MENG
+      </a>
+      <div className="home-nav-shell">
+        {isMobileViewport && (
+          <button
+            ref={menuButtonRef}
+            className="home-nav-toggle"
+            type="button"
+            aria-controls="primary-navigation"
+            aria-expanded={menuOpen}
+            aria-label={menuOpen ? t("nav.close") : t("nav.menu")}
+            onClick={() => {
+              shouldRestoreFocusRef.current = false;
+              setMenuOpen((open) => !open);
+            }}
+          >
+            <HomeIcon
+              name={menuOpen ? "close" : "menu"}
+              className="home-icon-control"
+            />
+          </button>
+        )}
         <nav
           id="primary-navigation"
-          className={`nav-glass pointer-events-auto bg-[var(--color-glass)] backdrop-blur-[16px] border border-[var(--color-border)] rounded-full px-8 py-2.5 flex items-center gap-8 ${
-            isMobileViewport
-              ? `fixed top-16 right-4 sm:right-6 flex-col items-start p-6 bg-[var(--color-bg-secondary)]/95 rounded-[16px] shadow-2xl ${
-                  menuOpen ? 'flex' : 'hidden'
-                }`
-              : 'flex'
-          }`}
+          className="home-nav-menu"
           hidden={hideNavLinks}
           aria-hidden={hideNavLinks}
         >
-          {navItems.map((item) => {
-            const isActive = activeSection === item.href.slice(1);
-            return (
-              <a
-                key={item.key}
-                href={item.href}
-                onClick={handleMenuItemClick}
-                data-motion-hover="nav"
-                className={`font-label-caps text-[14px] transition-all duration-300 no-underline uppercase tracking-wider ${
-                  isActive ? 'text-[var(--color-accent)] font-semibold' : 'text-[var(--color-text-secondary)] hover:text-[var(--color-accent)]'
-                }`}
-              >
-                {t(item.key)}
-              </a>
-            );
-          })}
-          <button
-            className="text-xs font-label-caps border border-[var(--color-border)] px-3.5 py-1 rounded-full text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-all"
-            type="button"
-            onClick={toggleLanguage}
-            data-motion-hover="button"
-          >
-            {language === 'zh' ? 'EN' : '中文'}
-          </button>
+          {navItems.map((item) => (
+            <a
+              key={item.key}
+              href={item.href}
+              onClick={navigate}
+              className="home-nav-link"
+              aria-current={
+                activeSection === item.href.slice(1) ? "location" : undefined
+              }
+            >
+              {t(item.key)}
+            </a>
+          ))}
+          {englishEnabled && (
+            <button
+              className="home-nav-language"
+              type="button"
+              onClick={toggleLanguage}
+            >
+              {language === "zh" ? "EN" : "中文"}
+            </button>
+          )}
         </nav>
       </div>
     </header>
