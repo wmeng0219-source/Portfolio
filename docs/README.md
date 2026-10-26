@@ -19,7 +19,7 @@
 - **当前待查看页面：**
   - **运行首页**：已按本轮满屏Hero、极简案例入口、对齐履历列表与紧凑联系区落地并检查运行页，待查看实际视觉（见[首页设计说明](pages/homepage/design.md)）。
   - **正畸实际页面**：已按用户确认的 Figma 适配落实窄文宽图、阅读字阶与解释图形，待查看实际视觉；验证与阻塞状态见[正畸设计说明](pages/orthodontics/design.md)。
-  - **PACS 交互样稿**：[portfolio-v4-preview.html](design/portfolio-v4-preview.html) 待视觉审核，运行页尚未迁移 V4。
+  - **PACS 实际页面**：已按用户要求采用正畸阅读规范，保留原七章内容，加入同步、复核及状态等解释图；PC具体视觉待查看，见[PACS设计说明](pages/pacs-ai/design.md)。旧HTML样稿不再作为当前审核入口。
 - **视觉与设计规范：** 通用设计值由根目录 [DESIGN.md](../DESIGN.md)（[原文查看器](../DESIGN-preview.html)）维护；页面特例仅在对应 `pages/<slug>/design.md` 维护并明确覆盖范围（[Harrison Wheeler 原站拆解](design/reference-harrison-wheeler.md)仅作参考证据）。
 - **案例质量与证据要求：** [CASE_STUDY_SPEC.md](CASE_STUDY_SPEC.md)。
 - **证据就绪与页面准入：** 证据与素材缺口见 [content-readiness.md](project/content-readiness.md)；路由与准入状态见 [content-map.md](site/content-map.md)；项目事实与履历事实见 [`project/`](project/README.md) 与 [`profile/`](profile/README.md)。

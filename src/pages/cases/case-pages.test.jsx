@@ -126,16 +126,19 @@ for (const slug of ["pacs-ai", "member-automation"]) {
     test(`${slug} ${language} separates introduction from responsibilities without a duplicate overview heading`, () => {
       const { container } = renderCase(slug, language);
       const overview = container.querySelector("#overview");
-      expect(overview).toHaveAttribute("aria-labelledby", "case-title");
-      expect(
-        within(overview).getByRole("heading", { level: 1 }),
-      ).toHaveAttribute("id", "case-title");
+      const cover =
+        slug === "pacs-ai" ? container.querySelector("#case-cover") : overview;
+      expect(cover).toHaveAttribute("aria-labelledby", "case-title");
+      expect(within(cover).getByRole("heading", { level: 1 })).toHaveAttribute(
+        "id",
+        "case-title",
+      );
       expect(
         within(overview).getByRole("heading", { level: 2 }),
       ).toHaveTextContent(
         language === "zh" ? "我的职责与协作" : "My role & collaboration",
       );
-      const intro = overview.querySelector("[data-case-intro]");
+      const intro = cover.querySelector("[data-case-intro]");
       const roles = overview.querySelector("[data-case-roles]");
       expect(intro).toBeInTheDocument();
       expect(roles).toBeInTheDocument();

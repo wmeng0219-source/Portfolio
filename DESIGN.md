@@ -1,7 +1,7 @@
 # Design System: Complex Systems Portfolio
 
 > **V4.1 · 当前采用规范**。本文维护通用视觉、布局、组件、响应式与动效采用值；参考证据见 [Harrison Wheeler 拆解](docs/design/reference-harrison-wheeler.md)。[规范查看器](DESIGN-preview.html)直接读取本文，不另维护数值或内嵌全文。
-> **页面特例：**[首页](docs/pages/homepage/design.md)覆盖Hero屏高/无CTA、精简项目入口、履历列表和紧凑联系区；[正畸](docs/pages/orthodontics/design.md)覆盖该页封面、阅读布局、字阶与关系图。其他页面映射及审核状态从[文档入口](docs/README.md)定位；会员、PACS与预习的现行旧实现不等于以下V4目标已落地。
+> **页面特例：**[首页](docs/pages/homepage/design.md)覆盖Hero屏高/无CTA、精简项目入口、履历列表和紧凑联系区；[正畸](docs/pages/orthodontics/design.md)覆盖该页封面、阅读布局、字阶与关系图；[PACS](docs/pages/pacs-ai/design.md)按用户要求采用正畸阅读规范，维护本页采用值与规则图形边界。其他页面映射及审核状态从[文档入口](docs/README.md)定位；会员与预习的现行旧实现不等于以下V4目标已落地。
 > **当前推进范围：**PC中文优先，移动端后置，英文暂停；本文保留英文角色供未来恢复，不代表当前公开入口已启用。具体工作顺序见[项目规则](AGENTS.md)。
 
 ## 1. 设计目标、场景与决策

@@ -289,13 +289,8 @@ export function PeriodComparison({ zh }) {
       <figcaption>
         <p>
           {zh
-            ? "口径：判定需矫后产生矫正收费的患者数 / 需矫患者数。来源：内部全门店业务报表。"
+            ? "口径：判定需矫后产生矫正收费的患者数 / 需矫患者数。来源：内部全部门店业务报表。"
             : "Definition: patients assessed as needing treatment who subsequently incurred an orthodontic charge / patients assessed as needing treatment. Source: internal business reports across clinics."}
-        </p>
-        <p>
-          {zh
-            ? "这一业务变化不能全部归因于本项目。"
-            : "This business change cannot be attributed entirely to this project."}
         </p>
       </figcaption>
     </figure>
@@ -382,7 +377,7 @@ export function RolloutEvidence({ zh }) {
             {zh ? "上线范围" : "Rollout scope"}
           </p>
           <p className={styles.evidenceValue}>2026.02</p>
-          <h4>{zh ? "全门店上线" : "Rolled out across clinics"}</h4>
+          <h4>{zh ? "全部门店上线" : "Rolled out across clinics"}</h4>
           <p>
             {zh
               ? "试点与验证后推广，不等于每家门店的采纳率。"

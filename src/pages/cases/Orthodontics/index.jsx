@@ -186,9 +186,9 @@ export default function Orthodontics() {
   const visuals = {
     "thinking-2": <RecommendationScope zh={zh} />,
     "solution-2": <RoleFlow zh={zh} />,
-    "impact-3": <PeriodComparison zh={zh} />,
+    "impact-2": <PeriodComparison zh={zh} />,
     "impact-0": <TrackingStages zh={zh} />,
-    "impact-2": <RolloutEvidence zh={zh} />,
+    "impact-1": <RolloutEvidence zh={zh} />,
   };
   const overview = sections[0];
 
@@ -338,7 +338,7 @@ export default function Orthodontics() {
                   className={styles.narrativeGroup}
                   key={group.title}
                   data-evidence={
-                    section.id === "impact" && i === 2
+                    section.id === "impact" && i === 1
                       ? "cumulative"
                       : undefined
                   }
@@ -349,7 +349,7 @@ export default function Orthodontics() {
                       <Text>{p}</Text>
                     </p>
                   ))}
-                  {section.id === "impact" && i === 2 && (
+                  {section.id === "impact" && i === 1 && (
                     <p className={styles.source}>
                       {zh
                         ? "来源：内部累计统计。18,460 条为提交结论记录，不等同于独立患者人数；汇总量不能证明每家门店均已采纳。"

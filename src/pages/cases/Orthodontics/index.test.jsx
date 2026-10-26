@@ -91,12 +91,17 @@ test.each(["zh", "en"])(
     expect(
       container.querySelector('[data-evidence="cumulative"]'),
     ).toHaveTextContent("18,460");
-    expect(
-      container.querySelector('[data-evidence="period-comparison"]'),
-    ).toHaveTextContent(
+    const periodComparison = container.querySelector(
+      '[data-evidence="period-comparison"]',
+    );
+    expect(periodComparison).not.toBeNull();
+    expect(periodComparison).toHaveTextContent(
       language === "zh"
-        ? "这一业务变化不能全部归因于本项目"
-        : "cannot be attributed entirely",
+        ? "判定需矫后产生矫正收费"
+        : "subsequently incurred an orthodontic charge",
+    );
+    expect(periodComparison).not.toHaveTextContent(
+      language === "zh" ? "不能全部归因" : "attributed entirely",
     );
   },
 );

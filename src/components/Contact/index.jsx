@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLanguage } from "../../context/LanguageContext";
 import HomeIcon from "../HomeIcon";
+import AnimatedContent from "../AnimatedContent";
 
 const Contact = () => {
   const { t } = useLanguage();
@@ -37,7 +38,7 @@ const Contact = () => {
     <section className="page-section contact-stage-section" id="contact">
       <div className="section-shell">
         <div className="contact-stage-card">
-          <div className="contact-stage-head">
+          <AnimatedContent className="contact-stage-head">
             <span className="contact-stage-kicker">
               {t("contact.stage.kicker") || "03 / CONTACT"}
             </span>
@@ -47,9 +48,9 @@ const Contact = () => {
             <p className="contact-stage-intro">
               {t("contact.stage.body") || "欢迎直接交流。"}
             </p>
-          </div>
+          </AnimatedContent>
 
-          <div className="contact-stage-actions">
+          <AnimatedContent className="contact-stage-actions">
             {/* WeChat Button */}
             <div className="contact-action-group">
               <span className="contact-action-label">
@@ -91,7 +92,7 @@ const Contact = () => {
             >
               {copyState !== "idle" && t(`contact.copy.${copyState}`)}
             </p>
-          </div>
+          </AnimatedContent>
         </div>
       </div>
     </section>

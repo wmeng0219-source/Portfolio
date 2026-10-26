@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { useLanguage } from "../../context/LanguageContext";
 import HomeIcon from "../HomeIcon";
+import AnimatedContent from "../AnimatedContent";
+import ParticleTitle from "./ParticleTitle";
 
 const scrollToSection = (event, id) => {
   event.preventDefault();
@@ -41,10 +43,10 @@ const Hero = () => {
     <section className="home-hero" id="hero" ref={heroRef}>
       <div className="hero-grid-bg" aria-hidden="true" />
       <div className="home-hero-copy">
-        <h1 className="hero-display-title" tabIndex={-1} aria-label="WEN MENG">
-          <span>WEN</span> <span>MENG</span>
-        </h1>
-        <p className="hero-lede">{t("hero.body")}</p>
+        <ParticleTitle />
+        <AnimatedContent>
+          <p className="hero-lede">{t("hero.body")}</p>
+        </AnimatedContent>
       </div>
       <a
         className="home-scroll-cue"

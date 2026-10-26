@@ -61,3 +61,15 @@ test("Hero reduced-motion anchors use instant scrolling despite global smooth CS
   target.remove();
   window.matchMedia = previous;
 });
+
+test("Hero keeps a readable static name when particle rendering is unavailable", () => {
+  render(
+    <LanguageProvider>
+      <Hero />
+    </LanguageProvider>,
+  );
+  const title = screen.getByRole("heading", { level: 1, name: "WEN MENG" });
+  expect(title).toHaveAttribute("data-particle-active", "false");
+  expect(title).toHaveTextContent("WEN MENG");
+  expect(title.querySelector("canvas")).toBeNull();
+});

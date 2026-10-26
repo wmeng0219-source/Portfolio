@@ -2,11 +2,12 @@ import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../../context/LanguageContext";
 import HomeIcon from "../HomeIcon";
+import AnimatedContent from "../AnimatedContent";
 
 const projects = [
   { id: "member-automation", item: 1 },
-  { id: "orthodontics", item: 2 },
-  { id: "pacs-ai", item: 3 },
+  { id: "orthodontics", item: 2, cover: "images/ortho/orthodontics-cover.jpg" },
+  { id: "pacs-ai", item: 3, cover: "images/pacs/pacs-cover.jpg" },
 ];
 
 const Portfolio = () => {
@@ -105,22 +106,24 @@ const Portfolio = () => {
     >
       <div className="section-shell">
         <div className="portfolio-showcase-head">
-          <div className="portfolio-head-copy">
-            <div>
-              <span className="portfolio-showcase-kicker">
-                {t("portfolio.stage.kicker")}
-              </span>
-              <h2 className="portfolio-showcase-title">
-                {t("portfolio.stage.title")}
-              </h2>
+          <AnimatedContent>
+            <div className="portfolio-head-copy">
+              <div>
+                <span className="portfolio-showcase-kicker">
+                  {t("portfolio.stage.kicker")}
+                </span>
+                <h2 className="portfolio-showcase-title">
+                  {t("portfolio.stage.title")}
+                </h2>
+              </div>
+              <p className="portfolio-showcase-intro">
+                {t("portfolio.stage.intro")}
+              </p>
             </div>
-            <p className="portfolio-showcase-intro">
-              {t("portfolio.stage.intro")}
-            </p>
-          </div>
+          </AnimatedContent>
         </div>
         <div className="portfolio-stage-grid">
-          {projects.map(({ id, item }) => (
+          {projects.map(({ id, item, cover }) => (
             <Link
               to={`/project/${id}`}
               className="portfolio-showcase-card"
@@ -134,19 +137,31 @@ const Portfolio = () => {
                 }
               }}
             >
-              <div className="portfolio-showcase-visual">
-                <div
-                  className="home-image-placeholder"
-                  role="img"
-                  aria-label={t(`portfolio.item.${item}.imageLabel`)}
-                >
-                  <HomeIcon name="image" />
-                  <span className="home-image-caption">
-                    {t("portfolio.imagePending")}
-                  </span>
-                </div>
-              </div>
-              <div className="portfolio-showcase-body">
+              <AnimatedContent className="portfolio-showcase-visual">
+                {cover ? (
+                  <img
+                    className="portfolio-project-cover"
+                    src={`${import.meta.env.BASE_URL}${cover}`}
+                    alt={t(`portfolio.item.${item}.imageLabel`)}
+                    width={1586}
+                    height={992}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <div
+                    className="home-image-placeholder"
+                    role="img"
+                    aria-label={t(`portfolio.item.${item}.imageLabel`)}
+                  >
+                    <HomeIcon name="image" />
+                    <span className="home-image-caption">
+                      {t("portfolio.imagePending")}
+                    </span>
+                  </div>
+                )}
+              </AnimatedContent>
+              <AnimatedContent className="portfolio-showcase-body">
                 <h3 className="portfolio-showcase-card-title">
                   {t(`portfolio.item.${item}.title`)}
                 </h3>
@@ -157,7 +172,7 @@ const Portfolio = () => {
                   {t("portfolio.viewCase")}{" "}
                   <HomeIcon name="external" className="home-icon-external" />
                 </span>
-              </div>
+              </AnimatedContent>
             </Link>
           ))}
         </div>

@@ -72,8 +72,9 @@ test('PACS judgment links retain their destinations when an editorial heading is
 
 test.each(['pacs-ai', 'member-automation'])('%s owns one scroll and focus per anchor navigation, including repeat and history', async (slug) => {
   const router = renderCase(slug, '#system');
+  const focusTarget = document.getElementById(slug === 'pacs-ai' ? 'system-title' : 'system');
   expect(scroll).toHaveBeenCalledTimes(1);
-  expect(document.activeElement).toBe(document.getElementById('system'));
+  expect(document.activeElement).toBe(focusTarget);
   const link = screen.getByRole('link', { name: /系统机制/ });
   scroll.mockClear();
   fireEvent.click(link);
@@ -84,7 +85,7 @@ test.each(['pacs-ai', 'member-automation'])('%s owns one scroll and focus per an
   scroll.mockClear();
   await act(async () => { await router.navigate(-1); });
   expect(scroll).toHaveBeenCalledTimes(1);
-  expect(document.activeElement).toBe(document.getElementById('system'));
+  expect(document.activeElement).toBe(focusTarget);
   scroll.mockClear();
   await act(async () => { await router.navigate('/', { state: { scrollTo: 'portfolio' } }); });
   expect(scroll).toHaveBeenCalledTimes(1);

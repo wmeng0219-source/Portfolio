@@ -154,10 +154,9 @@ body:has(.homepage) {
 }
 .homepage .home-hero-copy {
   position: relative;
-  width: min(100%, 1040px);
+  width: min(100%, 1200px);
   margin-inline: auto;
   container-type: inline-size;
-  animation: home-rise 700ms var(--ease-out);
 }
 .homepage .hero-display-title {
   display: flex;
@@ -172,7 +171,7 @@ body:has(.homepage) {
   line-height: 0.9;
   letter-spacing: -0.01em;
   transform: scaleY(1.1);
-  color: var(--color-mint);
+  color: #ffffff;
 }
 .homepage .hero-lede {
   max-width: 31em;
@@ -209,12 +208,18 @@ body:has(.homepage) {
 .homepage:has(.home-nav-header[data-hero-title-gone="true"]) .home-scroll-cue {
   visibility: hidden;
 }
-@supports (background-clip: text) {
-  .homepage .hero-display-title {
-    background: linear-gradient(to top, #e4fbea 0%, #cef6d9 20%, #b9f2c8 48%);
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
+
+/* Particle Text owns the title animation; retain the solid fallback typography. */
+.homepage .hero-display-title[data-particle-active="true"] {
+  display: block;
+  width: 100%;
+  height: clamp(160px, 24cqw, 280px);
+  transform: none;
+  background: none;
+  -webkit-text-fill-color: currentColor;
+}
+.homepage .hero-display-title .particle-text {
+  min-height: 0;
 }
 
 /* Shared heading roles, with independent Chinese and English metrics. */
@@ -408,6 +413,12 @@ body:has(.homepage) {
   box-shadow: none;
   text-align: center;
   color: var(--color-text-muted);
+}
+.homepage .portfolio-project-cover {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
 }
 .homepage .home-image-placeholder .home-icon {
   width: 24px;
@@ -878,16 +889,6 @@ body:has(.homepage) {
   }
   .homepage .portfolio-showcase-card:hover {
     transform: none;
-  }
-}
-@keyframes home-rise {
-  from {
-    opacity: 0;
-    transform: translateY(32px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
 @keyframes home-grid-drift {

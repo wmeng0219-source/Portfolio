@@ -43,7 +43,7 @@ test("orthodontics keeps clinical responsibilities visible in one shared record"
   expect(flow).toHaveTextContent("门店与业务团队");
 });
 
-test("pacs detail exposes six evidence placeholders without loading legacy screenshots", () => {
+test("pacs distinguishes rule diagrams from pending screenshots without loading legacy images", () => {
   const { container } = renderProjectDetail("/project/pacs-ai");
 
   const visualSlots = [...container.querySelectorAll("[data-visual-slot]")];
@@ -69,9 +69,9 @@ test("pacs detail exposes six evidence placeholders without loading legacy scree
     screen.getAllByRole("img", { name: /完整读片工作台/ }).length,
   ).toBeGreaterThan(0);
   expect(
-    screen.getAllByRole("img", { name: /医生三种复核结果/ }).length,
+    screen.getAllByRole("group", { name: /医生三种复核结果/ }).length,
   ).toBeGreaterThan(0);
-  expect(screen.getAllByText("素材准备中").length).toBeGreaterThanOrEqual(6);
+  expect(screen.getAllByText("素材准备中")).toHaveLength(3);
   expect(legacyScreenshots).toHaveLength(0);
 });
 
@@ -122,11 +122,11 @@ test("orthodontics presents the verified rollout, ownership, iteration decision,
 
   expect(screen.getByText(/2025\.04 - 2026\.02/)).toBeInTheDocument();
   expect(
-    screen.getByText(/方案经过试点与调整，于 2026 年 2 月/),
+    screen.getByText(/按上述试点路径，方案于 2026 年 2 月在全部门店上线/),
   ).toBeInTheDocument();
-  expect(screen.getAllByText(/全门店上线/).length).toBeGreaterThan(0);
+  expect(screen.getAllByText(/全部门店/).length).toBeGreaterThan(0);
   expect(
-    screen.getByText(/我负责门诊调研、流程与规则梳理/),
+    screen.getByText(/我负责门诊调研、业务流程与协作规则梳理/),
   ).toBeInTheDocument();
   expect(
     screen.getByRole("heading", {
@@ -137,7 +137,7 @@ test("orthodontics presents the verified rollout, ownership, iteration decision,
   expect(screen.getByText("2026 年 2—4 月")).toBeInTheDocument();
   expect(screen.queryByText("54,990")).not.toBeInTheDocument();
   expect(
-    screen.getByText(/方案经过试点与调整，于 2026 年 2 月/),
+    screen.getByText(/按上述试点路径，方案于 2026 年 2 月在全部门店上线/),
   ).toHaveTextContent("18,460");
   expect(screen.queryByText(/独立完成门诊调研/)).not.toBeInTheDocument();
 });
@@ -274,9 +274,11 @@ test.each(["zh", "en"])(
     const manuscript = readFileSync("docs/pages/pacs-ai/content.md", "utf8");
     const paragraphs = publicParagraphs(manuscript, language);
     const visible = normalizeManuscriptText(container.textContent);
-    paragraphs.forEach((paragraph) =>
-      expect(visible).toContain(normalizeManuscriptText(paragraph)),
-    );
+    expect(
+      paragraphs.filter(
+        (paragraph) => !visible.includes(normalizeManuscriptText(paragraph)),
+      ),
+    ).toEqual([]);
     expect(container).not.toHaveTextContent("编辑备注与资料来源");
     expect(container).not.toHaveTextContent("周期待确认");
   },
@@ -308,7 +310,7 @@ test("pacs switches all seven sections and evidence captions to English", async 
   expect(
     screen.getByRole("navigation", { name: "Contents" }).querySelectorAll("a"),
   ).toHaveLength(7);
-  expect(screen.getAllByText("Image pending").length).toBeGreaterThanOrEqual(6);
+  expect(screen.getAllByText("Image pending")).toHaveLength(3);
   expect(
     screen.getByText(/but does not trigger chart synchronization/),
   ).toBeInTheDocument();

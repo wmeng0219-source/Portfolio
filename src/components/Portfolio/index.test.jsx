@@ -122,7 +122,7 @@ test("renders three equal project entries in the approved order", async () => {
   expect(within(section).getAllByText(/查看完整案例/i)).toHaveLength(3);
 });
 
-test("uses explicit screenshot placeholders instead of diagrams that look like product evidence", () => {
+test("shows approved orthodontic and PACS covers and keeps the missing member image placeholder", () => {
   render(
     <HashRouter>
       <LanguageProvider>
@@ -134,12 +134,14 @@ test("uses explicit screenshot placeholders instead of diagrams that look like p
   expect(
     screen.getByRole("img", { name: "会员收银与权益界面截图占位" }),
   ).toBeInTheDocument();
-  expect(
-    screen.getByRole("img", { name: "正畸筛查与协作界面截图占位" }),
-  ).toBeInTheDocument();
-  expect(
-    screen.getByRole("img", { name: "PACS 完整读片工作台截图占位" }),
-  ).toBeInTheDocument();
+  const cover = screen.getByRole("img", { name: /咬合筛查项目封面：口扫分析/ });
+  expect(cover).toHaveAttribute("src", "/Portfolio/images/ortho/orthodontics-cover.jpg");
+  expect(cover).toHaveAttribute("width", "1586");
+  expect(cover).toHaveAttribute("height", "992");
+  const pacsCover = screen.getByRole("img", { name: /PACS 项目封面：鼠尾草绿背景/ });
+  expect(pacsCover).toHaveAttribute("src", "/Portfolio/images/pacs/pacs-cover.jpg");
+  expect(pacsCover).toHaveAttribute("width", "1586");
+  expect(pacsCover).toHaveAttribute("height", "992");
   expect(screen.queryByText("RULE_ENGINE")).not.toBeInTheDocument();
   expect(
     screen.queryByText(/当前动态管理目标，不是已达成结果/),
@@ -165,7 +167,7 @@ test("project entries keep a title, value and working route without dense eviden
     ).toHaveLength(0);
   });
   expect(cards[0]).toHaveTextContent("减少人工判断");
-  expect(cards[1]).toHaveTextContent("明确跨角色协作");
+  expect(cards[1]).toHaveTextContent("可执行的筛查链路");
   expect(cards[2]).toHaveTextContent("医生复核");
   expect(container).not.toHaveTextContent(/75%|147,793|5,495/);
 });

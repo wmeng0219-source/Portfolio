@@ -3,6 +3,12 @@ import { Link, useLocation } from "react-router-dom";
 import { useLanguage } from "../../../context/LanguageContext";
 import { pacsCaseSections, pacsVisualSlots } from "./content";
 import styles from "./PacsAi.module.css";
+import {
+  ChapterHeading,
+  RuleDiagram,
+  ReviewDiagram,
+  SystemFlow,
+} from "./visuals";
 
 function InlineText({ text }) {
   return text
@@ -17,6 +23,16 @@ function InlineText({ text }) {
 }
 
 function EvidencePlaceholder({ slotId, language, compact = false }) {
+  if (
+    [
+      "record-sync",
+      "reuse-module",
+      "timeout-fallback",
+      "image-classification",
+    ].includes(slotId)
+  ) {
+    return <RuleDiagram slotId={slotId} language={language} />;
+  }
   const slot = pacsVisualSlots[slotId];
   return (
     <figure
@@ -35,27 +51,6 @@ function EvidencePlaceholder({ slotId, language, compact = false }) {
         <strong>{slot.title[language]}</strong>
       </div>
       <figcaption>{slot.brief[language]}</figcaption>
-    </figure>
-  );
-}
-
-function FlowDiagram({ steps, language, original = false }) {
-  return (
-    <figure className={styles.readingFlow}>
-      <ol
-        className={
-          original ? styles.readingOriginalFlow : styles.readingSystemFlow
-        }
-      >
-        {steps.map((step) => (
-          <li key={step}>{step}</li>
-        ))}
-      </ol>
-      <figcaption>
-        {language === "zh"
-          ? "根据真实流程整理的示意"
-          : "Diagram based on the actual workflow"}
-      </figcaption>
     </figure>
   );
 }
@@ -110,7 +105,9 @@ function ReadingBlocks({ section, language }) {
   return section[language].map((block, index) => {
     let element;
     const visualSlot = block.visualSlot;
-    if (block.type === "heading") {
+    if (visualSlot === "doctor-review") {
+      element = <ReviewDiagram block={block} language={language} />;
+    } else if (block.type === "heading") {
       const Heading = block.level === 3 ? "h3" : "h4";
       element = (
         <Heading
@@ -138,7 +135,6 @@ function ReadingBlocks({ section, language }) {
         <ul
           className={[
             styles.readingList,
-            section.id === "thinking" ? styles.readingJudgments : "",
             section.id === "impact" ? styles.readingCapabilities : "",
           ].join(" ")}
         >
@@ -162,7 +158,7 @@ function ReadingBlocks({ section, language }) {
         <ReadingTable block={block} metrics={section.id === "impact"} />
       );
     } else if (block.type === "flow") {
-      element = <FlowDiagram steps={block.steps} language={language} />;
+      element = <SystemFlow steps={block.steps} language={language} />;
     }
     return (
       <Fragment key={section.id + "-" + index}>
@@ -175,7 +171,7 @@ function ReadingBlocks({ section, language }) {
             4.{block.relatedSolution} →
           </Link>
         )}
-        {visualSlot && (
+        {visualSlot && visualSlot !== "doctor-review" && (
           <EvidencePlaceholder
             slotId={visualSlot}
             language={language}
@@ -196,22 +192,46 @@ export default function PacsAiCase() {
   const { hash, key: locationKey } = useLocation();
   const previousHash = useRef(hash);
   const [activeSection, setActiveSection] = useState("overview");
+  const [lightHeader, setLightHeader] = useState(false);
   const [overview, ...sections] = pacsCaseSections;
   const [title, summary, ...roles] = overview[language];
 
   useEffect(() => {
     if (hash) {
-      const target = document.getElementById(hash.slice(1));
+      const id = hash.slice(1);
+      const target = document.getElementById(id);
       target?.scrollIntoView?.({
         behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
           ? "instant"
           : "smooth",
         block: "start",
       });
-      target?.focus({ preventScroll: true });
+      (document.getElementById(id + "-title") || target)?.focus({
+        preventScroll: true,
+      });
     } else if (previousHash.current) window.scrollTo(0, 0);
     previousHash.current = hash;
   }, [hash, locationKey]);
+
+  useEffect(() => {
+    let frame;
+    const update = () => {
+      frame = undefined;
+      const cover = document.getElementById("case-cover");
+      setLightHeader(
+        cover ? cover.getBoundingClientRect().bottom <= 64 : false,
+      );
+    };
+    const schedule = () => {
+      if (frame === undefined) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", schedule);
+      if (frame !== undefined) cancelAnimationFrame(frame);
+    };
+  }, []);
 
   useEffect(() => {
     if (typeof IntersectionObserver === "undefined") return undefined;
@@ -253,8 +273,14 @@ export default function PacsAiCase() {
   }, []);
 
   return (
-    <div className={styles.readingRoot}>
-      <header className={styles.readingTopbar}>
+    <article
+      id="pacs-page"
+      className={styles.readingRoot}
+      lang={language === "zh" ? "zh-CN" : "en"}
+    >
+      <header
+        className={`${styles.readingTopbar} ${lightHeader ? styles.lightHeader : ""}`}
+      >
         <Link
           to="/"
           state={{ scrollTo: "portfolio" }}
@@ -272,32 +298,22 @@ export default function PacsAiCase() {
           </button>
         )}
       </header>
-      <main className={styles.readingPage}>
-        <section
-          id="overview"
-          tabIndex={-1}
-          aria-labelledby="case-title"
-          className={styles.readingOverview}
-        >
-          <div className={styles.readingHero} data-case-intro>
-            <h1 id="case-title" className={styles.readingTitle}>
-              <span className={styles.readingLatin}>PACS</span>
-              {title.text.slice(4)}
-            </h1>
-            <p className={styles.readingSummary}>{summary.text}</p>
-          </div>
-          <div className={styles.readingRoles} data-case-roles>
-            <h2 id="overview-title" className={styles.readingOverviewHeading}>
-              {language === "zh" ? "我的职责与协作" : "My role & collaboration"}
-            </h2>
-            <div>
-              {roles.map((role) => (
-                <p key={role.text}>{role.text}</p>
-              ))}
-            </div>
-          </div>
-          <EvidencePlaceholder slotId="workspace" language={language} />
-        </section>
+      <section
+        id="case-cover"
+        tabIndex={-1}
+        aria-labelledby="case-title"
+        className={styles.readingOverview}
+      >
+        <div className={styles.readingHero} data-case-intro>
+          <p className={styles.coverEyebrow}>{overview.title[language]}</p>
+          <h1 id="case-title" className={styles.readingTitle}>
+            <span className={styles.readingLatin}>PACS</span>
+            {title.text.slice(4)}
+          </h1>
+          <p className={styles.readingSummary}>{summary.text}</p>
+        </div>
+      </section>
+      <main className={styles.readingPage} data-case-reader>
         <div className={styles.readingBody}>
           <aside className={styles.readingSidebar}>
             <nav
@@ -322,26 +338,54 @@ export default function PacsAiCase() {
             </nav>
           </aside>
           <div className={styles.readingArticles}>
-            {sections.map((section) => (
+            <section
+              id="overview"
+              tabIndex={-1}
+              aria-labelledby="overview-title"
+              className={styles.readingSection}
+            >
+              <ChapterHeading
+                index={1}
+                id="overview-title"
+                eyebrow="PROJECT OVERVIEW"
+                title={
+                  language === "zh"
+                    ? "我的职责与协作"
+                    : "My role & collaboration"
+                }
+              />
+              <div className={styles.readingRoles} data-case-roles>
+                {roles.map((role) => (
+                  <p key={role.text}>{role.text}</p>
+                ))}
+              </div>
+              <EvidencePlaceholder slotId="workspace" language={language} />
+            </section>
+            {sections.map((section, index) => (
               <section
                 id={section.id}
                 tabIndex={-1}
                 key={section.id}
                 aria-labelledby={section.id + "-title"}
-                className={[
-                  styles.readingSection,
-                  section.id === "reflection" ? styles.readingReflection : "",
-                  section.id === "thinking" ? styles.readingThinking : "",
-                ].join(" ")}
+                className={styles.readingSection}
               >
-                <h2
+                <ChapterHeading
+                  index={index + 2}
                   id={section.id + "-title"}
-                  className={styles.readingHeading}
-                >
-                  {section.title[language]}
-                </h2>
+                  eyebrow={
+                    [
+                      "PROBLEM",
+                      "PRODUCT THINKING",
+                      "SOLUTION",
+                      "SYSTEM",
+                      "IMPACT",
+                      "REFLECTION",
+                    ][index]
+                  }
+                  title={section.title[language]}
+                />
                 {section.id === "problem" && (
-                  <FlowDiagram
+                  <SystemFlow
                     original
                     language={language}
                     steps={
@@ -368,6 +412,6 @@ export default function PacsAiCase() {
           </div>
         </div>
       </main>
-    </div>
+    </article>
   );
 }

@@ -33,6 +33,11 @@ export default [
     },
   },
   {
+    // Preserve the upstream component's intentionally empty font-load catch.
+    files: ['src/components/ParticleText/index.jsx'],
+    rules: { 'no-empty': ['error', { allowEmptyCatch: true }] },
+  },
+  {
     files: ['**/*.test.{js,jsx}', '**/test/**/*.{js,jsx}'],
     languageOptions: {
       sourceType: 'module',

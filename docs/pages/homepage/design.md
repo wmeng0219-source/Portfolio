@@ -4,6 +4,10 @@
 
 ## 1. 呈现映射
 
+2026-10-22：用户确认将 PACS 鼠尾草绿显示器样机 V7 应用到项目。首页 PACS 卡已使用 `public/images/pacs/pacs-cover.jpg`，复用自然比例整图显示、16px 圆角、固有宽高及延迟加载。PC 1280×720 已检查显示器与底座完整，5 项相关测试及生产构建通过；未开展移动或英文专项。版本来源统一在[PACS 设计说明](../pacs-ai/design.md)维护。
+
+2026-10-21：用户确认将正畸封面应用到项目。首页正畸项目卡已使用 `public/images/ortho/orthodontics-cover.jpg`（V4，浅紫背景饱和度略提高），以自然比例整图显示、16px 圆角，保留完整步骤条，不裁切。图像设置固有宽高与延迟加载；替代该卡截图占位，其余卡不变。封面版本与生成说明统一在[正畸设计说明](../orthodontics/design.md)维护。PC 1280×720 已检查实际显示，5 项相关测试与生产构建通过；未开展移动或英文专项。
+
 首页负责识别作者与选择作品，依次为 `Hero → 职业历程 → 精选项目 → 联系`；公开作品顺序为 `会员自动化 → 正畸筛查 → PACS`。不折叠或截断已确认信息。
 
 | 模块 | 当前呈现 | 规范位置 |
@@ -26,6 +30,72 @@
 - **作品入口**：整卡保留既有文件夹轮廓、图文交替、hover及有条件sticky；卡片正文仅项目名、既有价值短句与入口。删除标签、证据数据块和口径说明的首页呈现，详情中仍保留证据。媒体比例16:9，未脱敏素材仍为中性占位，仅图标与“截图待补充”一行，辅助名称保留项目用途，去除重复的可见媒体标题。标题与摘要间12px，入口上距20px，不增加新宣传措辞。
 - **职业历程**：max960px开放列表整体居中，章标题居中并与其他首页章标题共用中轴、标题组后36px；行内日期220px/职位与能力剩余列，左对齐、列距32px，行内上下28px、职位与能力间12px。日期13px/1.6 Utility、tabular-nums、Muted；职位20px/1.5/500，能力14px/1.8、Secondary，普通文本列表按4px行距/16px列距自然换行，尽量保持每个能力短语完整。各行中性细线分组，无节点光圈、交错、底卡或hover位移。≤860px日期180px、列距24px、上下24px、职位18px；≤560px单列、组内8px、日期无额外上距。四段日期、岗位和能力文字均按content.md，最近经历不暗示在职。
 - **联系收尾**：区块`min-height:100dvh`并保留100vh回退，padding`96px 0`，flex垂直居中；内容超高时自然增长，不裁切。内部max960px，上内距0，移除顶部跨区分割线。所有尺寸均采用单列居中构图：标题/说明居中，渠道组在其下、max480px并居中，组间32px，渠道内部左对齐。标题至说明12px，渠道gap16px、标签至操作8px、操作min56px、16px字号；复制反馈置于两渠道之后，预留1.65em，长错误信息自然增高。≤860px组间28px、顶内距32px、区块padding`32px 0 56px`。本次按用户纠正恢复首页共同中轴，替代上一轮标题左对齐与联系左右栏。
+
+### 首页 Animated Content 入场（2026-10-26）
+
+用户确认“用原版的”。已将 `src/components/AnimatedContent/index.jsx` 替换为 [React Bits 官方 JavaScript 源码](https://github.com/DavidHDev/react-bits/blob/main/src/content/Animations/AnimatedContent/AnimatedContent.jsx)，逐字保留，并在同目录附来源、SHA-256 与完整许可。此版本替代上一轮项目内精简适配，继续使用原版所需的既有 GSAP / ScrollTrigger，无新增依赖。
+
+首页 Hero 中文说明、履历标题与各行、精选项目标题及图文、联系标题与渠道使用官方默认动画参数（Hero 姓名已由下节 Particle Text 接管）：纵向100px、0.8s、power3.out、opacity 0→1，元素顶部到达视口90%时触发，每次挂载一次。取消额外延迟与逐行stagger；组件仅传排版className，不再缩短位移。文案、Hero网格与姓名交接保持本轮接入前状态。
+
+动画置于项目卡内部，保留外层sticky链接，标题覆盖位移与入场容器分离；履历保留ol > li语义。原版在完成时清除filter/transform，卸载revert局部context；初始化检测减少动态偏好并直接显示内容。本轮不保留上一版额外的偏好变化监听与聚焦即时完成行为，不声称这些是原版功能。
+
+PC1280×720已检查Hero、履历入场及项目卡，未入场位移100px，进入后opacity1/transform none；卡片仍为sticky，无横向溢出。组件与四个首页区块相关17项测试通过，构建通过，lint无错误、1项既有LanguageContext警告。最终按当前文件状态重跑，全套85项通过；此前同步文案期间出现的一致性失败已在最终检查中消失，本轮未改动该范围。独立代码审查无必须修复项。具体视觉待用户查看；移动与英文不做专项验收。验证见[原版接入记录](../../../output/home-animated-content-original-2026-10-26/verification.md)。
+
+### Hero Particle Text（2026-10-26）
+
+用户指定 [React Bits Particle Text](https://reactbits.dev/text-animations/particle-text) 用于 Hero 文字并适配现有颜色。仅将 WEN MENG 改为粒子姓名：官方 JSX/CSS 保存在 `src/components/ParticleText/`，逐字保留，附来源、SHA-256 与完整许可；不新增依赖。中文定位句继续用 Animated Content，姓名不叠加入场位移。
+
+粒子主色继承现有 `--color-mint`（#b9f2c8），高亮使用既有渐变浅绿 #e4fbea；字体 Anton400，字号 clamp(80px,16cqw,168px)。聚合、漂移、鼠标排斥与点击散开使用官方默认参数；背景沿用深色网格。标题画布宽100%、高度 clamp(120px,20cqw,208px)，移除粒子状态下原文字 scaleY/背景裁字，以保证真实画布与指针坐标一致；局部覆盖官方容器 min-height 为0。
+
+保留语义 h1、WEN MENG 辅助名称与 Navbar 使用的 hero-display-title 钩子。外层 ParticleTitle 在减少动态或缺少 Canvas/观察器能力时恢复原静态姓名，监听偏好变化并卸载清理；官方组件负责画布尺寸、交互、视口暂停与自身清理。官方字体加载的空 catch 通过仅作用于该文件的 ESLint allowEmptyCatch 兼容，未改写原版。
+
+PC中文1280×720已检查：标题1040×208px，画布2080×416，继承色rgb(185,242,200)，粒子姓名可读，点击散开可见，无横向溢出、无浏览器错误。向下入口滚动后顶部姓名正常显示。全套87项测试、构建通过，lint无错误、1项既有LanguageContext警告。具体效果待用户查看；移动与英文不做专项验收。截图与验证见[Particle Text接入记录](../../../output/home-particle-text-2026-10-26/verification.md)。
+
+#### 粒子姓名可读性返修（2026-10-26）
+
+用户指出前版字形难辨、尺寸偏小。本项替代上节的Anton400与默认粒子参数：粒子姓名采用已加载的 Hanken Grotesk800 宽厚字形，字号 clamp(96px,20cqw,232px)，HeroCopy上限1200px，画布高 clamp(160px,24cqw,280px)。保持薄荷绿与浅绿高亮；官方源码不变，仅通过props设置density5、particleSize3.4、idleDrift0.15、pointerRepel20、repelRadius90。采样间距与点径配合，减轻稀疏断笔；降低静态漂移和鼠标排斥，保留聚合与点击互动。静态回退仍沿用原姓名样式。
+
+PC1280×720实看姓名从约660px宽扩大至约1090px宽，字母轮廓清楚、点阵更连续，无裁切。Hero相关5项测试及生产构建通过。截图见[可读性返修](../../../output/home-particle-text-2026-10-26/readability.png)。移动与英文未专项验收，具体视觉待用户查看。
+
+#### 恢复原字体与官方演示互动（2026-10-26）
+
+用户要求字体与原来一致，hover按所给官方页面保持一致。本项替代上一项Hanken及弱化互动参数：恢复Anton400，保留放大后的 clamp(96px,20cqw,232px) 和1200px容器、薄荷绿配色。实际读取指定URL的Customize控件，演示Ember预设为particleSize2.2、density4、scatter190、pointerRepel42、repelRadius120、idleDrift0.8；按演示显式传入，其余gather1600/stagger420/clickBurst/burstStrength1/glow等沿用原版。注意这些演示值与组件props默认40/0.7/180/2略有差异，以用户所给演示为准。官方源码不变。
+
+#### 放大姓名点阵抽样修复（2026-10-26）
+
+用户再次指出与官方预览相比松散。检查发现：原版根据画布面积自动限制粒子数，1200×280时预算约3733；大字号Anton采样超过预算后会按stride隔点删除，产生明显空隙。此前只对齐演示props未解决此限制。
+
+本轮保持Anton400、放大字号、薄荷绿和官方演示hover参数，给原版增加可选maxParticles适配，Hero传10000；默认不传时仍保留原预算公式。抽样提取到sampling.js，并加入采样key以支持预算变化；其余物理、聚合和交互逻辑未变。因此本版本是官方组件的局部容量适配，不再声称JSX逐字未修改，原始SHA仍作为来源记录。CSS保持原版。
+
+PC1280×720实看同尺寸字形点阵连续、明显空隙消除，控制台无错误。抽样回归覆盖6800目标点在足够预算时完整保留、普通调用仍采用原自动预算；新增能力先失败后通过，相关7项测试及最终全套89项测试通过，构建通过，lint0错误/1既有警告。独立代码审查发现预算变化需参与layoutKey，已加入以触发重采样。截图见[完整点阵](../../../output/home-particle-text-2026-10-26/full-sampling.png)。移动及英文未专项验收，具体体验待用户查看。
+
+#### 粒子姓名配色（2026-10-26）
+
+用户要求静止文字白色、hover使用现有绿色。ParticleText主色改为#ffffff，互动高亮改为#b9f2c8（原薄荷绿），新增introColor=#ffffff使开场散开至汇集全程保持白色；其余字体、尺寸、完整点阵预算和官方演示互动参数保持不变。此项仅覆盖粒子姓名配色，不改导航和其他区域。
+
+#### 开场范围与互动饱和度（2026-10-26）
+
+按用户最新反馈，Hero scatter由190增至340（约1.8倍），扩大开场散开范围；hover高亮由#b9f2c8改为更饱和的绿色#65e892。开场introColor及静止文字仍为白色；Anton、字号、点阵预算、聚合时长与hover物理参数不变。散开粒子仍在既有标题画布内绘制。
+
+#### 全首屏开场散开（2026-10-26）
+
+用户要求扩散覆盖全屏，本项替代上节仅增加scatter的方案。Hero启用fullScreen：粒子canvas以整个Hero为绘制区域，gather起点按独立随机横纵坐标铺满该区域；文本目标仍按原标题框的中心和宽度计算，不改变最终姓名大小或位置。开场白色、hover#65e892及互动参数不变。
+
+组件增加可选fullScreen与layout.js坐标换算；未启用时保持本地画布坐标。全屏模式容器overflow visible，canvas用相对标题框的偏移覆盖Hero；sizeKey与ResizeObserver包含Hero尺寸，避免仅放大散布参数却被标题画布裁切。绘制区域随Hero滚动，不使用fixed覆盖后续内容。
+
+PC1280×720实测canvas与Hero均left0/top0/width1280/height720，无横向溢出、无控制台错误；向下入口可点，顶部姓名交接正常。相关11项及全套93项测试通过，构建通过，lint0错误、1既有警告；坐标回归先失败后通过。截图见[全屏开场](../../../output/home-particle-text-2026-10-26/fullscreen-intro.png)。移动与英文未专项验收，具体效果待用户查看。
+
+#### 开场与hover同色（2026-10-26）
+
+用户最新要求扩散粒子与hover颜色一致，Hero introColor改为#65e892，与hover高亮相同；静止姓名仍为#ffffff。全屏散布、聚合和交互参数保持不变，本项替代此前开场白色的配色要求。
+
+#### 降低绿色饱和度（2026-10-26）
+
+用户反馈绿色过于饱和，开场introColor及hover highlightColor统一由#65e892改为更柔和的#9edbb3；静止姓名保持白色，其余参数不变。本项覆盖此前高饱和绿色的采用值。
+
+#### 扩大点击散开（2026-10-26）
+
+按用户要求，Hero click burstStrength由默认1增至1.8，利用组件原有公式同步增大爆发力度和影响半径；开场全屏散布、hover强度与柔和绿色不变。
 
 ## 3. 证据边界
 
