@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import './ParticleText.css';
 import { selectParticleTargets } from './sampling';
 import { phaseHighlight } from './colors';
-import { particleFrame } from './layout';
+import { particleFrame, scrollScatterProgress } from './layout';
 
 const INHERIT = /^(currentcolor|inherit)$/i;
 const TONES = 12;
@@ -58,6 +58,7 @@ const ParticleText = ({
   density = 4,
   maxParticles,
   fullScreen = false,
+  scrollScatter = false,
   color = 'currentColor',
   highlightColor = '#ff5a36',
   introColor,
@@ -92,6 +93,7 @@ const ParticleText = ({
       density,
       maxParticles,
       fullScreen,
+      scrollScatter,
       color,
       highlightColor,
       introColor,
@@ -146,6 +148,8 @@ const ParticleText = ({
     let dpr = 1;
     let last = 0;
     let visible = true;
+    let scrollTarget = 0;
+    let scrollSpread = 0;
     let alive = true;
     let colorKey = '';
     let palette = [];
@@ -358,6 +362,14 @@ const ParticleText = ({
       const follow = reducedMotion ? 1 : 1 - Math.pow(0.78, frames);
       const chase = 1 - Math.pow(0.82, frames);
       const turn = 1 - Math.pow(0.72, frames);
+      const scatterEnabled = s.scrollScatter && !reducedMotion;
+      if (scatterEnabled) {
+        const scatterEase = 1 - Math.pow(0.84, frames);
+        scrollSpread += (scrollTarget - scrollSpread) * scatterEase;
+        if (Math.abs(scrollTarget - scrollSpread) < 0.001) scrollSpread = scrollTarget;
+      } else {
+        scrollSpread = 0;
+      }
       pointer.smoothX += (pointer.x - pointer.smoothX) * chase;
       pointer.smoothY += (pointer.y - pointer.smoothY) * chase;
 
@@ -366,6 +378,7 @@ const ParticleText = ({
       const motionHeat = s.highlightMode !== 'gradient';
       const lines = s.shape === 'line';
       const floor = gathering ? (FADE_FLOOR[introMode] ?? 0) : 0;
+      const scatterFade = 1 - 0.7 * scrollSpread;
       const time = now * 0.001;
       const sizeBase = Math.max(0.1, Number(s.particleSize) || 0);
       const restLength = Math.max(2, sizeBase * 0.8 + Math.max(2, Math.floor(Number(s.density) || 0)) * 0.7);
@@ -400,6 +413,12 @@ const ParticleText = ({
         } else if (drift) {
           baseX += Math.sin(time * 0.9 + particle.seed * 10) * s.idleDrift * particle.depth;
           baseY += Math.cos(time * 0.75 + particle.depth * 10) * s.idleDrift * particle.depth;
+        }
+
+        if (scrollSpread > 0.001) {
+          const distance = s.scatter * scrollSpread * particle.scatterFactor;
+          baseX += particle.scatterX * distance;
+          baseY += (particle.scatterY * 0.6 - 0.4) * distance;
         }
 
         if (bursting) {
@@ -489,7 +508,7 @@ const ParticleText = ({
           for (let tone = 1; tone < TONES; tone++) {
             const group = buckets[fade * TONES + tone];
             if (!group.length) continue;
-            layerCtx.globalAlpha = (tone / (TONES - 1)) * fadeAlpha(fade);
+            layerCtx.globalAlpha = (tone / (TONES - 1)) * fadeAlpha(fade) * scatterFade;
             drawGroup(layerCtx, group, sizeBase, s.shape);
             lit = true;
           }
@@ -505,7 +524,7 @@ const ParticleText = ({
       }
 
       for (let fade = 0; fade < FADES; fade++) {
-        ctx.globalAlpha = fadeAlpha(fade);
+        ctx.globalAlpha = fadeAlpha(fade) * scatterFade;
         for (let tone = 0; tone < TONES; tone++) {
           const group = buckets[fade * TONES + tone];
           if (!group.length) continue;
@@ -653,6 +672,7 @@ const ParticleText = ({
       particles = selected.map((target, index) => {
         const seed = ((index * 9301 + 49297) % 233280) / 233280;
         const depth = 0.45 + (((index * 233 + 97) % 1000) / 1000) * 0.9;
+        const scatterAngle = seed * TAU + depth * 0.45;
 
         return {
           x: target.x,
@@ -665,6 +685,9 @@ const ParticleText = ({
           tone: clamp(target.x / Math.max(1, width) + (seed - 0.5) * 0.35, 0, 1),
           seed,
           depth,
+          scatterX: Math.cos(scatterAngle),
+          scatterY: Math.sin(scatterAngle),
+          scatterFactor: 0.55 + depth * 1.05,
           delay: 0,
           ox: 0,
           oy: 0,
@@ -743,11 +766,28 @@ const ParticleText = ({
       if (settingsRef.current?.trigger === 'click') startIntro(false);
     };
 
+    const updateScroll = () => {
+      if (!settingsRef.current?.scrollScatter || reducedMotion) {
+        scrollTarget = 0;
+        return;
+      }
+      const host = container.closest('section') || container;
+      const rect = host.getBoundingClientRect();
+      scrollTarget = scrollScatterProgress(
+        rect.top,
+        rect.height,
+        window.innerHeight || rect.height
+      );
+      wake();
+    };
+
     const handleReduceMotionChange = event => {
       reducedMotion = event.matches;
       if (reducedMotion) {
         gathering = false;
         bursting = false;
+        scrollTarget = 0;
+        scrollSpread = 0;
         particles.forEach(particle => {
           particle.x = particle.targetX;
           particle.y = particle.targetY;
@@ -757,10 +797,16 @@ const ParticleText = ({
           particle.vy = 0;
         });
       }
+      updateScroll();
       wake();
     };
 
     motionQuery?.addEventListener?.('change', handleReduceMotionChange);
+    if (settingsRef.current?.scrollScatter) {
+      window.addEventListener('scroll', updateScroll, { passive: true });
+      window.addEventListener('resize', updateScroll);
+      updateScroll();
+    }
     canvas.addEventListener('pointerenter', handlePointerEnter);
     canvas.addEventListener('pointermove', handlePointerMove);
     canvas.addEventListener('pointerleave', handlePointerLeave);
@@ -798,6 +844,8 @@ const ParticleText = ({
       themeObserver.disconnect();
       schemeQuery?.removeEventListener?.('change', wake);
       motionQuery?.removeEventListener?.('change', handleReduceMotionChange);
+      window.removeEventListener('scroll', updateScroll);
+      window.removeEventListener('resize', updateScroll);
       canvas.removeEventListener('pointerenter', handlePointerEnter);
       canvas.removeEventListener('pointermove', handlePointerMove);
       canvas.removeEventListener('pointerleave', handlePointerLeave);

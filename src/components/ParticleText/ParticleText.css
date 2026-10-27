@@ -17,6 +17,21 @@
   height: 100%;
 }
 
+.particle-text--fullscreen .particle-text__canvas {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 85%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 85%,
+    transparent 100%
+  );
+}
+
 .particle-text__sr {
   position: absolute;
   width: 1px;

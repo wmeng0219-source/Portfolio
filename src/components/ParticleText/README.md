@@ -14,3 +14,5 @@ Intro color patch: optional introColor selects a separate highlight palette whil
 Fullscreen intro patch: fullScreen uses the surrounding section as the canvas surface while layout.js preserves the original text target center and fitting width. Gather starts are distributed across that surface. A scoped CSS modifier permits the canvas to extend beyond the title box; the section is observed for resize and existing observer/frame cleanup is retained. Hero enables this mode.
 
 Click burst strength: Hero sets burstStrength=1.8 to increase click force and radius; hover physics remain unchanged.
+
+Scroll scatter patch: optional `scrollScatter` maps the hero's progress out of the viewport to a reversible outward offset, so the title disperses on scroll and gathers on return. The offset is biased upward to keep the lede readable, and a fullscreen-only canvas mask fades the cloud near the hero edge. Hero enables it; reduced motion keeps the settled text. The progress calculation lives in `layout.js` (`scrollScatterProgress`) and is covered by `layout.test.js`.

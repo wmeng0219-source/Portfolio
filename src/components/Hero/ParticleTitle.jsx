@@ -36,6 +36,7 @@ export default function ParticleTitle() {
         <ParticleText
           text="WEN MENG"
           fullScreen
+          scrollScatter
           color="#ffffff"
           highlightColor="#9edbb3"
           introColor="#9edbb3"

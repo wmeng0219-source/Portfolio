@@ -9,3 +9,10 @@ export function particleFrame(textRect, surfaceRect = textRect) {
     textWidth: textRect.width,
   };
 }
+
+export function scrollScatterProgress(top, height, viewportHeight = height) {
+  const travel = Math.max(1, Math.min(height, viewportHeight) * 0.8);
+  const start = travel * 0.18;
+  const span = Math.max(1, travel - start);
+  return Math.min(1, Math.max(0, (-top - start) / span));
+}

@@ -4,7 +4,11 @@ import { afterEach, vi } from "vitest";
 import ParticleTitle from "./ParticleTitle";
 
 vi.mock("../ParticleText", () => ({
-  default: ({ text }) => <div data-testid="particles">{text}</div>,
+  default: ({ text, scrollScatter }) => (
+    <div data-testid="particles" data-scroll-scatter={String(scrollScatter)}>
+      {text}
+    </div>
+  ),
 }));
 
 afterEach(() => {
@@ -25,6 +29,10 @@ test("a live reduced-motion preference replaces particles with a readable headin
   vi.spyOn(window, "matchMedia").mockReturnValue(media);
   const { unmount } = render(<ParticleTitle />);
   expect(screen.getByTestId("particles")).toHaveTextContent("WEN MENG");
+  expect(screen.getByTestId("particles")).toHaveAttribute(
+    "data-scroll-scatter",
+    "true",
+  );
   expect(screen.getByRole("heading", { name: "WEN MENG" })).toHaveAttribute(
     "data-particle-active",
     "true",
