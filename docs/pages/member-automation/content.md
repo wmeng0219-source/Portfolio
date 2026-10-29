@@ -1,223 +1,149 @@
-# 会员自动化页面内容审核稿
+# 会员自动化与财务治理
 
-> 修订日期：2026-10-08。内容审核：用户同意以本稿开展页面设计；个人判断归属、周期及反思等事项仍见第 8 节，不因开始设计而视为事实确认。
-> 设计审核：用户于 2026-10-08 确认设计方向；实现：本稿第 01–06 节已同步独立页面，图片仍为占位。第 07 节按用户要求暂不公开，等待真实反思；验收记录见 design.md 与当前计划。
+> 修订：2026-10-29。四部分：01 项目与问题 / 02 核心判断与关键设计 / 03 核心界面与交互证据 / 04 落地结果与边界。财务对账数字按既定口径暂不写；升级耗时为最熟练员工的调研平均。
+> 阅读说明：01–04 为页面文案；界面为证据位，截图脱敏后可使用。维护资料不上页面。
 
-**阅读说明：** 第 01–06 节用于当前页面，第 07 节等待本人补充真实反思，暂不上页面，也不显示目录入口。配图备注与第 8 节编辑备注不上页面。事实有误直接在本稿指出，不需要再审核一份事实文档。
+## 01 项目与问题
 
-## 01｜项目概览 Project Overview
+在连锁儿童牙科机构中，会员卡是核心的预付费与锁客方式：家长预先支付费用，换取未来周期的预防保健（如涂氟、洁牙）、诊疗折扣与就诊权益。卡种覆盖单年卡、多年卡（如金橙卡）等十几种主流类型，并按儿童周岁分段。会员卡到期前后，前台主要承接续卡（到期新购）与升级（退旧卡残值、补差价开更长周期新卡）。
 
-> **配图备注，不上页面：** 会员升级操作界面，能看到原卡、目标卡、补差金额与权益。真实截图准备好前保留占位，不制作假产品截图。
-> **周期待确认，不上页面：** 现有资料有调研和上线时间线索，尚未核对整个项目周期，暂不填写日期。
+现场前台面临极高的并发压力：一个运营人员往往要同时处理挂号、开卡、打印账单、售卡等四五件事，面对排队带娃的家长，收银效率要求极高。门店虽然配有纸质收银手册，但现场根本来不及翻阅；而原有门诊系统（领健）在收银改价时没有任何规则校验与限制，全靠前台人脑硬记。
 
-### 中文
+更为棘手的是**业务规则与原系统割裂带来的操作陷阱**：
 
-**标题（暂用）**
+1. **卡与券结构割裂，对应关系混乱**：
+   单年卡的权益一部分在会员卡内，另一部分以卡券形式发放；囤卡也是以发券形式存在；而多年卡的所有权益则集中在会员卡本身。原系统内卡与券各自独立、缺乏关联映射。升级退旧卡时，前台必须在不同模块人工翻找卡券、逐一比对核销，极易漏退、漏算。
+2. **多维变动叠加，开错单与对不上账频发**：
+   孩子从 5 岁跨入 6 岁面临卡种年龄跳档，历史优惠券能否计入折抵缺乏统一标准，跨门店升级更涉及两店账单退补。熟练老员工算一笔差价要 4—5 分钟，新手遇到复杂账单甚至可能耗费十来分钟。开错账单、录错信息、账目对不上的问题时常发生。
+3. **审批与收银脱节，违规优惠无法追溯**：
+   特殊折扣原本走钉钉审批，但收银场景紧急、审批流程较长，现场往往通过电话向管理层口头确认后直接开卡改价，后续再补提审批。大量“先办后补”导致审批与账单完全脱节，财务月初核对上月账单时，频繁面临违规优惠与账实不符。
 
-> 会员自动化与财务治理
+**架构取舍与职责定位**：
+团队当时曾考虑过重新开发一套独立的门诊收费系统。但门诊收费不仅涉及会员，还深度耦合了诊疗、预防、正畸等大量医疗项目的复杂收费规则，整体重构的开发周期过长、业务变更成本过高。因此团队放弃重做收费系统，确立为**以最小成本、最快周期在现有门诊系统之上搭建一层规则自动化与财务治理系统（ODOS 会员层）**。
 
-**项目介绍**
+**我的职责**：调研前台运营场景，确认收银手册未覆盖或不合理的实操痛点；与财务共同从手册中提炼升级折算规则；负责产品方案与规则模型设计、流程交互与界面设计，推进全门店落地。
 
-> 会员升级原本需要前台查卡、找账单、计算差额和处理权益，跨店与异常交易还要依赖人工判断。项目将常规升级、续卡和退卡规则交给系统处理，同时加入优惠额度校验、异常提示和失败回退，让门店更快完成操作，也让财务能追查卡、账单与权益的变化。
+## 02 核心判断与关键设计
 
-**我的职责与协作**
+面对多卡种、卡券分离与财务治理诉求，核心判断在于：**把卡、券、账单建立强关联并收归系统自动化，把不确定的异常状态停下来交给人工确认；将优惠从口头确认与后补审批，转变为事前定额度的刚性治理。**
 
-> **呈现备注，不上页面：** 2026-10-08 确认开场按标题、简介、职责纵向左对齐；本节“项目概览”仅用于章节目录，不另显示为职责的大标题。原正文与事实不变，字号见 DESIGN.md §3.4。
+### 规则收敛：建立“卡券一体”的标准决策流水线
 
-我负责门店与财务调研、业务规则梳理、产品方案、流程交互与界面设计，并推进全门店上线。工作同时涉及门店操作和财务核对，方案需要兼顾现场办理速度与账务可追查性。
+解决问题的关键，在于打破原有系统的数据孤岛。新系统在底层将零散在卡券包里的单年卡权益、囤卡凭证与会员卡建立强绑定映射，将提炼出的十几种卡种升级规则抽象为一条标准的**决策流水线**：
 
-### English
+1. **卡状态校验**：确认旧卡在有效期内且状态正常；
+2. **卡券资产穿透核算**：穿透旧卡关联的历史有效收费账单，将卡内剩余项目与绑定的卡券剩余价值一并提取，扣除已享折让，自动计算出旧卡净残值；
+3. **目标卡匹配与差价测算**：按儿童当前周岁匹配新卡价格档位，自动计算补差金额并顺延权益有效期；
+4. **额度规则校验**：校验当月门诊与岗位的可用优惠额度，生成最终实付差额。
 
-**Working title:** Member Automation & Financial Governance
+### 划清界限：常规路径全自动，异常场景坚决人工确认
 
-Membership upgrades previously required staff to find cards and bills, calculate differences, and update benefits. Cross-clinic and exceptional transactions relied on manual judgment. The project moved standard upgrade, renewal, and cancellation rules into the system, with discount-limit checks, exception prompts, and failure recovery to support faster operation and traceable changes.
+在流水线的基础上，系统划出明确的自动化边界：
 
-I was responsible for clinic and finance research, business rules, product solutions, interaction and interface design, and rollout coordination across clinics. The solution needed to balance front-desk speed with financial traceability.
+* **标准路径全自动**：系统自动完成原卡与关联卡券的资产清算、新卡差价测算并带出目标权益，前台一键确认即可执行，彻底免除现场手工心算。
+* **异常场景坚决停机**：若遇到**未检索到原卡关联的有效收费单、存在多张历史关联账单需明确归属、会员卡处于冻结或异常状态**等情况，系统坚决阻断自动化推算，禁止擅自给出默认结果，必须停下来由前台人工介入选择。
 
-## 02｜问题 Problem
+**背后的产品判断很实际**：会员升级直接涉及资金变动与权益置换。一旦系统在账单多义或数据缺失时“替人猜测”，后续需要财务和技术进行复杂的人工冲账。**宁可让前台多确认一次，也绝不让系统在不确定的边界上盲目自动化。**
 
-> **配图备注，不上页面：** 旧升级流程示意：查卡 → 找账单 → 算差额与有效期 → 处理原卡 → 开新卡 → 核对权益。注明依据真实流程整理，不冒充旧界面或访谈记录。
+### 优惠治理：从“口头同意后补审批”走向“门诊/岗位额度池”
 
-### 中文
+为了解决钉钉审批慢、一线频繁电话口头确认后补审批的失控状态，我和财务共同设计了**额度分配与阻断机制**：
 
-#### 一次升级，需要人工串起卡、账单和权益
+* **事前定额度**：为每个门诊与岗位配置月度优惠额度池。
+* **额度内自主放权**：在额度范围内，前台可直接执行优惠改价，无需等待审批，消除现场排队等待。
+* **超额刚性阻断，流程中不设审批**：一旦当月额度耗尽，系统直接阻断改价输入，明确提示被哪条额度规则拦截，当笔不再给予折扣。流程中彻底取消“超额再特批”的灰色路径，倒逼门店克制使用优惠资源。
+* **事后全链路审计**：每一笔优惠自动记录操作人、时间、命中额度与前后账单明细。财务月初核对直接拉取系统明细追查，不再需要在钉钉记录与收银账单间大海捞针。
 
-会员卡、卡券和收费账单分散在不同模块。前台办理升级时，需要反复查找信息，手工计算差额和有效期，再处理原卡、新卡与权益。跨店升级还涉及账单归属，不能只把新卡开出来就算完成。
+### 跨门店办理与异常防悬空
 
-#### 异常交易不能靠同一条默认流程处理
+* **跨门店升级**：卡在 A 店办、人在 B 店升级。B 店开新卡收取差价，A 店原卡退费并补一张差价单。新系统将两店分散的卡、券和账单流水强关联打通，谁经手、何时办、账目变更清晰可查。底层资金结算依然沿用原底层系统的日终批处理，保持轻量敏捷。
+* **异常防悬空设计**：升级涉及“旧卡退费”与“新卡开通”两项核心变动。若因网络或接口中断导致新卡开通失败，系统强制执行原子回退，保留原卡及原权益，并记录失败原因日志，坚决杜绝出现“旧卡已退、新卡未开”的悬空状态。
 
-多张可用账单、没有可用账单、卡被冻结或已经过期，都会影响能否办理及如何办理。原来的处理依赖工作人员理解规则，常规交易和异常情况没有清晰分开。
+## 03 核心界面与交互证据
 
-#### 优惠审批与月底核对没有解决同一个问题
+前台收银面对高并发多任务的现场，界面设计的第一目标是**“消除认知切换，让判断当场被看见并可被解释”**。
 
-逐笔人工审批会拖慢现场操作，但优惠仍缺少统一的系统边界。月底财务还需要人工比对卡、账单和权益变化，确认差异来自哪里。
+### 1. 同屏信息聚合，重构信息架构
 
-因此，项目不仅要减少页面切换，还要明确：系统能自动处理哪些情况，哪些情况必须停下来，以及事后如何查清一次操作。
+旧流程中前台必须在会员、卡券、收费等独立模块来回跳转。新设计将一次升级所需的 6 组核心信息结构化整合在同一主视图内：
 
-### English
+* **原卡资产区**：直观展示原卡内剩余项目残值与关联卡券剩余价值，合并展现旧卡总残值；
+* **目标卡权益区**：清晰罗列升级后卡种的有效期顺延规则与新赠权益；
+* **差价计算区**：自上而下展示“新卡标价 - 旧卡折抵 - 优惠额度 = 最终实付差额”。
 
-An upgrade required staff to connect card, bill, and benefit information across modules, calculate differences and validity periods, and handle both the original and replacement cards. Cross-clinic upgrades also needed correct bill attribution.
+所有推算因果一目了然，前台无需跳出界面查手册、翻卡券包，在家长产生疑问时可直接对照屏幕逐项清晰解释。
 
-Multiple bills, missing bills, frozen cards, and expired cards required different handling. These exceptions could not safely follow the same default path.
+### 2. 核对机制前移（Submit-Prevention）
 
-Per-transaction discount approval slowed the front desk without establishing a consistent system boundary. Finance still needed to reconcile changes manually. The challenge was to define what could be automated, when processing should stop, and how each transaction could be traced afterward.
+将原先滞留在提交后的报错与核对环节前移至提交前。原卡状态、折算明细、目标权益与优惠占用在主界面实时联动；若触发额度上限或账单异常，在操作当前即时给出警示，避免前台在录入全部信息点击提交后才遭遇失败。
 
-## 03｜我的判断 Product Thinking
+### 3. 异常处理的渐进式暴露（Progressive Disclosure）
 
-> **配图备注，不上页面：** 三组“问题 → 判断 → 方案”示意即可，由 AI 根据文字绘制。
-> **归因待确认，不上页面：** 以下提炼自已有方案和旧稿；个人提出与业务、财务共同确认的边界仍待核对，见第 8 节。
+* **默认极简路径**：标准升级场景下，界面仅展示完成操作必需的核心字段与确认操作；
+* **异常就地展开**：只有当检测到多张历史关联账单或额度不足时，界面才就地展开异常处理卡片（如“系统检测到历史存在 2 笔开卡单，请选择本次升级对应的原账单”），引导前台快速处置。
 
-### 中文
+> **图 1–2（界面证据位）：** 对应常规升级同屏聚合界面、异常与额度超限阻断界面；真实截图脱敏后替换占位。
 
-#### 判断 A：常规交易自动处理，异常交易才需要额外选择
+## 04 落地结果与边界
 
-让每笔升级都由前台重新选择和计算，会把已明确的规则继续留给人工。常规情况下，系统应匹配账单、计算差额与有效期；信息不足或存在多种可能时，再让工作人员处理，而不是强行选一个结果。
+方案先在 6 家门店试点，随后推广至全连锁 20 多家门店。
 
-#### 判断 B：用优惠额度守住边界，而不是每一笔都等待审批
+| 指标 | 改造前 | 改造后 | 数据口径与来源 |
+| --- | --- | --- | --- |
+| 典型升级操作耗时 | 4—5 分钟 | 约 1 分钟 | 4—5 分钟为立项调研中最熟练老员工的平均操作时长（新员工遇复杂账单可能耗费十来分钟）；约 1 分钟为系统上线后门店典型升级的实际办理耗时（现场实测数据）。 |
 
-门店需要及时办理业务，财务需要控制优惠范围。两者不必通过逐笔审批来平衡：把门诊与角色的可用额度写入系统，额度内允许执行，超额明确阻断，同时记录操作依据。
+### 方案边界与现实妥协
 
-#### 判断 C：自动化失败不能让会员失去原有权益
+1. **外挂层带来的操作接续摩擦**：
+   项目并未替换掉底层的领健门诊系统。上线后，会员卡与卡券的升级、抵扣操作在新的 ODOS 界面进行，而患者挂号与常规诊疗收费仍在原门诊系统中。前台依然需要在两套系统之间进行操作接续，跨店结算也依然依赖底层系统的后台批处理。这是选择“以最小成本快速做外挂自动化层、放弃重构整套门诊收费系统”所必然付出的操作代价。
+2. **失败回退的验证局限**：
+   虽然系统在逻辑层设计了严格的失败原子回退与防悬空规则，但系统上线运行稳定，日常未发生端到端的中断异常样本，因此本文仅记录已实现的业务规则，不虚构实测回退数据。
 
-升级同时改变卡、资金和权益。如果旧卡已经失效，新卡却没生效，现场操作就算少了，也会留下更难处理的问题。因此，失败回退与成功办理应一起设计，而不是只展示成功路径。
-
-### English
-
-- **A — Automate standard transactions; reserve extra choices for exceptions.** Known rules should handle bill matching, price differences, and validity periods. Missing or ambiguous information should not be forced into an automatic result.
-- **B — Enforce discount limits instead of waiting for approval on every transaction.** Clinic and role limits allow staff to act within a defined boundary, while over-limit transactions are blocked and the decision is recorded.
-- **C — A failed upgrade must not remove existing benefits.** Card, payment, and benefit changes must be considered together. Recovery belongs in the core solution, not only the success path.
-
-## 04｜方案 Solution
-
-### 4.1 对应判断 A：将卡、账单与权益放进同一办理流程
-
-> **配图备注，不上页面：** 典型升级界面与多账单、无账单等异常提示。标出自动带入的信息、必须确认的信息，以及需要人工选择的位置。
-
-常规办理中，系统判断升级还是续卡，匹配账单，计算差额与有效期，并衔接领健中的原卡处理、新卡开通和补差。单年卡、多年卡、长期卡、囤卡、优惠券和手动优惠按相应规则处理，不让前台每次从头计算。
-
-提交前展示原卡状态、差额、目标权益和限制原因；成功后展示新旧卡关系、权益生效时间与账单归属，方便前台核对并向会员解释。
-
-多账单、无账单或冻结等情况出现时，再展示对应异常选项。自动匹配依赖卡和账单信息准确，信息不足时不能强行办理。
-
-升级规则也从“距离到期 3 个月内才能升级”调整为“仍在有效期内即可升级”。这取消了剩余月份限制，不取消卡状态、账单和权益校验。
-
-### 4.2 对应判断 B：额度内办理，超额时明确阻断
-
-> **配图备注，不上页面：** 优惠额度显示、额度不足或超额提示，以及操作记录。没有真实界面时用规则示意，不伪造审批记录。
-
-优惠按门诊与角色额度校验。额度内允许现场执行，超额则阻断并说明原因，取代逐笔等待人工审批的方式。
-
-系统记录执行人、时间和规则命中情况，便于财务追查。额度控制约束的是优惠范围，不等于财务从此不需要核对。
-
-### 4.3 对应判断 C：失败时保留原卡与原权益
-
-> **配图备注，不上页面：** 失败提示及回退规则示意，说明原卡和权益如何保留。没有真实失败案例时，不制作“已成功回退”的假日志。
-
-升级失败时保留原卡与原权益，并提示失败原因，避免留下“旧卡已失效、新卡未生效”的状态。操作记录包含失败原因和回退结果，便于后续查找。
-
-跨门店结算仍依赖底层系统和批处理，不能将这套自动化描述为实时分账。具体接口执行顺序与重复提交防护仍需核查，不在页面补写技术实现。
-
-### English
-
-#### 4.1 For A: connect cards, bills, and benefits in one transaction flow
-
-The system distinguishes upgrades from renewals, matches bills, calculates differences and validity periods, and coordinates original-card handling, replacement-card activation, and payment adjustments with the underlying platform. Card types, stored cards, coupons, and manual discounts follow their applicable rules.
-
-Before submission, staff review the original card, price difference, target benefits, and restrictions. Success feedback shows the old–new card relationship, benefit start date, and bill attribution. Exception choices appear when needed; incomplete or ambiguous information is not forced through.
-
-The upgrade rule also changed from eligibility only within three months of expiry to eligibility while the card remains valid. Card, bill, and benefit checks still apply.
-
-#### 4.2 For B: allow transactions within limits and block excess discounts
-
-Clinic and role discount limits replace per-transaction approval. Over-limit transactions are blocked with a reason. Operator, time, and rule records support financial review; limit enforcement does not eliminate reconciliation.
-
-#### 4.3 For C: preserve the original card and benefits after failure
-
-Failure recovery preserves the original card and benefits, explains the failure, and records the recovery outcome. Cross-clinic settlement still relies on the underlying system and batch processing, rather than real-time fund allocation. Detailed interface sequencing and duplicate-submission handling remain to be checked.
-
-## 05｜系统机制 System
-
-> **配图备注，不上页面：** 主流程与异常分支，卡、账单、权益作为关联对象标在旁边。该图说明业务处理关系，不代表接口调用顺序。
-
-### 中文
-
-**主流程**
-
-读取会员卡与账单 → 判断办理类型与条件 → 匹配账单、计算差额和权益 → 校验优惠额度 → 展示待确认内容 → 执行办理 → 展示结果并留存记录。
-
-**异常分支**
-
-| 情况 | 处理边界 |
-| --- | --- |
-| 多张可用账单或无可用账单 | 进入对应异常处理，不强行自动匹配 |
-| 卡被冻结、已过期等 | 按卡状态限制办理，并说明原因 |
-| 优惠超额 | 阻断本次操作，提示额度原因 |
-| 升级执行失败 | 保留原卡与原权益，提示并记录失败原因与回退结果 |
-| 跨店办理 | 保留账单归属与变更记录，结算仍按底层系统规则处理 |
-
-卡、账单与权益需要一起核对。成功反馈说明当前结果，操作记录则用于追查这一结果是如何产生的。
-
-### English
-
-Read card and bill information → determine transaction type and eligibility → match bills and calculate differences and benefits → check discount limits → show information for confirmation → execute → display and record the result.
-
-Missing or multiple bills use exception handling. Card restrictions and excessive discounts stop processing with reasons. Upgrade failures preserve the original card and benefits and record recovery. Cross-clinic transactions retain attribution records while settlement follows the underlying platform. This is a business-flow overview, not an interface-call sequence.
-
-## 06｜结果 Impact
-
-> **配图备注，不上页面：** 两组前后数据对比，分别标注操作耗时实测与财务估算。没有报表截图也可根据现有数据排版，不伪造时间趋势、样本量或财务看板。
-
-### 中文
-
-#### 已上线的能力
-
-- 门店在同一办理流程中完成规则校验、差额计算和卡权益处理，异常情况有对应提示与处理路径。
-- 优惠有额度边界，卡、账单与权益变更有操作记录，供财务核对和追查。
-- 项目已在全门店上线；本稿不另填未经核对的门店数量。
-
-#### 操作耗时与财务反馈
-
-| 指标 | 变化 | 来源 |
-| --- | --- | --- |
-| 典型会员升级操作耗时 | 4—5 分钟 → 约 1 分钟 | 门店现场实测，典型升级结算场景 |
-| 财务对账工作耗时 | 约 3 天 → 约 1 天 | 财务团队估算，未做精细统计 |
-
-升级耗时只说明已实测的典型场景，不代表所有交易的平均耗时。对账变化作为财务反馈单独展示，不与现场实测混为同一种证据。
-
-### English
-
-The project is live across clinics. It connects rule checks, calculations, and card-benefit handling, with exception paths, discount boundaries, and transaction records for review.
-
-| Measure | Change | Source |
-| --- | --- | --- |
-| Typical membership upgrade | 4–5 minutes → approximately 1 minute | On-site measurement of a typical upgrade and settlement task |
-| Finance reconciliation work | Approximately 3 days → approximately 1 day | Finance-team estimate, not a detailed measurement |
-
-The upgrade observation is not an average across all transactions. The reconciliation estimate is presented separately as finance feedback.
-
-## 07｜反思 Reflection
-
-> **编辑备注，不上页面：** 2026-10-08 用户明确暂不使用 AI 提炼的候选反思，将补充真实反思。候选已移除；此处只保留补充位置，确认后再整理中英文并加入页面与目录。
-
-## 8. 编辑备注与资料来源（不上页面）
-
-### 8.1 请在本稿核对
-
-1. **个人判断归属**：自动匹配、优惠额度和失败回退，哪些由你提出，哪些由门店、财务或其他同事提出后共同确认？当前不写“独立负责全部决策”。
-2. **角色表述**：最新履历确认正式岗位为 UI 设计师、兼产品职责；旧案例与事实底稿写“产品经理 / 产品设计”。正文改用具体工作，不将项目职责当作任职职称。与其他产品同事的分工仍待补。
-3. **项目周期与上线推进**：请确认起止日期和实际试点、验收方式。就绪度清单已有来源线索，本轮未复核，不直接用线索补成已确认周期。
-4. **反思**：等待本人补充上线后遇到的问题、实际修改或一线反馈。暂不根据规则推写个人思考。
-5. **数据口径**：升级实测的时间、门店、样本和计时起止动作，财务估算对应的对账任务与周期仍待补；现有数字按原证据等级保留，不称平均提效或全场景效果。
-
-### 8.2 整理边界
-
-- 内容整理阶段只调整结构、表达和配图位置；随后用户同意开展设计并确认设计方向。页面实施状态见顶部，第 8 节未核实问题不因实施而关闭。
-- 既有升、续、退范围保留；材料主要支撑升级场景，不补编退卡金额计算、退款到账或冻结解除的详细规则。
-- 本稿未新增会员规模、续卡率或现金流数字。证据清单中的其他数据不是本项目改造前后对比，是否加入另行审核。
-- 配图尚未就绪，按各节备注准备；证据缺口只在 [content-readiness.md](../../project/content-readiness.md) 维护，本轮不改变就绪状态。
-
-### 8.3 来源
+<details>
+<summary>维护资料（不上页面）</summary>
+
+### 当前状态
+
+- 页面文案于 2026-10-29 根据用户审核评论重新修正并精炼：
+  - 01 修正痛点表述：指出公司有收银手册，但前台高并发无暇查阅且系统无校验；讲透业务规则（单年卡卡券分离、多年卡集中、囤卡发券）与领健缺乏关联映射导致的混乱；如实交代审批原本走钉钉但因场景紧急多走电话确认后补；交代放弃重构全收费系统、以最小成本做外挂层的真实业务权衡。
+  - 02 修正卡种规模为“十几种主流活跃卡种”；明确新系统核心是建立卡券账单强关联；修正调研职责为“调研前台场景确认手册缺失例外，与财务共同从手册提炼升级规则”；明确异常停机场景为“未检索到有效账单、多历史账单需选择、卡冻结异常”等具体状态；改为“跨门店办理”。
+  - 03 完善同屏信息架构、核对前移与渐进式暴露推导。
+  - 全文保持客观专业、实事求是。
+- 设计映射待按新文案与信息架构重新推导后再实现。
+- 反思暂不公开；英文版暂停，恢复时按中文重译并单独审核。
+- 财务对账“约 3 天→约 1 天”按用户决定暂不写入正文，数字保留在事实底稿备查。
+
+### 图表与素材
+
+- 界面证据位两张：常规升级、异常与超额。用户已确认截图可脱敏公开（2026-10-28）；脱敏版本到位前保留占位。
+- 正文不再引用旧办理流程图、决策矩阵、端到端流程图和系统边界图；如需补图，按新结构重新判断。
+- 不补画假界面、假日志、假审批记录。
+
+### 待核对
+
+1. **项目周期与团队**：起止日期、验收方式与正式分工未确认，正文不写日期。
+2. **失败样本**：失败回退只有规则，没有实际样本与回退结果记录。
+3. **截图脱敏**：两张界面截图的脱敏范围与可用版本。
+4. **逐店采纳率**：没有材料，不写覆盖率。
+
+### 已确认、不再询问（2026-10-29 增补）
+
+- 审批原走钉钉审批，因现场紧急常电话确认后先开卡改价，后续补提审批。
+- 手册与现场：有收银手册，但前台并发高（一人处理 4-5 件事），来不及翻阅，系统无校验。
+- 调研过程：作者调研前台场景（确认手册没包含或不合理的场景），再与财务从收银手册总结升级规则，未直接参与财务对账。
+- 系统取舍：曾考虑重构门诊收费系统，但绑定全院诊疗预防正畸规则过重，故以最小成本做外挂层。
+- 卡种：全国十几种主流活跃卡种。
+- 核心能力：打破孤岛，建立卡、券、账单强关联映射。
+- 升级受理条件：**有效期内即可**。
+- 门店数：**20 多家**。
+- 耗时口径：4—5 分钟为最熟练员工的调研平均；约 1 分钟为上线后耗时。
+- 优惠机制：额度用完不再给优惠，流程中没有审批。
+
+### 来源与边界
 
 - [项目事实底稿](../../project/会员自动化.md)：规则、职责、结果与证据等级。
-- [履历时间线](../../profile/career-timeline.md)：正式岗位与实际产品职责的区分。
-- 原始材料：docs/origin/会员自动化/会员功能梳理.md、250811-会员系统-需求文档.md、收银补充手册（ODOS试行版）.md、ODOS 会员宣发.pptx。本轮以现有内容稿与事实底稿核对，不声称重新核查了这些原始文件。
+- [证据清单](../../project/content-readiness.md)：待补材料与素材状态。
+- 原始材料：`docs/origin/会员自动化/会员功能梳理.md`、`250811-会员系统-需求文档.md`、`收银补充手册（ODOS试行版）.md`、`ODOS 会员宣发.pptx`。
+- 调研／会议：`会员自动化前的调研-来自高高.md`、`250928-会员自动化内测复盘会.md`、`门诊会员收银会议.md`、`会员卡系统规则.md`（本地原始资料，未入库）。
+
+</details>

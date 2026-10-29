@@ -32,15 +32,14 @@ const renderCase = (slug, language = "zh") => {
 };
 
 for (const slug of ["member-automation"]) {
-  test(`${slug} keeps the approved chapter order, honest media placeholders and no hero metrics`, () => {
+  test(`${slug} keeps the approved five-chapter order and honest media placeholders`, () => {
     const { container } = renderCase(slug);
     const expected = [
-      "我的职责与协作",
-      "问题",
-      "我的判断",
-      "方案",
-      "系统机制",
-      "结果",
+      "项目概览",
+      "问题与挑战",
+      "核心产品决策",
+      "方案落地",
+      "项目结果与边界",
     ];
     if (slug === "orthodontics") expected.push("反思");
     expect(
@@ -59,7 +58,7 @@ for (const slug of ["member-automation"]) {
         ).toBeInTheDocument();
       });
     expect(container.querySelector("#overview")).not.toHaveTextContent(
-      /4—5 分钟|30%—40%|53.75%/,
+      /30%—40%|53.75%|147,793/,
     );
     expect(
       container.querySelectorAll("[data-visual-slot]").length,
@@ -77,9 +76,9 @@ for (const slug of ["member-automation"]) {
     Element.prototype.scrollIntoView = scrollIntoView;
     try {
       renderCase(slug);
-      const link = screen.getByRole("link", { name: /05.*系统机制/ });
+      const link = screen.getByRole("link", { name: /05.*项目结果与边界/ });
       await user.click(link);
-      expect(document.activeElement).toBe(document.getElementById("system"));
+      expect(document.activeElement).toBe(document.getElementById("impact"));
       expect(link).toHaveAttribute("aria-current", "location");
       scrollIntoView.mockClear();
       await user.click(link);
@@ -117,7 +116,7 @@ test("member outcomes distinguish measurement from estimates and omit the declin
   expect(
     screen.queryByText(/自动化的边界，和自动化本身一样重要|如果重新梳理方案/),
   ).not.toBeInTheDocument();
-  expect(screen.getByText(/仍在有效期内即可升级/)).toBeInTheDocument();
+  expect(screen.getByText(/系统判断升级还是续卡/)).toBeInTheDocument();
   expect(screen.getAllByText(/批处理/).length).toBeGreaterThan(0);
 });
 
@@ -127,7 +126,7 @@ for (const slug of ["pacs-ai", "member-automation"]) {
       const { container } = renderCase(slug, language);
       const overview = container.querySelector("#overview");
       const cover =
-        slug === "pacs-ai" ? container.querySelector("#case-cover") : overview;
+        container.querySelector("#case-cover") || overview;
       expect(cover).toHaveAttribute("aria-labelledby", "case-title");
       expect(within(cover).getByRole("heading", { level: 1 })).toHaveAttribute(
         "id",
@@ -136,8 +135,21 @@ for (const slug of ["pacs-ai", "member-automation"]) {
       expect(
         within(overview).getByRole("heading", { level: 2 }),
       ).toHaveTextContent(
-        language === "zh" ? "我的职责与协作" : "My role & collaboration",
+        slug === "member-automation"
+          ? language === "zh"
+            ? "项目概览"
+            : "Project Overview"
+          : language === "zh"
+            ? "我的职责与协作"
+            : "My role & collaboration",
       );
+      if (slug === "member-automation") {
+        expect(
+          within(overview).getByRole("heading", { level: 3 }),
+        ).toHaveTextContent(
+          language === "zh" ? "我的职责与协作" : "My role & collaboration",
+        );
+      }
       const intro = cover.querySelector("[data-case-intro]");
       const roles = overview.querySelector("[data-case-roles]");
       expect(intro).toBeInTheDocument();
@@ -155,14 +167,22 @@ for (const slug of ["pacs-ai", "member-automation"]) {
   }
 }
 
-test("member solutions include quota and recovery rule diagrams without invented amounts", () => {
+test("member decisions distinguish automation, quota, and failure boundaries", () => {
   const { container } = renderCase("member-automation");
-  expect(container.querySelector('[data-mechanism="quota"]')).toHaveTextContent(
-    "超额",
+  expect(container.querySelector('[data-decision="决策 A"]')).toHaveTextContent(
+    "常规自动",
+  );
+  expect(container.querySelector('[data-decision="决策 B"]')).toHaveTextContent(
+    "优惠上限",
+  );
+  expect(container.querySelector('[data-decision="决策 C"]')).toHaveTextContent(
+    "失败保护",
   );
   expect(
-    container.querySelector('[data-mechanism="recovery"]'),
-  ).toHaveTextContent("原卡与原权益");
+    container.querySelector(
+      '[aria-label="新会员办理层与原门诊系统的职责边界"]',
+    ),
+  ).toHaveTextContent("原门诊系统");
 });
 
 // 保留启用开关后的英文恢复路径测试；生产默认停用英文。

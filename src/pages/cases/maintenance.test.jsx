@@ -70,17 +70,22 @@ test('PACS judgment links retain their destinations when an editorial heading is
   ]);
 });
 
-test.each(['pacs-ai', 'member-automation'])('%s owns one scroll and focus per anchor navigation, including repeat and history', async (slug) => {
-  const router = renderCase(slug, '#system');
-  const focusTarget = document.getElementById(slug === 'pacs-ai' ? 'system-title' : 'system');
+const anchorCases = [
+  ['pacs-ai', '#system', /系统机制/, 'system-title'],
+  ['member-automation', '#impact', /项目结果与边界/, 'impact'],
+];
+
+test.each(anchorCases)('%s owns one scroll and focus per anchor navigation, including repeat and history', async (slug, hash, label, targetId) => {
+  const router = renderCase(slug, hash);
+  const focusTarget = document.getElementById(targetId);
   expect(scroll).toHaveBeenCalledTimes(1);
   expect(document.activeElement).toBe(focusTarget);
-  const link = screen.getByRole('link', { name: /系统机制/ });
+  const link = screen.getByRole('link', { name: label });
   scroll.mockClear();
   fireEvent.click(link);
   expect(scroll).toHaveBeenCalledTimes(1);
   scroll.mockClear();
-  fireEvent.click(screen.getByRole('link', { name: /问题$/ }));
+  fireEvent.click(screen.getByRole('link', { name: /问题/ }));
   expect(scroll).toHaveBeenCalledTimes(1);
   scroll.mockClear();
   await act(async () => { await router.navigate(-1); });
@@ -91,10 +96,10 @@ test.each(['pacs-ai', 'member-automation'])('%s owns one scroll and focus per an
   expect(scroll).toHaveBeenCalledTimes(1);
 });
 
-test.each(['pacs-ai', 'member-automation'])('%s anchor navigation is instant with reduced motion', (slug) => {
+test.each(anchorCases)('%s anchor navigation is instant with reduced motion', (slug, hash) => {
   const query = vi.spyOn(window, 'matchMedia').mockImplementation(() => ({ matches: true }));
   restore.push(() => query.mockRestore());
-  renderCase(slug, '#system');
+  renderCase(slug, hash);
   expect(scroll).toHaveBeenCalledWith({ behavior: 'instant', block: 'start' });
 });
 
@@ -108,12 +113,12 @@ test('returning to the homepage respects reduced motion despite the global smoot
   expect(scroll).toHaveBeenCalledWith(expect.objectContaining({ behavior: 'instant' }));
 });
 
-test.each(['pacs-ai', 'member-automation'])('%s returns to the page top when history removes its anchor', async (slug) => {
+test.each(anchorCases)('%s returns to the page top when history removes its anchor', async (slug, hash, label) => {
   const top = vi.spyOn(window, 'scrollTo');
   restore.push(() => top.mockRestore());
   const router = renderCase(slug);
   expect(top).toHaveBeenCalledTimes(1);
-  fireEvent.click(screen.getByRole('link', { name: /系统机制/ }));
+  fireEvent.click(screen.getByRole('link', { name: label }));
   top.mockClear();
   await act(async () => { await router.navigate(-1); });
   expect(top).toHaveBeenCalledTimes(1);

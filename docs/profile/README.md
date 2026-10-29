@@ -10,6 +10,7 @@
 - `overview.md`：个人定位、核心标签与一句话简介。
 - `career-timeline.md`：职业经历时间线。
 - `domain-and-strengths.md`：行业背景、业务方向、能力标签与方法论。
+- `outreach-guidelines.md`：打招呼／投递话术的沟通口径与硬规则（不迎合 JD、不解释身份、首轮只留三件事）。
 - `sources/`：原始资料副本。
 
 ## 维护规则
