@@ -71,11 +71,11 @@ test('PACS judgment links retain their destinations when an editorial heading is
 });
 
 const anchorCases = [
-  ['pacs-ai', '#system', /系统机制/, 'system-title'],
-  ['member-automation', '#impact', /项目结果与边界/, 'impact'],
+  ['pacs-ai', '#system', /系统机制/, 'system-title', /问题/],
+  ['member-automation', '#impact', /结果与边界/, 'impact', /业务背景/],
 ];
 
-test.each(anchorCases)('%s owns one scroll and focus per anchor navigation, including repeat and history', async (slug, hash, label, targetId) => {
+test.each(anchorCases)('%s owns one scroll and focus per anchor navigation, including repeat and history', async (slug, hash, label, targetId, contextLabel) => {
   const router = renderCase(slug, hash);
   const focusTarget = document.getElementById(targetId);
   expect(scroll).toHaveBeenCalledTimes(1);
@@ -85,7 +85,7 @@ test.each(anchorCases)('%s owns one scroll and focus per anchor navigation, incl
   fireEvent.click(link);
   expect(scroll).toHaveBeenCalledTimes(1);
   scroll.mockClear();
-  fireEvent.click(screen.getByRole('link', { name: /问题/ }));
+  fireEvent.click(screen.getByRole('link', { name: contextLabel }));
   expect(scroll).toHaveBeenCalledTimes(1);
   scroll.mockClear();
   await act(async () => { await router.navigate(-1); });

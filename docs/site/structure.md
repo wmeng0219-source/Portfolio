@@ -24,8 +24,8 @@
 首页按 4 个核心区块顺序组织：
 
 1. `Hero`（首屏主张）
-2. `Portfolio`（精选项目：会员自动化 → 正畸筛查 → PACS）
-3. `Experience`（职业历程交错时间线）
+2. `Experience`（职业历程：四阶段倒序开放列表）
+3. `Portfolio`（精选项目：会员自动化 → 正畸筛查 → PACS）
 4. `Contact`（合作连接）
 
 ## `docs/`
@@ -35,7 +35,7 @@
 - `project/`：整理后的项目事实底稿与证据就绪清单（[`content-readiness.md`](../project/content-readiness.md)）。
 - `pages/`：各页面内容审核母稿（`content.md`）与设计说明（`design.md`）。
 - `design/`：参考站拆解与独立 HTML 视觉样稿。
-- `site/`：页面路由注册表（[`content-map.md`](content-map.md)）与站点结构说明。
+- `site/`：全站产品文档（[`product.md`](product.md)）、页面路由注册表（[`content-map.md`](content-map.md)）与站点结构说明。
 - `superpowers/`：当前任务计划（`plans/current/`）与历史归档（`plans/archive/`、`specs/archive/`）。
 
 `scripts/` 为本地验证工具；`output/` 保存被 Git 忽略的截图、测量与恢复备份。

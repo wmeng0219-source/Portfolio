@@ -5,9 +5,9 @@ import HomeIcon from "../HomeIcon";
 import AnimatedContent from "../AnimatedContent";
 
 const projects = [
-  { id: "member-automation", item: 1 },
-  { id: "orthodontics", item: 2, cover: "images/ortho/orthodontics-cover.jpg" },
-  { id: "pacs-ai", item: 3, cover: "images/pacs/pacs-cover.jpg" },
+  { id: "member-automation", item: 1, cover: "images/member/member-cover.jpg", coverWidth: 1600, coverHeight: 1194 },
+  { id: "orthodontics", item: 2, cover: "images/ortho/orthodontics-cover.jpg", coverWidth: 1600, coverHeight: 1194 },
+  { id: "pacs-ai", item: 3, cover: "images/pacs/pacs-cover.jpg", coverWidth: 1586, coverHeight: 992 },
 ];
 
 const Portfolio = () => {
@@ -123,7 +123,7 @@ const Portfolio = () => {
           </AnimatedContent>
         </div>
         <div className="portfolio-stage-grid">
-          {projects.map(({ id, item, cover }) => (
+          {projects.map(({ id, item, cover, coverWidth, coverHeight }) => (
             <Link
               to={`/project/${id}`}
               className="portfolio-showcase-card"
@@ -143,8 +143,8 @@ const Portfolio = () => {
                     className="portfolio-project-cover"
                     src={`${import.meta.env.BASE_URL}${cover}`}
                     alt={t(`portfolio.item.${item}.imageLabel`)}
-                    width={1586}
-                    height={992}
+                    width={coverWidth}
+                    height={coverHeight}
                     loading="lazy"
                     decoding="async"
                   />

@@ -10,5 +10,6 @@
 | orthodontics | `/project/orthodontics` | 首页精选 02 / 主案例 | 能改协作机制，不只改界面 | [内容](../pages/orthodontics/content.md) | [设计](../pages/orthodontics/design.md) | [事实](../project/正畸筛查与状态管理.md) |
 | pacs-ai | `/project/pacs-ai` | 首页精选 03 / 优先深度案例 | 在专业场景里为 AI 划出人机边界 | [内容](../pages/pacs-ai/content.md) | [设计](../pages/pacs-ai/design.md) | [事实](../project/PACS读片与AI辅助判断.md) |
 | pre-visit-engine | `/project/pre-visit-engine` | 候选 / 独立详情路由，不进入首页三卡 | 待确认（候选，未公开） | [内容](../pages/pre-visit-engine/content.md) | [设计](../pages/pre-visit-engine/design.md) | [事实](../project/接诊全流程预习与编排引擎.md) |
+| design-experiment-membership | 本地 `/design-experiment/membership` | 单章视觉实验 / 仅本地保留，源码与路由不纳入本次正式提交 | 检查更宽的证据展示能否讲清三项办理判断 | [会员原章](../pages/member-automation/content.md#三关键设计一让办理依据可核对让不确定和中断有处理方式) | [实验设计](../pages/design-experiment-membership/design.md) | [事实](../project/会员自动化.md) |
 
 维护与同步规则见 [AGENTS.md](../../AGENTS.md)，页面审核入口见 [文档总览](../README.md)。

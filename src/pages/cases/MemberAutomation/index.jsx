@@ -1,16 +1,12 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Link, useLocation } from "react-router-dom";
 import { useLanguage } from "../../../context/LanguageContext";
-import { caseContent } from "./content";
-import {
-  DataSiloDiagram,
-  DecisionPipelineDiagram,
-  AutomationBoundaryDiagram,
-  QuotaGovernanceDiagram,
-  FailureProtectionDiagram,
-  WorkspaceArchitectureDiagram,
-} from "./visuals";
+import { caseContent, screenshots } from "./content";
+import { Narrative } from "./Narrative";
 import styles from "./MemberAutomation.module.css";
+
+const SECTION_ALIASES = { problem: "overview" };
 
 function InlineText({ text }) {
   return text
@@ -24,227 +20,179 @@ function InlineText({ text }) {
     );
 }
 
-function Evidence({ slotId, language }) {
-  const slot = caseContent.diagrams.visuals[slotId];
+function InterfaceImage({ slot, label, language, lazy = false }) {
+  const [failed, setFailed] = useState(false);
   return (
-    <figure className={styles.evidence} data-visual-slot={slotId}>
-      <div
-        className={styles.evidenceFrame}
-        role="img"
-        aria-label={
-          (language === "zh" ? "素材准备中：" : "Image pending: ") +
-          slot.title[language]
+    <span
+      className={styles.imageWindow}
+      style={{ aspectRatio: `${slot.width} / ${slot.height}` }}
+    >
+      {failed ? (
+        <span role="status" className={styles.imageFailure}>
+          {language === "zh" ? `${slot.title}暂未加载。` : "Image unavailable."}
+        </span>
+      ) : (
+        <img
+          src={`${import.meta.env.BASE_URL}images/member/${slot.id}-full.jpg`}
+          alt={label}
+          width={slot.width}
+          height={slot.height}
+          loading={lazy ? "lazy" : undefined}
+          decoding="async"
+          onError={() => setFailed(true)}
+        />
+      )}
+    </span>
+  );
+}
+
+function ImageViewer({ view: { slot, label }, onClose, language }) {
+  const dialog = useRef(null);
+  const close = useRef(null);
+  const imageArea = useRef(null);
+  useEffect(() => {
+    const previousFocus = document.activeElement;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const node = dialog.current;
+    if (node.showModal) node.showModal();
+    else node.setAttribute("open", "");
+    close.current.focus();
+    return () => {
+      // Close before restoring focus so StrictMode's effect replay releases
+      // the native modal's inert background before the next setup.
+      if (node.open && node.showModal) node.close();
+      else node.removeAttribute("open");
+      document.body.style.overflow = previousOverflow;
+      previousFocus?.focus();
+    };
+  }, []);
+  return createPortal(
+    <dialog
+      ref={dialog}
+      lang={language === "zh" ? "zh-CN" : "en"}
+      aria-label={label}
+      aria-modal="true"
+      className={styles.imageDialog}
+      onCancel={(event) => {
+        event.preventDefault();
+        onClose();
+      }}
+      onClick={(event) => {
+        if (
+          event.target === event.currentTarget ||
+          event.target === imageArea.current
+        )
+          onClose();
+      }}
+      onKeyDown={(event) => {
+        if (event.key === "Escape") {
+          event.preventDefault();
+          onClose();
         }
+        if (event.key === "Tab") {
+          event.preventDefault();
+          close.current.focus();
+        }
+      }}
+    >
+      <button
+        ref={close}
+        type="button"
+        className={styles.viewerClose}
+        onClick={onClose}
+        aria-label={language === "zh" ? "关闭大图" : "Close image"}
       >
-        <span>{language === "zh" ? "素材准备中" : "Image pending"}</span>
-        <strong>{slot.title[language]}</strong>
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="m6 6 12 12M18 6 6 18"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+        </svg>
+      </button>
+      <div ref={imageArea} className={styles.viewerImage}>
+        <div
+          className={styles.viewerCanvas}
+          style={{
+            "--image-width": `${slot.width}px`,
+            "--image-ratio": slot.width / slot.height,
+          }}
+        >
+          <InterfaceImage slot={slot} label={label} language={language} />
+        </div>
       </div>
-      <figcaption>{slot.brief[language]}</figcaption>
-    </figure>
+    </dialog>,
+    document.body,
   );
 }
 
-function EvidenceGallery({ language }) {
-  const slots = ["workspace", "transaction", "quota", "recovery"];
-  return (
-    <div className={styles.evidenceGallery}>
-      {slots.map((slotId) => (
-        <Evidence key={slotId} slotId={slotId} language={language} />
-      ))}
-    </div>
-  );
-}
+function Screenshot({ slotId, language, onOpen, editorial = false }) {
+  const slot = { ...screenshots[slotId], id: slotId };
+  const zh = language === "zh";
+  const label = zh ? slot.title : "Membership interface";
+  const action = zh ? "放大截图" : "Enlarge screenshot";
 
-function SimpleFlow({ steps, caption }) {
-  return (
-    <figure className={styles.flow} aria-label={caption}>
-      <ol className={styles.flowSteps}>
-        {steps.map((step) => (
-          <li key={step}>{step}</li>
-        ))}
-      </ol>
-      <figcaption>{caption}</figcaption>
-    </figure>
-  );
-}
-
-function BusinessFlow({ language }) {
   return (
     <figure
-      className={styles.businessFlow}
-      aria-label={
-        language === "zh"
-          ? "会员办理的标准、异常与失败路径"
-          : "Standard, exception, and failure paths in membership handling"
+      className={
+        editorial
+          ? `${styles.evidence} ${styles.editorialEvidence}`
+          : styles.evidence
       }
+      data-visual-slot={slotId}
     >
-      <ol>
-        {caseContent.diagrams.system[language].map((step) => (
-          <li key={step.label}>
-            <div className={styles.flowNode}>{step.label}</div>
-            {step.branches?.map((branch) => (
-              <p className={styles.branch} key={branch}>
-                {branch}
-              </p>
-            ))}
-          </li>
-        ))}
-      </ol>
-      <figcaption>
-        {language === "zh"
-          ? "业务处理关系示意，不代表接口调用顺序；跨店结算仍依赖原门诊系统和批处理。"
-          : "Business-flow overview, not an interface-call sequence. Cross-clinic settlement remains in the original clinic system and batch process."}
+      <button
+        type="button"
+        className={styles.imageButton}
+        aria-label={`${action}：${label}`}
+        title={action}
+        onClick={() => onOpen({ slot, label })}
+      >
+        <InterfaceImage slot={slot} label={label} language={language} lazy />
+      </button>
+      <figcaption className={styles.imageCaption}>
+        {zh ? (
+          <>
+            <strong>{label}</strong>
+            <span>{slot.caption}</span>
+          </>
+        ) : (
+          "Interface design; displayed data is fictional."
+        )}
       </figcaption>
     </figure>
   );
 }
 
-function Table({ block }) {
-  return (
-    <dl className={styles.ruleRows}>
-      {block.rows.map(([label, detail]) => (
-        <div key={label}>
-          <dt>
-            <InlineText text={label} />
-          </dt>
-          <dd>
-            <InlineText text={detail} />
-          </dd>
-        </div>
-      ))}
-    </dl>
-  );
-}
-
-function Metrics({ block, language }) {
-  return (
-    <div className={styles.metricRows}>
-      {block.rows.map(([label, change, source], index) => (
-        <div
-          key={label}
-          className={index ? styles.estimate : styles.measured}
-          data-evidence={index ? "estimated" : "measured"}
-        >
-          <h4>{label}</h4>
-          <p className={styles.metricChange}>
-            {change.split(" → ").map((value, i) => (
-              <Fragment key={value}>
-                {i > 0 && (
-                  <span className={styles.metricArrow} aria-hidden="true">
-                    {" "}
-                    →{" "}
-                  </span>
-                )}
-                <span>{value}</span>
-              </Fragment>
-            ))}
-          </p>
-          <p className={styles.note}>{source}</p>
-          <p className={styles.note}>
-            {language === "zh"
-              ? index
-                ? "财务反馈估算，不与现场实测混为同一种证据。"
-                : "只说明典型升级办理场景，不代表全部交易的平均耗时。"
-              : index
-                ? "Finance feedback is an estimate, not the same evidence as on-site measurement."
-                : "A typical upgrade task, not an average across all transactions."}
-          </p>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function DecisionGrid({ language }) {
-  const decisions = caseContent.diagrams.decisions[language];
-  return (
-    <div className={styles.decisionGrid}>
-      {decisions.map((decision) => (
-        <section
-          key={decision.label}
-          className={styles.decisionRow}
-          data-decision={decision.label}
-        >
-          <div className={styles.decisionLead}>
-            <span>{decision.label}</span>
-            <h3>{decision.title}</h3>
-          </div>
-          <div className={styles.decisionBody}>
-            <div>
-              <h4>{language === "zh" ? "问题" : "Problem"}</h4>
-              <p>{decision.problem}</p>
-            </div>
-            <div>
-              <h4>{language === "zh" ? "判断" : "Judgment"}</h4>
-              <p>{decision.judgment}</p>
-            </div>
-            <div>
-              <h4>{language === "zh" ? "取舍" : "Trade-off"}</h4>
-              <p>{decision.tradeoff}</p>
-            </div>
-            <div>
-              <h4>{language === "zh" ? "落到规则" : "Product rules"}</h4>
-              <ul>
-                {decision.rules.map((rule) => (
-                  <li key={rule}>{rule}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
-      ))}
-    </div>
-  );
-}
-
-function BoundaryDiagram({ language }) {
-  const boundary = caseContent.diagrams.boundary[language];
-  return (
-    <figure
-      className={styles.boundary}
-      aria-label={
-        language === "zh"
-          ? "新会员办理层与原门诊系统的职责边界"
-          : "Boundary between the membership layer and the original clinic system"
-      }
-    >
-      <div className={styles.boundaryColumns}>
-        <div>
-          <h3>{boundary.leftTitle}</h3>
-          <ul>
-            {boundary.leftItems.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </div>
-        <span className={styles.boundaryArrow} aria-hidden="true">
-          ↔
-        </span>
-        <div>
-          <h3>{boundary.rightTitle}</h3>
-          <ul>
-            {boundary.rightItems.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </div>
-      </div>
-      <figcaption>{boundary.caption}</figcaption>
-    </figure>
-  );
-}
-
 function ChapterHeading({ section, index, language }) {
+  if (language === "zh")
+    return (
+      <h2
+        className={styles.caseHeading}
+        id={`${section.id}-title`}
+        tabIndex={-1}
+      >
+        {section.id === "solution"
+          ? section.title.zh
+          : section.title.zh
+              .split(/(?<=，)/)
+              .map((phrase) => <span key={phrase}>{phrase}</span>)}
+      </h2>
+    );
+
   return (
     <div className={styles.headingGroup}>
       <span className={styles.chapterIndex} aria-hidden="true">
-        {String(index).padStart(2, "0")}
+        {index}
       </span>
       <div className={styles.headingCopy}>
         <p className={styles.chapterEyebrow} lang="en" aria-hidden="true">
           {section.title.en}
         </p>
-        <h2 id={section.id + "-title"} tabIndex={-1}>
+        <h2 id={`${section.id}-title`} tabIndex={-1}>
           {section.title[language]}
         </h2>
       </div>
@@ -252,30 +200,39 @@ function ChapterHeading({ section, index, language }) {
   );
 }
 
-function RenderBlocks({ section, language }) {
+function RenderBlocks({ section, language, onOpen }) {
   return section[language].map((block, index) => {
-    if (block.type === "heading") {
+    const key = `${section.id}-${index}`;
+    if (block.type === "narrative")
       return (
-        <h3 key={section.id + index} className={styles.subheading}>
-          {block.text}
-        </h3>
+        <Narrative
+          key={key}
+          kind={block.kind}
+          evidence={(slotId) => (
+            <Screenshot
+              slotId={slotId}
+              language={language}
+              onOpen={onOpen}
+              editorial
+            />
+          )}
+        />
       );
-    }
-    if (block.type === "paragraph") {
+    if (block.type === "paragraph")
       return (
-        <p
-          key={section.id + index}
-          className={`${styles.paragraph} ${
-            index === 0 ? styles.chapterLead : ""
-          }`}
-        >
+        <p key={key} className={styles.paragraph}>
           <InlineText text={block.text} />
         </p>
       );
-    }
-    if (block.type === "list") {
+    if (block.type === "heading")
       return (
-        <ul key={section.id + index} className={styles.list}>
+        <h3 key={key} className={styles.subheading}>
+          {block.text}
+        </h3>
+      );
+    if (block.type === "list")
+      return (
+        <ul key={key} className={styles.list}>
           {block.items.map((item) => (
             <li key={item}>
               <InlineText text={item} />
@@ -283,100 +240,82 @@ function RenderBlocks({ section, language }) {
           ))}
         </ul>
       );
-    }
-    if (block.type === "table") {
-      return section.id === "impact" ? (
-        <Metrics key={section.id + index} block={block} language={language} />
-      ) : (
-        <Table key={section.id + index} block={block} />
-      );
-    }
-    if (block.type === "oldFlow") {
+    if (block.type === "roles")
       return (
-        <SimpleFlow
-          key={section.id + index}
-          steps={caseContent.diagrams.old[language]}
-          caption={
-            language === "zh"
-              ? "旧办理流程示意，依据原流程整理；每一步都可能出现额外核对。"
-              : "Previous workflow, based on the original process; each step could require extra checking."
-          }
-        />
+        <div key={key} className={styles.roles} data-case-roles>
+          <h3 className={styles.roleTitle}>
+            {language === "zh" ? "我的职责与协作" : "My role & collaboration"}
+          </h3>
+          {caseContent.hero.roles[language].map((text) => (
+            <p key={text}>{text}</p>
+          ))}
+        </div>
       );
-    }
-    if (block.type === "businessFlow") {
-      return <BusinessFlow key={section.id + index} language={language} />;
-    }
-    if (block.type === "evidenceGallery") {
-      return <EvidenceGallery key={section.id + index} language={language} />;
-    }
-    if (block.type === "evidence") {
+    if (block.type === "screenshot")
       return (
-        <Evidence
-          key={section.id + index}
+        <Screenshot
+          key={key}
           slotId={block.slotId}
           language={language}
+          onOpen={onOpen}
         />
       );
-    }
-    if (block.type === "decisionGrid") {
-      return <DecisionGrid key={section.id + index} language={language} />;
-    }
-    if (block.type === "dataSiloDiagram") {
+    if (block.type === "pipeline")
       return (
-        <DataSiloDiagram key={section.id + index} language={language} />
+        <ol
+          key={key}
+          className={styles.pipeline}
+          aria-label="常规升级的规则判断链"
+        >
+          {block.items.map((step, i) => (
+            <li key={step.title}>
+              <span>{i + 1}</span>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </li>
+          ))}
+        </ol>
       );
-    }
-    if (block.type === "decisionPipelineDiagram") {
+    if (block.type === "outcomes")
       return (
-        <DecisionPipelineDiagram key={section.id + index} language={language} />
+        <figure key={key} className={styles.outcomes} data-evidence="measured">
+          <p className={styles.outcomeLabel}>{block.label}</p>
+          <div className={styles.outcomeComparison}>
+            <div>
+              <span>改造前</span>
+              <strong>{block.before}</strong>
+            </div>
+            <span aria-hidden="true">→</span>
+            <div>
+              <span>改造后</span>
+              <strong>{block.after}</strong>
+            </div>
+          </div>
+          <figcaption>{block.source}</figcaption>
+        </figure>
       );
-    }
-    if (block.type === "automationBoundaryDiagram") {
+    // 仅用于保留的英文资料；中文采用上方已确认的实测口径。
+    if (block.type === "table")
       return (
-        <AutomationBoundaryDiagram
-          key={section.id + index}
-          language={language}
-        />
+        <div key={key} className={styles.legacyTable}>
+          {block.rows.map((row) => (
+            <p key={row[0]}>{row.join(" · ")}</p>
+          ))}
+        </div>
       );
-    }
-    if (block.type === "quotaGovernanceDiagram") {
-      return (
-        <QuotaGovernanceDiagram key={section.id + index} language={language} />
-      );
-    }
-    if (block.type === "failureProtectionDiagram") {
-      return (
-        <FailureProtectionDiagram
-          key={section.id + index}
-          language={language}
-        />
-      );
-    }
-    if (block.type === "workspaceArchitectureDiagram") {
-      return (
-        <WorkspaceArchitectureDiagram
-          key={section.id + index}
-          language={language}
-        />
-      );
-    }
-    if (block.type === "boundary") {
-      return <BoundaryDiagram key={section.id + index} language={language} />;
-    }
     return null;
   });
 }
-
 export default function MemberAutomationCase() {
   const { language, toggleLanguage, englishEnabled } = useLanguage();
   const { hash, key: locationKey } = useLocation();
   const previousHash = useRef(hash);
   const [activeSection, setActiveSection] = useState("overview");
   const [lightHeader, setLightHeader] = useState(false);
-  const sections = caseContent.sections;
+  const sections =
+    language === "en" ? caseContent.legacySections : caseContent.sections;
   const focusSection = (id) => {
-    const node = document.getElementById(id);
+    const node = document.getElementById(SECTION_ALIASES[id] || id);
     node?.scrollIntoView?.({
       behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
         ? "instant"
@@ -429,7 +368,7 @@ export default function MemberAutomationCase() {
             if (entry.isIntersecting) visible.add(entry.target.id);
             else visible.delete(entry.target.id);
           });
-          const current = [...caseContent.sections]
+          const current = [...sections]
             .reverse()
             .find((section) => visible.has(section.id));
           if (current) setActiveSection(current.id);
@@ -439,7 +378,7 @@ export default function MemberAutomationCase() {
           threshold: 0,
         },
       );
-      caseContent.sections.forEach(({ id }) => {
+      sections.forEach(({ id }) => {
         const node = document.getElementById(id);
         if (node) observer.observe(node);
       });
@@ -450,17 +389,44 @@ export default function MemberAutomationCase() {
       observer.disconnect();
       window.removeEventListener("resize", observe);
     };
-  }, []);
+  }, [sections]);
+
+  const [openImage, setOpenImage] = useState(null);
+  const { pathname } = useLocation();
+  const zh = language === "zh";
+  const contentsClick = (event, id) => {
+    if (
+      hash === `#${id}` &&
+      !event.ctrlKey &&
+      !event.metaKey &&
+      !event.shiftKey &&
+      !event.altKey &&
+      event.button === 0
+    ) {
+      event.preventDefault();
+      focusSection(id);
+    }
+    setActiveSection(id);
+  };
 
   return (
-    <article id="member-automation-page" className={styles.root}>
+    <article
+      id="member-automation-page"
+      className={zh ? `${styles.root} ${styles.caseStudy}` : styles.root}
+      lang={zh ? "zh-CN" : "en"}
+    >
       <header
         className={`${styles.topbar} ${lightHeader ? styles.lightHeader : ""}`}
       >
         <Link to="/" state={{ scrollTo: "portfolio" }} className={styles.back}>
-          <span aria-hidden="true">←</span>
+          <span aria-hidden="true">←</span>{" "}
           {language === "zh" ? "返回作品" : "Back to work"}
         </Link>
+        {zh && lightHeader && (
+          <span className={styles.readerTitle}>
+            {caseContent.hero.title.zh}
+          </span>
+        )}
         {englishEnabled && (
           <button
             type="button"
@@ -472,7 +438,6 @@ export default function MemberAutomationCase() {
           </button>
         )}
       </header>
-
       <section
         id="case-cover"
         aria-labelledby="case-title"
@@ -480,77 +445,83 @@ export default function MemberAutomationCase() {
         className={styles.cover}
       >
         <div className={styles.coverInner} data-case-intro>
-          <h1 id="case-title" tabIndex={-1} className={styles.title}>
-            {caseContent.hero.title[language]}
-          </h1>
-          <p className={styles.summary}>
-            {caseContent.hero.summary[language]}
-          </p>
-          <p className={styles.heroResults}>
-            {caseContent.hero.results[language]}
-          </p>
+          <div className={styles.coverCopy}>
+            <h1 id="case-title" tabIndex={-1} className={styles.title}>
+              {caseContent.hero.title[language]}
+            </h1>
+            <p className={styles.summary}>
+              {caseContent.hero.summary[language]}
+            </p>
+            {zh && (
+              <>
+                <dl className={styles.heroFacts}>
+                  <div data-evidence="observed">
+                    <dt>典型升级办理耗时</dt>
+                    <dd>约 4–5 分钟 → 约 1 分钟</dd>
+                    <dd className={styles.heroNote}>
+                      对比调研中熟手老员工的耗时与上线后的典型场景观察（未做统一埋点计时）。
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>推广范围</dt>
+                    <dd>20+ 门店</dd>
+                  </div>
+                </dl>
+                <p className={styles.heroRole}>
+                  <strong>我的职责</strong> {caseContent.hero.role}
+                </p>
+              </>
+            )}
+          </div>
         </div>
       </section>
-
       <div className={styles.readerLayout}>
         <aside className={styles.toc}>
           <nav aria-label={language === "zh" ? "章节目录" : "Contents"}>
             {sections.map((section, index) => (
               <Link
                 key={section.id}
-                to={"#" + section.id}
+                to={`${pathname}#${section.id}`}
                 aria-current={
                   activeSection === section.id ? "location" : undefined
                 }
-                onClick={() => setActiveSection(section.id)}
+                onClick={(event) => contentsClick(event, section.id)}
               >
-                <span>{index < 9 ? "0" + (index + 1) : index + 1}</span>
-                {section.title[language]}
+                {!zh && <span>{index + 1}</span>}
+                {language === "zh" ? section.navTitle : section.title.en}
               </Link>
             ))}
           </nav>
         </aside>
-
         <main className={styles.reading}>
-          <section
-            id="overview"
-            aria-labelledby="overview-title"
-            tabIndex={-1}
-            className={styles.introduction}
-          >
-            <ChapterHeading
-              section={sections[0]}
-              index={1}
-              language={language}
-            />
-            <RenderBlocks section={sections[0]} language={language} />
-            <h3 id="roles-title" className={styles.roleTitle}>
-              {language === "zh" ? "我的职责与协作" : "My role & collaboration"}
-            </h3>
-            <div className={styles.roles} data-case-roles>
-              {caseContent.hero.roles[language].map((text) => (
-                <p key={text}>{text}</p>
-              ))}
-            </div>
-          </section>
-
-          {sections.slice(1).map((section, index) => (
+          {sections.map((section, index) => (
             <section
               key={section.id}
               id={section.id}
+              aria-labelledby={`${section.id}-title`}
               tabIndex={-1}
-              aria-labelledby={section.id + "-title"}
               className={styles.chapter}
             >
               <ChapterHeading
                 section={section}
-                index={index + 2}
+                index={index + 1}
                 language={language}
               />
-              <RenderBlocks section={section} language={language} />
+              <RenderBlocks
+                section={section}
+                language={language}
+                onOpen={setOpenImage}
+              />
+              {language === "en" && index === 0 && (
+                <div data-case-roles className={styles.roles}>
+                  <h3 className={styles.roleTitle}>My role & collaboration</h3>
+                  {caseContent.hero.roles.en.map((text) => (
+                    <p key={text}>{text}</p>
+                  ))}
+                </div>
+              )}
             </section>
           ))}
-
           <footer id="reader-end" className={styles.footer}>
             <Link to="/" state={{ scrollTo: "portfolio" }}>
               {language === "zh" ? "返回作品" : "Back to work"}
@@ -559,6 +530,13 @@ export default function MemberAutomationCase() {
           </footer>
         </main>
       </div>
+      {openImage && (
+        <ImageViewer
+          view={openImage}
+          onClose={() => setOpenImage(null)}
+          language={language}
+        />
+      )}
     </article>
   );
 }

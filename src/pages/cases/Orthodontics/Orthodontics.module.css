@@ -218,7 +218,7 @@
   --chapter-title-size: 28px;
   --chapter-number-extra: 23px;
   display: grid;
-  grid-template-columns: 70px minmax(0, 1fr);
+  grid-template-columns: max-content minmax(0, 1fr);
   column-gap: 16px;
   align-items: start;
   margin-bottom: 28px;
@@ -703,8 +703,6 @@
     --chapter-title-size: 26px;
     --chapter-number-extra: 18px;
     margin-bottom: 20px;
-    grid-template-columns: 56px minmax(0, 1fr);
-    column-gap: 12px;
   }
   .chapterEyebrow {
     font-size: 10px;

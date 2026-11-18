@@ -142,13 +142,16 @@ test("orthodontics presents the verified rollout, ownership, iteration decision,
   expect(screen.queryByText(/独立完成门诊调研/)).not.toBeInTheDocument();
 });
 
-test("member automation states the final upgrade rule and distinguishes measured from estimated outcomes", () => {
-  renderProjectDetail("/project/member-automation");
+test("member automation follows confirmed rules and explains manual failure handling without rollback claims", () => {
+  const { container } = renderProjectDetail("/project/member-automation");
 
-  expect(screen.getByText(/系统判断升级还是续卡/)).toBeInTheDocument();
-  expect(screen.getAllByText(/门店现场实测/).length).toBeGreaterThan(0);
-  expect(screen.getByText(/财务团队估算，未做精细统计/)).toBeInTheDocument();
-  expect(screen.getAllByText(/保留原卡与原权益/).length).toBeGreaterThan(0);
+  expect(screen.getByText(/旧卡还在不在有效期内/)).toBeInTheDocument();
+  expect(screen.getByText(/未做统一埋点计时/)).toBeInTheDocument();
+  expect(
+    screen.getByText(/原账单已找到、退费已完成/),
+  ).toBeInTheDocument();
+  expect(container).not.toHaveTextContent(/门店现场实测|日终批处理/);
+  expect(container).not.toHaveTextContent(/原子|回退|保留原卡与原权益|约 3 天/);
 });
 
 test("pacs distinguishes the dynamic completion target from measured scale and unverified outcomes", () => {

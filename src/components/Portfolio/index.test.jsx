@@ -122,7 +122,7 @@ test("renders three equal project entries in the approved order", async () => {
   expect(within(section).getAllByText(/查看完整案例/i)).toHaveLength(3);
 });
 
-test("shows approved orthodontic and PACS covers and keeps the missing member image placeholder", () => {
+test("shows approved member, orthodontic and PACS covers", () => {
   render(
     <HashRouter>
       <LanguageProvider>
@@ -131,13 +131,19 @@ test("shows approved orthodontic and PACS covers and keeps the missing member im
     </HashRouter>,
   );
 
-  expect(
-    screen.getByRole("img", { name: "会员收银与权益界面截图占位" }),
-  ).toBeInTheDocument();
+  const memberCover = screen.getByRole("img", {
+    name: /会员收银与权益封面/,
+  });
+  expect(memberCover).toHaveAttribute(
+    "src",
+    "/Portfolio/images/member/member-cover.jpg",
+  );
+  expect(memberCover).toHaveAttribute("width", "1600");
+  expect(memberCover).toHaveAttribute("height", "1194");
   const cover = screen.getByRole("img", { name: /咬合筛查项目封面：口扫分析/ });
   expect(cover).toHaveAttribute("src", "/Portfolio/images/ortho/orthodontics-cover.jpg");
-  expect(cover).toHaveAttribute("width", "1586");
-  expect(cover).toHaveAttribute("height", "992");
+  expect(cover).toHaveAttribute("width", "1600");
+  expect(cover).toHaveAttribute("height", "1194");
   const pacsCover = screen.getByRole("img", { name: /PACS 项目封面：鼠尾草绿背景/ });
   expect(pacsCover).toHaveAttribute("src", "/Portfolio/images/pacs/pacs-cover.jpg");
   expect(pacsCover).toHaveAttribute("width", "1586");

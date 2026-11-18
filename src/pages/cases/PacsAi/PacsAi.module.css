@@ -188,7 +188,7 @@
 }
 .headingGroup {
   display: grid;
-  grid-template-columns: 70px minmax(0, 1fr);
+  grid-template-columns: max-content minmax(0, 1fr);
   column-gap: 16px;
   align-items: start;
   margin-bottom: 28px;
@@ -647,8 +647,6 @@ h4.readingSubheading {
 }
 @media (max-width: 560px) {
   .headingGroup {
-    grid-template-columns: 56px minmax(0, 1fr);
-    gap: 12px;
     margin-bottom: 20px;
   }
   .chapterIndex {
