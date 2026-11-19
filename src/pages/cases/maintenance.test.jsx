@@ -72,7 +72,7 @@ test('PACS judgment links retain their destinations when an editorial heading is
 
 const anchorCases = [
   ['pacs-ai', '#system', /系统机制/, 'system-title', /问题/],
-  ['member-automation', '#impact', /结果与边界/, 'impact', /业务背景/],
+  ['member-automation', '#impact', /落地验证与演进/, 'impact', /业务背景/],
 ];
 
 test.each(anchorCases)('%s owns one scroll and focus per anchor navigation, including repeat and history', async (slug, hash, label, targetId, contextLabel) => {

@@ -2,68 +2,100 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useLanguage } from "../../../context/LanguageContext";
 import { caseContent } from "./content";
+import { media } from "./media";
+import { Evidence, Lightbox } from "./Evidence";
 import {
+  ConversionRange,
+  OldFlow,
   RecommendationScope,
-  RoleFlow,
-  PeriodComparison,
-  WorkflowComparison,
-  TrackingStages,
-  RolloutEvidence,
+  RoleRelay,
+  Timeline,
 } from "./visuals";
 import styles from "./Orthodontics.module.css";
 
-function Text({ children }) {
-  return children
-    .split(/(\*\*.*?\*\*)/)
-    .map((text, i) =>
-      text.startsWith("**") ? (
-        <strong key={i}>{text.slice(2, -2)}</strong>
-      ) : (
-        text
-      ),
-    );
-}
-
-const chapterLabels = {
-  overview: ["PROJECT OVERVIEW", "CONTEXT & SCOPE"],
-  problem: ["PROBLEM ANALYSIS", "CONTEXT & FRICTION"],
-  thinking: ["DESIGN DECISIONS", "DESIGN DECISIONS"],
-  solution: ["WORKFLOW DESIGN", "WORKFLOW DESIGN"],
-  impact: ["BUSINESS OUTCOMES", "BUSINESS OUTCOMES"],
-  reflection: ["LESSONS LEARNED", "LESSONS LEARNED"],
-};
-
-function ChapterHeading({ section, index, zh }) {
+function ChapterHeading({ chapter, index }) {
   return (
-    <div className={styles.headingGroup}>
-      <span className={styles.chapterIndex} aria-hidden="true">
-        {String(index + 1).padStart(2, "0")}
-      </span>
-      <div className={styles.headingCopy}>
-        <p className={styles.chapterEyebrow} lang="en" aria-hidden="true">
-          {chapterLabels[section.id][zh ? 0 : 1]}
-        </p>
-        <h2 tabIndex={-1} id={`${section.id}-title`}>
-          {section.title}
-        </h2>
+    <header className={styles.chapterHead}>
+      <div className={styles.chapterNumberWrap} aria-hidden="true">
+        <span className={styles.chapterNumber}>
+          {String(index + 1).padStart(2, "0")}
+        </span>
       </div>
-    </div>
+      <div className={styles.chapterCopy}>
+        <p className={styles.chapterEyebrow} lang="en">
+          {chapter.eyebrow}
+        </p>
+        <h2 tabIndex={-1} id={`${chapter.id}-title`}>
+          {chapter.title}
+        </h2>
+        {chapter.kicker && (
+          <p className={styles.chapterKicker}>{chapter.kicker}</p>
+        )}
+      </div>
+    </header>
   );
 }
+
+const hashAliases = {
+  overview: "case-cover",
+  "case-introduction": "case-cover",
+  problem: "challenge",
+  thinking: "decision-1",
+  solution: "decision-2",
+  system: "decision-2",
+  impact: "results",
+};
+
+const screeningBoxes = [
+  { n: 1, x: 1.5, y: 10.5, w: 97, h: 46 },
+  { n: 2, x: 1.5, y: 61, w: 97, h: 38 },
+];
+
+const nurseBoxes = [{ n: 2, x: 47, y: 27.5, w: 49, h: 45.5 }];
+const nursePins = [{ n: 1, x: 3, y: 26.5 }];
+
+const pedoBoxes = [
+  { n: 1, x: 5, y: 16.5, w: 90, h: 14 },
+  { n: 2, x: 5, y: 34.5, w: 90, h: 14 },
+  { n: 3, x: 5, y: 56, w: 90, h: 19 },
+  { n: 4, x: 5, y: 78, w: 90, h: 10 },
+];
+
+const conclusionBoxes = [
+  { n: 1, x: 5, y: 14, w: 90, h: 12.8 },
+  { n: 2, x: 5, y: 26.8, w: 90, h: 12.7 },
+  { n: 3, x: 5, y: 58.5, w: 90, h: 29.5 },
+];
+
+const scanBoxes = [
+  { n: 1, x: 3, y: 1.5, w: 95, h: 8.5 },
+  { n: 2, x: 69, y: 7, w: 29, h: 79 },
+];
 
 export default function Orthodontics() {
   const { language, toggleLanguage, englishEnabled } = useLanguage();
   const zh = language === "zh";
-  const content = caseContent[language];
+  const copy = caseContent[language] || caseContent.zh;
   const location = useLocation();
   const trigger = useRef(null);
-  const [active, setActive] = useState("overview");
+  const lightboxClose = useRef(null);
+  const lightboxTrigger = useRef(null);
+  const [active, setActive] = useState("challenge");
   const [lightHeader, setLightHeader] = useState(false);
   const [mobile, setMobile] = useState(
     () => window.matchMedia("(max-width: 860px)").matches,
   );
   const [open, setOpen] = useState(false);
-  const sections = content.sections;
+  const [lightbox, setLightbox] = useState(null);
+  const chapters = copy.chapters;
+
+  const chapter = (id) =>
+    chapters.find((item) => item.id === id) || chapters[0];
+
+  const openLightbox = (item, element) => {
+    lightboxTrigger.current = element;
+    setLightbox(item);
+  };
 
   useEffect(() => {
     const query = window.matchMedia("(max-width: 860px)");
@@ -76,13 +108,25 @@ export default function Orthodontics() {
   }, []);
 
   useEffect(() => {
+    if (!lightbox) return;
+    const previous = lightboxTrigger.current;
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") setLightbox(null);
+    };
+    const previousOverflow = document.body.style.overflow;
+    document.addEventListener("keydown", onKeyDown);
+    document.body.style.overflow = "hidden";
+    lightboxClose.current?.focus();
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = previousOverflow;
+      previous?.focus?.({ preventScroll: true });
+    };
+  }, [lightbox]);
+
+  useEffect(() => {
     const requested = location.hash.slice(1);
-    const id =
-      requested === "system"
-        ? "solution"
-        : requested === "case-introduction"
-          ? "overview"
-          : requested;
+    const id = hashAliases[requested] || requested;
     if (!id) return;
     const target = document.getElementById(id);
     if (!target) return;
@@ -94,7 +138,7 @@ export default function Orthodontics() {
       block: "start",
     });
     (target.querySelector("h1, h2") || target).focus({ preventScroll: true });
-    setActive(id);
+    setActive(id === "case-cover" ? "challenge" : id);
     setOpen(false);
   }, [location.hash, location.key]);
 
@@ -103,22 +147,24 @@ export default function Orthodontics() {
     let observers = [];
     let disposed = false;
     let revision = 0;
+
     const observe = () => {
       if (disposed) return;
       observers.forEach((observer) => observer.disconnect());
       const top = mobile ? 132 : 100;
       const currentRevision = ++revision;
       const currentChapter = () => {
-        let id = "overview";
-        for (const section of sections) {
-          const node = document.getElementById(section.id);
-          if (node && node.getBoundingClientRect().top <= top) id = section.id;
-        }
+        let id = "challenge";
+        chapters.forEach((item) => {
+          const node = document.getElementById(item.id);
+          if (node && node.getBoundingClientRect().top <= top) id = item.id;
+        });
         return id;
       };
       let cursorId = currentChapter();
       setActive(cursorId);
       let atEnd = false;
+
       const cursor = new IntersectionObserver(
         (entries) => {
           if (disposed || revision !== currentRevision) return;
@@ -132,10 +178,11 @@ export default function Orthodontics() {
           rootMargin: `-${top}px 0px -${Math.max(0, window.innerHeight - top - 1)}px 0px`,
         },
       );
-      sections.forEach(({ id }) => {
+      chapters.forEach(({ id }) => {
         const node = document.getElementById(id);
         if (node) cursor.observe(node);
       });
+
       const cover = new IntersectionObserver(
         ([entry]) => {
           if (!disposed && revision === currentRevision)
@@ -143,15 +190,20 @@ export default function Orthodontics() {
         },
         { rootMargin: "-64px 0px 0px 0px" },
       );
-      cover.observe(document.getElementById("case-cover"));
+      const coverNode = document.getElementById("case-cover");
+      if (coverNode) cover.observe(coverNode);
+
       const end = new IntersectionObserver(([entry]) => {
         if (disposed || revision !== currentRevision) return;
         atEnd = entry.isIntersecting;
         setActive(atEnd ? "reflection" : cursorId);
       });
-      end.observe(document.getElementById("reader-end"));
+      const endNode = document.getElementById("reader-end");
+      if (endNode) end.observe(endNode);
+
       observers = [cursor, cover, end];
     };
+
     observe();
     window.addEventListener("resize", observe);
     document.fonts?.ready.then(observe);
@@ -160,37 +212,29 @@ export default function Orthodontics() {
       observers.forEach((observer) => observer.disconnect());
       window.removeEventListener("resize", observe);
     };
-  }, [language, mobile, sections]);
+  }, [language, mobile, chapters]);
 
   const navLabel = zh ? "章节目录" : "Contents";
   const links = (
     <nav aria-label={navLabel}>
-      {sections.map((section, i) => (
+      {chapters.map((item, index) => (
         <Link
-          key={section.id}
-          to={`/project/orthodontics#${section.id}`}
-          aria-current={active === section.id ? "location" : undefined}
+          key={item.id}
+          to={`/project/orthodontics#${item.id}`}
+          aria-current={active === item.id ? "location" : undefined}
           onClick={() => {
             setOpen(false);
-            setActive(section.id);
+            setActive(item.id);
           }}
         >
           <span className={styles.navIndex}>
-            {String(i + 1).padStart(2, "0")}
+            {String(index + 1).padStart(2, "0")}
           </span>
-          <span>{section.title}</span>
+          <span>{item.nav}</span>
         </Link>
       ))}
     </nav>
   );
-  const visuals = {
-    "thinking-2": <RecommendationScope zh={zh} />,
-    "solution-2": <RoleFlow zh={zh} />,
-    "impact-2": <PeriodComparison zh={zh} />,
-    "impact-0": <TrackingStages zh={zh} />,
-    "impact-1": <RolloutEvidence zh={zh} />,
-  };
-  const overview = sections[0];
 
   return (
     <article
@@ -214,6 +258,7 @@ export default function Orthodontics() {
           </button>
         )}
       </header>
+
       <section
         id="case-cover"
         aria-labelledby="case-title"
@@ -221,36 +266,38 @@ export default function Orthodontics() {
         className={styles.cover}
       >
         <div className={styles.coverInner}>
-          <p className={styles.eyebrow}>
-            {zh ? "项目概览" : "Project Overview"}
-          </p>
+          <p className={styles.coverEyebrow}>{copy.eyebrow}</p>
           <h1 tabIndex={-1} id="case-title" className={styles.title}>
-            {content.title}
+            {copy.title}
           </h1>
-          <p className={styles.lede}>
-            {zh
-              ? sections[3].lead[0]
-              : sections[3].lead[0]
-                  .replace(/^\*\*Overall solution: |\*\*$/g, "")
-                  .replace(/^connect/, "Connect")}
-          </p>
-          <div className={styles.metadata}>
-            <span>
-              {zh
-                ? "门诊调研 / 产品规则 / 交互与界面设计"
-                : "Clinic research / Product rules / Interaction & interface design"}
-            </span>
-            <span>
-              {zh
-                ? "2025.04 - 2026.02 / 开发至推广"
-                : "2025.04 - 2026.02 / Development to rollout"}
-            </span>
+          <p className={styles.coverLede}>{copy.lede}</p>
+          <div className={styles.coverBottom}>
+            <div className={styles.coverRole}>
+              <span className={styles.coverLabel}>{copy.roleLabel}</span>
+              <p>{copy.role}</p>
+              <p className={styles.coverPeriod}>{copy.period}</p>
+            </div>
+            <dl className={styles.coverFacts}>
+              {copy.facts.map((fact) => (
+                <div key={fact.label}>
+                  <dt>
+                    <span className={styles.factValue}>{fact.value}</span>
+                    {fact.unit && (
+                      <span className={styles.factUnit}>{fact.unit}</span>
+                    )}
+                  </dt>
+                  <dd>
+                    <strong>{fact.label}</strong>
+                    <span>{fact.note}</span>
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </div>
-          <p className={styles.summary}>
-            <Text>{overview.lead[2]}</Text>
-          </p>
+          <p className={styles.coverNote}>{copy.coverNote}</p>
         </div>
       </section>
+
       {mobile && (
         <div
           className={styles.mobileToc}
@@ -270,7 +317,7 @@ export default function Orthodontics() {
           >
             <span>{navLabel}</span>
             <span>
-              {sections.find((s) => s.id === active)?.title}
+              {chapters.find((item) => item.id === active)?.nav}
               <span aria-hidden="true">{open ? " −" : " +"}</span>
             </span>
           </button>
@@ -279,88 +326,372 @@ export default function Orthodontics() {
           </div>
         </div>
       )}
+
       <div className={styles.readerLayout}>
         {!mobile && <aside className={styles.toc}>{links}</aside>}
         <main className={styles.reading}>
           <section
-            id="overview"
-            aria-labelledby="overview-title"
+            id="challenge"
+            aria-labelledby="challenge-title"
             tabIndex={-1}
-            className={styles.introduction}
+            className={styles.chapter}
           >
-            <ChapterHeading section={overview} index={0} zh={zh} />
-            <div data-case-intro>
-              {overview.lead.slice(0, 2).map((p, i) => (
-                <p key={i} className={styles.prose}>
-                  <Text>{p}</Text>
-                </p>
-              ))}
-            </div>
-            <div data-case-roles>
-              <h3 id="roles-title" className={styles.roleTitle}>
-                {overview.groups[0].title}
-              </h3>
-              {overview.groups[0].paragraphs.map((p, i) => (
-                <p key={i} className={styles.prose}>
-                  <Text>{p}</Text>
-                </p>
-              ))}
-            </div>
-            <h3 className={styles.roleTitle}>{overview.groups[1].title}</h3>
-            {overview.groups[1].paragraphs.map((p, i) => (
-              <p key={i} className={styles.prose}>
-                <Text>{p}</Text>
-              </p>
-            ))}
-          </section>
-          {sections.slice(1).map((section, index) => (
-            <section
-              id={section.id}
-              key={section.id}
-              aria-labelledby={`${section.id}-title`}
-              tabIndex={-1}
-              className={styles.chapter}
-            >
-              <ChapterHeading section={section} index={index + 1} zh={zh} />
-              {section.lead.map((p, i) => (
-                <p
-                  className={`${styles.prose} ${i === 0 ? styles.chapterLead : ""}`}
-                  key={i}
-                >
-                  <Text>{p}</Text>
-                </p>
-              ))}
-
-              {section.id === "problem" && <WorkflowComparison zh={zh} />}
-
-              {section.groups.map((group, i) => (
-                <div
-                  className={styles.narrativeGroup}
-                  key={group.title}
-                  data-evidence={
-                    section.id === "impact" && i === 1
-                      ? "cumulative"
-                      : undefined
-                  }
-                >
-                  <h3>{group.title}</h3>
-                  {group.paragraphs.map((p, j) => (
-                    <p className={styles.prose} key={j}>
-                      <Text>{p}</Text>
-                    </p>
-                  ))}
-                  {section.id === "impact" && i === 1 && (
-                    <p className={styles.source}>
-                      {zh
-                        ? "来源：内部累计统计。18,460 条为提交结论记录，不等同于独立患者人数；汇总量不能证明每家门店均已采纳。"
-                        : "Source: internal cumulative statistics. The 18,460 submitted conclusion records are not a count of unique patients; the total does not prove adoption in every clinic."}
-                    </p>
-                  )}
-                  {visuals[`${section.id}-${i}`]}
+            <ChapterHeading chapter={chapter("challenge")} index={0} />
+            <p className={styles.lead}>{copy.challenge.lead}</p>
+            <OldFlow
+              flow={copy.challenge.flow}
+              title={copy.challenge.flowTitle}
+              note={copy.challenge.flowNote}
+            />
+            <div className={styles.problemGrid}>
+              {copy.challenge.problems.map((problem, index) => (
+                <div className={styles.problem} key={problem.title}>
+                  <span className={styles.problemNumber} aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <h3>{problem.title}</h3>
+                  <p>{problem.body}</p>
                 </div>
               ))}
-            </section>
-          ))}
+            </div>
+          </section>
+
+          <section
+            id="decision-1"
+            aria-labelledby="decision-1-title"
+            tabIndex={-1}
+            className={styles.chapter}
+          >
+            <ChapterHeading chapter={chapter("decision-1")} index={1} />
+            <p className={styles.lead}>{copy.decision1.lead}</p>
+            <div className={styles.argumentBand}>
+              {copy.decision1.arguments.map((argument, index) => (
+                <div
+                  className={styles.argument}
+                  data-rule={index === 2 ? "true" : undefined}
+                  key={argument.label}
+                >
+                  <span className={styles.argumentLabel}>{argument.label}</span>
+                  <p>{argument.body}</p>
+                </div>
+              ))}
+            </div>
+            <RecommendationScope diagram={copy.decision1.diagram} />
+            <Evidence
+              image={media.screeningList}
+              title={copy.decision1.evidenceTitle}
+              alt={copy.decision1.evidenceAlt}
+              note={copy.decision1.evidenceNote}
+              annotations={copy.decision1.annotations}
+              boxes={screeningBoxes}
+              onZoom={openLightbox}
+              scrollable
+            />
+            <aside className={styles.aside}>
+              <span>{copy.decision1.asideTitle}</span>
+              <p>{copy.decision1.aside}</p>
+            </aside>
+          </section>
+
+          <section
+            id="decision-2"
+            aria-labelledby="decision-2-title"
+            tabIndex={-1}
+            className={styles.chapter}
+          >
+            <ChapterHeading chapter={chapter("decision-2")} index={2} />
+            <p className={styles.lead}>{copy.decision2.lead}</p>
+            <div className={styles.judgmentBand}>
+              <div>
+                <span>{copy.decision2.problemTitle}</span>
+                <p>{copy.decision2.problemBody}</p>
+              </div>
+              <div data-rule="true">
+                <span>{copy.decision2.judgmentTitle}</span>
+                <p>{copy.decision2.judgmentBody}</p>
+              </div>
+            </div>
+            <RoleRelay
+              roles={copy.decision2.roles}
+              recordLabel={copy.decision2.recordLabel}
+              note={copy.decision2.relayNote}
+            />
+
+            <div className={styles.roleBlock}>
+              <div className={styles.roleRail}>
+                <span className={styles.roleRailIndex} aria-hidden="true">
+                  01
+                </span>
+                <span>{copy.decision2.nurse.label}</span>
+              </div>
+              <div className={styles.roleContent}>
+                <h3>{copy.decision2.nurse.title}</h3>
+                <p className={styles.prose}>{copy.decision2.nurse.body}</p>
+                <Evidence
+                  image={media.nurseCollection}
+                  alt={copy.decision2.nurse.alt}
+                  annotations={copy.decision2.nurse.annotations}
+                  boxes={nurseBoxes}
+                  pins={nursePins}
+                  onZoom={openLightbox}
+                  scrollable
+                />
+              </div>
+            </div>
+
+            <div className={styles.roleBlock}>
+              <div className={styles.roleRail}>
+                <span className={styles.roleRailIndex} aria-hidden="true">
+                  02
+                </span>
+                <span>{copy.decision2.pedo.label}</span>
+              </div>
+              <div className={styles.roleContent}>
+                <h3>{copy.decision2.pedo.title}</h3>
+                <p className={styles.prose}>{copy.decision2.pedo.body}</p>
+                <Evidence
+                  image={media.pedoConfirm}
+                  alt={copy.decision2.pedo.alt}
+                  annotations={copy.decision2.pedo.annotations}
+                  boxes={pedoBoxes}
+                  onZoom={openLightbox}
+                  className={styles.pedoEvidence}
+                  scrollable
+                />
+              </div>
+            </div>
+
+            <div className={styles.roleBlock}>
+              <div className={styles.roleRail}>
+                <span className={styles.roleRailIndex} aria-hidden="true">
+                  03
+                </span>
+                <span>{copy.decision2.ortho.label}</span>
+              </div>
+              <div className={styles.roleContent}>
+                <h3>{copy.decision2.ortho.title}</h3>
+                <p className={styles.prose}>{copy.decision2.ortho.body}</p>
+                <Evidence
+                  image={media.orthoQueue}
+                  alt={copy.decision2.ortho.queueAlt}
+                  note={copy.decision2.ortho.annotations[0].title}
+                  onZoom={openLightbox}
+                  scrollable
+                />
+                <div className={styles.conclusionRow}>
+                  <Evidence
+                    image={media.orthoConclusion}
+                    alt={copy.decision2.ortho.conclusionAlt}
+                    boxes={conclusionBoxes}
+                    onZoom={openLightbox}
+                    className={styles.conclusionFigure}
+                  />
+                  <dl className={styles.conclusionLegend}>
+                    {copy.decision2.ortho.annotations.map((annotation) => (
+                      <div key={annotation.n}>
+                        <dt>
+                          <span className={styles.legendNumber}>
+                            {annotation.n}
+                          </span>
+                          {annotation.title}
+                        </dt>
+                        <dd>{annotation.body}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              </div>
+            </div>
+
+            <p className={styles.iterationNote}>{copy.decision2.iteration}</p>
+          </section>
+
+          <section
+            id="experience"
+            aria-labelledby="experience-title"
+            tabIndex={-1}
+            className={styles.chapter}
+          >
+            <ChapterHeading chapter={chapter("experience")} index={3} />
+            <p className={styles.lead}>{copy.experience.lead}</p>
+
+            <div className={styles.experienceBlock}>
+              <h3>{copy.experience.scanTitle}</h3>
+              <p className={styles.prose}>{copy.experience.scanBody}</p>
+              <Evidence
+                image={media.scanAnalysis}
+                alt={copy.experience.scanAlt}
+                annotations={copy.experience.scanAnnotations}
+                boxes={scanBoxes}
+                onZoom={openLightbox}
+                scrollable
+              />
+            </div>
+
+            <div className={styles.scienceRow}>
+              <Evidence
+                image={media.scienceModal}
+                alt={copy.experience.scienceAlt}
+                onZoom={openLightbox}
+                className={styles.scienceFigure}
+              />
+              <div className={styles.scienceCopy}>
+                <h3>{copy.experience.scienceTitle}</h3>
+                <p className={styles.prose}>{copy.experience.scienceBody}</p>
+              </div>
+            </div>
+
+            <div className={styles.reportBlock}>
+              <h3>{copy.experience.reportTitle}</h3>
+              <p className={styles.prose}>{copy.experience.reportBody}</p>
+              <div className={styles.reportGrid}>
+                <Evidence
+                  image={media.reportPreview}
+                  alt={copy.experience.reportPreviewAlt}
+                  onZoom={openLightbox}
+                  className={styles.reportPreviewFigure}
+                />
+                <div className={styles.reportPhones}>
+                  <Evidence
+                    image={media.reportCover}
+                    alt={copy.experience.reportCoverAlt}
+                    onZoom={openLightbox}
+                    zoomImage={media.reportFull}
+                    imageClassName={styles.phoneFrame}
+                    className={styles.phoneFigure}
+                  />
+                  <div className={styles.reportStructure}>
+                    <span>{copy.experience.reportStructureLabel}</span>
+                    <ol>
+                      {copy.experience.reportStructure.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ol>
+                  </div>
+                </div>
+              </div>
+              <dl className={styles.reportLegend}>
+                {copy.experience.reportAnnotations.map((annotation) => (
+                  <div key={annotation.n}>
+                    <dt>
+                      <span className={styles.legendNumber}>{annotation.n}</span>
+                      {annotation.title}
+                    </dt>
+                    <dd>{annotation.body}</dd>
+                  </div>
+                ))}
+              </dl>
+              <div className={styles.reportActions}>
+                <p>{copy.experience.reportDisclaimer}</p>
+                <button
+                  type="button"
+                  className={styles.textButton}
+                  onClick={(event) =>
+                    openLightbox(
+                      {
+                        ...media.reportFull,
+                        title: copy.experience.reportTitle,
+                        alt: copy.experience.reportCoverAlt,
+                      },
+                      event.currentTarget,
+                    )
+                  }
+                >
+                  {zh ? "查看完整报告 ↗" : "View the full report ↗"}
+                </button>
+              </div>
+            </div>
+
+            <details className={styles.supplement}>
+              <summary>
+                <span>{copy.experience.supplementTitle}</span>
+                <span aria-hidden="true">+</span>
+              </summary>
+              <p className={styles.supplementNote}>
+                {copy.experience.supplementNote}
+              </p>
+              <div className={styles.supplementGrid}>
+                {copy.experience.supplement.map((item) => (
+                  <Evidence
+                    key={item.title}
+                    image={media[item.image]}
+                    alt={item.alt}
+                    title={item.title}
+                    note={item.body}
+                    onZoom={openLightbox}
+                    className={styles.supplementFigure}
+                    scrollable
+                  />
+                ))}
+              </div>
+            </details>
+          </section>
+
+          <section
+            id="results"
+            aria-labelledby="results-title"
+            tabIndex={-1}
+            className={styles.chapter}
+          >
+            <ChapterHeading chapter={chapter("results")} index={4} />
+            <p className={styles.lead}>{copy.results.lead}</p>
+            <Timeline items={copy.results.timeline} />
+            <p className={styles.prose}>{copy.results.tracking}</p>
+            <div className={styles.statBand}>
+              {copy.results.stats.map((stat) => (
+                <div className={styles.stat} key={stat.label}>
+                  <p
+                    className={
+                      stat.value.length > 9
+                        ? styles.statValueLong
+                        : styles.statValue
+                    }
+                  >
+                    {stat.value}
+                    {stat.unit && <span>{stat.unit}</span>}
+                  </p>
+                  <h3>{stat.label}</h3>
+                  <p>{stat.note}</p>
+                </div>
+              ))}
+            </div>
+            <ConversionRange
+              before={copy.results.range.before}
+              after={copy.results.range.after}
+              title={copy.results.conversionTitle}
+              definition={copy.results.conversionDefinition}
+            />
+            <p className={styles.caveat}>{copy.results.caveat}</p>
+            <p className={styles.source}>{copy.results.source}</p>
+          </section>
+
+          <section
+            id="reflection"
+            aria-labelledby="reflection-title"
+            tabIndex={-1}
+            className={styles.chapter}
+          >
+            <ChapterHeading chapter={chapter("reflection")} index={5} />
+            <div className={styles.reflectionGrid}>
+              {copy.reflection.items.map((item, index) => (
+                <div className={styles.reflectionItem} key={item.title}>
+                  <span className={styles.problemNumber} aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <h3>{item.title}</h3>
+                  <p>{item.body}</p>
+                </div>
+              ))}
+            </div>
+            <details className={styles.disclosure}>
+              <summary>
+                <span>{copy.reflection.disclosureTitle}</span>
+                <span aria-hidden="true">+</span>
+              </summary>
+              <p>{copy.reflection.disclosure}</p>
+            </details>
+          </section>
+
           <footer id="reader-end" className={styles.footer}>
             <Link to="/" state={{ scrollTo: "portfolio" }}>
               {zh ? "返回作品" : "Back to work"}
@@ -369,6 +700,12 @@ export default function Orthodontics() {
           </footer>
         </main>
       </div>
+
+      <Lightbox
+        item={lightbox}
+        onClose={() => setLightbox(null)}
+        closeRef={lightboxClose}
+      />
     </article>
   );
 }

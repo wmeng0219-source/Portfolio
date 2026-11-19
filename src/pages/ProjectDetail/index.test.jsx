@@ -34,12 +34,13 @@ const renderProjectDetail = (initialEntry) =>
 
 test("orthodontics keeps clinical responsibilities visible in one shared record", () => {
   renderProjectDetail("/project/orthodontics");
-  const flow = screen.getByRole("figure", { name: "角色协作示意" });
-  ["护士", "儿牙医生", "正畸医生"].forEach((role) =>
+  const flow = screen.getByRole("figure", { name: "角色接续示意" });
+  ["护士", "儿牙医生", "正畸医生", "正畸顾问"].forEach((role) =>
     expect(flow).toHaveTextContent(role),
   );
   expect(flow).toHaveTextContent("资料采集");
-  expect(flow).toHaveTextContent("专业判断与结论填写");
+  expect(flow).toHaveTextContent("专业判断与结论");
+  expect(flow).toHaveTextContent("同一份筛查记录");
   expect(flow).toHaveTextContent("门店与业务团队");
 });
 
@@ -120,36 +121,32 @@ test("global typography defines distinct display, body, serif, and mono roles", 
 test("orthodontics presents the verified rollout, ownership, iteration decision, and comparison scope", () => {
   renderProjectDetail("/project/orthodontics");
 
-  expect(screen.getByText(/2025\.04 - 2026\.02/)).toBeInTheDocument();
+  expect(screen.getByText(/2025\.04 — 2026\.02/)).toBeInTheDocument();
   expect(
-    screen.getByText(/按上述试点路径，方案于 2026 年 2 月在全部门店上线/),
+    screen.getByText(/从单店试点、持续迭代到扩大验证，方案于 2026 年 2 月在全部门店上线/),
   ).toBeInTheDocument();
   expect(screen.getAllByText(/全部门店/).length).toBeGreaterThan(0);
   expect(
-    screen.getByText(/我负责门诊调研、业务流程与协作规则梳理/),
+    screen.getByText(/门店调研 · 业务规则与流程/),
   ).toBeInTheDocument();
   expect(
     screen.getByRole("heading", {
-      name: "区分推荐与执行任务，让工作安排更清晰",
+      name: "把推荐候选和需要执行的筛查任务分开",
     }),
   ).toBeInTheDocument();
   expect(screen.getByText("2025 年 2—4 月")).toBeInTheDocument();
   expect(screen.getByText("2026 年 2—4 月")).toBeInTheDocument();
   expect(screen.queryByText("54,990")).not.toBeInTheDocument();
-  expect(
-    screen.getByText(/按上述试点路径，方案于 2026 年 2 月在全部门店上线/),
-  ).toHaveTextContent("18,460");
+  expect(screen.getAllByText(/18,460/).length).toBeGreaterThan(0);
   expect(screen.queryByText(/独立完成门诊调研/)).not.toBeInTheDocument();
 });
 
 test("member automation follows confirmed rules and explains manual failure handling without rollback claims", () => {
   const { container } = renderProjectDetail("/project/member-automation");
 
-  expect(screen.getByText(/旧卡还在不在有效期内/)).toBeInTheDocument();
-  expect(screen.getByText(/未做统一埋点计时/)).toBeInTheDocument();
-  expect(
-    screen.getByText(/原账单已找到、退费已完成/),
-  ).toBeInTheDocument();
+  expect(screen.getByText(/在用卡有效期及待开通卡状态/)).toBeInTheDocument();
+  expect(screen.getByText(/前后未做统一计时/)).toBeInTheDocument();
+  expect(screen.getByText(/原账单已找到、退费已完成/)).toBeInTheDocument();
   expect(container).not.toHaveTextContent(/门店现场实测|日终批处理/);
   expect(container).not.toHaveTextContent(/原子|回退|保留原卡与原权益|约 3 天/);
 });

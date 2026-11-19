@@ -1,334 +1,847 @@
-// Page-owned snapshot of docs/pages/orthodontics/content.md, synchronized 2026-10-14.
-// Chinese confirmed; English retains the manuscript’s pending-review status.
+// Page-owned copy for the orthodontics case. The Chinese manuscript is the
+// public source; the English object is a retained translation for the paused
+// language switch. Facts stay aligned with docs/pages/orthodontics/content.md.
 export const caseContent = {
   zh: {
     title: "咬合筛查与正畸协作前期流程",
-    sections: [
+    eyebrow: "CASE 01 / 医疗协作流程",
+    lede:
+      "将依赖个人判断和分散沟通的矫正前筛查，重构为覆盖患者推荐、资料采集、分角色评估与后续跟进的协作流程。",
+    roleLabel: "我的职责",
+    role:
+      "门店调研 · 业务规则与流程 · PRD · 交互与界面设计 · 开发协调与上线",
+    coverNote:
+      "医疗专业结论由正畸医生负责；患者沟通与最终转化由门店和业务团队共同推进。",
+    period: "2025.04 — 2026.02 / 开发至全部门店上线",
+    facts: [
       {
-        id: "overview",
-        title: "项目概览",
-        lead: [
-          "正畸是公司的重要业务，但原有系统对矫正前患者筛选与跟进的支持较为有限。已有一批意愿明确的患者完成转化后，业务希望把矫正前筛查从依赖个人判断变成可持续的常规动作。已有的快筛和面型发育评估（下称面评）功能较为零散，也未充分贴合儿牙接诊与正畸协作的实际场景。",
-          "项目从矫正前的患者筛查入手，建设咬合筛查功能（原称正畸筛查），将患者推荐、资料采集、儿牙初筛、正畸专业确认与后续跟进连接起来，让门店、患者和家长了解评估结论与后续安排。",
-          "**统一筛查与协作规则 · 打通转化漏斗 · 2026 年 2 月全部门店上线**",
-        ],
-        groups: [
-          {
-            title: "我的职责与协作",
-            paragraphs: [
-              "我负责门诊调研、业务流程与协作规则梳理、PRD（产品需求文档）、交互与界面设计，并拆解任务、跟进开发排期，协调研发、测试、正畸总监专业验收和上线。",
-              "医疗专业结论由正畸医生负责，患者沟通与最终转化由门店和业务团队共同推进。",
-            ],
-          },
-          {
-            title: "项目周期",
-            paragraphs: [
-              "2025 年 4 月启动开发，5—8 月单店试点，8—12 月持续调整；2026 年 1 月扩大到 3—4 家门店验证，2 月在全部门店上线。",
-            ],
-          },
-        ],
+        value: "2026.02",
+        label: "全部门店上线",
+        note: "从单店试点、持续迭代到扩大验证",
       },
       {
-        id: "problem",
-        title: "问题分析",
-        lead: [
-          "流程难以持续执行，过程难以追踪。",
-          "此前，正畸医生用快筛做初步判断，结果回写到预约备注。面评会通常提前一周讨论下周患者：儿牙医生补充口腔情况、配合度和家长诉求，正畸医生说明判断，正畸顾问记录，再由儿牙医生在接诊时向家长传递。",
-          "存在明显咬合问题，且家长有进一步了解和干预意愿的患者，再建议转诊至正畸医生评估。",
-        ],
-        groups: [
-          {
-            title: "任务要求与执行角色不匹配",
-            paragraphs: [
-              "原有面评表由正畸方案清单简化而来，用于在快筛基础上补全面型、咬合等临床信息，进一步评估是否需要矫正并留下记录。",
-              "面评表与快筛存在部分判断重叠，又包含儿牙医生难以独立完成的专业内容。据现场反馈，实际接诊中几乎无人填写，只有少部分医生提前或事后补充；系统预填的历史信息也缺少现场复核与更新。",
-            ],
-          },
-          {
-            title: "过程难以追踪，管理反馈滞后",
-            paragraphs: [
-              "各门店自行组织面评会，组织与协作方式不一，管理者往往要到现场确认。快筛虽已有结果和看板，后续沟通与跟进仍缺少过程监管，主要通过资料采集、方案沟通等偏后置的收费记录判断进展。",
-              "少数临时预约或当天来诊患者可能没有被提前纳入筛查，是否进入评估较依赖儿牙医生的主动识别与转诊。",
-            ],
-          },
-        ],
+        value: "18,460",
+        unit: "条",
+        label: "累计提交筛查结论记录",
+        note: "记录数，不是去重患者数",
+      },
+    ],
+    chapters: [
+      {
+        id: "challenge",
+        nav: "业务挑战",
+        eyebrow: "PROBLEM",
+        title: "业务挑战",
+        kicker: "流程为什么难以持续执行",
       },
       {
-        id: "thinking",
-        title: "我的判断",
-        lead: [],
-        groups: [
-          {
-            title: "识别功能重叠，整合筛查入口",
-            paragraphs: [
-              "业务提出新筛查需求后，我发现它与原有快筛都承担矫正前的患者筛选与判断，继续保留两个入口存在定位重叠。因此，我提出取消快筛，与业务讨论后，共同约定以所有患者为覆盖范围，待大部分患者完成一次筛查评估后，再退出旧功能。目前快筛已取消，统一使用新筛查。",
-            ],
-          },
-          {
-            title: "按职责与专业权限拆分任务，让协作能够执行",
-            paragraphs: [
-              "我们调研医生后发现，原面评表混合了多个角色的任务，部分内容超出儿牙医生可独立判断的范围。我提出按角色和工作场景拆分，让各角色在同一份记录上接续完成，专业结论由正畸医生填写。",
-              "儿牙医生负责初步筛查填写及家长沟通；口扫模型用于向家长直观解释，系统对接用于减少手动下载再上传。单店试点后，又根据现场填写负担精简了内容。",
-            ],
-          },
-          {
-            title: "区分推荐与执行任务，让工作安排更清晰",
-            paragraphs: [
-              "为减轻初期筛查负担，业务希望每天向每位医生推荐固定数量的患者，并在删除推荐后自动补齐。我认为，这需要持续计算和补充候选患者，也会让医生面对不断变化的名单，难以理解当天实际需要处理的工作。",
-              "我建议按优先级分批推荐，并进一步区分系统推荐池与已预约患者。系统在高优先级患者原有预约中自动添加筛查项目，作为需要执行和跟进的任务，不新增一次就诊；医生认为数量不足时，可以从推荐池主动补充。这样既保留了对工作量的安排，也让推荐候选与实际执行范围有清晰区别。",
-            ],
-          },
-        ],
+        id: "decision-1",
+        nav: "决策一：推荐与执行",
+        eyebrow: "DECISION 01",
+        title: "把推荐候选和需要执行的筛查任务分开",
+        kicker: "让医生知道今天要做什么，也知道还能从哪里补充",
       },
       {
-        id: "solution",
-        title: "整体方案",
-        lead: ["整体方案分三层：统一推荐规则、角色接续记录、报告承接沟通。"],
-        groups: [
-          {
-            title: "建立统一筛查机制，持续发现评估需求",
-            paragraphs: [
-              "统一推荐规则为各门店持续识别评估需求、安排筛查提供共同依据。系统结合牙齿发育阶段、家长诉求、既往结论和跟进时间识别评估时机，按优先级分批安排，目标是降低对个人主动性与门店习惯的依赖。",
-            ],
-          },
-          {
-            title: "通过角色协作，形成专业评估依据",
-            paragraphs: [
-              "筛查随患者原有就诊开展，护士负责问诊与资料采集，儿牙医生完成初步筛查填写及家长沟通，正畸医生负责专业判断与结论填写。各角色接续完善同一份记录。",
-            ],
-          },
-          {
-            title: "让专业沟通贯穿诊间与离店后",
-            paragraphs: [
-              "儿牙医生在现场结合影像和口扫模型，向家长讲解咬合情况与评估意义，并了解诉求和意愿。正畸医生确认结论后生成报告，由正畸顾问发送给家长。报告承接现场讲解，提炼专业结论与后续建议，供离店回顾和向未到场的家人转述。",
-            ],
-          },
-        ],
+        id: "decision-2",
+        nav: "决策二：分角色接续",
+        eyebrow: "DECISION 02",
+        title: "按专业边界拆分任务，让多角色能接续完成",
+        kicker:
+          "不是让一个人填完一张更完整的表，而是让每个人完成自己能可靠承担的部分",
       },
       {
-        id: "impact",
-        title: "落地与业务结果",
-        lead: [],
-        groups: [
-          {
-            title: "建立转化漏斗，让进展可追踪",
-            paragraphs: [
-              "关联筛查、专业结论与资料采集、方案沟通、成交等业务节点，使患者所处阶段可追踪；推荐条件、角色职责和后续行动也写进同一套规则，为门店跟进、工作交接和管理提供依据。",
-            ],
-          },
-          {
-            title: "上线范围与实际运行",
-            paragraphs: [
-              "按上述试点路径，方案于 2026 年 2 月在全部门店上线。上线以来的内部累计统计记录了 **18,460 条**提交结论。",
-            ],
-          },
-          {
-            title: "需矫成交率的同期变化",
-            paragraphs: [
-              "全部门店的需矫成交率（判定需矫后产生矫正收费的患者占比）从 2025 年 2—4 月的约 **30%—40%**，变为 2026 年 2—4 月的约 **50%—60%**（内部业务报表）。",
-            ],
-          },
-        ],
+        id: "experience",
+        nav: "诊间解释与家长报告",
+        eyebrow: "EXPERIENCE",
+        title: "从医生的专业判断，到家长能理解的信息",
+        kicker: "让诊间解释和离店后的报告使用同一套结论",
+      },
+      {
+        id: "results",
+        nav: "上线结果",
+        eyebrow: "ROLLOUT & RESULTS",
+        title: "在门店实际运行，并把结果说清楚",
+        kicker: "哪些是记录，哪些是同期变化，分开看",
       },
       {
         id: "reflection",
-        title: "反思",
-        lead: [],
-        groups: [
+        nav: "反思",
+        eyebrow: "REFLECTION",
+        title: "两次关于落地条件的反思",
+        kicker: "系统里分得清楚，不等于接诊时间里做得完",
+      },
+    ],
+    challenge: {
+      lead:
+        "过去，医生通过快筛进行初步判断，再在面评会中沟通，儿牙医生于接诊时向家长传达。表单、会议和预约备注分散存在，流程依赖个人推进。",
+      flowTitle: "旧流程：信息分散在系统、会议和预约备注里",
+      flow: [
+        {
+          step: "快筛初判",
+          detail: "正畸医生查看资料并判断，结果回写预约备注",
+          tag: "系统内",
+        },
+        {
+          step: "面评会沟通",
+          detail: "通常提前一周讨论下周患者，多角色口头补充",
+          tag: "会议",
+        },
+        {
+          step: "儿牙传达",
+          detail: "儿牙医生在接诊时向家长转述判断",
+          tag: "接诊",
+        },
+        {
+          step: "必要时转诊",
+          detail: "明显咬合问题且家长有意愿，再转正畸医生评估",
+          tag: "人工判断",
+        },
+      ],
+      flowNote:
+        "简化示意，实际执行因门店而异；不表示每位患者都按同一顺序经过这些环节。",
+      problems: [
+        {
+          title: "功能重叠",
+          body:
+            "快筛与面评表承担部分相同的筛查判断，增加了重复填写和理解成本。",
+        },
+        {
+          title: "角色不匹配",
+          body:
+            "面评表包含儿牙医生难以独立完成的专业项目，现场很少完整填写。",
+        },
+        {
+          title: "进展难追踪",
+          body:
+            "不同门店组织方式不一，后续沟通与转诊缺少连贯状态，管理者常依赖事后记录判断进展。",
+        },
+      ],
+    },
+    decision1: {
+      lead:
+        "业务最初希望每天向医生推荐固定数量的患者，删除后自动补齐。这个方案看似能安排工作量，但会把“可选择的候选”和“当天要完成的任务”混在一起。",
+      arguments: [
+        {
+          label: "业务原诉求",
+          body: "每天向医生推荐固定数量的患者，删除后自动补齐。",
+        },
+        {
+          label: "我的判断",
+          body:
+            "不断补充的名单会模糊“推荐患者”和“当天需要处理的工作”之间的界限，还会增加持续计算与维护成本。",
+        },
+        {
+          label: "最终规则",
+          body:
+            "按优先级分批推荐；高优先级患者在原有预约中增加筛查项目，成为明确的执行任务；医生需要补充工作量时，可主动从推荐池中选择。",
+        },
+      ],
+      diagram: {
+        candidateLabel: "候选范围",
+        candidateTitle: "推荐池",
+        candidateBody: "按优先级分批推荐；优先级参考牙齿发育阶段、家长诉求、既往结论和跟进时间",
+        routesLabel: "两种进入执行任务的方式",
+        routes: [
           {
-            title: "信息要求要匹配现场执行能力",
-            paragraphs: [
-              "分工合理，不等于现场执行得完。前期调研后，表单已按角色职责拆分；单店试点后，又根据现场填写负担精简内容。但合理分工之外，还要看接诊时间能否支撑这些任务。",
-              "如果重新推进，我会更早确认现场真正需要的最小信息集，同时检查后续角色能否承接，平衡评估完整性与执行成本。",
-            ],
+            title: "系统安排高优先级患者",
+            body: "在原有预约中添加筛查项目",
           },
           {
-            title: "入口整合要以实际使用为前提",
-            paragraphs: [
-              "筛查名单最初嵌入诊前预习，但当时预习执行尚不完善，主要由儿牙医生使用。业务建议独立列表后，我权衡了诊前在多个功能间切换的成本，以及正畸与儿牙流程的差异，并通过医生调研确认方案可接受，最终选择拆分。",
-              "复用已有入口前，需要先确认它的实际使用情况，以及能否承接新增角色和任务。",
-            ],
+            title: "医生主动补充",
+            body: "需要更多工作量时从推荐池选择",
+          },
+        ],
+        executionLabel: "执行范围",
+        executionTitle: "已预约筛查",
+        executionBody: "需要执行、跟进和管理的任务",
+        note: "推荐池不是待办清单；删除推荐不会自动补齐固定数量。",
+      },
+      evidenceTitle: "同一张列表里，两种范围",
+      evidenceAlt:
+        "儿牙筛查列表截图，上半部分为已预约筛查患者，下半部分为系统推荐筛查患者",
+      evidenceNote:
+        "真实系统界面；患者姓名、生日与医生姓名已做脱敏处理。",
+      annotations: [
+        {
+          n: 1,
+          title: "已预约筛查患者",
+          body: "已进入当天预约，是需要执行和跟进的任务。",
+        },
+        {
+          n: 2,
+          title: "系统推荐筛查患者",
+          body: "可主动补充的候选，按优先级分批推荐。",
+        },
+      ],
+      asideTitle: "补充决策：入口整合",
+      aside:
+        "我也识别到旧快筛与新流程定位重叠，提出整合入口。与业务确定过渡方式后，先覆盖大部分患者完成一次筛查，再退出旧快筛；目前快筛已取消，统一使用新筛查。",
+    },
+    decision2: {
+      lead:
+        "原面评表把多个角色的任务放在一起，部分字段超出儿牙医生独立判断范围。即使设计了表单，现场也难以完成。",
+      problemTitle: "旧表单为什么填不动",
+      problemBody:
+        "面评表由正畸方案清单简化而来，混合了护士、儿牙医生和正畸医生的任务；系统预填的历史信息也缺少现场复核。",
+      judgmentTitle: "我的判断",
+      judgmentBody:
+        "先让每个角色完成自己能可靠承担的部分，再把信息与任务交接给下一位角色；专业结论由正畸医生填写。",
+      roles: [
+        {
+          role: "护士",
+          task: "问诊与资料采集",
+          body: "带入历史影像，完成本次资料采集",
+        },
+        {
+          role: "儿牙医生",
+          task: "初筛与家长沟通",
+          body: "确认意愿与特殊情况，转交正畸医生",
+        },
+        {
+          role: "正畸医生",
+          task: "专业判断与结论",
+          body: "在待下结论队列中完成结论与行动计划",
+        },
+        {
+          role: "正畸顾问",
+          task: "向家长发送报告",
+          body: "承接结论，支持离店后沟通",
+        },
+      ],
+      recordLabel: "同一份筛查记录",
+      relayNote:
+        "箭头表示接续与交接，不表示所有病例必须按同一顺序一次完成；门店与业务团队共同推进患者沟通与后续转化。",
+      nurse: {
+        label: "护士 / 资料采集",
+        title: "历史资料和口扫模型直接进入筛查",
+        body:
+          "系统默认带入 1 年内可查询的全景片和半年内的口扫；口扫数据与设备对接，减少人工下载再上传。",
+        alt: "护士资料采集界面，显示全景片、口扫模型和历史影像复用说明",
+        annotations: [
+          {
+            n: 1,
+            title: "历史资料复用",
+            body: "默认带入 1 年内全景片 / 半年内口扫，超过则重新拍摄。",
           },
           {
-            title: "流程变更需要与业务共同推进",
-            paragraphs: [
-              "初期，我倾向于将筛查使用不足归因于功能不够适合现场。后来意识到，筛查也改变了既有工作流程，适应新方式需要业务管理者共同推动。",
-              "今后推进类似项目，我会更早与业务管理者明确执行要求、协调资源，将系统优化与业务推进结合起来。",
-            ],
+            n: 2,
+            title: "口扫模型",
+            body: "已获取模型可直接用于后续分析，不必手工传输。",
           },
         ],
       },
-    ],
+      pedo: {
+        label: "儿牙医生 / 初筛与转交",
+        title: "把家长意愿和特殊情况留在同一份记录里",
+        body:
+          "完成初筛后，儿牙医生确认家长矫正意愿、决策人和特殊情况，再把记录转交正畸医生下结论。",
+        alt: "儿牙医生完成筛查确认弹窗，包含家长意愿、决策人、特殊情况与转交医生",
+        annotations: [
+          {
+            n: 1,
+            title: "家长矫正意愿",
+            body: "强 / 中 / 弱 / 拒绝，作为后续沟通依据。",
+          },
+          {
+            n: 2,
+            title: "患者决策人",
+            body: "记录谁来做决定，避免后续反复确认。",
+          },
+          {
+            n: 3,
+            title: "特殊情况",
+            body: "补充影响沟通或治疗的现场信息。",
+          },
+          {
+            n: 4,
+            title: "转交正畸医生",
+            body: "转交后记录不可修改，保证结论基于已确认的信息。",
+          },
+        ],
+      },
+      ortho: {
+        label: "正畸医生 / 专业结论",
+        title: "待下结论队列与右侧结论面板",
+        body:
+          "正畸医生从待下结论队列进入筛查表，在右侧面板完成结论、治疗必要性、行动目标和行动计划。",
+        queueAlt: "正畸医生待下结论列表，显示筛查优先级与进入筛查表入口",
+        conclusionAlt: "正畸医生筛查结论面板，包含结论、治疗必要性、行动目标与行动计划",
+        annotations: [
+          {
+            n: 1,
+            title: "待下结论队列",
+            body: "把需要专业判断的记录集中到一个工作队列。",
+          },
+          {
+            n: 2,
+            title: "专业结论",
+            body: "需矫正 / 后续再筛查，由正畸医生填写。",
+          },
+          {
+            n: 3,
+            title: "治疗必要性与行动",
+            body: "记录必要性、目标和下一步安排，供顾问跟进。",
+          },
+        ],
+      },
+      iteration:
+        "单店试点后，按接诊中的实际填写负担继续精简内容；口扫系统对接减少了重复操作。",
+    },
+    experience: {
+      lead:
+        "现场沟通不仅需要记录结论，也需要让家长理解咬合情况。儿牙医生可以结合影像、口扫模型与科普说明进行解释；正畸医生确认结论后，系统生成报告，由正畸顾问发送给家长。",
+      scanTitle: "口扫模型：把专业判断变成可以指给家长看的东西",
+      scanBody:
+        "模型可以旋转查看不同视角，右侧同时显示咬合分类；医生可以用它指出问题位置，再用科普说明解释术语。",
+      scanAlt: "影像分析页面口扫视图，包含可旋转三维模型、理想模型对比与右侧咬合分类",
+      scanAnnotations: [
+        {
+          n: 1,
+          title: "可旋转模型",
+          body: "支持不同视角查看，用于诊间讲解。",
+        },
+        {
+          n: 2,
+          title: "咬合分类与科普",
+          body: "把“反合”等术语与图示对应起来。",
+        },
+      ],
+      scienceTitle: "科普说明：用家长听得懂的语言解释",
+      scienceBody:
+        "例如用“地包天”解释反覆颌，并说明可能的影响；它辅助沟通，不替代正畸医生的诊断。",
+      scienceAlt: "反覆颌科普弹窗，用图示和日常语言解释地包天",
+      reportTitle: "家长报告：把结论带到离店之后",
+      reportBody:
+        "正畸医生确认结论后，系统生成报告，由正畸顾问发送给家长。报告承接诊间讲解，包含问题说明、相关科普与后续建议；家长可以在家回顾，也可以转给未到场的家人。",
+      reportPreviewAlt: "生成报告预览弹窗，展示报告封面与医生提醒",
+      reportCoverAlt: "家长端咬合筛查报告封面，已对姓名与生日脱敏",
+      reportAnnotations: [
+        {
+          n: 1,
+          title: "医生确认后生成",
+          body: "报告以正畸医生的结论为前提。",
+        },
+        {
+          n: 2,
+          title: "家长可读的说明",
+          body: "把专业结论转成问题说明、科普和下一步建议。",
+        },
+        {
+          n: 3,
+          title: "顾问发送",
+          body: "由正畸顾问完成发送与后续沟通。",
+        },
+      ],
+      reportStructureLabel: "报告包含",
+      reportStructure: ["问题说明", "相关科普", "后续建议"],
+      reportDisclaimer:
+        "报告样例已脱敏；最终诊断以正畸医生线下面诊结果为准。",
+      supplementTitle: "查看更多真实界面",
+      supplementNote:
+        "以下界面用于补充同一流程的其他视角；不重复正文已展示的主图。",
+      supplement: [
+        {
+          title: "口扫数据同步到设备",
+          body: "系统提示患者信息已同步，减少手工下载再上传。",
+          alt: "患者信息同步至先临设备的提示弹窗",
+          image: "nurseScanSync",
+        },
+        {
+          title: "全景片辅助判断",
+          body: "全景影像用于查看牙齿与颌骨关系。",
+          alt: "影像分析页面全景片视图",
+          image: "panoramic",
+        },
+        {
+          title: "影像分析页面",
+          body: "同一分析工作台的完整视图。",
+          alt: "影像分析页面完整工作台",
+          image: "analysisPage",
+        },
+        {
+          title: "历史影像复用",
+          body: "按日期查看历史影像；患者肖像已做脱敏。",
+          alt: "患者历史影像列表，肖像已脱敏",
+          image: "nurseHistory",
+        },
+      ],
+    },
+    results: {
+      lead:
+        "从单店试点、持续迭代到扩大验证，方案于 2026 年 2 月在全部门店上线。筛查、专业结论与后续业务节点逐步建立关联，为工作交接和进展跟踪提供共同依据。",
+      timeline: [
+        { date: "2025.04", label: "开始开发" },
+        { date: "2025.05–08", label: "单店试点" },
+        { date: "2025.08–12", label: "持续迭代" },
+        { date: "2026.01", label: "扩至 3–4 家门店验证" },
+        { date: "2026.02", label: "全部门店上线" },
+      ],
+      tracking:
+        "关联筛查、专业结论与资料采集、方案沟通、成交等业务节点，让患者所处阶段可追踪；推荐条件、角色职责和后续行动也写进同一套规则。",
+      stats: [
+        {
+          value: "18,460",
+          unit: "条",
+          label: "累计提交筛查结论记录",
+          note: "记录数，不是去重患者数；精确统计截止日待核实。",
+        },
+        {
+          value: "2026.02",
+          label: "全部门店上线",
+          note: "范围描述，不代表每家门店的采纳率。",
+        },
+        {
+          value: "30–40% → 50–60%",
+          label: "需矫成交率同期变化",
+          note: "2025 年 2–4 月 → 2026 年 2–4 月；内部业务报表。",
+        },
+      ],
+      conversionTitle: "需矫成交率的同期变化",
+      range: { before: [30, 40], after: [50, 60] },
+      conversionDefinition:
+        "口径：判定需矫后产生矫正收费的患者数 / 需矫患者数。",
+      caveat:
+        "这是同一指标在两年同期的业务报表变化，不能单独归因于本项目；也不能把累计记录与成交率串成同一漏斗。",
+      source:
+        "来源：内部累计统计与全部门店业务报表；精确截止日、去重方式与同期筛选条件仍待核实。",
+    },
+    reflection: {
+      items: [
+        {
+          title: "信息要求要匹配现场执行能力",
+          body:
+            "分工合理，不等于现场执行得完。单店试点后，我们按填写负担精简了内容；如果重新推进，我会更早验证现场真正需要的最小信息集，并检查后续角色能否承接。",
+        },
+        {
+          title: "流程变更需要与业务共同推进",
+          body:
+            "初期我倾向于把使用不足归因于功能不适合现场，后来意识到筛查也改变了既有工作流程。今后会更早与业务管理者明确执行要求、协调资源，把系统优化和业务推进放在一起。",
+        },
+      ],
+      disclosureTitle: "补充：入口复用取舍",
+      disclosure:
+        "筛查名单最初嵌入诊前预习，但当时预习执行尚不完善，主要由儿牙医生使用。业务建议独立列表后，我权衡了在多个功能间切换的成本，以及正畸与儿牙流程的差异，并通过医生调研确认可接受，最终选择拆分。",
+    },
   },
   en: {
     title: "Occlusal Screening & Pre-treatment Orthodontic Collaboration",
-    sections: [
+    eyebrow: "CASE 01 / CLINICAL WORKFLOW",
+    lede:
+      "Rebuilding pre-orthodontic screening — previously dependent on individual judgement and scattered conversations — as a shared workflow across patient recommendations, record collection, role-based assessment and follow-up.",
+    roleLabel: "MY ROLE",
+    role:
+      "Clinic research · workflow and rules · PRD · interaction and interface design · delivery coordination",
+    coverNote:
+      "Clinical conclusions were owned by orthodontists; patient communication and conversion were advanced jointly by clinics and business teams.",
+    period: "2025.04 — 2026.02 / development to all-clinic rollout",
+    facts: [
       {
-        id: "overview",
-        title: "Project Overview",
-        lead: [
-          "Orthodontics was an important business for the company, but the existing system offered limited support for patient selection and follow-up before treatment. As a group of patients with a clear intention to proceed had already converted, the business needed more comprehensive screening, assessment, and ongoing follow-up. Existing fast-screening and facial-development assessment features were fragmented and did not fully fit pediatric consultations or collaboration with orthodontists.",
-          "Starting with patient screening before orthodontic treatment, the project developed an occlusal screening feature, originally called orthodontic screening. It connected patient recommendations, record collection, initial screening by pediatric dentists, specialist confirmation by orthodontists, and follow-up, supporting clinic collaboration and helping patients and families understand assessment conclusions and next steps.",
-          "**Shared screening and collaboration rules · A conversion funnel · Rolled out across all clinics in February 2026**",
-        ],
-        groups: [
-          {
-            title: "My role & collaboration",
-            paragraphs: [
-              "I was responsible for clinic research, workflow and rule definition, PRDs, interaction and interface design, task breakdown, development scheduling follow-up, and coordination with engineering, QA, and the orthodontic director for specialist acceptance and rollout.",
-              "Orthodontists were responsible for clinical conclusions, while clinics and business teams jointly handled patient communication and final conversion.",
-            ],
-          },
-          {
-            title: "Project timeline",
-            paragraphs: [
-              "Development started in April 2025, followed by a single-clinic pilot from May to August and further adjustments through December. Validation expanded to 3–4 clinics in January 2026, with rollout across clinics in February.",
-            ],
-          },
-        ],
+        value: "2026.02",
+        label: "Rolled out across all clinics",
+        note: "From a single-clinic pilot to validation and rollout",
       },
       {
-        id: "problem",
-        title: "Problem Analysis",
-        lead: [
-          "**Workflows were hard to sustain and progress hard to track**",
-          "Orthodontists, responsible for specialist assessments, used H5 fast screening to review patient information and historical images, assess occlusion, and sync results to appointment notes. Review meetings were typically held one week ahead for the following week's appointments. Pediatric dentists, responsible for routine visits, contributed oral-health information, cooperation levels, and family concerns; orthodontists explained their assessments. Orthodontic consultants recorded the discussion for pediatric dentists to reference and convey to families during the visit.",
-          "Patients with apparent occlusal issues whose families wanted further information or intervention could then be referred to an orthodontist for assessment.",
-        ],
-        groups: [
-          {
-            title:
-              "Task requirements and role responsibilities were misaligned",
-            paragraphs: [
-              "The facial-development assessment form was adapted from the orthodontic treatment-plan form to supplement fast screening with more information, assess the need for treatment, and record the assessment.",
-              "It overlapped with fast screening in some judgments and required specialist input that pediatric dentists struggled to complete independently. Almost no one filled it in during consultations; only a small number completed it beforehand or afterward. Entries based on historical information also lacked review and updates during the visit.",
-            ],
-          },
-          {
-            title:
-              "Progress was hard to track and management information arrived late",
-            paragraphs: [
-              "Clinics organized review meetings differently, and managers often needed to attend in person to verify execution. Although fast screening already had results and dashboards, subsequent communication and follow-up lacked effective process monitoring. Managers mainly inferred progress from later charges for record collection and treatment-plan communication.",
-              "A small number of short-notice and same-day patients could fall outside advance screening. Their entry into an assessment depended heavily on pediatric dentists proactively identifying issues and making referrals.",
-            ],
-          },
-        ],
+        value: "18,460",
+        unit: "records",
+        label: "Cumulative submitted screening conclusions",
+        note: "Records, not unique patients",
+      },
+    ],
+    chapters: [
+      {
+        id: "challenge",
+        nav: "The problem",
+        eyebrow: "PROBLEM",
+        title: "The problem",
+        kicker: "Why the old workflow was hard to sustain",
       },
       {
-        id: "thinking",
-        title: "Product Thinking",
-        lead: [],
-        groups: [
-          {
-            title:
-              "Identify overlapping functions and consolidate screening entry points",
-            paragraphs: [
-              "When the business proposed a new screening workflow, I identified an overlap with fast screening: both selected and assessed patients before orthodontic treatment. I proposed removing fast screening and discussed the transition with the business. We agreed that the new workflow should first cover most patients with an assessment before retiring the old feature. Fast screening has now been removed, leaving the new screening workflow as the single entry point.",
-            ],
-          },
-          {
-            title:
-              "Split tasks by responsibility and professional permissions to make collaboration workable",
-            paragraphs: [
-              "Research with doctors showed that the existing form mixed tasks across several roles, with some content beyond pediatric dentists' professional capabilities. I proposed splitting tasks by role and working context so that each role could build on the same record, with specialist conclusions completed by orthodontists.",
-              "Pediatric dentists complete the initial orthodontic screening content and communicate with families. Intraoral scan models support visual explanations, while system integration reduces manual downloading and uploading. After the single-clinic pilot, the content was further simplified in response to the input burden.",
-            ],
-          },
-          {
-            title:
-              "Separate recommendations from assigned work to clarify workload",
-            paragraphs: [
-              "To reduce the initial screening burden, the business proposed a fixed number of recommendations per doctor per day, automatically replenishing the list when recommendations were removed. I identified the need for ongoing calculations and replacement candidates, as well as the confusion a continually changing list could cause about the work expected that day.",
-              "I recommended prioritizing patients and introducing recommendations in batches, then distinguishing the recommendation pool from booked patients. The system automatically adds a screening item to high-priority patients' existing appointments as a task to be carried out and managed. Doctors can add patients from the recommendation pool when they have capacity for more.",
-              "This preserves workload planning while making candidate recommendations distinct from the actual scope of work.",
-            ],
-          },
-        ],
+        id: "decision-1",
+        nav: "Decision 01: recommend vs. do",
+        eyebrow: "DECISION 01",
+        title: "Separate candidates from the work that must be done",
+        kicker: "Know what to do today, and where more work can come from",
       },
       {
-        id: "solution",
-        title: "Solution",
-        lead: [
-          "**Overall solution: connect patient recommendations, specialist assessment, and family communication**",
-        ],
-        groups: [
-          {
-            title:
-              "Establish shared screening rules and continually identify assessment needs",
-            paragraphs: [
-              "Shared recommendation rules give clinics a common basis for identifying assessment needs and arranging screening. The system uses dental development stages, previous conclusions, and follow-up dates to identify assessment timing and arrange screening in prioritized batches, giving patients opportunities for professional screening and reducing reliance on individual initiative and clinic-specific practices.",
-            ],
-          },
-          {
-            title: "Build an assessment basis through role-based collaboration",
-            paragraphs: [
-              "Screening takes place during the patient's existing visit. Nurses collect consultation information and records, pediatric dentists complete initial screening content and communicate with families, and orthodontists make specialist judgments and complete conclusions. Each role builds on the same record.",
-            ],
-          },
-          {
-            title:
-              "Continue professional communication during and after the visit",
-            paragraphs: [
-              "Pediatric dentists use images and intraoral scan models to explain occlusal conditions and the purpose of assessment, while learning about family concerns and intentions. The report distills the consultation, specialist conclusions, and next steps. It is sent to families for review after the visit, explanation to family members who were not present, and a shared basis for subsequent communication.",
-            ],
-          },
-        ],
+        id: "decision-2",
+        nav: "Decision 02: role handoffs",
+        eyebrow: "DECISION 02",
+        title: "Split tasks along professional boundaries",
+        kicker:
+          "Not one person completing a more complete form, but each role completing what it can reliably own",
       },
       {
-        id: "impact",
-        title: "Rollout and Business Results",
-        lead: ["**Rollout and business results**"],
-        groups: [
-          {
-            title: "Establish a conversion funnel with traceable progress",
-            paragraphs: [
-              "Screening, specialist conclusions, and subsequent payment stages are linked, making patient progress traceable and providing a basis for clinic follow-up and management. Recommendation criteria, role responsibilities, and subsequent actions form a shared framework, providing clinics with a common basis for screening and work handoffs.",
-            ],
-          },
-          {
-            title: "Rollout scope and actual use",
-            paragraphs: [
-              "Following the pilot path above, the solution was rolled out across all clinics in February 2026. Internal cumulative statistics since launch contain **18,460 submitted screening conclusions**.",
-            ],
-          },
-          {
-            title:
-              "Same-season changes in conversion among patients assessed as needing treatment",
-            paragraphs: [
-              "Across clinics, the proportion of patients assessed as needing orthodontic treatment who subsequently incurred an orthodontic charge changed from approximately **30–40%** in February–April 2025 to **50–60%** in February–April 2026.",
-            ],
-          },
-        ],
+        id: "experience",
+        nav: "In-visit explanation and report",
+        eyebrow: "EXPERIENCE",
+        title: "From specialist judgement to information families can use",
+        kicker: "The same conclusion supports the visit and the report",
+      },
+      {
+        id: "results",
+        nav: "Rollout and results",
+        eyebrow: "ROLLOUT & RESULTS",
+        title: "Running in clinics, with results stated precisely",
+        kicker: "Separate recorded use from same-season business changes",
       },
       {
         id: "reflection",
-        title: "Reflection",
-        lead: [],
-        groups: [
+        nav: "Reflection",
+        eyebrow: "REFLECTION",
+        title: "Two lessons about making a workflow stick",
+        kicker: "Clear in the system is not the same as doable in a visit",
+      },
+    ],
+    challenge: {
+      lead:
+        "Orthodontists used fast screening for an initial judgement, discussed patients in review meetings, and pediatric dentists passed the conclusion to families during visits. Forms, meetings and appointment notes lived in different places, and progress depended on individuals.",
+      flowTitle: "The old flow: information spread across system, meeting and notes",
+      flow: [
+        {
+          step: "Fast screening",
+          detail: "Orthodontists reviewed records and wrote the result into appointment notes",
+          tag: "In system",
+        },
+        {
+          step: "Review meeting",
+          detail: "Usually held a week ahead; roles contributed verbally",
+          tag: "Meeting",
+        },
+        {
+          step: "Pediatric visit",
+          detail: "Pediatric dentists relayed the judgement to families",
+          tag: "Visit",
+        },
+        {
+          step: "Referral if needed",
+          detail: "Clear occlusal issues and family interest led to an orthodontist assessment",
+          tag: "Manual",
+        },
+      ],
+      flowNote:
+        "Simplified illustration. Execution varied by clinic and does not imply every patient followed this sequence.",
+      problems: [
+        {
+          title: "Overlapping functions",
+          body:
+            "Fast screening and the assessment form covered some of the same judgements, adding duplicate input and interpretation.",
+        },
+        {
+          title: "Role mismatch",
+          body:
+            "The form included specialist items that pediatric dentists could not complete independently, so it was rarely completed during visits.",
+        },
+        {
+          title: "Progress hard to track",
+          body:
+            "Clinics organised reviews differently; follow-up and referral lacked a continuous state, so managers relied on later records.",
+        },
+      ],
+    },
+    decision1: {
+      lead:
+        "The business first asked for a fixed number of patient recommendations per doctor per day, refilled automatically when removed. It looked like workload planning, but it blurred candidates with the work that had to be done that day.",
+      arguments: [
+        {
+          label: "Original request",
+          body: "Recommend a fixed number of patients per doctor per day and refill automatically when removed.",
+        },
+        {
+          label: "My judgement",
+          body:
+            "A continuously refilled list blurs the line between recommended patients and the work expected that day, and adds ongoing calculation and maintenance.",
+        },
+        {
+          label: "Final rule",
+          body:
+            "Recommend in priority-based batches. Add screening to high-priority patients' existing appointments as an assigned task. Doctors can add candidates from the pool when they need more work.",
+        },
+      ],
+      diagram: {
+        candidateLabel: "Candidate scope",
+        candidateTitle: "Recommendation pool",
+        candidateBody: "Recommended in priority-based batches; priority considers dental development stage, family concerns, previous conclusions and follow-up dates",
+        routesLabel: "Two ways into assigned work",
+        routes: [
           {
-            title:
-              "Match information requirements to what teams can complete during consultations",
-            paragraphs: [
-              "Following initial research, the form was split by role responsibilities. After the single-clinic pilot, its content was further simplified in response to the input burden during consultations. Clear responsibilities also need to be supported by enough time to complete the work.",
-              "If starting again, I would test the minimum necessary information requirements earlier and check whether subsequent roles can take over, balancing assessment completeness with the effort required to carry it out.",
-            ],
+            title: "System assigns high-priority patients",
+            body: "Add screening to an existing appointment",
           },
           {
-            title: "Integrate entry points based on actual use",
-            paragraphs: [
-              "The screening list was initially embedded in pre-visit preparation, but that workflow was not yet consistently carried out and was mainly used by pediatric dentists. When the business proposed a separate list, I weighed the cost of switching between features against differences in orthodontic workflows. Doctor research indicated that a separate list was acceptable, and we chose to separate it.",
-              "Before reusing an existing entry point, I need to understand how it is actually used and whether it can support additional roles and tasks.",
-            ],
+            title: "Doctor adds candidates",
+            body: "Select from the pool when more work is needed",
+          },
+        ],
+        executionLabel: "Execution scope",
+        executionTitle: "Booked screening",
+        executionBody: "Work to carry out, follow up and manage",
+        note: "The pool is not a to-do list; removing a recommendation does not refill a fixed quota.",
+      },
+      evidenceTitle: "Two scopes in one list",
+      evidenceAlt:
+        "Screening list showing booked screening patients above and system-recommended patients below",
+      evidenceNote:
+        "Real system interface; patient names, dates of birth and doctor names have been redacted.",
+      annotations: [
+        {
+          n: 1,
+          title: "Booked screening patients",
+          body: "Already in today's schedule; work to carry out and follow up.",
+        },
+        {
+          n: 2,
+          title: "System recommendations",
+          body: "Candidates that can be added, recommended in priority-based batches.",
+        },
+      ],
+      asideTitle: "Supporting decision: consolidating the entry point",
+      aside:
+        "I also identified that fast screening overlapped with the new workflow and proposed consolidating the entry point. After agreeing a transition with the business, most patients were covered once before fast screening was retired. The new workflow is now the single entry.",
+    },
+    decision2: {
+      lead:
+        "The existing assessment form mixed tasks from several roles, with fields beyond pediatric dentists' independent scope. Even with a form, it was hard to complete during a visit.",
+      problemTitle: "Why the old form could not be filled in",
+      problemBody:
+        "It was adapted from the orthodontic treatment-plan list and mixed tasks for nurses, pediatric dentists and orthodontists; pre-filled historical information also lacked review during the visit.",
+      judgmentTitle: "My judgement",
+      judgmentBody:
+        "Let each role complete what it can reliably own, then hand the information and task to the next role. Specialist conclusions are completed by orthodontists.",
+      roles: [
+        {
+          role: "Nurse",
+          task: "Consultation and record collection",
+          body: "Bring in historical images and collect this visit's records",
+        },
+        {
+          role: "Pediatric dentist",
+          task: "Initial screening and family communication",
+          body: "Confirm intent and special notes, then hand over",
+        },
+        {
+          role: "Orthodontist",
+          task: "Specialist judgement and conclusion",
+          body: "Complete conclusion and action plan from the queue",
+        },
+        {
+          role: "Orthodontic consultant",
+          task: "Send the report to families",
+          body: "Carry the conclusion into post-visit communication",
+        },
+      ],
+      recordLabel: "One shared screening record",
+      relayNote:
+        "Arrows show handoffs, not a mandatory sequence completed in one visit. Clinics and business teams jointly advance communication and conversion.",
+      nurse: {
+        label: "NURSE / RECORD COLLECTION",
+        title: "Historical records and intraoral scans flow into screening",
+        body:
+          "The system brings in panoramic images from the past year and intraoral scans from the past six months. Device integration removes manual download and upload.",
+        alt: "Nurse record-collection screen with panoramic image, intraoral scan and history reuse",
+        annotations: [
+          {
+            n: 1,
+            title: "History reuse",
+            body: "Panoramic images within one year and scans within six months are brought in automatically.",
           },
           {
-            title: "Advance workflow changes together with the business",
-            paragraphs: [
-              "Initially, I tended to attribute limited use to features that did not fit consultations well enough. I later recognized that screening also changed established workflows, and adapting to a new way of working required support from business managers.",
-              "For similar projects, I would involve business managers earlier to clarify execution requirements and coordinate resources, combining system improvements with efforts to put the workflow into practice.",
-            ],
+            n: 2,
+            title: "Intraoral scan",
+            body: "An available model can be used directly without manual transfer.",
           },
         ],
       },
-    ],
+      pedo: {
+        label: "PEDIATRIC DENTIST / INITIAL SCREENING",
+        title: "Family intent and special notes stay on the same record",
+        body:
+          "After initial screening, the pediatric dentist confirms family intent, decision-maker and special notes, then hands the record to an orthodontist.",
+        alt: "Screening completion dialog with family intent, decision-maker, special notes and handoff",
+        annotations: [
+          {
+            n: 1,
+            title: "Family intent",
+            body: "Strong / medium / weak / declined, used for follow-up.",
+          },
+          {
+            n: 2,
+            title: "Decision-maker",
+            body: "Records who decides, avoiding repeated confirmation.",
+          },
+          {
+            n: 3,
+            title: "Special notes",
+            body: "Captures context that affects communication or care.",
+          },
+          {
+            n: 4,
+            title: "Handoff to orthodontist",
+            body: "The record becomes read-only after handoff so the conclusion rests on confirmed information.",
+          },
+        ],
+      },
+      ortho: {
+        label: "ORTHODONTIST / CONCLUSION",
+        title: "A conclusion queue and a dedicated conclusion panel",
+        body:
+          "Orthodontists enter the screening record from the waiting-for-conclusion queue and complete the conclusion, necessity, goal and action plan in the right panel.",
+        queueAlt: "Orthodontist queue waiting for conclusions, showing priority and entry links",
+        conclusionAlt: "Orthodontist conclusion panel with conclusion, necessity, goal and action plan",
+        annotations: [
+          {
+            n: 1,
+            title: "Conclusion queue",
+            body: "Records needing specialist judgement are gathered in one queue.",
+          },
+          {
+            n: 2,
+            title: "Specialist conclusion",
+            body: "Treatment needed or screen again later, completed by the orthodontist.",
+          },
+          {
+            n: 3,
+            title: "Necessity and action",
+            body: "Necessity, goal and next step support consultant follow-up.",
+          },
+        ],
+      },
+      iteration:
+        "After the single-clinic pilot, content was simplified further based on the input burden during visits; scan integration removed repeated manual work.",
+    },
+    experience: {
+      lead:
+        "Recording a conclusion is not enough; families also need to understand the occlusal situation. Pediatric dentists can explain it with images, an intraoral scan and plain-language material. After the orthodontist confirms the conclusion, the system generates a report that the orthodontic consultant sends to the family.",
+      scanTitle: "An intraoral model makes the judgement something to point at",
+      scanBody:
+        "The model rotates across views while the right side shows occlusal classifications. The dentist can indicate the issue and use plain-language notes to explain the term.",
+      scanAlt: "Intraoral analysis screen with rotatable 3D model, ideal-model comparison and occlusal classification",
+      scanAnnotations: [
+        {
+          n: 1,
+          title: "Rotatable model",
+          body: "Different views support in-visit explanation.",
+        },
+        {
+          n: 2,
+          title: "Classification and explainer",
+          body: "Connects terms such as reverse articulation to a visual.",
+        },
+      ],
+      scienceTitle: "Plain-language explanation families can follow",
+      scienceBody:
+        "For example, 'underbite' explains reverse overjet and its possible impact. It supports communication; it does not replace the orthodontist's diagnosis.",
+      scienceAlt: "Reverse overjet explainer using an illustration and everyday language",
+      reportTitle: "The family report carries the conclusion beyond the visit",
+      reportBody:
+        "After the orthodontist confirms the conclusion, the system generates a report and the orthodontic consultant sends it to the family. It carries the in-visit explanation, findings, plain-language notes and next steps, so families can review it at home or share it with relatives who were not present.",
+      reportPreviewAlt: "Report preview dialog with cover and doctor reminder",
+      reportCoverAlt: "Family-facing screening report cover, with name and date of birth redacted",
+      reportAnnotations: [
+        {
+          n: 1,
+          title: "Generated after confirmation",
+          body: "The report starts from the orthodontist's conclusion.",
+        },
+        {
+          n: 2,
+          title: "Written for families",
+          body: "Findings, plain-language notes and next steps.",
+        },
+        {
+          n: 3,
+          title: "Sent by the consultant",
+          body: "The orthodontic consultant sends it and follows up.",
+        },
+      ],
+      reportStructureLabel: "Report contents",
+      reportStructure: ["Findings", "Plain-language notes", "Next steps"],
+      reportDisclaimer:
+        "Sample report, redacted. Final diagnosis rests on the orthodontist's in-person assessment.",
+      supplementTitle: "More real interfaces",
+      supplementNote:
+        "These views support other parts of the same workflow and do not repeat the main evidence above.",
+      supplement: [
+        {
+          title: "Scan data synced to the device",
+          body: "The system confirms the patient is synced, reducing manual download and upload.",
+          alt: "Patient information synced to the intraoral scanner",
+          image: "nurseScanSync",
+        },
+        {
+          title: "Panoramic view",
+          body: "Panoramic imaging supports assessment of teeth and jaws.",
+          alt: "Panoramic view in the image-analysis screen",
+          image: "panoramic",
+        },
+        {
+          title: "Image-analysis workspace",
+          body: "The complete view of the same analysis workspace.",
+          alt: "Complete image-analysis workspace",
+          image: "analysisPage",
+        },
+        {
+          title: "Historical images",
+          body: "Images are grouped by date; patient portraits are redacted.",
+          alt: "Historical patient image list with portraits redacted",
+          image: "nurseHistory",
+        },
+      ],
+    },
+    results: {
+      lead:
+        "From a single-clinic pilot through iteration and validation, the workflow rolled out across all clinics in February 2026. Screening, specialist conclusions and subsequent business stages became connected, giving handoffs and progress tracking a shared basis.",
+      timeline: [
+        { date: "2025.04", label: "Development started" },
+        { date: "2025.05–08", label: "Single-clinic pilot" },
+        { date: "2025.08–12", label: "Iteration" },
+        { date: "2026.01", label: "Validated in 3–4 clinics" },
+        { date: "2026.02", label: "All-clinic rollout" },
+      ],
+      tracking:
+        "Screening, specialist conclusions and later stages such as record collection, plan communication and treatment charges were linked so patient progress could be tracked. Recommendation criteria, role responsibilities and next actions were written into the same set of rules.",
+      stats: [
+        {
+          value: "18,460",
+          unit: "records",
+          label: "Cumulative submitted screening conclusions",
+          note: "Records, not unique patients; the exact cut-off date is still to be verified.",
+        },
+        {
+          value: "2026.02",
+          label: "All-clinic rollout",
+          note: "A scope statement, not an adoption rate for every clinic.",
+        },
+        {
+          value: "30–40% → 50–60%",
+          label: "Same-season conversion change",
+          note: "February–April 2025 to February–April 2026; internal business report.",
+        },
+      ],
+      conversionTitle: "Same-season change in conversion among patients assessed as needing treatment",
+      range: { before: [30, 40], after: [50, 60] },
+      conversionDefinition:
+        "Definition: patients assessed as needing treatment who later incurred an orthodontic charge / patients assessed as needing treatment.",
+      caveat:
+        "This is a change in one internal business report across the same months in two years. It cannot be attributed to this project alone, and cumulative records must not be combined with conversion into one funnel.",
+      source:
+        "Sources: internal cumulative statistics and all-clinic business reports. Exact cut-off date, deduplication and same-season filters still need verification.",
+    },
+    reflection: {
+      items: [
+        {
+          title: "Information requirements must match what the visit can absorb",
+          body:
+            "Clear responsibilities do not guarantee completion during a visit. After the pilot we simplified the content. If starting again, I would test the minimum information set earlier and check whether the next role can take it over.",
+        },
+        {
+          title: "Workflow change needs to advance with the business",
+          body:
+            "At first I tended to attribute limited use to poor fit with the visit. I later recognised that screening also changed established routines. I would involve business managers earlier to clarify execution requirements and coordinate resources.",
+        },
+      ],
+      disclosureTitle: "Supporting note: reusing an existing entry point",
+      disclosure:
+        "The screening list was initially embedded in pre-visit preparation, but that workflow was not yet consistently used and was mainly used by pediatric dentists. When the business proposed a separate list, I weighed the cost of switching between features and the differences between orthodontic and pediatric workflows, confirmed acceptability through doctor research, and chose to separate it.",
+    },
   },
 };

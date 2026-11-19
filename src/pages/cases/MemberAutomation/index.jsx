@@ -129,7 +129,13 @@ function ImageViewer({ view: { slot, label }, onClose, language }) {
   );
 }
 
-function Screenshot({ slotId, language, onOpen, editorial = false }) {
+function Screenshot({
+  slotId,
+  language,
+  onOpen,
+  editorial = false,
+  explained = false,
+}) {
   const slot = { ...screenshots[slotId], id: slotId };
   const zh = language === "zh";
   const label = zh ? slot.title : "Membership interface";
@@ -157,7 +163,7 @@ function Screenshot({ slotId, language, onOpen, editorial = false }) {
         {zh ? (
           <>
             <strong>{label}</strong>
-            <span>{slot.caption}</span>
+            {!explained && <span>{slot.caption}</span>}
           </>
         ) : (
           "Interface design; displayed data is fictional."
@@ -175,11 +181,9 @@ function ChapterHeading({ section, index, language }) {
         id={`${section.id}-title`}
         tabIndex={-1}
       >
-        {section.id === "solution"
-          ? section.title.zh
-          : section.title.zh
-              .split(/(?<=，)/)
-              .map((phrase) => <span key={phrase}>{phrase}</span>)}
+        {section.title.zh.split(/(?<=：)/).map((phrase) => (
+          <span key={phrase}>{phrase}</span>
+        ))}
       </h2>
     );
 
@@ -208,11 +212,12 @@ function RenderBlocks({ section, language, onOpen }) {
         <Narrative
           key={key}
           kind={block.kind}
-          evidence={(slotId) => (
+          evidence={(slotId, options = {}) => (
             <Screenshot
               slotId={slotId}
               language={language}
               onOpen={onOpen}
+              explained={options.explained}
               editorial
             />
           )}
@@ -456,20 +461,32 @@ export default function MemberAutomationCase() {
               <>
                 <dl className={styles.heroFacts}>
                   <div data-evidence="observed">
-                    <dt>典型升级办理耗时</dt>
-                    <dd>约 4–5 分钟 → 约 1 分钟</dd>
-                    <dd className={styles.heroNote}>
-                      对比调研中熟手老员工的耗时与上线后的典型场景观察（未做统一埋点计时）。
+                    <dt>办理效率</dt>
+                    <dd>
+                      <span>约 4–5 分钟 →</span>约 1 分钟
                     </dd>
                   </div>
-                  <div>
-                    <dt>推广范围</dt>
-                    <dd>20+ 门店</dd>
+                  <div data-evidence="capability">
+                    <dt>财务治理</dt>
+                    <dd>
+                      <span>事后补审批 →</span>月度额度前置风控
+                    </dd>
+                  </div>
+                  <div data-evidence="rollout">
+                    <dt>落地范围</dt>
+                    <dd>
+                      <span>6 家试点 →</span>20+ 门店
+                    </dd>
                   </div>
                 </dl>
-                <p className={styles.heroRole}>
-                  <strong>我的职责</strong> {caseContent.hero.role}
-                </p>
+                <div className={styles.heroRole}>
+                  <strong>我的职责</strong>
+                  <ul aria-label="我的职责">
+                    {caseContent.hero.roleTags.map((role) => (
+                      <li key={role}>{role}</li>
+                    ))}
+                  </ul>
+                </div>
               </>
             )}
           </div>
@@ -482,13 +499,20 @@ export default function MemberAutomationCase() {
               <Link
                 key={section.id}
                 to={`${pathname}#${section.id}`}
+                aria-label={zh ? section.navTitle : undefined}
                 aria-current={
                   activeSection === section.id ? "location" : undefined
                 }
                 onClick={(event) => contentsClick(event, section.id)}
               >
                 {!zh && <span>{index + 1}</span>}
-                {language === "zh" ? section.navTitle : section.title.en}
+                {zh
+                  ? section.navTitle.split(/(?<=：)/).map((phrase) => (
+                      <span className={styles.navPhrase} key={phrase}>
+                        {phrase}
+                      </span>
+                    ))
+                  : section.title.en}
               </Link>
             ))}
           </nav>

@@ -30,141 +30,22 @@
   margin-bottom: 0;
 }
 
-.recordMap {
-  --connector: color-mix(in srgb, var(--muted) 55%, var(--paper));
-  width: 100%;
-  margin: 16px 0 20px !important;
-  padding-block: 8px;
-  text-align: center;
-}
-
-@media (min-width: 1101px) {
-  .recordMap {
-    width: var(--case-grid-width);
-  }
-}
-
-.recordSource {
-  display: grid;
-  justify-items: center;
-  gap: 4px;
-}
-
-.recordSource::after {
-  content: "";
-  width: 1px;
-  height: 16px;
-  margin-top: 4px;
-  background: var(--connector);
-}
-
-.recordBranches {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin: 0 !important;
-}
-
-.recordBranches > div {
-  position: relative;
-  padding: 18px 12px 0;
-}
-
-.recordBranches > div::before {
-  content: "";
-  position: absolute;
-  top: -1px;
-  width: 50%;
-  height: 13px;
-  border-top: 1px solid var(--connector); /* taste-skill-ignore: connects the parent record to both branches */
-}
-
-.recordBranches > div:first-child::before {
-  left: 50%;
-  border-left: 1px solid var(--connector); /* taste-skill-ignore: service-entitlement branch */
-}
-
-.recordBranches > div:last-child::before {
-  right: 50%;
-  border-right: 1px solid var(--connector); /* taste-skill-ignore: original-bill branch */
-}
-
-.recordBranches dt,
-.decisionList dt {
-  font-weight: 700;
-}
-
-.recordSource span,
-.recordBranches dd {
-  margin: 4px 0 0;
-  color: var(--muted);
-  font: 400 14px/1.65 var(--cjk);
-}
-
-.comparison,
 .decisionList,
 .metricFlow {
   margin: 0 0 16px !important;
-  border: 1px solid var(--line);
+  border: 1px solid var(--line); /* taste-skill-ignore: approved comparison, evidence annotation, or data-entity boundary */
   border-radius: 8px;
   overflow: hidden;
 }
-
-.comparison > div {
-  display: grid;
-  grid-template-columns: 7em minmax(0, 1fr);
-  align-items: start;
-}
-
-.comparison > div + div,
-.decisionList > div + div {
-  border-top: 1px solid var(--line);
-}
-
-.comparison > div:last-child,
-.decisionList > div:nth-child(2) {
-  background: var(--soft-action);
-}
-
-.comparison dt,
-.compareSteps li {
-  padding: 14px 16px;
-  font-size: 15px;
-  line-height: 1.6;
-}
-
-.comparison dt {
+.decisionList dt {
   font-weight: 700;
 }
-
-.comparison dd {
-  margin: 0;
+.decisionList > div + div {
+  border-top: 1px solid var(--line); /* taste-skill-ignore: separates condition rows or before/after panels */
 }
-
-.compareSteps {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  padding: 0;
-  list-style: none;
+.decisionList > div:nth-child(2) {
+  background: var(--soft);
 }
-
-.compareSteps li {
-  position: relative;
-  border-inline-start: 1px solid var(--line);
-}
-
-.compareSteps li + li::before {
-  position: absolute;
-  inset: 21px auto auto -4px;
-  width: 6px;
-  height: 6px;
-  border: solid var(--muted);
-  border-width: 1px 1px 0 0;
-  transform: rotate(45deg);
-  content: "";
-}
-
-.comparison dt span,
-.compareSteps span,
 .quotaSteps span {
   display: block;
   margin-top: 4px;
@@ -173,7 +54,6 @@
   font-weight: 400;
   line-height: 1.65;
 }
-
 .decisionList {
   display: grid;
 }
@@ -192,8 +72,18 @@
   font: 400 15px/1.65 var(--cjk);
 }
 
-.story .chapterLead {
-  font-weight: 600;
+.story > p,
+.story > section > p {
+  max-width: var(--case-prose);
+  text-align: justify;
+  text-align-last: left;
+}
+
+.story .evidenceNote {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+  text-align: left;
 }
 
 .story .afterEvidence {
@@ -211,7 +101,7 @@
   align-content: center;
   margin: 0;
   padding: 20px 16px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--line); /* taste-skill-ignore: approved comparison, evidence annotation, or data-entity boundary */
   border-radius: 8px;
   background: var(--soft);
   list-style: none;
@@ -234,7 +124,7 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: var(--soft-action);
+  background: var(--soft);
   color: var(--action);
   font-size: 13px;
   font-weight: 700;
@@ -255,11 +145,14 @@
 
 @media (min-width: 1101px) {
   .evidenceSpread {
-    width: min(944px, calc(50vw + 296px));
+    width: var(--case-evidence-width);
   }
 
-  .evidencePair {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .evidenceRow {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
+  }
+  .recoveryRow {
+    grid-template-columns: minmax(0, 65fr) minmax(0, 35fr);
   }
 }
 
@@ -290,7 +183,7 @@
 
 .metricFlow > div + div {
   border-inline-start: 1px solid var(--line);
-  background: var(--soft-action);
+  background: var(--soft);
 }
 
 .metricFlow > div + div::before {
@@ -325,86 +218,172 @@
   line-height: 1.15;
 }
 
-.metricFlow > div + div .metricValue strong {
-  color: var(--action);
-}
-
 @media (max-width: 560px) {
-  .recordMap {
-    text-align: left;
-  }
-
-  .recordSource {
-    justify-items: start;
-  }
-
-  .recordSource::after {
-    display: none;
-  }
-
-  .recordBranches {
-    grid-template-columns: 1fr;
-    margin-left: 8px !important;
-  }
-
-  .recordBranches > div {
-    padding: 12px 0 0 20px;
-  }
-
-  .recordBranches > div:first-child::before,
-  .recordBranches > div:last-child::before {
-    inset: 0 auto auto 0;
-    width: 12px;
-    height: 24px;
-    border: 0;
-    border-left: 1px solid var(--connector); /* taste-skill-ignore: vertical branch trunk on phones */
-    border-bottom: 1px solid var(--connector); /* taste-skill-ignore: vertical branch joins its label */
-  }
-
-  .recordBranches > div:first-child::before {
-    height: 100%;
-    border-bottom: 0;
-  }
-
-  .recordBranches > div:first-child::after {
-    content: "";
-    position: absolute;
-    top: 24px;
-    left: 0;
-    width: 12px;
-    border-top: 1px solid var(--connector); /* taste-skill-ignore: connects first branch on phones */
-  }
-
   .decisionList > div {
     grid-template-columns: 1fr;
     row-gap: 2px;
   }
 
-  .comparison > div {
-    grid-template-columns: 1fr;
-  }
-
-  .comparison dt {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    padding-bottom: 0;
-  }
-
-  .comparison dt span {
-    margin-top: 0;
-  }
-
-  .compareSteps li {
-    border: 0;
-    padding-inline: 10px;
-  }
-
-  .compareSteps li:first-child {
-    padding-inline-start: 16px;
-  }
-
   .metricFlow > div {
     padding-inline: 12px;
+  }
+}
+
+/* Comparison is a business diagram, never a reconstruction of a system screen. */
+.architecture {
+  margin-block: 20px 24px !important;
+}
+.architecturePanels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border: 1px solid var(--line); /* taste-skill-ignore: approved comparison, evidence annotation, or data-entity boundary */
+  border-radius: 8px;
+  overflow: hidden;
+}
+.architecturePanels > section {
+  padding: 24px;
+}
+.architecturePanels :is(h3, h4) {
+  margin: 0 0 var(--spacing-sm);
+  font: 700 16.8px/1.6 var(--cjk);
+}
+.architectureBefore {
+  background: var(--soft);
+}
+.architectureAfter {
+  background: var(--paper);
+  border-inline-start: 1px solid var(--line);
+}
+.dataSources {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+}
+.dataSources li {
+  position: relative;
+  padding: 12px 6px;
+  border: 1px solid var(--line); /* taste-skill-ignore: approved comparison, evidence annotation, or data-entity boundary */
+  border-radius: 8px;
+  text-align: center;
+  font-size: 14px;
+  background: var(--paper);
+}
+.dataSources li::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  height: 24px;
+  border-left: 1px dashed var(--muted); /* taste-skill-ignore: diagram connector from each source to manual reconciliation */
+}
+.manualBridge {
+  position: relative;
+  margin-top: 24px;
+  padding: 18px 16px;
+  background: var(--soft);
+  border-radius: 8px;
+}
+.manualBridge::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 16%;
+  right: 16%;
+  border-top: 1px dashed var(--muted); /* taste-skill-ignore: diagram connector joining the three sources */
+}
+.manualBridge strong {
+  display: block;
+  margin-bottom: 8px;
+  text-align: center;
+}
+.story .manualBridge p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.65;
+}
+.unifiedEntry {
+  padding: 16px;
+  background: var(--paper);
+  border: 1px solid var(--action); /* taste-skill-ignore: identifies the unified workflow entry in the architecture diagram */
+  border-radius: 8px;
+  text-align: center;
+}
+.unifiedEntry span {
+  display: block;
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.systemFlow {
+  display: grid;
+  gap: 14px;
+  padding: 0;
+  margin-top: 16px !important;
+  list-style: none;
+  text-align: center;
+  font-size: 15px;
+}
+.systemFlow li {
+  position: relative;
+}
+.systemFlow li + li::before {
+  content: "";
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  border: solid var(--action);
+  border-width: 0 1px 1px 0;
+  transform: translateX(-50%) rotate(45deg);
+}
+.story .systemResult {
+  margin: 12px 0 0;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.65;
+}
+.architecture figcaption {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--muted);
+}
+.evidenceRow {
+  margin-block: 16px 24px;
+}
+.evidenceRow > *,
+.architecturePanels > * {
+  min-width: 0;
+}
+.successComparison {
+  margin-top: 24px;
+  align-items: center;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+.successComparison h4 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+.successComparison p {
+  font-size: 14px;
+  line-height: 1.65;
+}
+.auditEvidence {
+  margin-top: 16px;
+}
+@media (max-width: 760px) {
+  .architecturePanels,
+  .successComparison {
+    grid-template-columns: 1fr;
+  }
+  .architectureAfter {
+    border-inline-start: 0;
+    border-top: 1px solid var(--line); /* taste-skill-ignore: separates condition rows or before/after panels */
+  }
+  .architecturePanels > section {
+    padding: 20px 16px;
   }
 }

@@ -13,32 +13,42 @@ const renderCase = () =>
     </MemoryRouter>,
   );
 
-test("the reader separates two design decisions and shows each complete screenshot with its caption", () => {
+test("the reader separates the decision flow from recovery and keeps complete evidence in its chapter", () => {
   const { container } = renderCase();
   expect(
     screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent),
   ).toEqual([
-    "会员业务与改造背景",
-    "看清办理依据，中断后能顺畅接手",
-    "让前台在额度内当场给优惠",
-    "上线后发生了什么",
+    "业务痛点与系统边界取舍",
+    "信息架构重构：将跨模块数据聚合成单一决策流",
+    "跨系统容错设计：数据歧义识别与断点人工接手",
+    "规则解耦与权限前置：让合规校验发生在报价当下",
+    "落地验证、系统边界与演进规划",
   ]);
   const handling = container.querySelector("#solution");
+  const recovery = container.querySelector("#resilience");
   const discount = container.querySelector("#governance");
   expect(container.querySelector("#case-cover img")).not.toBeInTheDocument();
   expect(
     screen.queryByRole("link", { name: "查看办理设计" }),
   ).not.toBeInTheDocument();
   expect(container.querySelector("details")).not.toBeInTheDocument();
-  for (const slot of ["workspace", "upgrade", "orders", "failure", "success"])
+  for (const slot of ["workspace", "upgrade"])
     expect(
       handling.querySelector(`[data-visual-slot="${slot}"]`),
     ).toBeInTheDocument();
+  for (const slot of ["orders", "failure", "success"])
+    expect(
+      recovery.querySelector(`[data-visual-slot="${slot}"]`),
+    ).toBeInTheDocument();
+  expect(
+    discount.querySelector('[data-visual-slot="audit"]'),
+  ).toBeInTheDocument();
+  expect(container.querySelector("[data-case-roles]")).not.toBeInTheDocument();
   expect(
     discount.querySelector('[data-visual-slot="quota"]'),
   ).toBeInTheDocument();
   const figures = container.querySelectorAll("figure[data-visual-slot]");
-  expect(figures).toHaveLength(6);
+  expect(figures).toHaveLength(7);
   for (const figure of figures) {
     const image = within(figure).getByRole("img");
     expect(image).toHaveAttribute(
@@ -67,7 +77,7 @@ test("clicking a screenshot enlarges the same complete image", async () => {
   const triggers = screen.getAllByRole("button", {
     name: /^放大截图：/,
   });
-  expect(triggers).toHaveLength(6);
+  expect(triggers).toHaveLength(7);
   for (const trigger of triggers) {
     const thumbnail = within(trigger).getByRole("img");
     await user.click(trigger);
@@ -124,7 +134,10 @@ test("an unavailable screenshot keeps its explanation and the viewer remains dis
   expect(screen.getByRole("status")).toHaveTextContent(
     "会员升级选卡界面暂未加载",
   );
-  expect(figure.getByText(/新旧权益变化与系统算出的应付金额/)).toBeInTheDocument();
+  expect(figure.getByText("会员升级选卡界面")).toBeInTheDocument();
+  expect(
+    screen.getByText(/选定目标卡后，同步展示新权益与折扣/),
+  ).toBeInTheDocument();
   await user.click(
     figure.getByRole("button", {
       name: "放大截图：会员升级选卡界面",
@@ -138,4 +151,27 @@ test("an unavailable screenshot keeps its explanation and the viewer remains dis
   await user.click(within(dialog).getByRole("button", { name: "关闭大图" }));
   expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   expect(document.body.style.overflow).not.toBe("hidden");
+});
+
+test("each contents link reaches a labelled chapter, including the new recovery chapter", async () => {
+  const user = userEvent.setup();
+  const { container } = renderCase();
+  const nav = screen.getByRole("navigation", { name: "章节目录" });
+  expect(within(nav).getAllByRole("link")).toHaveLength(5);
+  const link = within(nav).getByRole("link", {
+    name: "策略二：跨系统容错设计",
+  });
+  await user.click(link);
+  const recovery = container.querySelector("#resilience");
+  expect(recovery).toHaveFocus();
+  expect(link).toHaveAttribute("aria-current", "location");
+  for (const item of within(nav).getAllByRole("link")) {
+    const id = item.getAttribute("href").split("#")[1];
+    const chapter = container.querySelector(`#${id}`);
+    expect(chapter).toHaveAttribute("aria-labelledby", `${id}-title`);
+    expect(within(chapter).getByRole("heading", { level: 2 })).toHaveAttribute(
+      "id",
+      `${id}-title`,
+    );
+  }
 });

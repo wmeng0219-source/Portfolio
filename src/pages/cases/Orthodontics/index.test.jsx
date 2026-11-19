@@ -1,14 +1,12 @@
 import { readFileSync } from "node:fs";
-import {
-  publicParagraphs,
-  normalizeManuscriptText,
-} from "../../../test/manuscript";
 import { act, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { vi } from "vitest";
 import { LanguageProvider } from "../../../context/LanguageContext";
 import Orthodontics from "./index";
+
+vi.mock("../../../config/features", () => ({ ENGLISH_ENABLED: true }));
 
 function mount(language = "zh", entry = "/project/orthodontics") {
   localStorage.setItem("language", language);
@@ -21,138 +19,142 @@ function mount(language = "zh", entry = "/project/orthodontics") {
   );
 }
 
-test("the overview is the first of six reading chapters and its link focuses the new title", async () => {
+test("the cover states the project, role and two facts, and the first chapter is the challenge", () => {
   const previous = Element.prototype.scrollIntoView;
   Element.prototype.scrollIntoView = vi.fn();
   try {
-    const user = userEvent.setup();
-    const { container } = mount("zh", "/project/orthodontics#overview");
-    const main = within(container.querySelector("main"));
-    const headings = main.getAllByRole("heading", { level: 2 });
+    const { container } = mount("zh", "/project/orthodontics#challenge");
+    const headings = within(container.querySelector("main")).getAllByRole(
+      "heading",
+      { level: 2 },
+    );
     expect(headings).toHaveLength(6);
-    expect(headings[0]).toHaveTextContent("项目概览");
-    expect(headings[0]).toHaveAttribute("id", "overview-title");
+    expect(headings[0]).toHaveTextContent("业务挑战");
+    expect(headings[0]).toHaveAttribute("id", "challenge-title");
     expect(headings[0]).toHaveFocus();
-    expect(
-      main.getByRole("heading", { name: "我的职责与协作" }),
-    ).toHaveProperty("tagName", "H3");
-    const link = screen.getByRole("link", { name: /01.*项目概览/ });
-    await user.click(link);
-    expect(headings[0]).toHaveFocus();
-    expect(link).toHaveAttribute("aria-current", "location");
-    expect(container.querySelector("#case-cover")).toHaveAttribute(
-      "aria-labelledby",
+
+    const cover = container.querySelector("#case-cover");
+    expect(cover).toHaveTextContent("咬合筛查与正畸协作前期流程");
+    expect(cover).toHaveTextContent("2026.02");
+    expect(cover).toHaveTextContent("18,460");
+    expect(cover).toHaveTextContent("门店调研");
+    expect(cover).toHaveAttribute("aria-labelledby", "case-title");
+    expect(screen.getByRole("heading", { level: 1 })).toHaveAttribute(
+      "id",
       "case-title",
     );
+
+    expect(
+      screen.getByRole("link", { name: /01.*业务挑战/ }),
+    ).toHaveAttribute("aria-current", "location");
   } finally {
     Element.prototype.scrollIntoView = previous;
   }
 });
 
-test("the earlier introduction deep link still reaches the overview chapter", () => {
+test("old deep links map onto the reorganized chapters and the cover", () => {
   const previous = Element.prototype.scrollIntoView;
   Element.prototype.scrollIntoView = vi.fn();
   try {
-    mount("zh", "/project/orthodontics#case-introduction");
-    expect(document.getElementById("overview-title")).toHaveFocus();
-    expect(screen.getByRole("link", { name: /01.*项目概览/ })).toHaveAttribute(
-      "aria-current",
-      "location",
-    );
+    const first = mount("zh", "/project/orthodontics#thinking");
+    expect(document.getElementById("decision-1-title")).toHaveFocus();
+    expect(
+      screen.getByRole("link", { name: /02.*决策一/ }),
+    ).toHaveAttribute("aria-current", "location");
+    first.unmount();
+
+    mount("zh", "/project/orthodontics#solution");
+    expect(document.getElementById("decision-2-title")).toHaveFocus();
+    expect(
+      screen.getByRole("link", { name: /03.*决策二/ }),
+    ).toHaveAttribute("aria-current", "location");
   } finally {
     Element.prototype.scrollIntoView = previous;
   }
 });
 
-test.each(["zh", "en"])(
-  "renders the complete six-chapter %s manuscript without the retired cumulative funnel",
-  (language) => {
-    const { container } = mount(language);
-    const manuscript = readFileSync(
-      "docs/pages/orthodontics/content.md",
-      "utf8",
-    );
-    const paragraphs = publicParagraphs(manuscript, language);
-    paragraphs.forEach((paragraph) =>
-      expect(normalizeManuscriptText(container.textContent)).toContain(
-        normalizeManuscriptText(paragraph),
-      ),
-    );
-    expect(
-      within(
-        screen.getByRole("navigation", {
-          name: language === "zh" ? "章节目录" : "Contents",
-        }),
-      ).getAllByRole("link"),
-    ).toHaveLength(6);
-    expect(container).not.toHaveTextContent(
-      /54,990|53\.75%|55\.38%|建档|素材准备中/,
-    );
-    expect(
-      container.querySelector('[data-evidence="cumulative"]'),
-    ).toHaveTextContent("18,460");
-    const periodComparison = container.querySelector(
-      '[data-evidence="period-comparison"]',
-    );
-    expect(periodComparison).not.toBeNull();
-    expect(periodComparison).toHaveTextContent(
-      language === "zh"
-        ? "判定需矫后产生矫正收费"
-        : "subsequently incurred an orthodontic charge",
-    );
-    expect(periodComparison).not.toHaveTextContent(
-      language === "zh" ? "不能全部归因" : "attributed entirely",
-    );
-  },
-);
+test("two key decisions combine reasoning, a diagram and real interface evidence", () => {
+  const { container } = mount("zh");
 
-test("keeps explanatory comparisons and evidence, with no simulated workbench or empty role matrix", () => {
-  const { container } = mount();
-  expect(screen.queryAllByRole("tab")).toHaveLength(0);
-  expect(screen.getAllByRole("figure")).toHaveLength(6);
-  expect(
-    screen.queryByRole("figure", { name: "筛查入口的过渡" }),
-  ).not.toBeInTheDocument();
-  const flow = screen.getByRole("figure", { name: "角色协作示意" });
-  ["护士", "儿牙医生", "正畸医生"].forEach((role) =>
-    expect(flow).toHaveTextContent(role),
-  );
-  expect(flow).toHaveTextContent("不表示每个病例必须固定顺序一次完成");
-  expect(container.querySelector("[role='tabpanel']")).not.toBeInTheDocument();
-  const record = flow.querySelector('[data-meaning="shared-record"]');
-  expect(record).toHaveTextContent("初步筛查填写");
-  expect(record).not.toHaveTextContent("家长沟通");
-  const communication = flow.querySelector(
-    '[data-meaning="family-communication"]',
-  );
-  expect(communication).toHaveTextContent("诊间");
-  expect(communication).toHaveTextContent("离店后");
-  expect(communication).toHaveTextContent("报告");
   const scope = screen.getByRole("figure", {
     name: "推荐候选与执行任务的区别",
   });
-  expect(
-    scope.querySelector('[data-meaning="candidate-pool"]'),
-  ).toHaveTextContent("推荐候选");
-  expect(
-    scope.querySelector('[data-meaning="execution-tasks"]'),
-  ).toHaveTextContent("筛查任务");
+  expect(scope).toHaveTextContent("推荐池");
+  expect(scope).toHaveTextContent("已预约筛查");
   expect(scope).toHaveTextContent("原有预约中添加筛查项目");
   expect(scope).toHaveTextContent("医生主动补充");
-  expect(scope).toHaveTextContent("不是删除推荐后自动补齐固定数量");
-  const comparison = screen.getByRole("figure", { name: "筛查机制旧新对照" });
-  expect(comparison.closest("section")).toHaveAttribute("id", "problem");
-  expect(comparison).toHaveTextContent("快筛已有结果与看板");
-  expect(within(comparison).getAllByRole("row")).toHaveLength(4);
-  const tracking = screen.getByRole("figure", { name: "业务节点与追踪依据" });
-  expect(tracking).toHaveTextContent("不代表人数或每位患者必经的固定顺序");
-  expect(tracking).toHaveTextContent(
-    "筛查时资料采集与后续按收费识别的资料节点口径不同",
+  expect(scope).toHaveTextContent("删除推荐不会自动补齐固定数量");
+
+  const relay = screen.getByRole("figure", { name: "角色接续示意" });
+  ["护士", "儿牙医生", "正畸医生", "正畸顾问"].forEach((role) =>
+    expect(relay).toHaveTextContent(role),
   );
-  const evidence = screen.getByRole("figure", { name: "实际使用与上线范围" });
-  expect(evidence).toHaveTextContent("18,460");
-  expect(evidence).toHaveTextContent("不是去重患者数");
-  expect(evidence).toHaveTextContent("不等于每家门店的采纳率");
+  expect(relay).toHaveTextContent("同一份筛查记录");
+  expect(relay).toHaveTextContent("不表示所有病例必须按同一顺序一次完成");
+
+  expect(
+    screen.getByRole("img", { name: /儿牙筛查列表截图/ }),
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole("img", { name: /护士资料采集界面/ }),
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole("img", { name: /儿牙医生完成筛查确认弹窗/ }),
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole("img", { name: /正畸医生筛查结论面板/ }),
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole("img", { name: /家长端咬合筛查报告封面/ }),
+  ).toBeInTheDocument();
+
+  const images = [...container.querySelectorAll("img")];
+  expect(images.length).toBeGreaterThanOrEqual(12);
+  expect(
+    images.every((image) => image.getAttribute("src")?.endsWith(".webp")),
+  ).toBe(true);
+  expect(container).not.toHaveTextContent(/金冬天|凤瑾春|王晓云|陈医生/);
+});
+
+test("results separate record volume, rollout scope and the same-season business change", () => {
+  const { container } = mount("zh");
+  const results = container.querySelector("#results");
+
+  expect(results).toHaveTextContent("18,460");
+  expect(results).toHaveTextContent("2026 年 2 月在全部门店上线");
+  expect(results).toHaveTextContent("30%–40%");
+  expect(results).toHaveTextContent("50%–60%");
+  expect(results).toHaveTextContent("不能单独归因于本项目");
+  expect(results).not.toHaveTextContent("54,990");
+
+  const range = screen.getByRole("figure", {
+    name: "需矫成交率同期变化",
+  });
+  expect(range).toHaveTextContent("判定需矫后产生矫正收费");
+  expect(range).toHaveTextContent("2025 年 2—4 月");
+  expect(range).toHaveTextContent("2026 年 2—4 月");
+});
+
+test("the page keeps reflection short and puts the entry trade-off behind a disclosure", () => {
+  const { container } = mount("zh");
+  const reflection = container.querySelector("#reflection");
+  expect(reflection).toHaveTextContent("信息要求要匹配现场执行能力");
+  expect(reflection).toHaveTextContent("流程变更需要与业务共同推进");
+  expect(reflection).toHaveTextContent("入口复用取舍");
+  expect(container).not.toHaveTextContent("编辑备注");
+  expect(container).not.toHaveTextContent("素材准备中");
+});
+
+test("the manuscript records the new structure and the verified facts", () => {
+  const manuscript = readFileSync("docs/pages/orthodontics/content.md", "utf8");
+  [
+    "把推荐候选和需要执行的筛查任务分开",
+    "按专业边界拆分任务，让多角色能接续完成",
+    "18,460",
+    "2026.02 全部门店上线",
+    "不能单独归因于本项目",
+    "姓名、生日、病历字段、医生姓名与患者肖像已做脱敏",
+  ].forEach((text) => expect(manuscript).toContain(text));
 });
 
 test("contents supports repeated navigation, deep links and reduced motion", async () => {
@@ -166,9 +168,9 @@ test("contents supports repeated navigation, deep links and reduced motion", asy
   Element.prototype.scrollIntoView = scroll;
   try {
     const user = userEvent.setup();
-    mount("zh", "/project/orthodontics#solution");
-    expect(document.getElementById("solution-title")).toHaveFocus();
-    const link = screen.getByRole("link", { name: /04.*整体方案/ });
+    mount("zh", "/project/orthodontics#results");
+    expect(document.getElementById("results-title")).toHaveFocus();
+    const link = screen.getByRole("link", { name: /05.*上线结果/ });
     await user.click(link);
     scroll.mockClear();
     await user.click(link);
@@ -176,7 +178,7 @@ test("contents supports repeated navigation, deep links and reduced motion", asy
       behavior: "instant",
       block: "start",
     });
-    expect(document.getElementById("solution-title")).toHaveFocus();
+    expect(document.getElementById("results-title")).toHaveFocus();
     expect(link).toHaveAttribute("aria-current", "location");
     await user.click(screen.getByRole("button", { name: "Switch to English" }));
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
@@ -233,43 +235,44 @@ test("contents observes chapter intersections and releases observers when leavin
   vi.stubGlobal("IntersectionObserver", Observer);
   try {
     const { unmount } = mount();
-    const chapters = observers.find((o) =>
-      o.targets.some((t) => t.id === "solution"),
+    const chapters = observers.find((observer) =>
+      observer.targets.some((target) => target.id === "decision-1"),
     );
     expect(chapters).toBeDefined();
     act(() =>
       chapters.callback([
-        { target: document.getElementById("solution"), isIntersecting: true },
+        {
+          target: document.getElementById("decision-1"),
+          isIntersecting: true,
+        },
       ]),
     );
-    expect(screen.getByRole("link", { name: /04.*整体方案/ })).toHaveAttribute(
-      "aria-current",
-      "location",
-    );
-    const end = observers.find((o) =>
-      o.targets.some((t) => t.id === "reader-end"),
+    expect(
+      screen.getByRole("link", { name: /02.*决策一/ }),
+    ).toHaveAttribute("aria-current", "location");
+
+    const end = observers.find((observer) =>
+      observer.targets.some((target) => target.id === "reader-end"),
     );
     act(() => end.callback([{ isIntersecting: true }]));
-    expect(screen.getByRole("link", { name: /06.*反思/ })).toHaveAttribute(
-      "aria-current",
-      "location",
-    );
+    expect(
+      screen.getByRole("link", { name: /06.*反思/ }),
+    ).toHaveAttribute("aria-current", "location");
     act(() => end.callback([{ isIntersecting: false }]));
-    expect(screen.getByRole("link", { name: /04.*整体方案/ })).toHaveAttribute(
-      "aria-current",
-      "location",
-    );
-    const intro = chapters.targets.find((t) => t.id === "overview");
+    expect(
+      screen.getByRole("link", { name: /02.*决策一/ }),
+    ).toHaveAttribute("aria-current", "location");
+
+    const intro = chapters.targets.find((target) => target.id === "challenge");
     expect(intro).toBeDefined();
     act(() => chapters.callback([{ target: intro, isIntersecting: true }]));
-    expect(screen.getByRole("link", { name: /01.*项目概览/ })).toHaveAttribute(
-      "aria-current",
-      "location",
-    );
+    expect(
+      screen.getByRole("link", { name: /01.*业务挑战/ }),
+    ).toHaveAttribute("aria-current", "location");
     unmount();
-    expect(observers.every((o) => o.disconnect.mock.calls.length > 0)).toBe(
-      true,
-    );
+    expect(
+      observers.every((observer) => observer.disconnect.mock.calls.length > 0),
+    ).toBe(true);
   } finally {
     vi.unstubAllGlobals();
   }
@@ -290,12 +293,12 @@ test("observer rebuild and non-intersecting entries identify the chapter precedi
   }
   vi.stubGlobal("IntersectionObserver", Observer);
   const tops = {
-    overview: -2400,
-    problem: -1800,
-    thinking: -100,
-    solution: 152,
-    impact: 1200,
-    reflection: 2000,
+    challenge: -1800,
+    "decision-1": -100,
+    "decision-2": 152,
+    experience: 1200,
+    results: 2000,
+    reflection: 2800,
   };
   const rect = vi
     .spyOn(Element.prototype, "getBoundingClientRect")
@@ -304,14 +307,18 @@ test("observer rebuild and non-intersecting entries identify the chapter precedi
     });
   try {
     mount();
-    const current = () => screen.getByRole("link", { name: /03.*我的判断/ });
+    const current = () =>
+      screen.getByRole("link", { name: /02.*决策一/ });
     expect(current()).toHaveAttribute("aria-current", "location");
-    const cursor = observers.find((o) =>
-      o.targets.some((t) => t.id === "solution"),
+    const cursor = observers.find((observer) =>
+      observer.targets.some((target) => target.id === "decision-1"),
     );
     act(() =>
       cursor.callback([
-        { target: document.getElementById("thinking"), isIntersecting: false },
+        {
+          target: document.getElementById("decision-1"),
+          isIntersecting: false,
+        },
       ]),
     );
     expect(current()).toHaveAttribute("aria-current", "location");
@@ -323,5 +330,34 @@ test("observer rebuild and non-intersecting entries identify the chapter precedi
   }
 });
 
-// 保留启用开关后的英文恢复路径测试；生产默认停用英文。
-vi.mock("../../../config/features", () => ({ ENGLISH_ENABLED: true }));
+test("screenshot evidence opens in a dialog and Escape restores the trigger", async () => {
+  const user = userEvent.setup();
+  mount("zh");
+  const trigger = screen.getByRole("button", {
+    name: /放大查看：同一张列表里/,
+  });
+  await user.click(trigger);
+  const dialog = screen.getByRole("dialog");
+  expect(dialog).toHaveAttribute("aria-modal", "true");
+  expect(
+    screen.getByRole("button", { name: "关闭图片预览" }),
+  ).toHaveFocus();
+  expect(
+    within(dialog).getByRole("img", { name: /儿牙筛查列表截图/ }),
+  ).toHaveAttribute("src", expect.stringContaining("screening-list.webp"));
+  await user.keyboard("{Escape}");
+  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  expect(trigger).toHaveFocus();
+});
+
+test("the full report opens the redacted long image", async () => {
+  const user = userEvent.setup();
+  mount("zh");
+  await user.click(screen.getByRole("button", { name: /查看完整报告/ }));
+  const dialog = screen.getByRole("dialog");
+  expect(dialog).toHaveTextContent("家长报告：把结论带到离店之后");
+  expect(
+    within(dialog).getByRole("img", { name: /家长端咬合筛查报告封面/ }),
+  ).toHaveAttribute("src", expect.stringContaining("report-full.webp"));
+  expect(dialog).toHaveTextContent("报告为长图");
+});

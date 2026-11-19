@@ -1,4 +1,4 @@
-// 页面信息设计取自已确认的内容V1；底稿保持在 docs/pages/member-automation/content.md。
+// 2026-11-18 按用户指定的五章叙事与图文方案重组；证据边界见案例底稿。
 export const caseContent = {
   hero: {
     title: {
@@ -6,10 +6,17 @@ export const caseContent = {
       en: "Member Automation & Financial Governance",
     },
     summary: {
-      zh: "为连锁儿童齿科重构的会员办理流程。过去办一次会员卡升级，前台得在原系统的多个模块间来回翻找历史记录、手算差价；新系统将原卡核对、差价计算与额度内让价收拢到同一处完成，让前台算得准、办得快。",
+      zh: "为连锁儿童齿科重构会员办理流程。在保留原系统底层收费能力的前提下，将割裂的卡、券、账单数据聚合为单一决策流，并把现场额外让价从事后补批改为月度额度前置校验，让办理提效与优惠授权同时落地。",
       en: "",
     },
-    role: "负责一线调研、业务规则梳理、产品方案、流程交互与界面设计，并跟进门店试点落地。",
+    role: "负责一线调研、业务规则梳理、产品方案、流程交互与界面设计，并参与推进门店落地。",
+    roleTags: [
+      "一线调研",
+      "业务规则梳理",
+      "产品方案",
+      "流程交互与界面设计",
+      "参与门店落地",
+    ],
     roles: {
       zh: [
         "我负责跟前台核对实际操作痛点，与财务敲定计费、账单及优惠授权规则，并将其转化为产品方案与界面交互；整体改造范围由团队共同拍板，研发完成系统开发。",
@@ -20,36 +27,45 @@ export const caseContent = {
   sections: [
     {
       id: "overview",
-      navTitle: "业务背景",
+      navTitle: "业务背景与架构取舍",
       title: {
-        zh: "会员业务与改造背景",
+        zh: "业务痛点与系统边界取舍",
         en: "Context & Constraints",
       },
-      zh: [{ type: "narrative", kind: "overview" }, { type: "roles" }],
+      zh: [{ type: "narrative", kind: "overview" }],
     },
     {
       id: "solution",
-      navTitle: "会员升级",
+      navTitle: "策略一：信息架构重构",
       title: {
-        zh: "看清办理依据，中断后能顺畅接手",
+        zh: "信息架构重构：将跨模块数据聚合成单一决策流",
         en: "Membership Handling",
       },
       zh: [{ type: "narrative", kind: "solution" }],
     },
     {
-      id: "governance",
-      navTitle: "额外优惠",
+      id: "resilience",
+      navTitle: "策略二：跨系统容错设计",
       title: {
-        zh: "让前台在额度内当场给优惠",
+        zh: "跨系统容错设计：数据歧义识别与断点人工接手",
+        en: "Cross-system Recovery",
+      },
+      zh: [{ type: "narrative", kind: "resilience" }],
+    },
+    {
+      id: "governance",
+      navTitle: "策略三：风控前置治理",
+      title: {
+        zh: "规则解耦与权限前置：让合规校验发生在报价当下",
         en: "Discount Authorization",
       },
       zh: [{ type: "narrative", kind: "governance" }],
     },
     {
       id: "impact",
-      navTitle: "结果与边界",
+      navTitle: "落地验证与演进",
       title: {
-        zh: "上线后发生了什么",
+        zh: "落地验证、系统边界与演进规划",
         en: "Outcomes & Boundaries",
       },
       zh: [{ type: "narrative", kind: "impact" }],
@@ -98,10 +114,11 @@ export const screenshots = {
     caption: "全部顺利走完时，成功反馈逐项列出系统已完成的收费和会员变更。",
   },
   audit: {
-    title: "会员卡操作日志",
+    title: "会员操作日志界面",
     width: 2400,
     height: 1350,
-    caption: "会员状态变化记录，不作为优惠额度或完整财务监管证据。",
+    caption:
+      "记录升级、冻结与有效期等会员变更；这张图支持卡状态追查，不展示优惠使用记录。",
   },
 };
 
