@@ -14,9 +14,6 @@
 .cover {
   composes: cover from "../Orthodontics/Orthodontics.module.css";
 }
-.topbar {
-  composes: topbar from "../Orthodontics/Orthodontics.module.css";
-}
 .chapterHead {
   composes: chapterHead from "../Orthodontics/Orthodontics.module.css";
 }
@@ -416,16 +413,8 @@
   gap: 16px;
   min-width: 0;
 }
-.linkArrow {
-  display: inline-block;
-  transition: transform 180ms ease;
-}
-.topbar a:hover .linkArrow {
-  transform: translateX(4px);
-}
 @media (min-width: 1441px) {
-  .root .container,
-  .root .topbar {
+  .root .container {
     width: 1080px;
   }
 }
@@ -534,8 +523,7 @@
   .mobileTitle {
     display: block;
   }
-  .root .container,
-  .root .topbar {
+  .root .container {
     width: calc(100% - 40px);
   }
   .heroMetrics,
@@ -573,10 +561,5 @@
   }
   .destination {
     padding: 16px;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .linkArrow {
-    transition: none !important;
   }
 }

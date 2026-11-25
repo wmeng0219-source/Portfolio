@@ -1,0 +1,83 @@
+.topbar {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 30;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: max(48px, calc((100% - 1080px) / 2));
+  color: #b8b8b8;
+  background: #101013;
+  transition:
+    background 180ms ease,
+    color 180ms ease;
+}
+
+.topbar .back {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  color: inherit;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.topbar .back:hover {
+  color: #d0bcff;
+}
+
+.topbar .back:focus-visible {
+  outline: 2px solid #d0bcff;
+  outline-offset: 4px;
+}
+
+.lightHeader {
+  color: #5c5c5c;
+  background: #fff;
+  border-bottom: 1px solid #e7e7e7;
+}
+
+.lightHeader .back:hover {
+  color: #624595;
+}
+
+.lightHeader .back:focus-visible {
+  outline-color: #624595;
+}
+
+.readerTitle {
+  position: absolute;
+  inset-inline: 110px;
+  margin: auto;
+  width: fit-content;
+  max-width: calc(100% - 220px);
+  text-align: center;
+  color: #171717;
+  font: 800 20px/1.2 var(--cjk);
+}
+
+@media (max-width: 600px) {
+  .topbar {
+    padding-inline: 20px;
+  }
+}
+
+@media (max-width: 560px) {
+  .topbar .back {
+    font-size: 14px;
+  }
+
+  .readerTitle {
+    inset-inline: auto 20px;
+    max-width: calc(100% - 124px);
+    font-size: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .topbar {
+    transition: none;
+  }
+}

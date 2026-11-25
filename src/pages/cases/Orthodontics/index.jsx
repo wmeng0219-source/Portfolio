@@ -5,6 +5,7 @@ import { media } from "./media";
 import { Evidence, Lightbox } from "./Evidence";
 import { ReportPreview } from "./ReportPreview";
 import { useCaseMotion } from "./motion";
+import { CaseReaderHeader } from "../shared/CaseReaderHeader";
 import {
   OldWorkflow,
   StrategyFlow,
@@ -152,9 +153,7 @@ export default function Orthodontics() {
         inert={lightbox ? "" : undefined}
         aria-hidden={lightbox ? true : undefined}
       >
-        <nav className={styles.topbar} aria-label="返回作品">
-          <BackLink />
-        </nav>
+        <CaseReaderHeader title={copy.title} />
         <main>
           <section
             id="case-cover"
@@ -163,7 +162,6 @@ export default function Orthodontics() {
           >
             <div className={`${styles.container} ${styles.stack40}`}>
               <div className={styles.stack16}>
-                <p className={styles.coverEyebrow}>{copy.eyebrow}</p>
                 <h1 id="case-title" tabIndex={-1}>
                   {copy.title.slice(0, 7)}
                   <span className={styles.titleTail}>{copy.title.slice(7)}</span>

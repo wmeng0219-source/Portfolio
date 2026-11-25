@@ -63,7 +63,7 @@
   outline-offset: 4px;
 }
 .root :where(section[id]) {
-  scroll-margin-top: 24px;
+  scroll-margin-top: 88px;
 }
 .root ::selection {
   background: #e8ddf7;
@@ -95,34 +95,20 @@
 .chapterStack {
   gap: 40px;
 }
-.topbar {
-  position: absolute;
-  top: 20px;
-  left: 0;
-  right: 0;
-  width: min(1080px, calc(100% - 96px));
-  margin-inline: auto;
-  z-index: 2;
-  font-size: 14px;
-  line-height: 22px;
-}
-.topbar a,
 .footer a {
   display: inline-flex;
   align-items: center;
   gap: 12px;
   min-height: 44px;
 }
-.topbar a {
-  color: #d3ccde;
-}
-.topbar a:focus-visible {
-  outline-color: #d3ccde;
-}
 .cover {
   padding-block: 88px;
   background: #101013;
   color: white;
+}
+.root .cover h1 {
+  font-size: clamp(36px, 4.45vw, 64px);
+  line-height: 1.16;
 }
 .coverEyebrow {
   font-size: 14px;
@@ -979,8 +965,7 @@
   .root h2 {
     text-wrap: balance;
   }
-  .container,
-  .topbar {
+  .container {
     width: calc(100% - 40px);
   }
   .cover {

@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { caseContent as copy } from "./content";
 import { Evidence, Lightbox } from "../Orthodontics/Evidence";
 import { useCaseMotion } from "../Orthodontics/motion";
+import { CaseReaderHeader } from "../shared/CaseReaderHeader";
 import {
   Flow,
   WorkbenchAnnotations,
@@ -177,14 +178,7 @@ export default function PacsAiCase() {
         inert={lightbox ? "" : undefined}
         aria-hidden={lightbox ? true : undefined}
       >
-        <nav className={styles.topbar} aria-label="返回作品">
-          <Link to="/" state={{ scrollTo: "portfolio" }}>
-            返回作品{" "}
-            <span className={styles.linkArrow} aria-hidden="true">
-              ↗
-            </span>
-          </Link>
-        </nav>
+        <CaseReaderHeader title={hero.title} />
         <main>
           <section
             id="case-cover"
@@ -193,7 +187,6 @@ export default function PacsAiCase() {
           >
             <div className={styles.container + " " + styles.stack40}>
               <div className={styles.stack16} data-case-intro>
-                <p className={styles.coverEyebrow}>{hero.eyebrow}</p>
                 <h1 id="case-title" tabIndex={-1}>
                   {hero.title}
                 </h1>
