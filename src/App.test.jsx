@@ -91,7 +91,7 @@ test("renders homepage sections with updated responsibilities and portfolio emph
 test.each([
   ["/", "WEN MENG"],
   ["/project/member-automation", "会员自动化与财务治理"],
-  ["/project/orthodontics", "咬合筛查与正畸协作前期流程"],
+  ["/project/orthodontics", "咬合筛查与正畸前期协作流程"],
   ["/project/pacs-ai", "PACS 影像读片与 AI 辅助"],
 ])(
   "English is paused on %s even with a saved English preference",
@@ -135,7 +135,7 @@ test("renders case studies and handles invalid project ID 404 fallback", () => {
   expect(
     screen.getByRole("heading", {
       level: 1,
-      name: "咬合筛查与正畸协作前期流程",
+      name: /咬合筛查与正畸\s*前期协作流程/,
     }),
   ).toBeInTheDocument();
   unmount2();
