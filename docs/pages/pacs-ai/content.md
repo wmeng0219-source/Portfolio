@@ -1,385 +1,417 @@
-# PACS 页面内容审核稿
+# PACS 影像读片与 AI 辅助
 
-> 修订日期：2026-10-04。内容审核：当前正文与七部分结构已通过（用户确认“现在这个文档没什么大问题了”）；项目周期仍待补充，短标题保持暂用，不补编缺失信息。
-> 页面设计与实现状态见[设计记录](design.md)，不由内容稿中的旧制作说明决定。
+> **文档定位：完整项目内容底稿与证据备注。** 保留业务事实、需求洞察、设计推导、方案取舍和实际反馈，作为后续网页文案整理、视觉设计和面试准备的统一信息来源；本文件不是最终网页展示文案，不按现有版式压缩内容。
+>
+> **更新依据（2026-11-25）：** 以用户本轮人工逐项核对的最新审核版为准；保留旧稿及原始 PRD 中未冲突的有效业务细节，来源与差异在文末内部备注中说明。基础读片与 AI 辅助是同一项目中分阶段落地的能力，AI 从项目初期即纳入规划。
+>
+> **当前状态：** 本轮仅更新本文件，待用户最终审核。网页展示文案、代码、Figma、其他项目及原始资料均未修改。既有页面的设计与实施记录见[design.md](design.md)，其历史审核结果不代表已同步本轮底稿；英文暂停。
 
-**阅读说明：** 第 01–07 节是页面内容，先看中文。配图备注、项目周期待确认提示和第 8 节编辑备注不上页面。事实有误直接在本稿指出，不需要再审核另一份事实文档。
+## 01｜项目概览
 
-## 01｜项目概览 Project Overview
+### 项目介绍
 
-> **周期待确认，不上页面：** 整个项目的起止时间尚未确认。AI 上线节点不等于整个项目周期，暂不填写日期。
+面向儿童齿科医生的影像读片与 AI 辅助系统，将原有的影像查看、医生判断、家长讲解和病历填写整合为可记录、可追踪的读片流程，并通过 AI 辅助医生发现疑似异常区域。
 
-### 中文
+项目旨在推动医疗质控标准化，同时尽可能降低新增管理要求对医生日常接诊的影响。
 
-**标题（暂用，待确认）**
+### 核心成果
 
-> PACS 读片与 AI 辅助
+- **147,793 张**：累计读片量。
+- **18,075 张**：单月最高读片量。
+- **96.3%**：最终确认的病灶诊断记录中来源于 AI 的比例。
+- **全国门店**：面向全国推广，纳入日常医疗质控管理。
 
-**项目介绍**
+96.3% 按病灶诊断记录数量统计，不是影像张数占比，也不是 AI 识别准确率。累计使用数据来自实际业务数据库、统计周期一致，无上线前后对照；详细口径见第 06 节。
 
-> 原系统能推荐是否拍片，却没有记录拍完后医生是否读片。项目让医生在向家长讲片时标记、填写读片内容，完整内容随检查表同步到病历；管理人员能跟进读片完成情况，督促必要的读片工作落实，以保障医疗质量；AI 则提供异常线索，帮助医生查找和标记。
+### 个人职责
 
-**我的职责与协作**
+- **角色：** 产品设计 / 产品经理。
+- **职责：** 参与需求分析与业务规则梳理，负责产品交互与界面设计，独立负责 AI 辅助读片方案，并跟进数据分析与迭代优化。
+- **协作：** 医疗、研发、算法团队。
 
+---
 
-基础读片由我与产品经理共同推动，与医疗主任确认医疗规则。我负责流程交互和界面设计，设计确认后与产品经理共同整理 PRD。
+## 02｜背景与问题
 
-AI 辅助读片由我独立负责产品方案、规则、交互、UI 和 PRD，算法同事负责模型、识别能力和训练。最终影像诊断由医生负责。项目已上线并使用。
+### 原有业务流程
 
-### English
+在项目启动前，公司已经具备基础的影像管理和检查推荐能力。
 
-**Working title**
+系统推荐拍片 → 医生安排检查 → 护士采集并上传影像 → 医生查看影像并向家长讲解 → 手动填写病历。
 
-> PACS Reading with AI Assistance
+医生通常在诊室内指着影像中的异常区域向家长讲解，并在病历的辅助检查模块中填写检查结果。
 
-**Project introduction**
+### 医疗管理现状
 
-The original system could recommend imaging but did not track whether doctors read the images afterward. This project lets doctors mark and document findings while explaining images to parents, and includes completed reading content in the chart when the checklist is synchronized. Managers can follow up on reading completion to ensure necessary reading work is carried out in support of clinical quality, while AI provides anomaly cues to help with initial searching and marking.
+公司正在逐步推进医疗质量管理标准化，并通过「应检尽检」指标跟进各门店的检查执行情况。
 
-**My role and collaboration**
+但拍片之后的读片环节仍然缺乏有效管理。
 
-I worked with the product manager on structured reading and confirmed clinical rules with the medical director. I owned interaction and interface design, then co-authored the PRD after the design was agreed.
+主要存在三个问题：
 
-For AI-assisted reading, I independently owned the product solution, rules, interaction, UI, and PRD. The algorithm colleague owned the model, recognition capability, and training. Doctors remained responsible for final interpretation. The project is live in use.
+- **读片过程不可追踪：** 管理人员难以了解医生是否完成必要的影像判读。
+- **记录缺乏统一标准：** 医生的读片内容及记录完整性难以管理。
+- **接诊时间有限：** 医生需要同时完成影像观察、判断、讲解和病历填写，存在遗漏异常区域的风险。
 
-## 02｜问题 Problem
+因此，公司希望将读片工作纳入常态化医疗质控体系。
 
+---
 
-### 中文
+## 03｜需求洞察与判断
 
-#### 管理人员知道是否建议拍片，却不知道读片有没有完成
+### 读片管理不能停留在行为确认
 
-接诊前的预习功能已经能按规则推荐患者是否需要拍片。但拍完之后，医生有没有读片、内容有没有填完整，原系统无法记录和跟进。
+如果仅增加一个「已读片」按钮，虽然能够记录医生的确认行为，但无法获得具体的读片内容作为依据。
 
-需求最初由管理人员提出。他们需要区分哪些影像还没读、哪些内容没填完整、哪些已经完成，并按门店和医生查看。读片不直接产生经营业绩，但不能因为只关注业绩而忽略日常应该完成的医疗工作。
+在与医疗主任讨论后，团队了解到不同类型的影像都有对应的观察重点，可以通过具体的影像判断与描述来规范读片记录。
 
-#### 医生完成了讲解，却缺少与影像位置对应的读片记录
+因此，确定了半结构化记录的方向，将医生的影像判断转化为可记录、可追踪的业务数据。
 
-医生看完影像，会直接在诊室电脑前向家长讲解。过去主要用手指着影像、口头描述，关注位置和相应判断没有形成可共同查看的影像标记与读片内容。
+### 新增管理要求不能脱离接诊场景
 
-口头讲解能帮助当时沟通，但医生和其他医护再次查看时，缺少同一份带标记影像作为确认依据。
+在门店调研中发现，医生原本就有指着影像向家长讲解异常区域的习惯。
 
-因此，这个项目需要解决两件事：让医生的读片内容留下来，让管理人员知道读片工作有没有完成。只记录“拍过片”不能回答这两个问题。
+这意味着读片记录不必成为独立于原有工作之外的任务，而是可以融入医生观察和讲解影像的过程。
 
-### English
+同时，医生既然已经完成读片记录，就没有必要在病历中再次录入相同内容。
 
-#### Management could see imaging recommendations, not reading completion
+### AI 应辅助医生，而非替代医生
 
-The pre-visit feature could recommend imaging according to rules. After capture, however, the original system could not track whether the doctor had read the image or completed the reading record.
+AI 辅助读片从项目初期就已纳入规划，算法工程师同步开展影像识别模型的研发。
 
-Clinical managers initiated the request. They needed to distinguish unread images, incomplete records, and completed readings, and view them by clinic and doctor. Reading does not directly generate revenue, but it is routine clinical work that should not be overlooked.
+考虑到医生的接诊时间有限，AI 可以提供额外的异常区域提示，辅助医生定位疑似病灶，降低漏检风险。
 
-#### Explanations lacked a shared, location-linked reading record
+但 AI 不能代替医生作出最终医疗判断。
 
-Doctors reviewed images and explained them to parents at the clinic computer, mainly by pointing and speaking. Areas of concern and their interpretations did not form a shared record linking image marks to text.
+### 项目目标
 
-The explanation supported the immediate conversation, but doctors and other clinical staff lacked the same annotated reference when reviewing the findings later.
+1. 让读片工作可记录、可追踪、可统计。
+2. 建立相对统一的医疗记录标准。
+3. 将读片融入医生原有工作流程，降低额外操作负担。
+4. 借助 AI 辅助医生发现异常，降低漏检风险。
 
-The project therefore needed to retain reading content and show whether reading was complete. Recording that an image had been taken answered neither question.
+降低漏检风险、提高填写或操作效率均为设计目标，不作为已验证的医疗或效率成果。
 
-## 03｜我的判断 Product Thinking
+---
 
+## 04｜产品方案与设计决策
 
-### 中文
+### 4.1 将影像讲解与读片记录结合
 
-基础读片方案是在我与产品经理的共同讨论中形成，并与医疗主任确认专业规则；AI 部分由我独立负责方案。整理这些需求时，我关注三个判断：
+将医生原有的指认动作转化为影像框选操作。
 
-#### 判断 A：已经填写的读片内容，不应在病历里再录一遍
+医生可以直接在影像上框选异常区域，系统同步在右侧生成对应的描述卡片。每个标记框与一张描述卡片一一对应。
 
-查看是否完成读片，是管理层提出的需求。在讨论方案时，我进一步提出：既然医生已经填写了读片内容，就应将这份内容同步到病历，减少重复录入。
+医生可以在观察影像、向家长讲解的同时，完成相应区域的记录。
 
-这样，读片记录不仅用于查看完成情况，也能用于病历填写，避免同一份内容在两个地方重复记录。
+AI 自动提供疑似异常区域的标记，医生也可以手动补充 AI 未识别出的区域。
 
-#### 判断 B：记录要融入讲片过程，填写速度也要跟得上
+手动标记与 AI 辅助共用同一套读片记录体系，避免形成相互独立的操作流程。
 
-医生原本就会在电脑前向家长讲片。标记和填写应顺着这个过程发生，而不是讲完后再要求医生录入一份内容。
+### 4.2 平衡医疗规范与填写效率
 
-文字需要对应具体影像位置，让家长和其他医护知道描述的是哪处异常。填写也要跟得上讲解，常用内容应减少层层选择。
+将牙位、方位、密度、影像诊断及描述等内容转化为半结构化记录。
 
-不同牙位出现相同异常时，还会重复填写相同内容。因此，我提出读片页面的“复用模块”，让医生带入已有标记的密度、诊断和描述，再核对是否适用，减少逐项填写。
+为了降低现场填写成本，设计了多种快捷操作：
 
-#### 判断 C：AI 提供线索，医生决定是否正确、是否需要记录
+- 常用选项直接展示，减少操作层级。
+- 较长的选项列表支持数字、中文及拼音搜索。
+- 根据密度筛选对应的影像诊断选项。
+- 根据诊断提供常用描述词条。
+- 尽可能通过点选代替手动输入。
 
-医生时间紧张，引入 AI 的目标是补充异常线索，并减少从零查找、标记和录入的基础操作。但“识别正确”与“需要写入本次病历”是两个判断，不能把二者合并。
+设计初期希望在保证医疗记录规范性的同时，提高医生的填写效率。
 
-AI 也不能成为读片的前提。即使加载过久或失败，医生仍应能完成当前工作。
+### 4.3 复用诊断内容，避免重复填写
 
-### English
+在梳理结构化字段时，我发现不同牙位的异常记录可能具有相同的密度、影像诊断及文字描述，仅牙位和方位存在差异。
 
-The structured-reading solution was developed with the product manager and its clinical rules were confirmed with the medical director. I independently owned the AI-assisted solution. Three judgments guided this work:
+随后与医生沟通，验证了实际读片过程中确实存在这种重复填写的场景。
 
-- **A — Reuse recorded findings instead of entering them again in the chart.** Management requested visibility into reading completion. I proposed synchronizing the findings doctors had already documented to the chart, so the same content could serve completion tracking and chart documentation without duplicate entry.
-- **B — Document during the explanation, with input that keeps pace.** Marking and input should follow the existing parent conversation. Text needs to locate the finding on the image, and common choices should be quick to select. I also proposed an in-page reuse module: when different teeth have the same finding, doctors can bring density, diagnosis, and description from an existing mark into a new one, then review whether they apply.
-- **C — Let AI provide cues while doctors decide correctness and chart relevance.** AI aims to assist with initial searching, marking, and input. A correct cue may not belong in this chart. Slow or failed AI must not prevent manual reading.
+因此，我主动提出诊断内容复用功能，将信息拆分为两类：
 
-## 04｜方案 Solution
+- 位置相关信息：牙位、方位，独立填写。
+- 可复用信息：密度、影像诊断、文字描述，可直接引用已有记录。
 
-### 4.1 对应判断 A：将完整的读片内容随检查表同步到病历
+医生可以复用其他标记中已填写完成的诊断内容，同时保留当前标记的位置相关信息。
 
+仅在可复用字段均为空时提供复用入口，避免覆盖医生已填写的内容。
 
-医生已经在读片时填写了判断和描述，不需要在病历里再写一遍。同步检查表时，系统将已完成读片的内容带入病历“辅助检查”；未读或填写不完整的影像不参与同步。
+这一方案旨在减少相同诊断内容的重复录入，同时保留每处病灶的独立判断。
 
-护士拍片后上传影像并关联本次预约。医生从本次电子检查表进入读片，影像此时已经关联预约，不需要在读片页面重新关联。
+### 4.4 建立灵活的人机协作机制
 
-系统根据读片内容判断完成情况。有异常标记时，牙位、密度、影像诊断和描述等必填内容填写完整，才满足完成条件。只打开影像或画一个框，不代表完成。
+AI 的定位是提供异常线索，最终判断仍由医生完成。
 
-没有标记也不一定代表没有读片：医生可能已经看过，但未见明显异常。这时点击“完成读片”，明确确认结果，避免正常影像一直显示为未读。成像问题导致无法判读时，则明确记录“无法读片”，不能当作未见异常。
+**区分识别正确性与病历记录必要性**
 
-“完成读片”还会检查已有标记的必填内容，但它不直接触发病历同步。病历写入跟随检查表的同步操作，按每张影像的读片状态筛选。
+在与医疗主任讨论实际业务场景时，发现部分病灶即使被 AI 正确识别，也不一定需要写入病历。
 
-### 4.2 对应判断 B：边讲片、边标记、快速填写
+因此，将 AI 判断结果拆分为三种情况：
 
+- 判断正确，继续读片。
+- 判断正确，无需写入病历。
+- 判断错误。
 
-医生向家长讲片时，在影像上框选异常区域，并填写牙位、方位、密度、影像诊断和描述。这里的“结构化填写”，就是把判断记到这些固定字段中，而不只留下一段自由文本。
+避免将无需记录的病灶直接归类为 AI 识别错误。
 
-#### 标记与文字对应，方便讲解和查看
+**避免 AI 标记干扰医生观察**
 
-每个标记对应一张文字卡片。选中标记时，展开对应卡片，弱化其他标记和卡片，让医生知道正在填写哪处异常。医生和其他医护都能查看同一份标记与文字。
+当多个病灶距离较近时，AI 标记框可能遮挡影像细节，影响医生对周边区域的观察。
 
-#### 常用内容快速选择，减少操作层级
+因此，设计了按住隐藏标记框、松开恢复的交互，使医生能够快速查看原始影像，避免辅助信息反而成为观察障碍。
 
-为了让填写跟得上讲片速度：
+**保留医生的操作自主性**
 
-- 常用且选项较少的内容直接展示，尽量减少二级选择。
-- 牙位、方位和诊断等长列表支持数字、中文或拼音搜索。
-- 根据已选密度筛选诊断选项，不同时展示所有无关内容。
-- 描述词条在填写区域附近展开，不跳到其他页面。
-- 影像类型已知时默认选中，再次进入不重复确认。
+不强制医生先处理 AI 识别结果，再进行手动标记。
 
-#### 相同异常复用内容，减少重复填写
+医生可以根据自己的观察习惯，灵活选择操作顺序。
 
-不同牙位出现相同异常时，重新选择密度、诊断和描述会打断讲解。因此，我提出“复用模块”：医生可以选择一条已完整填写的标记，将这三项内容带入新标记。
+系统关注最终读片记录的完整性，而不对医生的判断过程施加不必要的限制。
 
-新标记保留自己的牙位和方位，带入内容仍需医生核对。复用只在这三项都未填写时提供，避免覆盖医生已经录入的内容。
+### 4.5 打通读片记录与病历
 
-### 4.3 对应判断 C：AI 先提示，医生复核后决定是否写入
+在与医疗主任共同讨论时，我们认为医生已经完成了影像判断与记录，没有必要在病历中再次填写相同内容。
 
+因此，将完整的读片记录与病历辅助检查模块打通。
 
-根尖片和咬翼片展示 AI 提示，全景片不展示。AI 先给出疑似异常区域和判断线索，医生可以选择：
+读片内容随电子检查表同步至病历，实现一次填写、多处使用。
 
-| 医生判断 | 后续处理 |
+同一份读片记录可以服务于：
+
+- 医生向家长讲解影像问题。
+- 医护人员后续查看读片内容。
+- 病历辅助检查内容填写。
+- 医疗质控管理与统计。
+
+让新增的管理记录同时服务于医生原有的工作需求。
+
+---
+
+## 05｜系统机制
+
+### 完整业务流程
+
+系统推荐检查 → 护士采集影像 → 医生进入读片 → 手动标记与 AI 辅助判断 → 完成记录 → 同步病历 → 医疗质控统计。
+
+护士上传影像并关联本次预约，医生从该预约的电子检查表进入读片；不需要在读片页重新关联预约。AI 是可选的辅助能力，不使用 AI 也可以手动完成读片。
+
+### 读片完成机制
+
+系统根据医生实际填写的内容判断读片完成情况，而不是简单记录影像是否被打开。
+
+- **未读片：** 尚未形成有效的读片记录。
+- **读片不完整：** 已进行标记，但必要内容尚未填写完整。
+- **已读片：** 完成必要记录，或明确确认未见明显异常。
+
+已有异常标记时，需要检查牙位、密度、影像诊断及描述等必要内容；方位不计入必填完成度。只打开影像或画一个框，不代表完成读片。没有标记也不等于没有读片，需由医生明确确认「未见明显异常」，避免把正常结果误判为未读。
+
+内容未填完整时，医生可以通过「暂不读片」保留当前记录并退出，不能据此视为已完成。读片状态用于追踪工作完成情况，不评价诊断是否正确。
+
+对于影像成像质量不足等情况，提供独立的「无法读片」处理方式，不将无法判读当作未见异常。
+
+### 完成状态与病历同步的关系
+
+| 读片状态 | 病历同步处理 |
 | --- | --- |
-| **判断正确，继续读片** | 补全详情，满足完成条件后随检查表同步到病历 |
-| **判断正确，无需写入病历** | 认可提示，但本次不记录到病历 |
-| **判断错误** | 删除对应标记和卡片 |
+| 未读片 | 不带入该影像的读片内容。 |
+| 读片不完整 | 提示补齐必要内容；同步检查表时不带入该影像内容。 |
+| 已读片 | 同步检查表时，将完整读片内容带入病历辅助检查模块。 |
 
-不能让 AI 提示未经医生选择就直接成为病历结论；也不应完全切断写入功能，让医生重复录入。因此 AI 与手动标记使用相同的详情字段、完成检查和病历同步规则。
+「完成读片」负责校验和确认当前结果，不直接触发病历写入；病历同步跟随电子检查表的同步操作，按每张影像的完成状态筛选。
 
-医生仍需要复核，这是方案保留的必要操作。页面同时保留“AI 结果仅供参考，医生对影像诊断结果负责”的说明。
+### AI 适用范围与异常处理
 
-AI 加载超过 5 秒或调用失败时，提供手动读片入口，医生不必一直等待。失败后可以再次调用；成功后再次进入不重复调用。转为手动后仍执行相同的必填检查，不跳过完成要求。
+根尖片、咬翼片展示 AI 提示，全景片不展示 AI 结果。未知或错误的影像分类需要先确认或纠正；已知类型默认选中，再次进入不重复确认。
 
-### English
+当 AI 加载超时或调用失败时，医生仍然可以通过手动读片完成当前工作。
 
-#### 4.1 For judgment A: include complete reading content when the checklist is synchronized
+原 AI PRD 约定加载超过 5 秒后提供手动入口；转为手动后仍按同一套必要字段和完成规则处理，不绕过记录要求。
 
-Doctors do not need to enter the same findings again in the chart. When the checklist is synchronized, completed reading content is included in the auxiliary-examination section; unread or incomplete images are excluded.
+避免算法服务成为正常接诊流程的前置依赖。
 
-After imaging, nurses upload the images and associate them with the appointment. Doctors enter reading from that appointment's checklist, so the images are already linked.
+### 算法反馈数据采集
 
-The system evaluates completion from the recorded content. Marked findings need complete required fields. An unmarked image may have been read with no apparent abnormality, so Complete Reading lets the doctor explicitly confirm that result. Images that cannot be interpreted are recorded separately, not treated as normal.
+记录医生与 AI 的判断差异，为后续模型训练和优化积累数据。
 
-Complete Reading also checks required fields for existing marks, but does not trigger chart synchronization. Chart entry follows checklist synchronization and filters each image by its reading status.
+项目已实现反馈数据采集，但截至离职时，尚未形成实际的模型训练与迭代闭环。
 
-#### 4.2 For judgment B: mark during the explanation and keep input quick
+---
 
-Doctors box areas of concern and fill in tooth, location, density, interpretation, and description while explaining the image to parents. Structured input records findings in these defined fields.
+## 06｜项目落地与成果
 
-**Link marks and text for explanation and review.** Each mark has a corresponding text card. Selecting it opens that card and dims other marks and cards. Doctors and other clinical staff can view the same content.
+### 全国范围推广
 
-**Make common choices quick to select.** Frequent short lists are shown directly with fewer nested choices. Longer tooth, location, and diagnosis lists support numeric, Chinese, or pinyin search. Diagnosis options are filtered by the selected density. Description terms open near the input area, and known image types are preselected without repeated confirmation.
+项目面向全国门店推广，并逐步融入医生日常接诊流程。
 
-**Reuse matching findings instead of repeating input.** Choosing the same density, diagnosis, and description for different teeth can interrupt the explanation. I proposed a reuse module that brings these fields from an existing complete mark into a new one.
+根据实际业务数据库统计：
 
-The new mark keeps its own tooth and location, and doctors review whether the imported content applies. Reuse is available only when all three fields are empty, avoiding overwriting existing input.
+- 累计读片量：147,793 张。
+- 单月最高读片量：18,075 张。
 
-#### 4.3 For judgment C: have doctors review AI cues and choose chart entry
+全国推广表示推广范围，不据此推算全国每家门店的持续使用率或医生覆盖率。
 
-AI cues are shown for periapical and bitewing images, not panoramic images. Doctors can:
+### 建立新的医疗质控指标
 
-- Confirm a cue and complete the details for inclusion when the checklist is synchronized.
-- Confirm it without including it in this chart.
-- Reject it and delete the mark and card.
+在原有「应检尽检」指标的基础上，公司新增「应读尽读」指标，将医生的读片完成情况纳入每周二的门店问责会。
 
-AI cues cannot become chart conclusions without doctor choice, but the connection to the chart is retained to avoid duplicate entry. AI and manual marks share the same fields, checks, and synchronization rules. Doctor review remains necessary, and the page states that AI is reference only and doctors are responsible for interpretation.
+医疗部门根据实际读片完成情况，制定了 **60%** 的阶段性考核目标。
 
-After a wait longer than 5 seconds or a failed call, doctors can enter manual reading. Failed calls can be retried; successful calls are not repeated on re-entry. Manual reading uses the same required-field checks.
+医疗质控的范围由检查执行进一步延伸至影像判读与记录，使原本难以追踪的读片工作成为可统计、可管理的业务环节。
 
-## 05｜关键流程与系统机制 System
+60% 是阶段性目标，不是实际达成率；不能用它代表诊断准确率或医疗效果。
 
+### AI 参与实际业务
 
-### 中文
+在最终确认的病灶诊断记录中，**96.3%** 来源于 AI 识别结果。
 
-#### 从影像到病历
+这一指标按病灶诊断记录数量统计，反映 AI 在实际读片记录中的贡献，而非算法识别准确率，也不是影像张数占比。
 
-`预习推荐拍片 → 护士拍片、上传并关联预约 → 医生从检查表进入读片 → 手动标记或复核 AI 提示、填写内容，或明确确认未见明显异常 → 系统判断读片状态 → 同步检查表时，将已完成读片的内容带入病历`
+同时，累计采集 **3,736 条** 经医生判断为错误的 AI 识别结果，为后续算法训练积累反馈数据。
 
-AI 只是其中的辅助步骤，不使用 AI 也能完成读片。AI 提示如何处理见第 4.3 节。病历同步不是读片页面按钮直接触发的动作，而是检查表同步的一部分。
+这不代表相关记录已经用于模型训练，也不据此推导医学误诊数量或 AI 错误率。
 
-#### 完成状态如何影响同步
+### 数据说明
 
-| 读片状态 | 系统处理 |
+上述使用数据来源于实际业务数据库，统计周期一致，属于累计使用数据，不包含上线前后的对照分析。
+
+其中，18,075 张为该统计周期内的单月峰值，60% 为管理考核目标；二者不作为累计量或实际完成率使用。
+
+影像张数与病灶诊断记录数是不同计数单位，不直接混算。尤其不能用累计读片张数作为 96.3% 的分母，也不能用 3,736 条记录倒推出 AI 准确率。
+
+因此，不将这些数据作为诊断准确率提升、漏诊率下降或操作效率提升的直接依据。
+
+---
+
+## 07｜持续迭代与设计反思
+
+### 通过数据发现使用问题
+
+项目上线后，通过观察医生的使用数据，发现部分医生的读片使用率偏低。
+
+因此，主动针对这部分医生开展调研，了解影响使用的具体原因。
+
+### 重新审视结构化填写的效率
+
+设计初期，希望通过结构化点选替代手动输入，在保证记录规范性的同时提高填写效率。
+
+但实际调研发现，多个下拉框带来了频繁的点击、查找与切换操作。
+
+对于习惯直接输入的医生，逐项点选反而不如直接打字高效。
+
+这暴露了初始方案的局限：减少打字并不必然意味着减少操作成本。
+
+这是调研中的定性反馈，不是前后操作耗时的量化比较，不外推为所有医生和所有场景。
+
+### 重新平衡医疗质控与医生体验
+
+经过与医疗部门的讨论，团队重新确认了业务目标的优先级。
+
+相比追求高度结构化的记录，更重要的是让医生愿意使用系统，并留下有效的读片内容。
+
+因此，医疗部门接受非结构化文字记录，产品方案也随之调整：
+
+- 将多个选择控件整合为统一输入框。
+- 将原有的结构化选项聚合为快捷词条。
+- 同时支持词条点选与自由输入。
+- 减少反复打开下拉框、查找和切换的操作。
+
+截至离职时，该优化方案已进入迭代阶段，最终上线情况及实际效果尚未确认。
+
+### 项目反思
+
+结构化是实现医疗质控的手段，而不是最终目的。
+
+产品设计不能仅从系统规范或减少输入次数的角度判断效率，还需要结合用户原有习惯、操作路径及实际使用数据。
+
+当既定方案与真实使用情况产生冲突时，应重新审视业务目标，而不是局限于原有方案进行局部优化。
+
+在这个项目中，让医生愿意使用、持续使用，是实现医疗质控的前提。
+
+---
+
+<details>
+<summary>维护资料：来源、变更、事实冲突与待确认事项（不用于网页展示）</summary>
+
+### 来源与文档关系
+
+| 资料 | 用途与优先级 |
 | --- | --- |
-| 未读片 | 不参与病历同步，提示仍需处理 |
-| 读片不完整 | 提示补齐必填内容，检查表同步时不带入该影像内容 |
-| 已读片 | 同步检查表时，带入该影像的完整读片内容；明确确认未见明显异常的影像也不应误判为未读 |
+| 用户 2026-11-25 本轮人工审核版 | 当前业务事实、七章叙事、职责及数据定义的主要依据。优先于旧稿、历史事实整理和旧数据转写中的解释。 |
+| 本文件 `content.md` | 唯一持续维护的完整内容底稿与必要证据备注；本轮在原文件更新，不另建平行底稿。 |
+| [正畸项目内容底稿](../orthodontics/content.md) | 只参考文档定位、中文层级、问题—判断—取舍—方案—反馈的叙事方式及内部备注组织，不迁入正畸项目事实。本轮未修改。 |
+| [历史 PACS 事实记录](../../project/PACS读片与AI辅助判断.md) | 保留旧确认、规则及出处线索；其中 AI 规划顺序、96.3%、3,736 条、病历同步想法归属和迭代状态等旧表述不覆盖本次审核版。 |
+| [基础读片 PRD](../../origin/读片/读片PRD.v1.md)、[AI 辅助 PRD](../../origin/读片/读片新增AI判断PRD-v2.md) | 机制设计与规则来源，不将用户故事中的目标自动当成已验证结果，也不将有设计记录等同已上线。基础 PRD 已含 AI 相关用户故事，可与本次“初期纳入规划”互证。 |
+| [累计月度读片数据](../../origin/读片总数据.md)、[阶段读片量](../../origin/读片量数据.md) | 历史月度／日度规模来源，保留原表；月表覆盖 2024-10 至 2026-08，峰值为 2026-07 的 18,075 张。数据观察期不等于项目起止时间。 |
+| [历史 AI 占比转写](../../origin/读片AI占比数据.md)、[AI 复核删除转写](../../origin/读片AI复核删除数据.md) | 用于定位新旧统计解释冲突，不拿旧表重算本次已确认的新指标。原始资料未追改。 |
+| [页面设计与实施记录](design.md)、现有 `src/pages/cases/PacsAi/` | 仅供后续同步定位。本轮没有修改页面文案、代码、素材或设计，也未验收网页。 |
 
-读片状态用于跟进完成情况，并在上线后支持门店和医生维度的统计；它不判断诊断是否正确。
+本轮读取现有 PACS 内容稿、历史事实记录、两份本地原始 PRD、四份数据转写及正畸完整底稿。没有执行线上数据库查询、重新审核医学判断或核验模型表现；本次数据定义采用用户逐项审核确认，不冒充独立数据库复核。
 
-#### 特殊情况
+### 主要内容变更
 
-- 影像类型未知或分类错误：先确认或纠正类型，再进入读片；不支持 AI 的类型继续手动读片。
-- 影像无法读片：已有标记时需二次确认并清空标记，其中 AI 结果按“判断错误”处理，再设置“无法读片”。
-
-### English
-
-#### From image to chart
-
-`Imaging recommendation → nurse capture, upload, and appointment association → reading from the checklist → marked findings or an explicit no-apparent-abnormality result → reading-status evaluation → completed content included when the checklist is synchronized`
-
-AI is an optional assistance step. Chart entry is part of checklist synchronization, not triggered directly by the reading-page button.
-
-#### How states affect synchronization
-
-| Reading state | System behavior |
+| 类型 | 处理 |
 | --- | --- |
-| Unread | No chart synchronization; remains to be processed |
-| Incomplete | Required information must be filled in; this image's content is excluded during checklist synchronization |
-| Complete | Completed reading content is included when the checklist is synchronized; an explicitly confirmed normal image is not treated as unread |
+| 新增 | 以「已读片」按钮不足以支持管理为切入的需求验证；AI 初期规划；复用需求的主动发现与医生验证；按住隐藏／松开恢复；不限手动与 AI 顺序；应检尽检到应读尽读及每周二问责；数据发现低使用率、定向调研、统一输入框与词条的迭代链条。 |
+| 替换 | 七章全部改为用户要求的通俗中文标题；个人职责集中为角色／职责／协作；96.3% 与 3,736 条按新定义替换；病历同步采用与医疗主任共同讨论的叙述；反馈数据与模型训练、优化方案与上线效果分别表达。 |
+| 保留 | 诊室讲片场景、标记与卡片对应、快捷填写、复用的空值保护、医生最终责任、三种 AI 处理、非阻断手动路径、预约关联、三态完成度、无异常明确确认、无法读片独立处理、检查表触发病历同步及完整性筛选。 |
+| 移出当前正文 | 旧双语网页稿和版式制作说明；按功能阶段拆开的独立项目叙述；旧指标解释与未核实的发现数提升。不删除 PRD、设计稿、图片或历史数据文件。原英文暂停，不把旧译文留作新版已确认译文。 |
 
-States support follow-up and reporting by clinic and doctor, not evaluation of diagnostic correctness.
+### 新旧事实冲突与处理
 
-Unknown or incorrect image types must be confirmed or corrected before reading. Unsupported AI types use manual reading. When an image cannot be read, existing marks require confirmation and clearing; AI results are treated as rejected before setting the unable-to-read status.
+以下区分实质冲突、叙事澄清和本轮补充，不能将全部差异统称为事实矛盾。
 
-## 06｜结果 Impact
+| 事项 | 旧稿／旧来源 | 最新审核内容与处理 |
+| --- | --- | --- |
+| AI 的规划时点 | 旧事实记录写“先建立……再让 AI 进入”，旧稿分基础与 AI 阶段，易被理解为后加需求。 | AI 初期即纳入规划、分阶段落地；作为同一项目，按质控与现场效率组织，不推定 AI 在基础上线后才提出。属于叙事澄清，基础 PRD 已含 AI 用户故事。 |
+| 96.3% 的对象 | 旧稿及历史占比转写将其解释为有／无识别结果的 AI 参与影像比例，并以张数相加。 | 本版明确为最终确认的病灶诊断记录中来源于 AI 的比例，按记录数统计。两者不是同一指标，不沿用旧张数分母、不据旧表验证新值；对应查询及分子分母记录总数待补。 |
+| 3,736 条的含义 | 旧稿称被医生删除的 AI 记录，并说明删除不必然是错误；旧转写混合了“判断错误／正确但不写入”。 | 按本轮确认为经医生判断错误的 AI 识别结果记录。不能将所有删除均归错，也不能反向用“删除不一定错”否定本次已确认的这组错误记录；旧表字段与新筛选映射待补。 |
+| 数据周期与可比性 | 旧稿仅因来自不同表而笼统描述为不同统计口径，AI 张数表与月表差 4 张；旧资料另列未核实的发现数前后比较。 | 本轮确认这些使用数据统计周期一致，但计数单位不同。保留周期一致，不混算张数与记录数；不把 4 张差异自动归因于误差或换算成病灶分母，也不使用旧发现数作为前后对照成果。 |
+| 病历同步想法归属 | 旧稿突出“我进一步提出”，历史记录另列个人提出者。 | 当前正文按本轮“与医疗主任共同讨论，我们认为”表达，不擅自突出独立提出或独立决定。病灶内容复用仍保留本轮明确的个人发现、验证及主动提案。 |
+| 填写方式迭代状态 | 旧稿只写“如果重新设计，我会……”，未写明确的迭代方案。 | 已通过数据与调研推动调整，医疗接受非结构化记录，统一输入框与词条方案已进入迭代；最终上线和效果仍未确认，不能继续写成仅个人假设，也不能升级为已交付。 |
+| 反馈采集与模型训练 | 旧资料有“数据飞轮闭环”等表述，旧稿将是否用于训练列为待确认。 | 采集已实现；截至离职未形成模型训练与迭代闭环。不能说没有采集，也不能说已经训练或改善准确率。 |
+| 60% 与管理机制 | 旧稿为动态管理目标、一般性问责会描述。 | 明确为医疗部门制定的阶段性考核目标，新增应读尽读并纳入每周二问责会；不是已达成率。这是口径收束及事实补充。 |
 
-### 6.1 已上线的能力
+### 保留的旧规则与细节
 
+以下细节未与审核版冲突，保留用于追溯、面试追问或后续核查，不增加为独立项目或额外成果。
 
-### 中文
+- **位置与内容对应：** 选中标记时展开对应卡片，弱化其他标记与卡片；同一份带标记影像可供其他医护查看。AI 判断正确且继续记录后，与手动标记使用相同字段、校验和同步规则。
+- **快捷填写细节：** 原 AI PRD 将描述词条从持续展开改为输入框附近的面板，避免内容过长撑高卡片；已知类型再次进入不重复确认。词条的具体词库和医学内容以对应版本为准，不补造专业条目。
+- **复用细节：** 引用对象是另一条完整记录的密度、诊断、描述，不覆盖新标记的牙位及方位；三个可复用字段任一已有内容时不展示入口。旧 PRD 有最近一条与更多历史记录入口，不据此扩大为跨患者或跨病历复用。
+- **影像与预约：** 基础 PRD 支持同日多个预约同步当天影像；从检查表移除为软删除，可重新同步，移除后不计该检查表完成度。不能把图库可查看的全部历史影像当作当前预约的可读片任务。
+- **完成规则：** 牙位、密度、诊断、描述属于必要内容，方位为非必填；未见明显异常需明确确认，无法判读独立处理。详细字段以相应版本为准，不将结构化方案的字段要求自动套入尚未确认上线的新输入方式。
+- **异常与责任：** 牙菌斑生成图仅供查看、不进入读片。AI 提示不可未经医生处理直接成为病历结论；页面保留“AI 影像分析结果仅供参考，医生对影像诊断结果负责”。
+- **历史时间线：** 原数据转写记录 AI 上线节点为 2024-11-26；这是分阶段落地节点，不是需求提出日期，也不是整个项目周期。准确版本日期仍需发布资料对应。
+- **未核实的运营观察：** 曾有 2024-06 平均每张小牙片龋齿发现数 1.43（另有 1.34）到 2025-06 的 3.46、约增加 142% 的口头说法。来源、基线、样本和筛选条件未核实，本轮明确没有上线前后对照数据；不进入当前成果，不用它推导检出率、敏感度或 AI 因果效果。
 
-- **医生与医护**：医生讲片时可以标记、填写；其他医护可以查看同一份内容。同步检查表时，已完成读片的文字内容带入病历。
-- **管理人员**：可以查看读片完成情况，按门店和医生跟进。公司上线后形成了“读片完成率”指标，并在医疗质量复盘和问责会上使用。
-- **AI 辅助**：已经进入实际读片流程；医生仍决定提示是否正确、是否写入病历，并能在 AI 失败时手动继续。
+### 尚待确认的信息
 
-**读片完成率**是推荐拍片记录中已完成读片的比例。当前管理目标为 **60%**，是在上线后形成、随实际情况调整的目标，不是已达到的结果。
+以下是证据精度或版本对应缺口，不要求重新确认本轮已审核的数据数值、全国推广、AI 初期规划和交付边界。
 
-### English
-
-- **Doctors and clinical staff**: Doctors can mark and document during the explanation. Other clinical staff can view the same content. Completed reading content is included when the checklist is synchronized.
-- **Management**: Reading completion can be viewed by clinic and doctor. After launch, the company established a reading-completion metric for clinical quality reviews and accountability meetings.
-- **AI assistance**: AI is used in actual reading work. Doctors still decide whether cues are correct and belong in the chart, and can continue manually when AI fails.
-
-**Reading completion rate** is the proportion of recommended imaging records with completed reading. **60%** is a post-launch management target that can change over time, not an achieved result.
-
-### 6.2 真实使用数据
-
-
-| 数据 | 表示什么 |
+| 事项 | 待补信息与限制 |
 | --- | --- |
-| **147,793 张** | 2024-10 至 2026-08 的累计读片量；峰值月为 18,075 张 |
-| **约 96.3%** | 在 AI 占比数据中，AI 参与的影像比例，包括有识别结果和未识别出异常的情况 |
-| **3,736 条** | AI 读出后被医生删除的记录数，单位是记录，不是影像 |
+| 项目与统计时间 | 整个项目起止、各能力发布及全国推广日期；统一统计周期的精确起止／快照时点、时区与查询版本。旧月表的观察期不能替代项目周期。 |
+| 96.3% 的数据库定义 | 最终确认、病灶诊断记录、AI 来源的字段与筛选条件；具体分子分母、删除与不写入分支是否排除、重复／修改记录如何计数。旧影像张数占比表不能代替该证明。 |
+| 3,736 条的筛选映射 | 对应“判断错误”的事件与数据库字段、是否包含无法读片等系统分支、旧删除统计与新错误记录定义的对应。未核对前不补错误率、混合删除比例或训练效果。 |
+| 应读尽读 | 正式报表的分子分母、推荐检查与已拍影像的纳入范围、无法读片／跨周期记录处理、考核阶段及实际达成率。旧稿“推荐拍片记录中已读片的比例”仅保留为历史定义，不直接当作最新指标的确认公式。 |
+| 数据与反馈证据 | 低使用率的观察窗口和筛选标准、参与调研的时间／人数／原始反馈、优化方案的版本记录。不能将定性反馈包装为全量量化结论。 |
+| 迭代上线与效果 | 统一输入框及快捷词条优化的最终上线日期、实现范围和使用效果尚未确认。不能因存在方案或设计稿就写成已交付。 |
+| 更细异常处理 | AI PRD 变更记录删除了超时页“重试”，正文却残留点击重试描述；保留失败后仍可手动读片的确定机制，不推断最终是否保留同页重试。无法读片时清空标记、AI 按判断错误处理的旧规则与错误记录统计如何对应，需按发布版本核查。 |
+| 实际使用与价值 | 全国门店的具体数量、逐店／逐医生采纳情况；操作耗时、漏检或医疗效果无前后可核验数据，不虚构提升幅度。 |
 
-这些数字说明了使用量、AI 参与情况和医生删除操作的数量，不说明诊断准确率或实际读片完成率。删除也不一定代表 AI 判断错误，可能是医生认为无需写入病历。
+### 素材与公开边界
 
-### English
+原始产品素材保留在 [读片截图目录](../../origin/读片/截图/)；既有 [final-screens](final-screens/) 和 `public/images/pacs/` 原样保留，本轮不调整、删除或重新制作。
 
-| Figure | Meaning |
-| --- | --- |
-| **147,793 images** | Cumulative reading volume from October 2024 to August 2026; the peak month had 18,075 images |
-| **Approximately 96.3%** | Images involving AI in the AI-participation dataset, including cases with findings and cases with no detected anomaly |
-| **3,736 records** | AI-generated records deleted by doctors; this counts records, not images |
+此前已确认 UI 精选 PDF 中的 `AI识别病灶@2x.png` 与 `AI识别病灶-复用@2x.png` 为虚构展示数据、整图不打码。该确认不自动扩展至其他旧图。其余含身份、影像等信息的素材仍沿用已有授权与脱敏边界；底稿内容更新不等于所有素材已获公开确认。
 
-These figures describe usage volume, AI participation, and deletion activity, not diagnostic accuracy or the actual reading-completion rate. Deletion does not necessarily mean the AI was wrong; a doctor may consider a finding unnecessary for the chart.
+真实界面可证明入口、标记与卡片、复核分支、复用和病历同步的产品方案，不能单凭设计图证明全国使用、效率变化或模型表现。原 PRD 的在线附件、医学词库和数据库报表本轮未联网复核；不新增或替代缺失证据。
 
-## 07｜反思 Reflection
+### 后续同步定位（本轮不修改）
 
-### 中文
+- [历史事实记录](../../project/PACS读片与AI辅助判断.md)：AI 初期规划、96.3%／3,736 条定义、共同讨论归属、周二问责机制与迭代状态；旧来源保持可追溯，不直接抹除原统计表。
+- [页面设计记录](design.md)及 `src/pages/cases/PacsAi/` 的展示文案：仍为旧网页版本；后续经用户确认再同步本版叙事和指标，不把本轮底稿全文直接堆入网页。
+- `docs/origin/读片AI占比数据.md`、`docs/origin/读片AI复核删除数据.md`：历史转写及助手派生解释与本版有冲突，仅保留来源；若后续补到新 SQL／报表，应建立对应后再核改，不用现有旧表替新定义背书。
 
-#### 少打字，不等于填写更快
-
-我原本希望通过结构化选择，让医生少打字，并在向家长讲片时完成记录。但上线后调研中，医生反馈填写路径仍然偏长：选项较多时，逐项查找、判断和选择反而比直接打字更费时间。这是这次设计没有做好的地方。
-
-这让我认识到，少打字不等于填写更快。结构化让记录更规范、便于统计，但也可能把输入负担变成查找负担。已有的搜索、筛选和内容复用，并没有完全解决这个问题。
-
-如果重新设计，我会先找出最耗时的填写环节，再判断哪些内容适合直接选择、哪些更适合快捷输入，而不是默认用选项代替打字就能提高效率。
-
-#### AI 判断正确，不等于需要记录
-
-AI 识别正确不代表必须写入病历，医生删除提示也不一定代表识别错误。评估时需要区分这些原因，不能只看 AI 使用占比就判断是否减轻了医生的负担。
-
-### English
-
-#### Less typing does not necessarily mean faster documentation
-
-I intended structured choices to reduce typing and let doctors document findings while explaining images to parents. However, post-launch research with doctors revealed that the input flow was still too long. When there were many options, doctors reported that finding, evaluating, and selecting them could take longer than typing directly. This was a shortcoming in my design.
-
-I learned that reducing typing does not necessarily make documentation faster. Structured input makes records more consistent and easier to report on, but can shift the burden from typing to searching. Existing search, filtering, and content reuse did not fully resolve this problem.
-
-If I redesigned the flow, I would first identify the most time-consuming input steps, then decide which fields suit direct selection and which suit quick text input, rather than assume that replacing typing with choices improves efficiency.
-
-#### A correct AI cue does not necessarily belong in the chart
-
-A correct AI cue may not need chart entry, and deletion does not necessarily mean the AI was wrong. Evaluation needs to distinguish these reasons; AI participation alone cannot establish whether doctors' workload has been reduced.
-
-## 8. 编辑备注与资料来源（不上页面）
-
-### 8.1 待补充信息与审核说明
-
-- **项目周期**：请补充基础读片项目的起止时间；AI 辅助部分如有独立周期，也可以分别注明。暂不根据数据统计期或 AI 上线节点推定。
-- **短标题**：本次继续暂用“PACS 读片与 AI 辅助”，未作为最终标题。原稿长标题和项目数据标题仍不同，确认后再同步页面。
-- **本轮正文**：2026-10-04 用户确认当前文档没有大问题，正文与七部分结构作为页面设计依据；不再扩大内容范围。后续如新增事实或实质改写，只复核受影响部分。
-- **项目概览**：本轮按你提出的新结构展示项目介绍、职责、协作和已上线状态，取代之前对概览是否展示的待决问题。
-- **范围**：目前只讲影像、读片、病历同步与管理统计。处置关联、任务推送、修改后下游同步等示例尚未确认，不写为实际功能。
-- **篇幅与设计**：当前内容已确认，下一步审核页面呈现。三分钟阅读是参考目标，不据此擅自省掉已确认的关键判断。
-
-### 8.2 数据使用注意事项
-
-- 累计读片量、AI 占比和删除记录来自不同数据表，不能直接合并计算；AI 占比表总张数与累计读片表相差 4 张。
-- 约 96.3% 不是准确率、调用成功率或医生采纳率。
-- 3,736 条删除记录不能全部当作识别错误，也不能据此说这些记录已经用于模型训练。
-- 尚无证据支持“达到 60%”“读片完成率提升了多少”“节省了多少医生工时”“减少漏诊、误诊或医疗事故”“提高诊断准确率”等结论，不能写成上线成果。
-- 如需进一步评估，可考虑实际完成率、医生操作耗时与反馈、三种复核结果的分布，以及 AI 失败后手动读片的完成情况。这些是本次整理案例时的评估建议，不是已确认的项目后续计划，不上页面；证据缺口见下方内部备注。
-- 系统会记录医生标记与 AI 判断的差异，但是否实际用于模型分析或训练、效果如何，仍需确认。
-
-### 8.3 未核实的观察数据
-
-曾有口头信息称：2024 年 6 月平均每张小牙片龋齿发现数为 1.43，AI 功能约在 2024 年 11 月上线，2025 年 6 月为 3.46，相对增加约 142%。
-
-基线也曾出现 1.34 的说法。正式报表、筛选条件、样本量和统计明细尚未补齐，因此不进入公开页面，也不能写成医学检出率提升或归因于 AI。
-
-English note: The reported 1.43-to-3.46 change is unverified, with a conflicting baseline of 1.34. Without a formal report and statistical details, it is not public case-study evidence or a measure of diagnostic performance.
-
-### 8.4 事实与原始资料
-
-事实核对入口：[PACS 项目事实底稿](../../project/PACS读片与AI辅助判断.md)。证据缺口见下方内部备注。
-
-原始材料：
-
-- `docs/origin/读片/读片PRD.v1.md`
-- `docs/origin/读片/读片新增AI判断PRD-v2.md`
-- `docs/origin/读片总数据.md`
-- `docs/origin/读片AI占比数据.md`
-- `docs/origin/读片AI复核删除数据.md`
-
-### 8.5 图片与页面实现
-
-- 待准备的真实截图包括工作台、状态与病历同步、手动结构化读片、AI 提示与双向定位、复核结果、超时手动继续；影像类型可选补充。详情目前的截图占位尚未关闭，不直接展示含真实患者／医生信息或交互已过期的旧图。
-- `public/images/pacs/`：现有图片资源。公开使用前必须不可逆脱敏；旧图不因存在于目录中就直接展示。
-- `src/data/projects.js`：现有项目数据。
-- `src/pages/cases/PacsAi/content.js`：现有页面内容数据，审核后由 AI 修改，不是另一份审核文档。
-- `src/pages/cases/PacsAi/PacsAiPage.jsx`：详情页组件。
-- `src/pages/cases/PacsAi/index.jsx`：PACS 页面入口。
-- `src/pages/cases/PacsAi/PacsAi.module.css`：页面样式。
-- `src/pages/ProjectDetail/index.jsx`：详情页路由分发。
-
-2026-10-04：本版内容与设计已确认，并同步到 PACS 页面；保留七部分中英文、就近截图占位及数据口径说明。英文介绍仅修正一处语法，事实与含义不变。详情测试 16 项通过，构建通过；桌面、320px 手机、低高度窗口、目录跳转与英文已检查。全站测试仍有 3 项首页旧标题断言失败，与本次详情改动无关；没有修改首页或素材就绪状态。
-
-### 8.6 证据与素材待补（内部）
-
-- 管理结果仍缺明确周期的实际读片完成率、目标调整和质量复盘材料；60% 保持管理目标口径。
-- 医生反馈已由用户转述确认，仍缺原始调研记录、时间、人数及其它试用或质控材料；此前映射的“阶段性小结1.0”为龋风险反馈，不能当作 PACS 调研。
-- 尚无前后耗时、操作次数、医生工时或医疗效果的可核验比较；不把减少基础操作的目标写成已量化提效。
-- 门店、设备与在读医生仅有来源线索，需核对范围并脱敏，不能直接推导覆盖率。未核实的发现数与基线冲突继续见 8.3，不进入公开结果。
-- UI 精选 PDF 选用的 `AI识别病灶@2x.png` 与 `AI识别病灶-复用@2x.png` 已确认是虚构展示数据、整图不打码；不扩展至其它旧图，也不因此关闭详情的当前版本素材缺口。
+</details>

@@ -1,15 +1,16 @@
 const base = import.meta.env.BASE_URL;
+const clear = `${base}images/ortho/screens/clear/`;
 
 export const media = {
   screeningList: {
-    src: `${base}images/ortho/screens/screening-list.webp`,
-    width: 2397,
-    height: 1592,
+    src: `${clear}screening-list-full.png`,
+    width: 2880,
+    height: 1800,
   },
   nurseCollection: {
-    src: `${base}images/ortho/screens/nurse-collection.webp`,
-    width: 1360,
-    height: 895,
+    src: `${clear}nurse-collection-full.png`,
+    width: 2880,
+    height: 1800,
   },
   nurseScanSync: {
     src: `${base}images/ortho/screens/nurse-scan-sync.webp`,
@@ -17,9 +18,9 @@ export const media = {
     height: 637,
   },
   pedoConfirm: {
-    src: `${base}images/ortho/screens/pedo-confirm.webp`,
-    width: 1368,
-    height: 1297,
+    src: `${clear}pedo-confirm-full.png`,
+    width: 2880,
+    height: 1800,
   },
   orthoQueue: {
     src: `${base}images/ortho/screens/ortho-queue.webp`,
@@ -27,19 +28,19 @@ export const media = {
     height: 829,
   },
   orthoConclusion: {
-    src: `${base}images/ortho/screens/ortho-conclusion.webp`,
-    width: 662,
-    height: 1226,
+    src: `${clear}ortho-conclusion-full.png`,
+    width: 2880,
+    height: 1800,
   },
   scanAnalysis: {
-    src: `${base}images/ortho/screens/scan-analysis.webp`,
-    width: 1789,
-    height: 975,
+    src: `${clear}scan-analysis-full.png`,
+    width: 2880,
+    height: 1800,
   },
   scienceModal: {
-    src: `${base}images/ortho/screens/science-modal.webp`,
-    width: 1267,
-    height: 993,
+    src: `${clear}science-modal-full.png`,
+    width: 2880,
+    height: 1800,
   },
   panoramic: {
     src: `${base}images/ortho/screens/panoramic.webp`,
@@ -47,9 +48,9 @@ export const media = {
     height: 581,
   },
   analysisPage: {
-    src: `${base}images/ortho/screens/analysis-page.webp`,
-    width: 1816,
-    height: 1314,
+    src: `${clear}analysis-page-full.png`,
+    width: 2880,
+    height: 1800,
   },
   nurseHistory: {
     src: `${base}images/ortho/screens/nurse-history.webp`,
@@ -67,9 +68,19 @@ export const media = {
     height: 1040,
   },
   reportFull: {
-    src: `${base}images/ortho/screens/report-full.webp`,
+    src: `${clear}report-full.png`,
     width: 796,
     height: 6954,
     long: true,
+  },
+  reportModel: {
+    src: `${clear}report-full.png`,
+    width: 796.2266,
+    height: 1067.1764,
+    sourceWidth: 796,
+    sourceHeight: 6954,
+    // Figma 789:3500/789:3621: 479 × 642 viewport, image y=-982.327.
+    // Keep the same source region in both the page and enlarged view.
+    region: { x: -0.1133, y: 1632.8913, width: 796.2266, height: 1067.1764 },
   },
 };

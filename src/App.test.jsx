@@ -92,7 +92,7 @@ test.each([
   ["/", "WEN MENG"],
   ["/project/member-automation", "会员自动化与财务治理"],
   ["/project/orthodontics", "咬合筛查与正畸协作前期流程"],
-  ["/project/pacs-ai", "PACS 读片与 AI 辅助"],
+  ["/project/pacs-ai", "PACS 影像读片与 AI 辅助"],
 ])(
   "English is paused on %s even with a saved English preference",
   (route, title) => {

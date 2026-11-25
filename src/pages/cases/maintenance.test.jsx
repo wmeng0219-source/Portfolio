@@ -5,7 +5,7 @@ import { LanguageProvider } from '../../context/LanguageContext';
 import ScrollToTop from '../../components/ScrollToTop';
 import PacsAi from './PacsAi';
 import MemberAutomation from './MemberAutomation';
-import { pacsCaseSections } from './PacsAi/content';
+import { caseContent } from './PacsAi/content';
 
 let originalScroll;
 let scroll;
@@ -41,37 +41,43 @@ const renderCase = (slug, hash = '') => {
   return router;
 };
 
-test('PACS solution anchors and target styling survive editorial title and percentage changes', () => {
-  const solution = pacsCaseSections.find(({ id }) => id === 'solution').zh;
-  const target = pacsCaseSections.find(({ id }) => id === 'impact').zh.find((block) => block.text?.includes('60%'));
-  const oldText = target.text;
-  const headings = solution.filter((block) => block.text?.match(/^4\.[123]/));
-  headings.forEach((block, index) => {
-    const text = block.text;
-    restore.push(() => { block.text = text; });
-    block.text = `Edited solution ${index + 1}`;
+test("PACS solution anchors and target styling survive editorial title and percentage changes", () => {
+  const oldTitle = caseContent.chapters[3].title;
+  const oldText = caseContent.results.managementBody[0];
+  restore.push(() => {
+    caseContent.chapters[3].title = oldTitle;
+    caseContent.results.managementBody[0] = oldText;
   });
-  restore.push(() => { target.text = oldText; });
-  target.text = oldText.replace('60%', '65%');
-  renderCase('pacs-ai');
-  headings.forEach((block, index) => {
-    expect(screen.getByRole('heading', { name: block.text })).toHaveAttribute('id', `solution-${index + 1}`);
-  });
-  expect(screen.getByText(/65%/).closest('p').className).toContain('readingTarget');
+  caseContent.chapters[3].title = "Edited decision title";
+  caseContent.results.managementBody[0] = oldText.replace("60%", "65%");
+  renderCase("pacs-ai", "#solution-2");
+  expect(
+    screen.getByRole("heading", { name: "Edited decision title" }),
+  ).toHaveAttribute("id", "ai-title");
+  expect(document.activeElement).toBe(document.getElementById("ai-title"));
+  expect(screen.getByText(/65%/)).toHaveTextContent("并非实际完成率");
 });
 
-test('PACS judgment links retain their destinations when an editorial heading is inserted', () => {
-  const blocks = pacsCaseSections.find(({ id }) => id === 'thinking').zh;
-  blocks.splice(1, 0, { type: 'heading', level: 3, text: 'Editorial context' });
-  restore.push(() => { blocks.splice(1, 1); });
-  renderCase('pacs-ai');
-  expect(screen.getAllByRole('link', { name: /^4\.[123] →$/ }).map((link) => link.hash)).toEqual([
-    '#solution-1', '#solution-2', '#solution-3',
-  ]);
+test("PACS old system hash and history still resolve after removal of the old contents layout", async () => {
+  const router = renderCase("pacs-ai", "#system");
+  expect(document.activeElement).toBe(document.getElementById("value-title"));
+  scroll.mockClear();
+  await act(async () => {
+    await router.navigate("/project/pacs-ai#problem");
+  });
+  expect(scroll).toHaveBeenCalledTimes(1);
+  expect(document.activeElement).toBe(
+    document.getElementById("background-title"),
+  );
+  scroll.mockClear();
+  await act(async () => {
+    await router.navigate(-1);
+  });
+  expect(scroll).toHaveBeenCalledTimes(1);
+  expect(document.activeElement).toBe(document.getElementById("value-title"));
 });
 
 const anchorCases = [
-  ['pacs-ai', '#system', /系统机制/, 'system-title', /问题/],
   ['member-automation', '#impact', /落地验证与演进/, 'impact', /业务背景/],
 ];
 

@@ -1,755 +1,277 @@
-// Implemented from the approved content.md; edits are reviewed in that document first.
-export const pacsCaseSections = [
-  {
-    id: "overview",
-    title: {
-      zh: "项目概览",
-      en: "Project Overview",
-    },
-    zh: [
+// Exact display copy from the approved PACS Figma frame 791:3639.
+// Full business manuscript remains in docs/pages/pacs-ai/content.md.
+export const caseContent = {
+  hero: {
+    eyebrow: "HERO / 项目概览",
+    title: "PACS 影像读片与 AI 辅助",
+    intro:
+      "在医学影像管理系统（PACS）中，将医生的影像观察、异常标记与病历记录融入日常接诊流程，\n并通过 AI 辅助发现疑似异常，让读片工作可追踪、可管理。",
+    metrics: [
       {
-        type: "paragraph",
-        text: "PACS 读片与 AI 辅助",
+        value: "14.8 万张",
+        label: "累计读片量",
       },
       {
-        type: "paragraph",
-        text: "原系统能推荐是否拍片，却没有记录拍完后医生是否读片。项目让医生在向家长讲片时标记、填写读片内容，完整内容随检查表同步到病历；管理人员能跟进读片完成情况，督促必要的读片工作落实，以保障医疗质量；AI 则提供异常线索，帮助医生查找和标记。",
+        value: "96.3%",
+        label: "AI 诊断结果贡献率",
       },
       {
-        type: "paragraph",
-        text: "基础读片由我与产品经理共同推动，与医疗主任确认医疗规则。我负责流程交互和界面设计，设计确认后与产品经理共同整理 PRD。",
-      },
-      {
-        type: "paragraph",
-        text: "AI 辅助读片由我独立负责产品方案、规则、交互、UI 和 PRD，算法同事负责模型、识别能力和训练。最终影像诊断由医生负责。项目已上线并使用。",
+        value: "全国门店",
+        label: "推广范围",
       },
     ],
-    en: [
-      {
-        type: "paragraph",
-        text: "PACS Reading with AI Assistance",
-      },
-      {
-        type: "paragraph",
-        text: "The original system could recommend imaging but did not track whether doctors read the images afterward. This project lets doctors mark and document findings while explaining images to parents, and includes completed reading content in the chart when the checklist is synchronized. Managers can follow up on reading completion to ensure necessary reading work is carried out in support of clinical quality, while AI provides anomaly cues to help with initial searching and marking.",
-      },
-      {
-        type: "paragraph",
-        text: "I worked with the product manager on structured reading and confirmed clinical rules with the medical director. I owned interaction and interface design, then co-authored the PRD after the design was agreed.",
-      },
-      {
-        type: "paragraph",
-        text: "For AI-assisted reading, I independently owned the product solution, rules, interaction, UI, and PRD. The algorithm colleague owned the model, recognition capability, and training. Doctors remained responsible for final interpretation. The project is live in use.",
-      },
-    ],
+    note: "注：AI 诊断结果贡献率指最终确认的病灶诊断记录中来源于 AI 的占比。",
+    role: "角色：产品经理 / 产品设计",
+    responsibility:
+      "核心职责：需求分析、业务规则、产品与交互设计、数据分析与迭代。",
   },
-  {
-    id: "problem",
-    title: {
-      zh: "问题",
-      en: "Problem",
+  chapters: [
+    {
+      id: "background",
+      eyebrow: "01 / 背景与问题",
+      title: "从检查执行到读片管理",
     },
-    zh: [
-      {
-        type: "heading",
-        level: 3,
-        text: "管理人员知道是否建议拍片，却不知道读片有没有完成",
-      },
-      {
-        type: "paragraph",
-        text: "接诊前的预习功能已经能按规则推荐患者是否需要拍片。但拍完之后，医生有没有读片、内容有没有填完整，原系统无法记录和跟进。",
-      },
-      {
-        type: "paragraph",
-        text: "需求最初由管理人员提出。他们需要区分哪些影像还没读、哪些内容没填完整、哪些已经完成，并按门店和医生查看。读片不直接产生经营业绩，但不能因为只关注业绩而忽略日常应该完成的医疗工作。",
-      },
-      {
-        type: "heading",
-        level: 3,
-        text: "医生完成了讲解，却缺少与影像位置对应的读片记录",
-      },
-      {
-        type: "paragraph",
-        text: "医生看完影像，会直接在诊室电脑前向家长讲解。过去主要用手指着影像、口头描述，关注位置和相应判断没有形成可共同查看的影像标记与读片内容。",
-      },
-      {
-        type: "paragraph",
-        text: "口头讲解能帮助当时沟通，但医生和其他医护再次查看时，缺少同一份带标记影像作为确认依据。",
-      },
-      {
-        type: "paragraph",
-        text: "因此，这个项目需要解决两件事：让医生的读片内容留下来，让管理人员知道读片工作有没有完成。只记录“拍过片”不能回答这两个问题。",
-      },
-    ],
-    en: [
-      {
-        type: "heading",
-        level: 3,
-        text: "Management could see imaging recommendations, not reading completion",
-      },
-      {
-        type: "paragraph",
-        text: "The pre-visit feature could recommend imaging according to rules. After capture, however, the original system could not track whether the doctor had read the image or completed the reading record.",
-      },
-      {
-        type: "paragraph",
-        text: "Clinical managers initiated the request. They needed to distinguish unread images, incomplete records, and completed readings, and view them by clinic and doctor. Reading does not directly generate revenue, but it is routine clinical work that should not be overlooked.",
-      },
-      {
-        type: "heading",
-        level: 3,
-        text: "Explanations lacked a shared, location-linked reading record",
-      },
-      {
-        type: "paragraph",
-        text: "Doctors reviewed images and explained them to parents at the clinic computer, mainly by pointing and speaking. Areas of concern and their interpretations did not form a shared record linking image marks to text.",
-      },
-      {
-        type: "paragraph",
-        text: "The explanation supported the immediate conversation, but doctors and other clinical staff lacked the same annotated reference when reviewing the findings later.",
-      },
-      {
-        type: "paragraph",
-        text: "The project therefore needed to retain reading content and show whether reading was complete. Recording that an image had been taken answered neither question.",
-      },
-    ],
-  },
-  {
-    id: "thinking",
-    title: {
-      zh: "我的判断",
-      en: "Product Thinking",
+    {
+      id: "workflow",
+      eyebrow: "02 / 流程与界面设计",
+      title: "将新增管理要求融入现有工作流程",
     },
-    zh: [
+    {
+      id: "recording",
+      eyebrow: "03 / 填写与内容复用",
+      title: "在记录规范与操作效率之间寻找平衡",
+    },
+    {
+      id: "ai",
+      eyebrow: "04 / AI 辅助与医生判断",
+      title: "引入 AI 辅助，保留医生的判断权",
+    },
+    {
+      id: "value",
+      eyebrow: "05 / 一次记录，多处使用",
+      title: "让一次记录产生多重价值",
+    },
+    {
+      id: "results",
+      eyebrow: "06 / 项目落地与成果",
+      title: "从功能上线到常态化业务管理",
+    },
+    {
+      id: "reflection",
+      eyebrow: "07 / 使用反馈与迭代",
+      title: "根据真实使用反馈重新审视设计",
+    },
+  ],
+  background: {
+    intro:
+      "公司已通过「应检尽检」衡量患者应做的检查是否实际完成，但拍片后的影像判读与记录仍缺乏管理依据。",
+    flowTitle: "原有业务流程",
+    steps: ["推荐检查", "安排拍片", "采集影像", "查看与讲解", "填写病历"],
+    boundaries: ["已有检查执行管理 · 应检尽检", "缺乏读片管理机制"],
+    problemTitle: "需要解决的问题",
+    problems: [
       {
-        type: "paragraph",
-        text: "基础读片方案是在我与产品经理的共同讨论中形成，并与医疗主任确认专业规则；AI 部分由我独立负责方案。整理这些需求时，我关注三个判断：",
+        title: "管理缺口",
+        body: ["医生是否完成读片，缺乏有效的记录依据。"],
       },
       {
-        type: "heading",
-        level: 3,
-        text: "判断 A：已经填写的读片内容，不应在病历里再录一遍",
+        title: "记录规范",
+        body: ["不同影像的判读内容与记录完整性难以管理。"],
       },
       {
-        type: "paragraph",
-        text: "查看是否完成读片，是管理层提出的需求。在讨论方案时，我进一步提出：既然医生已经填写了读片内容，就应将这份内容同步到病历，减少重复录入。",
-      },
-      {
-        type: "paragraph",
-        relatedSolution: 1,
-        text: "这样，读片记录不仅用于查看完成情况，也能用于病历填写，避免同一份内容在两个地方重复记录。",
-      },
-      {
-        type: "heading",
-        level: 3,
-        text: "判断 B：记录要融入讲片过程，填写速度也要跟得上",
-      },
-      {
-        type: "paragraph",
-        text: "医生原本就会在电脑前向家长讲片。标记和填写应顺着这个过程发生，而不是讲完后再要求医生录入一份内容。",
-      },
-      {
-        type: "paragraph",
-        text: "文字需要对应具体影像位置，让家长和其他医护知道描述的是哪处异常。填写也要跟得上讲解，常用内容应减少层层选择。",
-      },
-      {
-        type: "paragraph",
-        relatedSolution: 2,
-        text: "不同牙位出现相同异常时，还会重复填写相同内容。因此，我提出读片页面的“复用模块”，让医生带入已有标记的密度、诊断和描述，再核对是否适用，减少逐项填写。",
-      },
-      {
-        type: "heading",
-        level: 3,
-        text: "判断 C：AI 提供线索，医生决定是否正确、是否需要记录",
-      },
-      {
-        type: "paragraph",
-        text: "医生时间紧张，引入 AI 的目标是补充异常线索，并减少从零查找、标记和录入的基础操作。但“识别正确”与“需要写入本次病历”是两个判断，不能把二者合并。",
-      },
-      {
-        type: "paragraph",
-        relatedSolution: 3,
-        text: "AI 也不能成为读片的前提。即使加载过久或失败，医生仍应能完成当前工作。",
-      },
-    ],
-    en: [
-      {
-        type: "paragraph",
-        text: "The structured-reading solution was developed with the product manager and its clinical rules were confirmed with the medical director. I independently owned the AI-assisted solution. Three judgments guided this work:",
-      },
-      {
-        type: "list",
-        relatedSolutions: [1, 2, 3],
-        items: [
-          "**A — Reuse recorded findings instead of entering them again in the chart.** Management requested visibility into reading completion. I proposed synchronizing the findings doctors had already documented to the chart, so the same content could serve completion tracking and chart documentation without duplicate entry.",
-          "**B — Document during the explanation, with input that keeps pace.** Marking and input should follow the existing parent conversation. Text needs to locate the finding on the image, and common choices should be quick to select. I also proposed an in-page reuse module: when different teeth have the same finding, doctors can bring density, diagnosis, and description from an existing mark into a new one, then review whether they apply.",
-          "**C — Let AI provide cues while doctors decide correctness and chart relevance.** AI aims to assist with initial searching, marking, and input. A correct cue may not belong in this chart. Slow or failed AI must not prevent manual reading.",
+        title: "接诊压力",
+        body: [
+          "医生需要在有限时间内完成观察、判断、讲解与记录，存在遗漏异常的风险。",
         ],
       },
     ],
+    goalTitle: "项目目标",
+    goal: "在不额外增加独立工作流程的前提下，将读片纳入医疗质控，并借助 AI 辅助医生发现疑似异常。",
   },
-  {
-    id: "solution",
-    title: {
-      zh: "方案",
-      en: "Solution",
-    },
-    zh: [
+  workflow: {
+    habitTitle: "从医生已有的操作习惯出发",
+    habit: [
+      "门店调研发现，医生原本就有指着影像向家长讲解异常区域的习惯。",
+      "与其增加一套独立的填写表单，不如利用医生已有的操作习惯，将指认动作转化为影像框选操作，让医生在讲解过程中完成记录。",
+    ],
+    flowTitle: "改造后的业务流程",
+    steps: [
+      ["推荐检查"],
+      ["采集影像"],
+      ["医生读片", "手动标记与 AI 辅助"],
+      ["完成读片记录"],
+      ["病历同步\n与医疗质控统计"],
+    ],
+    flowNote: "手动标记与 AI 复核没有固定顺序；病历内容随电子检查表同步。",
+    linkTitle: "将影像标记与诊断记录关联",
+    linkBody: "医生手动框选异常区域，或通过 AI 获取疑似病灶标记。",
+    regions: [
       {
-        type: "heading",
-        level: 3,
-        anchor: "solution-1",
-        text: "4.1 对应判断 A：将完整的读片内容随检查表同步到病历",
+        title: "① 影像操作区",
+        body: ["查看影像并进行观察与操作。"],
       },
       {
-        type: "paragraph",
-        text: "医生已经在读片时填写了判断和描述，不需要在病历里再写一遍。同步检查表时，系统将已完成读片的内容带入病历“辅助检查”；未读或填写不完整的影像不参与同步。",
-        visualSlot: "record-sync",
+        title: "② 异常标记框",
+        body: ["定位当前需要判断和讲解的区域。"],
       },
       {
-        type: "paragraph",
-        text: "护士拍片后上传影像并关联本次预约。医生从本次电子检查表进入读片，影像此时已经关联预约，不需要在读片页面重新关联。",
-      },
-      {
-        type: "paragraph",
-        text: "系统根据读片内容判断完成情况。有异常标记时，牙位、密度、影像诊断和描述等必填内容填写完整，才满足完成条件。只打开影像或画一个框，不代表完成。",
-      },
-      {
-        type: "paragraph",
-        text: "没有标记也不一定代表没有读片：医生可能已经看过，但未见明显异常。这时点击“完成读片”，明确确认结果，避免正常影像一直显示为未读。成像问题导致无法判读时，则明确记录“无法读片”，不能当作未见异常。",
-      },
-      {
-        type: "paragraph",
-        text: "“完成读片”还会检查已有标记的必填内容，但它不直接触发病历同步。病历写入跟随检查表的同步操作，按每张影像的读片状态筛选。",
-      },
-      {
-        type: "heading",
-        level: 3,
-        anchor: "solution-2",
-        text: "4.2 对应判断 B：边讲片、边标记、快速填写",
-      },
-      {
-        type: "paragraph",
-        text: "医生向家长讲片时，在影像上框选异常区域，并填写牙位、方位、密度、影像诊断和描述。这里的“结构化填写”，就是把判断记到这些固定字段中，而不只留下一段自由文本。",
-        visualSlot: "manual-reading",
-      },
-      {
-        type: "heading",
-        level: 4,
-        text: "标记与文字对应，方便讲解和查看",
-      },
-      {
-        type: "paragraph",
-        text: "每个标记对应一张文字卡片。选中标记时，展开对应卡片，弱化其他标记和卡片，让医生知道正在填写哪处异常。医生和其他医护都能查看同一份标记与文字。",
-      },
-      {
-        type: "heading",
-        level: 4,
-        text: "常用内容快速选择，减少操作层级",
-      },
-      {
-        type: "paragraph",
-        text: "为了让填写跟得上讲片速度：",
-      },
-      {
-        type: "list",
-        items: [
-          "常用且选项较少的内容直接展示，尽量减少二级选择。",
-          "牙位、方位和诊断等长列表支持数字、中文或拼音搜索。",
-          "根据已选密度筛选诊断选项，不同时展示所有无关内容。",
-          "描述词条在填写区域附近展开，不跳到其他页面。",
-          "影像类型已知时默认选中，再次进入不重复确认。",
-        ],
-      },
-      {
-        type: "heading",
-        level: 4,
-        text: "相同异常复用内容，减少重复填写",
-      },
-      {
-        type: "paragraph",
-        text: "不同牙位出现相同异常时，重新选择密度、诊断和描述会打断讲解。因此，我提出“复用模块”：医生可以选择一条已完整填写的标记，将这三项内容带入新标记。",
-      },
-      {
-        type: "paragraph",
-        text: "新标记保留自己的牙位和方位，带入内容仍需医生核对。复用只在这三项都未填写时提供，避免覆盖医生已经录入的内容。",
-        visualSlot: "reuse-module",
-      },
-      {
-        type: "heading",
-        level: 3,
-        anchor: "solution-3",
-        text: "4.3 对应判断 C：AI 先提示，医生复核后决定是否写入",
-      },
-      {
-        type: "paragraph",
-        text: "根尖片和咬翼片展示 AI 提示，全景片不展示。AI 先给出疑似异常区域和判断线索，医生可以选择：",
-        visualSlot: "ai-linked-focus",
-      },
-      {
-        type: "table",
-        headers: ["医生判断", "后续处理"],
-        rows: [
-          [
-            "**判断正确，继续读片**",
-            "补全详情，满足完成条件后随检查表同步到病历",
-          ],
-          ["**判断正确，无需写入病历**", "认可提示，但本次不记录到病历"],
-          ["**判断错误**", "删除对应标记和卡片"],
-        ],
-        visualSlot: "doctor-review",
-      },
-      {
-        type: "paragraph",
-        text: "不能让 AI 提示未经医生选择就直接成为病历结论；也不应完全切断写入功能，让医生重复录入。因此 AI 与手动标记使用相同的详情字段、完成检查和病历同步规则。",
-      },
-      {
-        type: "paragraph",
-        text: "医生仍需要复核，这是方案保留的必要操作。页面同时保留“AI 结果仅供参考，医生对影像诊断结果负责”的说明。",
-      },
-      {
-        type: "paragraph",
-        text: "AI 加载超过 5 秒或调用失败时，提供手动读片入口，医生不必一直等待。失败后可以再次调用；成功后再次进入不重复调用。转为手动后仍执行相同的必填检查，不跳过完成要求。",
-        visualSlot: "timeout-fallback",
+        title: "③ 诊断记录区",
+        body: ["每个标记对应一张诊断卡片。"],
       },
     ],
-    en: [
+    caption:
+      "手动标记与 AI 辅助共用同一套记录体系。历史产品设计稿，已遮盖身份及时间信息。",
+  },
+  recording: {
+    introTitle: "让读片完成具有具体的记录依据",
+    intro: [
+      "与医疗主任共同确定半结构化记录标准，让读片完成具有具体内容依据，而非只确认「已读片」。",
+      "通过快捷点选、搜索、选项联动和常用词条，尽可能降低填写负担。",
+    ],
+    reuseTitle: "诊断内容复用：从字段结构发现重复操作",
+    thinking: [
       {
-        type: "heading",
-        level: 3,
-        anchor: "solution-1",
-        text: "4.1 For judgment A: include complete reading content when the checklist is synchronized",
+        title: "发现问题",
+        body: ["我在梳理字段时发现，不同牙位可能存在相同的诊断内容。"],
       },
       {
-        type: "paragraph",
-        text: "Doctors do not need to enter the same findings again in the chart. When the checklist is synchronized, completed reading content is included in the auxiliary-examination section; unread or incomplete images are excluded.",
-        visualSlot: "record-sync",
+        title: "验证需求",
+        body: ["我与医生沟通，确认重复填写的场景确实存在。"],
       },
       {
-        type: "paragraph",
-        text: "After imaging, nurses upload the images and associate them with the appointment. Doctors enter reading from that appointment's checklist, so the images are already linked.",
+        title: "提出方案",
+        body: ["主动提出将位置相关信息与可复用诊断信息分离。"],
+      },
+    ],
+    sourceTitle: "已完成的病灶记录 A",
+    sourceNote: "提供可复用的诊断内容",
+    currentTitle: "当前待填写的病灶记录 B",
+    columnTitles: ["复用前", "复用后 · 诊断内容来自 A"],
+    sourceFields: [
+      ["牙位", "来源牙位"],
+      ["方位", "来源方位"],
+      ["密度", "已确认的密度"],
+      ["影像诊断", "已填写的诊断"],
+      ["文字描述", "已有描述内容"],
+    ],
+    currentFields: [
+      ["牙位", "当前牙位", "＝", "当前牙位"],
+      ["方位", "当前方位", "＝", "当前方位"],
+      ["密度", "待填写", "→", "已确认的密度"],
+      ["影像诊断", "待填写", "→", "已填写的诊断"],
+      ["文字描述", "待填写", "→", "已有描述内容"],
+    ],
+    gate: "仅当密度、影像诊断、文字描述均为空时，才提供复用入口。",
+    caption:
+      "机制示意 · 非真实产品界面；紫色表示从 A 带入的内容，牙位与方位始终保留 B 的信息。",
+  },
+  ai: {
+    intro:
+      "AI 辅助从项目初期便纳入整体规划。设计不仅需要考虑如何利用识别结果，也需要考虑 AI 可能对医生判断产生的干扰。",
+    caption: "AI 辅助读片工作台 · 历史产品设计稿",
+    eyeTitle: "避免标记遮挡\n影像细节",
+    eyeBody:
+      "相邻标记可能遮挡影像细节。按住卡片的眼睛图标临时隐藏对应标记，松开后恢复。",
+    decisionTitle: "识别正确，不代表必须记录",
+    decisionBody:
+      "与医疗主任讨论后，将识别正确性与病历记录必要性区分，避免把无需记录的病灶归类为 AI 识别错误。",
+    tree: {
+      questions: ["AI 识别是否正确？", "识别正确的病灶，是否需要写入病历？"],
+      branches: ["正确", "不正确", "需要记录", "无需记录"],
+      outcomes: ["判断正确，继续读片", "判断正确，\n无需写入病历", "判断错误"],
+      caption: "判断关系示意，不代表产品要求医生分两步操作。",
+    },
+    principleTitle: "保留医生的操作自主性",
+    principles: [
+      {
+        title: "手动标记 ↔ AI 复核",
+        body: ["不强制先处理 AI 结果，医生可随时手动补充其他异常。"],
       },
       {
-        type: "paragraph",
-        text: "The system evaluates completion from the recorded content. Marked findings need complete required fields. An unmarked image may have been read with no apparent abnormality, so Complete Reading lets the doctor explicitly confirm that result. Images that cannot be interpreted are recorded separately, not treated as normal.",
-      },
-      {
-        type: "paragraph",
-        text: "Complete Reading also checks required fields for existing marks, but does not trigger chart synchronization. Chart entry follows checklist synchronization and filters each image by its reading status.",
-      },
-      {
-        type: "heading",
-        level: 3,
-        anchor: "solution-2",
-        text: "4.2 For judgment B: mark during the explanation and keep input quick",
-      },
-      {
-        type: "paragraph",
-        text: "Doctors box areas of concern and fill in tooth, location, density, interpretation, and description while explaining the image to parents. Structured input records findings in these defined fields.",
-        visualSlot: "manual-reading",
-      },
-      {
-        type: "paragraph",
-        text: "**Link marks and text for explanation and review.** Each mark has a corresponding text card. Selecting it opens that card and dims other marks and cards. Doctors and other clinical staff can view the same content.",
-      },
-      {
-        type: "paragraph",
-        text: "**Make common choices quick to select.** Frequent short lists are shown directly with fewer nested choices. Longer tooth, location, and diagnosis lists support numeric, Chinese, or pinyin search. Diagnosis options are filtered by the selected density. Description terms open near the input area, and known image types are preselected without repeated confirmation.",
-      },
-      {
-        type: "paragraph",
-        text: "**Reuse matching findings instead of repeating input.** Choosing the same density, diagnosis, and description for different teeth can interrupt the explanation. I proposed a reuse module that brings these fields from an existing complete mark into a new one.",
-      },
-      {
-        type: "paragraph",
-        text: "The new mark keeps its own tooth and location, and doctors review whether the imported content applies. Reuse is available only when all three fields are empty, avoiding overwriting existing input.",
-        visualSlot: "reuse-module",
-      },
-      {
-        type: "heading",
-        level: 3,
-        anchor: "solution-3",
-        text: "4.3 For judgment C: have doctors review AI cues and choose chart entry",
-      },
-      {
-        type: "paragraph",
-        text: "AI cues are shown for periapical and bitewing images, not panoramic images. Doctors can:",
-        visualSlot: "ai-linked-focus",
-      },
-      {
-        type: "list",
-        items: [
-          "Confirm a cue and complete the details for inclusion when the checklist is synchronized.",
-          "Confirm it without including it in this chart.",
-          "Reject it and delete the mark and card.",
-        ],
-        visualSlot: "doctor-review",
-      },
-      {
-        type: "paragraph",
-        text: "AI cues cannot become chart conclusions without doctor choice, but the connection to the chart is retained to avoid duplicate entry. AI and manual marks share the same fields, checks, and synchronization rules. Doctor review remains necessary, and the page states that AI is reference only and doctors are responsible for interpretation.",
-      },
-      {
-        type: "paragraph",
-        text: "After a wait longer than 5 seconds or a failed call, doctors can enter manual reading. Failed calls can be retried; successful calls are not repeated on re-entry. Manual reading uses the same required-field checks.",
-        visualSlot: "timeout-fallback",
+        title: "AI 超时 / 失败 → 手动读片",
+        body: ["AI 是辅助能力，而不是正常接诊的前置依赖。"],
       },
     ],
   },
-  {
-    id: "system",
-    title: {
-      zh: "关键流程与系统机制",
-      en: "System",
-    },
-    zh: [
+  value: {
+    intro: [
+      "医生既然已经完成读片记录，就没有必要在其他业务环节重复填写。",
+      "通过打通相关系统，让读片过程及记录同时服务于多个业务目标。",
+    ],
+    source: "读片过程及记录",
+    services: [
       {
-        type: "heading",
-        level: 3,
-        text: "从影像到病历",
-      },
-      {
-        type: "flow",
-        steps: [
-          "预习推荐拍片",
-          "护士拍片、上传并关联预约",
-          "医生从检查表进入读片",
-          "手动标记或复核 AI 提示、填写内容，或明确确认未见明显异常",
-          "系统判断读片状态",
-          "同步检查表时，将已完成读片的内容带入病历",
+        title: "服务医生",
+        body: [
+          "完整的读片内容随电子检查表同步至病历辅助检查模块，避免重复填写。",
         ],
       },
       {
-        type: "paragraph",
-        text: "AI 只是其中的辅助步骤，不使用 AI 也能完成读片。AI 提示如何处理见第 4.3 节。病历同步不是读片页面按钮直接触发的动作，而是检查表同步的一部分。",
-      },
-      {
-        type: "heading",
-        level: 3,
-        text: "完成状态如何影响同步",
-      },
-      {
-        type: "table",
-        headers: ["读片状态", "系统处理"],
-        rows: [
-          ["未读片", "不参与病历同步，提示仍需处理"],
-          ["读片不完整", "提示补齐必填内容，检查表同步时不带入该影像内容"],
-          [
-            "已读片",
-            "同步检查表时，带入该影像的完整读片内容；明确确认未见明显异常的影像也不应误判为未读",
-          ],
+        title: "服务医疗管理",
+        body: [
+          "根据记录完整性判断读片完成情况，支持门店及医生维度的管理统计。",
         ],
       },
       {
-        type: "paragraph",
-        text: "读片状态用于跟进完成情况，并在上线后支持门店和医生维度的统计；它不判断诊断是否正确。",
-      },
-      {
-        type: "heading",
-        level: 3,
-        text: "特殊情况",
-      },
-      {
-        type: "list",
-        items: [
-          "影像类型未知或分类错误：先确认或纠正类型，再进入读片；不支持 AI 的类型继续手动读片。",
-          "影像无法读片：已有标记时需二次确认并清空标记，其中 AI 结果按“判断错误”处理，再设置“无法读片”。",
+        title: "服务算法研发",
+        body: [
+          "采集医生与 AI 的判断差异，为后续模型训练积累数据。",
+          "已累计采集 3,736 条经医生判断为错误的 AI 识别结果记录，为后续训练积累反馈数据。",
+          "反馈采集已实现，尚未形成模型训练与迭代闭环。",
         ],
       },
     ],
-    en: [
+    note: "系统支持正常、异常及无法判读等影像处理场景。尚未完成的记录不参与病历同步。",
+  },
+  results: {
+    intro: "项目面向全国门店推广，将影像判读与记录纳入日常医疗管理。",
+    metrics: [
       {
-        type: "heading",
-        level: 3,
-        text: "From image to chart",
+        value: "147,793 张",
+        label: "累计读片量",
       },
       {
-        type: "flow",
-        steps: [
-          "Imaging recommendation",
-          "nurse capture, upload, and appointment association",
-          "reading from the checklist",
-          "marked findings or an explicit no-apparent-abnormality result",
-          "reading-status evaluation",
-          "completed content included when the checklist is synchronized",
-        ],
+        value: "18,075 张",
+        label: "单月最高读片量",
       },
       {
-        type: "paragraph",
-        text: "AI is an optional assistance step. Chart entry is part of checklist synchronization, not triggered directly by the reading-page button.",
-      },
-      {
-        type: "heading",
-        level: 3,
-        text: "How states affect synchronization",
-      },
-      {
-        type: "table",
-        headers: ["Reading state", "System behavior"],
-        rows: [
-          ["Unread", "No chart synchronization; remains to be processed"],
-          [
-            "Incomplete",
-            "Required information must be filled in; this image's content is excluded during checklist synchronization",
-          ],
-          [
-            "Complete",
-            "Completed reading content is included when the checklist is synchronized; an explicitly confirmed normal image is not treated as unread",
-          ],
-        ],
-      },
-      {
-        type: "paragraph",
-        text: "States support follow-up and reporting by clinic and doctor, not evaluation of diagnostic correctness.",
-      },
-      {
-        type: "paragraph",
-        text: "Unknown or incorrect image types must be confirmed or corrected before reading. Unsupported AI types use manual reading. When an image cannot be read, existing marks require confirmation and clearing; AI results are treated as rejected before setting the unable-to-read status.",
+        value: "96.3%",
+        label: "AI 诊断结果贡献率",
       },
     ],
+    managementTitle: "建立新的医疗质控指标",
+    managementIntro:
+      "在原有「应检尽检」的基础上，公司新增「应读尽读」指标，用于衡量需要判读的影像是否实际完成读片，并纳入每周门店问责会。",
+    steps: ["应检尽检", "应读尽读", "门店定期问责会"],
+    managementBody: [
+      "医疗部门根据实际完成情况，将 60% 设为阶段性考核目标，并非实际完成率。",
+      "读片工作由难以追踪的医疗行为，转变为可统计、可管理的日常业务环节。",
+    ],
+    note: "数据来自实际业务数据库。96.3% 指最终确认的病灶诊断记录中来源于 AI 的比例，并非识别准确率；累计使用数据不作为上线前后的对照。",
   },
-  {
-    id: "impact",
-    title: {
-      zh: "结果",
-      en: "Impact",
-    },
-    zh: [
+  reflection: {
+    thinking: [
       {
-        type: "heading",
-        level: 3,
-        text: "6.1 已上线的能力",
-      },
-      {
-        type: "list",
-        items: [
-          "**医生与医护**：医生讲片时可以标记、填写；其他医护可以查看同一份内容。同步检查表时，已完成读片的文字内容带入病历。",
-          "**管理人员**：可以查看读片完成情况，按门店和医生跟进。公司上线后形成了“读片完成率”指标，并在医疗质量复盘和问责会上使用。",
-          "**AI 辅助**：已经进入实际读片流程；医生仍决定提示是否正确、是否写入病历，并能在 AI 失败时手动继续。",
+        title: "发现问题",
+        body: [
+          "从使用数据发现部分医生使用率偏低。定向调研显示，频繁点选反而增加了操作成本。",
         ],
       },
       {
-        type: "paragraph",
-        variant: "target",
-        text: "**读片完成率**是推荐拍片记录中已完成读片的比例。当前管理目标为 **60%**，是在上线后形成、随实际情况调整的目标，不是已达到的结果。",
-      },
-      {
-        type: "heading",
-        level: 3,
-        text: "6.2 真实使用数据",
-      },
-      {
-        type: "table",
-        headers: ["数据", "表示什么"],
-        rows: [
-          [
-            "**147,793 张**",
-            "2024-10 至 2026-08 的累计读片量；峰值月为 18,075 张",
-          ],
-          [
-            "**约 96.3%**",
-            "在 AI 占比数据中，AI 参与的影像比例，包括有识别结果和未识别出异常的情况",
-          ],
-          ["**3,736 条**", "AI 读出后被医生删除的记录数，单位是记录，不是影像"],
+        title: "重新判断",
+        body: [
+          "相比追求高度结构化的记录，让医生真正完成读片并留下有效记录更为重要。",
         ],
       },
       {
-        type: "paragraph",
-        text: "这些数字说明了使用量、AI 参与情况和医生删除操作的数量，不说明诊断准确率或实际读片完成率。删除也不一定代表 AI 判断错误，可能是医生认为无需写入病历。",
-      },
-    ],
-    en: [
-      {
-        type: "heading",
-        level: 3,
-        text: "6.1 Live capabilities",
-      },
-      {
-        type: "list",
-        items: [
-          "**Doctors and clinical staff**: Doctors can mark and document during the explanation. Other clinical staff can view the same content. Completed reading content is included when the checklist is synchronized.",
-          "**Management**: Reading completion can be viewed by clinic and doctor. After launch, the company established a reading-completion metric for clinical quality reviews and accountability meetings.",
-          "**AI assistance**: AI is used in actual reading work. Doctors still decide whether cues are correct and belong in the chart, and can continue manually when AI fails.",
+        title: "调整方案",
+        body: [
+          "减少独立选择控件，将结构化选项聚合为快捷词条，同时支持自由输入。",
         ],
       },
-      {
-        type: "paragraph",
-        variant: "target",
-        text: "**Reading completion rate** is the proportion of recommended imaging records with completed reading. **60%** is a post-launch management target that can change over time, not an achieved result.",
-      },
-      {
-        type: "heading",
-        level: 3,
-        text: "6.2 Usage data",
-      },
-      {
-        type: "table",
-        headers: ["Figure", "Meaning"],
-        rows: [
-          [
-            "**147,793 images**",
-            "Cumulative reading volume from October 2024 to August 2026; the peak month had 18,075 images",
-          ],
-          [
-            "**Approximately 96.3%**",
-            "Images involving AI in the AI-participation dataset, including cases with findings and cases with no detected anomaly",
-          ],
-          [
-            "**3,736 records**",
-            "AI-generated records deleted by doctors; this counts records, not images",
-          ],
-        ],
-      },
-      {
-        type: "paragraph",
-        text: "These figures describe usage volume, AI participation, and deletion activity, not diagnostic accuracy or the actual reading-completion rate. Deletion does not necessarily mean the AI was wrong; a doctor may consider a finding unnecessary for the chart.",
-      },
     ],
-  },
-  {
-    id: "reflection",
-    title: {
-      zh: "反思",
-      en: "Reflection",
-    },
-    zh: [
-      {
-        type: "heading",
-        level: 3,
-        text: "少打字，不等于填写更快",
-      },
-      {
-        type: "paragraph",
-        text: "我原本希望通过结构化选择，让医生少打字，并在向家长讲片时完成记录。但上线后调研中，医生反馈填写路径仍然偏长：选项较多时，逐项查找、判断和选择反而比直接打字更费时间。这是这次设计没有做好的地方。",
-      },
-      {
-        type: "paragraph",
-        text: "这让我认识到，少打字不等于填写更快。结构化让记录更规范、便于统计，但也可能把输入负担变成查找负担。已有的搜索、筛选和内容复用，并没有完全解决这个问题。",
-      },
-      {
-        type: "paragraph",
-        text: "如果重新设计，我会先找出最耗时的填写环节，再判断哪些内容适合直接选择、哪些更适合快捷输入，而不是默认用选项代替打字就能提高效率。",
-      },
-      {
-        type: "heading",
-        level: 3,
-        text: "AI 判断正确，不等于需要记录",
-      },
-      {
-        type: "paragraph",
-        text: "AI 识别正确不代表必须写入病历，医生删除提示也不一定代表识别错误。评估时需要区分这些原因，不能只看 AI 使用占比就判断是否减轻了医生的负担。",
-      },
-    ],
-    en: [
-      {
-        type: "heading",
-        level: 3,
-        text: "Less typing does not necessarily mean faster documentation",
-      },
-      {
-        type: "paragraph",
-        text: "I intended structured choices to reduce typing and let doctors document findings while explaining images to parents. However, post-launch research with doctors revealed that the input flow was still too long. When there were many options, doctors reported that finding, evaluating, and selecting them could take longer than typing directly. This was a shortcoming in my design.",
-      },
-      {
-        type: "paragraph",
-        text: "I learned that reducing typing does not necessarily make documentation faster. Structured input makes records more consistent and easier to report on, but can shift the burden from typing to searching. Existing search, filtering, and content reuse did not fully resolve this problem.",
-      },
-      {
-        type: "paragraph",
-        text: "If I redesigned the flow, I would first identify the most time-consuming input steps, then decide which fields suit direct selection and which suit quick text input, rather than assume that replacing typing with choices improves efficiency.",
-      },
-      {
-        type: "heading",
-        level: 3,
-        text: "A correct AI cue does not necessarily belong in the chart",
-      },
-      {
-        type: "paragraph",
-        text: "A correct AI cue may not need chart entry, and deletion does not necessarily mean the AI was wrong. Evaluation needs to distinguish these reasons; AI participation alone cannot establish whether doctors' workload has been reduced.",
-      },
-    ],
-  },
-];
-
-export const pacsVisualSlots = {
-  workspace: {
-    title: {
-      zh: "完整读片工作台",
-      en: "Complete reading workspace",
-    },
-    brief: {
-      zh: "影像、标记与填写区域",
-      en: "Image, marks, and input area",
-    },
-  },
-  "record-sync": {
-    title: {
-      zh: "读片状态与病历同步",
-      en: "Reading status and chart sync",
-    },
-    brief: {
-      zh: "检查表同步时只带入已完成的读片内容",
-      en: "Only complete reading content is included with checklist synchronization",
-    },
-  },
-  "manual-reading": {
-    title: {
-      zh: "医生手动结构化读片",
-      en: "Manual structured reading",
-    },
-    brief: {
-      zh: "框选、对应卡片与快速填写",
-      en: "Annotation, linked cards, and quick input",
-    },
-  },
-  "reuse-module": {
-    title: {
-      zh: "相同异常的内容复用",
-      en: "Reusing matching findings",
-    },
-    brief: {
-      zh: "带入已有标记的密度、诊断和描述",
-      en: "Bring density, diagnosis, and description from an existing mark",
-    },
-  },
-  "ai-linked-focus": {
-    title: {
-      zh: "AI 提示与对应卡片",
-      en: "AI cues and linked cards",
-    },
-    brief: {
-      zh: "疑似异常区域与判断线索",
-      en: "Areas of concern and interpretation cues",
-    },
-  },
-  "doctor-review": {
-    title: {
-      zh: "医生三种复核结果",
-      en: "Three-way doctor review",
-    },
-    brief: {
-      zh: "确认、正确但不记录、判断错误",
-      en: "Confirm, correct but not for this chart, or reject",
-    },
-  },
-  "timeout-fallback": {
-    title: {
-      zh: "AI 超时后的手动读片",
-      en: "Manual reading after AI timeout",
-    },
-    brief: {
-      zh: "超过 5 秒或失败时可选择手动继续",
-      en: "Manual entry after a wait longer than 5 seconds or a failed call",
-    },
-  },
-  "image-classification": {
-    title: {
-      zh: "影像类型确认",
-      en: "Image type confirmation",
-    },
-    brief: {
-      zh: "未知或分类错误时先确认类型",
-      en: "Confirm unknown or incorrect image types",
-    },
+    title: "结构化是手段，而不是目的。",
+    body: "当设计预期与实际使用情况产生差异时，应重新审视业务目标，而不是局限于原有方案进行局部优化。",
+    note: "后续优化已进入迭代阶段，最终上线情况及效果尚未确认。",
   },
 };

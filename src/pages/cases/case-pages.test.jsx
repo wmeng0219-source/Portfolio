@@ -140,6 +140,22 @@ for (const slug of ["pacs-ai", "member-automation"]) {
   for (const language of ["zh", "en"]) {
     test(`${slug} ${language} separates introduction from responsibilities without a duplicate overview heading`, () => {
       const { container } = renderCase(slug, language);
+      if (slug === "pacs-ai") {
+        const hero = container.querySelector("#case-cover");
+        expect(hero).toHaveAttribute("aria-labelledby", "case-title");
+        expect(
+          within(hero).getByRole("heading", { level: 1 }),
+        ).toHaveTextContent("PACS 影像读片与 AI 辅助");
+        expect(within(hero).queryByRole("heading", { level: 2 })).toBeNull();
+        expect(hero.querySelector("[data-case-roles]")).toHaveTextContent(
+          "产品经理 / 产品设计",
+        );
+        expect(screen.getAllByRole("heading", { level: 2 })).toHaveLength(7);
+        expect(
+          screen.queryByRole("button", { name: "Switch to English" }),
+        ).toBeNull();
+        return;
+      }
       const overview = container.querySelector("#overview");
       const cover = container.querySelector("#case-cover") || overview;
       expect(cover).toHaveAttribute("aria-labelledby", "case-title");

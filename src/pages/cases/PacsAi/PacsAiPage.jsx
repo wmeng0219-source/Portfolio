@@ -1,417 +1,338 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useLanguage } from "../../../context/LanguageContext";
-import { pacsCaseSections, pacsVisualSlots } from "./content";
-import styles from "./PacsAi.module.css";
+import { caseContent as copy } from "./content";
+import { Evidence, Lightbox } from "../Orthodontics/Evidence";
+import { useCaseMotion } from "../Orthodontics/motion";
 import {
-  ChapterHeading,
-  RuleDiagram,
-  ReviewDiagram,
-  SystemFlow,
+  Flow,
+  WorkbenchAnnotations,
+  ReuseMechanism,
+  AiWorkbench,
+  DecisionTree,
+  RecordDestinations,
 } from "./visuals";
+import styles from "./PacsAi.module.css";
 
-function InlineText({ text }) {
-  return text
-    .split(/(\*\*.*?\*\*)/g)
-    .map((part, index) =>
-      part.startsWith("**") ? (
-        <strong key={index}>{part.slice(2, -2)}</strong>
-      ) : (
-        part
-      ),
-    );
-}
-
-function EvidencePlaceholder({ slotId, language, compact = false }) {
-  if (
-    [
-      "record-sync",
-      "reuse-module",
-      "timeout-fallback",
-      "image-classification",
-    ].includes(slotId)
-  ) {
-    return <RuleDiagram slotId={slotId} language={language} />;
-  }
-  const slot = pacsVisualSlots[slotId];
+const base = import.meta.env.BASE_URL;
+const media = {
+  reading: {
+    src: base + "images/pacs/approved/reading-workbench.jpg",
+    width: 2048,
+    height: 1280,
+  },
+  ai: {
+    src: base + "images/pacs/approved/ai-workbench.jpg",
+    width: 2048,
+    height: 1280,
+  },
+};
+const aliases = {
+  overview: "case-cover",
+  problem: "background",
+  thinking: "recording",
+  solution: "ai",
+  system: "value",
+  impact: "results",
+  "solution-1": "workflow",
+  "solution-2": "ai",
+  "solution-3": "value",
+};
+function Paragraphs({ items }) {
   return (
-    <figure
-      className={[
-        styles.readingEvidence,
-        compact ? styles.readingEvidenceCompact : "",
-      ].join(" ")}
-      data-visual-slot={slotId}
-    >
-      <div
-        className={styles.readingEvidenceFrame}
-        role="img"
-        aria-label={slot.title[language]}
-      >
-        <span>{language === "zh" ? "素材准备中" : "Image pending"}</span>
-        <strong>{slot.title[language]}</strong>
-      </div>
-      <figcaption>{slot.brief[language]}</figcaption>
-    </figure>
-  );
-}
-
-function ReadingTable({ block, metrics = false }) {
-  if (metrics) {
-    return (
-      <dl className={styles.readingMetrics}>
-        {block.rows.map(([value, meaning]) => (
-          <div key={value}>
-            <dt>
-              <InlineText text={value} />
-            </dt>
-            <dd>
-              <InlineText text={meaning} />
-            </dd>
-          </div>
-        ))}
-      </dl>
-    );
-  }
-  return (
-    <div className={styles.readingTableWrap}>
-      <table className={styles.readingTable}>
-        <thead>
-          <tr>
-            {block.headers.map((header) => (
-              <th scope="col" key={header}>
-                {header}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {block.rows.map(([label, detail]) => (
-            <tr key={label}>
-              <th scope="row">
-                <InlineText text={label} />
-              </th>
-              <td>
-                <InlineText text={detail} />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className={styles.stack16}>
+      {items.map((text) => (
+        <p key={text}>{text}</p>
+      ))}
     </div>
   );
 }
-
-function ReadingBlocks({ section, language }) {
-  return section[language].map((block, index) => {
-    let element;
-    const visualSlot = block.visualSlot;
-    if (visualSlot === "doctor-review") {
-      element = <ReviewDiagram block={block} language={language} />;
-    } else if (block.type === "heading") {
-      const Heading = block.level === 3 ? "h3" : "h4";
-      element = (
-        <Heading
-          id={block.anchor}
-          tabIndex={block.anchor ? -1 : undefined}
-          className={styles.readingSubheading}
-        >
-          {block.text}
-        </Heading>
-      );
-    } else if (block.type === "paragraph") {
-      element = (
-        <p
-          className={
-            block.variant === "target"
-              ? styles.readingTarget
-              : styles.readingParagraph
-          }
-        >
-          <InlineText text={block.text} />
-        </p>
-      );
-    } else if (block.type === "list") {
-      element = (
-        <ul
-          className={[
-            styles.readingList,
-            section.id === "impact" ? styles.readingCapabilities : "",
-          ].join(" ")}
-        >
-          {block.items.map((item, itemIndex) => (
-            <li key={item}>
-              <InlineText text={item} />
-              {block.relatedSolutions?.[itemIndex] && (
-                <Link
-                  to={"#solution-" + block.relatedSolutions[itemIndex]}
-                  className={styles.readingSolutionLink}
-                >
-                  4.{block.relatedSolutions[itemIndex]} →
-                </Link>
-              )}
-            </li>
-          ))}
-        </ul>
-      );
-    } else if (block.type === "table") {
-      element = (
-        <ReadingTable block={block} metrics={section.id === "impact"} />
-      );
-    } else if (block.type === "flow") {
-      element = <SystemFlow steps={block.steps} language={language} />;
-    }
-    return (
-      <Fragment key={section.id + "-" + index}>
-        {element}
-        {block.relatedSolution && (
-          <Link
-            to={"#solution-" + block.relatedSolution}
-            className={styles.readingSolutionLink}
-          >
-            4.{block.relatedSolution} →
-          </Link>
-        )}
-        {visualSlot && visualSlot !== "doctor-review" && (
-          <EvidencePlaceholder
-            slotId={visualSlot}
-            language={language}
-            compact={[
-              "doctor-review",
-              "timeout-fallback",
-              "reuse-module",
-            ].includes(visualSlot)}
-          />
-        )}
-      </Fragment>
-    );
-  });
-}
-
-export default function PacsAiCase() {
-  const { language, toggleLanguage, englishEnabled } = useLanguage();
-  const { hash, key: locationKey } = useLocation();
-  const previousHash = useRef(hash);
-  const [activeSection, setActiveSection] = useState("overview");
-  const [lightHeader, setLightHeader] = useState(false);
-  const [overview, ...sections] = pacsCaseSections;
-  const [title, summary, ...roles] = overview[language];
-
-  useEffect(() => {
-    if (hash) {
-      const id = hash.slice(1);
-      const target = document.getElementById(id);
-      target?.scrollIntoView?.({
-        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? "instant"
-          : "smooth",
-        block: "start",
-      });
-      (document.getElementById(id + "-title") || target)?.focus({
-        preventScroll: true,
-      });
-    } else if (previousHash.current) window.scrollTo(0, 0);
-    previousHash.current = hash;
-  }, [hash, locationKey]);
-
-  useEffect(() => {
-    let frame;
-    const update = () => {
-      frame = undefined;
-      const cover = document.getElementById("case-cover");
-      setLightHeader(
-        cover ? cover.getBoundingClientRect().bottom <= 64 : false,
-      );
-    };
-    const schedule = () => {
-      if (frame === undefined) frame = requestAnimationFrame(update);
-    };
-    update();
-    window.addEventListener("scroll", schedule, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", schedule);
-      if (frame !== undefined) cancelAnimationFrame(frame);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (typeof IntersectionObserver === "undefined") return undefined;
-    const visible = new Set();
-    let observer;
-    const observeSections = () => {
-      observer?.disconnect();
-      visible.clear();
-      // Percentage root margins use width, so use height-based pixels instead.
-      const top = Math.min(96, Math.floor(window.innerHeight * 0.15));
-      const bottom = Math.max(0, window.innerHeight - top - 128);
-      observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) visible.add(entry.target.id);
-            else visible.delete(entry.target.id);
-          });
-          const current = [...pacsCaseSections]
-            .reverse()
-            .find((section) => visible.has(section.id));
-          if (current) setActiveSection(current.id);
-        },
-        {
-          rootMargin: "-" + top + "px 0px -" + bottom + "px 0px",
-          threshold: 0,
-        },
-      );
-      pacsCaseSections.forEach(({ id }) => {
-        const node = document.getElementById(id);
-        if (node) observer.observe(node);
-      });
-    };
-    observeSections();
-    window.addEventListener("resize", observeSections);
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("resize", observeSections);
-    };
-  }, []);
-
+function Pairs({ items, small = false, balanced = false }) {
   return (
-    <article
-      id="pacs-page"
-      className={styles.readingRoot}
-      lang={language === "zh" ? "zh-CN" : "en"}
+    <div
+      className={styles.threeColumns + (balanced ? " " + styles.balanced : "")}
     >
-      <header
-        className={`${styles.readingTopbar} ${lightHeader ? styles.lightHeader : ""}`}
-      >
-        <Link
-          to="/"
-          state={{ scrollTo: "portfolio" }}
-          className={styles.readingBack}
-        >
-          ← {language === "zh" ? "返回首页" : "Back to Home"}
-        </Link>
-        {englishEnabled && (
-          <button
-            onClick={toggleLanguage}
-            className={styles.readingLanguage}
-            aria-label={language === "zh" ? "Switch to English" : "切换为中文"}
-          >
-            {language === "zh" ? "EN" : "中文"}
-          </button>
-        )}
-      </header>
-      <section
-        id="case-cover"
-        tabIndex={-1}
-        aria-labelledby="case-title"
-        className={styles.readingOverview}
-      >
-        <div className={styles.readingHero} data-case-intro>
-          <p className={styles.coverEyebrow}>{overview.title[language]}</p>
-          <h1 id="case-title" className={styles.readingTitle}>
-            <span className={styles.readingLatin}>PACS</span>
-            {title.text.slice(4)}
-          </h1>
-          <p className={styles.readingSummary}>{summary.text}</p>
+      {items.map((item) => (
+        <div className={styles.ruledItem} key={item.title}>
+          {small ? (
+            <h4 className={styles.accent}>{item.title}</h4>
+          ) : (
+            <h3>{item.title}</h3>
+          )}
+          <Paragraphs items={item.body} />
         </div>
-      </section>
-      <main className={styles.readingPage} data-case-reader>
-        <div className={styles.readingBody}>
-          <aside className={styles.readingSidebar}>
-            <nav
-              aria-label={language === "zh" ? "章节目录" : "Contents"}
-              className={styles.readingContents}
-            >
-              {pacsCaseSections.map((section, index) => (
-                <Link
-                  key={section.id}
-                  to={"#" + section.id}
-                  aria-current={
-                    activeSection === section.id ? "location" : undefined
-                  }
-                  onClick={() => {
-                    setActiveSection(section.id);
-                  }}
-                >
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  {section.title[language]}
-                </Link>
-              ))}
-            </nav>
-          </aside>
-          <div className={styles.readingArticles}>
-            <section
-              id="overview"
-              tabIndex={-1}
-              aria-labelledby="overview-title"
-              className={styles.readingSection}
-            >
-              <ChapterHeading
-                index={1}
-                id="overview-title"
-                eyebrow="PROJECT OVERVIEW"
-                title={
-                  language === "zh"
-                    ? "我的职责与协作"
-                    : "My role & collaboration"
-                }
-              />
-              <div className={styles.readingRoles} data-case-roles>
-                {roles.map((role) => (
-                  <p key={role.text}>{role.text}</p>
+      ))}
+    </div>
+  );
+}
+function Metrics({ items, hero = false }) {
+  return (
+    <dl className={hero ? styles.heroMetrics : styles.metrics}>
+      {items.map((item) => (
+        <div key={item.value}>
+          <dt>{item.value}</dt>
+          <dd>{item.label}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+function Section({ index, children }) {
+  const c = copy.chapters[index];
+  const boundary = {
+    workflow: "融入",
+    recording: "操作效率",
+    ai: "保留医生",
+    value: "产生多重",
+    results: "到常态化",
+    reflection: "重新审视",
+  }[c.id];
+  const split = boundary ? c.title.indexOf(boundary) : -1;
+  return (
+    <section
+      id={c.id}
+      data-pacs-chapter
+      className={styles.section + " " + (index % 2 ? styles.alternate : "")}
+      aria-labelledby={c.id + "-title"}
+    >
+      <div className={styles.container + " " + styles.stack40}>
+        <header className={styles.chapterHead} data-case-motion="heading">
+          <p className={styles.eyebrow}>{c.eyebrow}</p>
+          <h2 id={c.id + "-title"} tabIndex={-1}>
+            {split > 0 ? (
+              <>
+                {c.title.slice(0, split)}
+                <span className={styles.mobileTitle}>
+                  {c.title.slice(split)}
+                </span>
+              </>
+            ) : (
+              c.title
+            )}
+          </h2>
+        </header>
+        {children}
+      </div>
+    </section>
+  );
+}
+export default function PacsAiCase() {
+  const root = useRef(null),
+    close = useRef(null),
+    trigger = useRef(null);
+  const [lightbox, setLightbox] = useState(null);
+  const location = useLocation();
+  const previousHash = useRef(location.hash);
+  useCaseMotion(root);
+  function open(item, element) {
+    trigger.current = element;
+    setLightbox(item);
+  }
+  useEffect(() => {
+    const hash = decodeURIComponent(location.hash.slice(1));
+    if (!hash) {
+      if (previousHash.current) window.scrollTo(0, 0);
+      previousHash.current = "";
+      return;
+    }
+    previousHash.current = location.hash;
+    const element = document.getElementById(aliases[hash] || hash);
+    if (!element) return;
+    element.scrollIntoView?.({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "instant"
+        : "smooth",
+      block: "start",
+    });
+    (element.querySelector("h1,h2") || element).focus({ preventScroll: true });
+  }, [location.hash, location.key]);
+  useEffect(() => {
+    if (!lightbox) return;
+    const previous = document.body.style.overflow,
+      button = trigger.current;
+    const key = (event) => {
+      if (event.key === "Escape") setLightbox(null);
+    };
+    document.body.style.overflow = "hidden";
+    close.current?.focus();
+    document.addEventListener("keydown", key);
+    return () => {
+      document.body.style.overflow = previous;
+      document.removeEventListener("keydown", key);
+      button?.focus({ preventScroll: true });
+    };
+  }, [lightbox]);
+  const {
+    hero,
+    background: bg,
+    workflow: w,
+    recording: r,
+    ai,
+    value: v,
+    results,
+    reflection,
+  } = copy;
+  return (
+    <article id="pacs-page" className={styles.root} lang="zh-CN" ref={root}>
+      <div
+        inert={lightbox ? "" : undefined}
+        aria-hidden={lightbox ? true : undefined}
+      >
+        <nav className={styles.topbar} aria-label="返回作品">
+          <Link to="/" state={{ scrollTo: "portfolio" }}>
+            返回作品{" "}
+            <span className={styles.linkArrow} aria-hidden="true">
+              ↗
+            </span>
+          </Link>
+        </nav>
+        <main>
+          <section
+            id="case-cover"
+            className={styles.cover}
+            aria-labelledby="case-title"
+          >
+            <div className={styles.container + " " + styles.stack40}>
+              <div className={styles.stack16} data-case-intro>
+                <p className={styles.coverEyebrow}>{hero.eyebrow}</p>
+                <h1 id="case-title" tabIndex={-1}>
+                  {hero.title}
+                </h1>
+                <p className={styles.lede}>{hero.intro}</p>
+              </div>
+              <hr className={styles.coverDivider} />
+              <div className={styles.stack20}>
+                <Metrics hero items={hero.metrics} />
+                <p className={styles.coverNote}>{hero.note}</p>
+              </div>
+              <div className={styles.roles} data-case-roles>
+                <p>
+                  <strong>{hero.role}</strong>
+                </p>
+                <p>{hero.responsibility}</p>
+              </div>
+            </div>
+          </section>
+          <Section index={0}>
+            <p>{bg.intro}</p>
+            <div className={styles.stack24}>
+              <h3>{bg.flowTitle}</h3>
+              <Flow steps={bg.steps} kind="original" />
+              <div className={styles.boundaries}>
+                <p>{bg.boundaries[0]}</p>
+                <p>{bg.boundaries[1]}</p>
+              </div>
+            </div>
+            <div className={styles.stack24}>
+              <h3>{bg.problemTitle}</h3>
+              <Pairs items={bg.problems} />
+            </div>
+            <div className={styles.stack12}>
+              <h4 className={styles.accent}>{bg.goalTitle}</h4>
+              <p>{bg.goal}</p>
+            </div>
+          </Section>
+          <Section index={1}>
+            <div className={styles.stack24}>
+              <h3>{w.habitTitle}</h3>
+              <Paragraphs items={w.habit} />
+            </div>
+            <div className={styles.stack24}>
+              <h3>{w.flowTitle}</h3>
+              <Flow steps={w.steps} kind="new" />
+              <p className={styles.note}>{w.flowNote}</p>
+            </div>
+            <div className={styles.stack24}>
+              <h3>{w.linkTitle}</h3>
+              <p>{w.linkBody}</p>
+              <div className={styles.annotatedScreen}>
+                <Evidence
+                  image={media.reading}
+                  slot="reading-workbench"
+                  title="影像标记与诊断记录工作台"
+                  alt="完整读片工作台：左侧影像列表，中间影像与异常标记，右侧一一对应的诊断卡片"
+                  onZoom={open}
+                  caption={null}
+                />
+                <WorkbenchAnnotations />
+              </div>
+              <div className={styles.threeColumns}>
+                {w.regions.map((item) => (
+                  <div key={item.title} className={styles.stack8}>
+                    <h4>{item.title}</h4>
+                    <Paragraphs items={item.body} />
+                  </div>
                 ))}
               </div>
-              <EvidencePlaceholder slotId="workspace" language={language} />
-            </section>
-            {sections.map((section, index) => (
-              <section
-                id={section.id}
-                tabIndex={-1}
-                key={section.id}
-                aria-labelledby={section.id + "-title"}
-                className={styles.readingSection}
-              >
-                <ChapterHeading
-                  index={index + 2}
-                  id={section.id + "-title"}
-                  eyebrow={
-                    [
-                      "PROBLEM",
-                      "PRODUCT THINKING",
-                      "SOLUTION",
-                      "SYSTEM",
-                      "IMPACT",
-                      "REFLECTION",
-                    ][index]
-                  }
-                  title={section.title[language]}
-                />
-                {section.id === "problem" && (
-                  <SystemFlow
-                    original
-                    language={language}
-                    steps={
-                      language === "zh"
-                        ? ["预习推荐拍片", "拍片", "医生看图、向家长讲解"]
-                        : [
-                            "Pre-visit imaging recommendation",
-                            "Image capture",
-                            "Review and explanation to parents",
-                          ]
+              <p className={styles.note}>{w.caption}</p>
+            </div>
+          </Section>
+          <Section index={2}>
+            <div className={styles.stack24}>
+              <h3>{r.introTitle}</h3>
+              <Paragraphs items={r.intro} />
+            </div>
+            <div className={styles.stack24}>
+              <h3>{r.reuseTitle}</h3>
+              <Pairs items={r.thinking} small balanced />
+              <ReuseMechanism copy={r} />
+            </div>
+          </Section>
+          <Section index={3}>
+            <p>{ai.intro}</p>
+            <AiWorkbench copy={ai} image={media.ai} onZoom={open} />
+            <div className={styles.stack24}>
+              <h3>{ai.decisionTitle}</h3>
+              <p>{ai.decisionBody}</p>
+              <DecisionTree copy={ai.tree} />
+            </div>
+            <div className={styles.stack24}>
+              <h3>{ai.principleTitle}</h3>
+              <div className={styles.twoColumns}>
+                {ai.principles.map((item, i) => (
+                  <div
+                    key={item.title}
+                    className={
+                      styles.ruledItem + " " + (!i ? styles.accentRule : "")
                     }
-                  />
-                )}
-                <ReadingBlocks section={section} language={language} />
-                {section.id === "system" && (
-                  <EvidencePlaceholder
-                    slotId="image-classification"
-                    language={language}
-                    compact
-                  />
-                )}
-              </section>
-            ))}
-          </div>
-        </div>
-      </main>
+                  >
+                    <h4>{item.title}</h4>
+                    <Paragraphs items={item.body} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Section>
+          <Section index={4}>
+            <Paragraphs items={v.intro} />
+            <RecordDestinations copy={v} />
+            <p>{v.note}</p>
+          </Section>
+          <Section index={5}>
+            <p>{results.intro}</p>
+            <Metrics items={results.metrics} />
+            <div className={styles.stack24}>
+              <h3>{results.managementTitle}</h3>
+              <p>{results.managementIntro}</p>
+              <Flow steps={results.steps} kind="management" />
+              <Paragraphs items={results.managementBody} />
+              <p className={styles.note}>{results.note}</p>
+            </div>
+          </Section>
+          <Section index={6}>
+            <Pairs items={reflection.thinking} small />
+            <div className={styles.stack16}>
+              <h3>{reflection.title}</h3>
+              <p>{reflection.body}</p>
+            </div>
+            <p className={styles.note}>{reflection.note}</p>
+          </Section>
+        </main>
+      </div>
+      <Lightbox
+        item={lightbox}
+        onClose={() => setLightbox(null)}
+        closeRef={close}
+      />
     </article>
   );
 }
