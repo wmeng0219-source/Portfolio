@@ -4,8 +4,8 @@ import { LanguageProvider } from "../../context/LanguageContext";
 import Experience from "./index";
 
 test.each([
-  ["zh", "UI 设计师（兼产品职责）", "至今"],
-  ["en", "UI Designer (with Product Responsibilities)", "Present"],
+  ["zh", "产品经理（兼 UI 设计）", "至今"],
+  ["en", "Product Manager (with UI Design)", "Present"],
 ])(
   "career history uses confirmed employment facts in %s",
   (language, role, present) => {
