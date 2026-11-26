@@ -1,11 +1,11 @@
-import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
-import { MemoryRouter, Route, Routes, useNavigate } from 'react-router-dom';
-import { afterEach, beforeEach, expect, test, vi } from 'vitest';
-import { LanguageProvider } from '../../context/LanguageContext';
-import ScrollToTop from '../../components/ScrollToTop';
-import PacsAi from './PacsAi';
-import MemberAutomation from './MemberAutomation';
-import { caseContent } from './PacsAi/content';
+import { act, cleanup, render, screen } from "@testing-library/react";
+import { MemoryRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { afterEach, beforeEach, expect, test, vi } from "vitest";
+import { LanguageProvider } from "../../context/LanguageContext";
+import ScrollToTop from "../../components/ScrollToTop";
+import PacsAi from "./PacsAi";
+import MemberAutomation from "./MemberAutomation";
+import { caseContent } from "./PacsAi/content";
 
 let originalScroll;
 let scroll;
@@ -20,8 +20,8 @@ afterEach(() => {
   restore.splice(0).forEach((reset) => reset());
   Element.prototype.scrollIntoView = originalScroll;
 });
-const renderCase = (slug, hash = '') => {
-  const Page = slug === 'pacs-ai' ? PacsAi : MemberAutomation;
+const renderCase = (slug, hash = "") => {
+  const Page = slug === "pacs-ai" ? PacsAi : MemberAutomation;
   const router = {};
   function Navigation() {
     router.navigate = useNavigate();
@@ -33,7 +33,10 @@ const renderCase = (slug, hash = '') => {
         <Navigation />
         <Routes>
           <Route path="/project/:id" element={<Page />} />
-          <Route path="/" element={<section id="portfolio">Portfolio</section>} />
+          <Route
+            path="/"
+            element={<section id="portfolio">Portfolio</section>}
+          />
         </Routes>
       </MemoryRouter>
     </LanguageProvider>,
@@ -78,55 +81,83 @@ test("PACS old system hash and history still resolve after removal of the old co
 });
 
 const anchorCases = [
-  ['member-automation', '#impact', /落地验证与演进/, 'impact', /业务背景/],
+  ["#impact", "results"],
+  ["#resilience", "exceptions"],
+  ["#governance", "authorization"],
+  ["#solution", "experience"],
+  ["#decisions", "exceptions"],
+  ["#problem", "background"],
+  ["#overview", "background"],
+  ["#system", "scope"],
 ];
 
-test.each(anchorCases)('%s owns one scroll and focus per anchor navigation, including repeat and history', async (slug, hash, label, targetId, contextLabel) => {
-  const router = renderCase(slug, hash);
-  const focusTarget = document.getElementById(targetId);
-  expect(scroll).toHaveBeenCalledTimes(1);
-  expect(document.activeElement).toBe(focusTarget);
-  const link = screen.getByRole('link', { name: label });
+test.each(anchorCases)(
+  "member legacy anchor %s resolves to %s without adding the retired contents layout",
+  (hash, targetId) => {
+    renderCase("member-automation", hash);
+    expect(scroll).toHaveBeenCalledTimes(1);
+    expect(document.activeElement).toBe(
+      document.getElementById(targetId + "-title"),
+    );
+    expect(screen.queryByRole("navigation", { name: "章节目录" })).toBeNull();
+  },
+);
+
+test("member anchor changes and browser history have one scroll owner", async () => {
+  const router = renderCase("member-automation", "#impact");
   scroll.mockClear();
-  fireEvent.click(link);
+  await act(async () => {
+    await router.navigate("/project/member-automation#problem");
+  });
   expect(scroll).toHaveBeenCalledTimes(1);
+  expect(document.activeElement).toBe(
+    document.getElementById("background-title"),
+  );
   scroll.mockClear();
-  fireEvent.click(screen.getByRole('link', { name: contextLabel }));
+  await act(async () => {
+    await router.navigate(-1);
+  });
   expect(scroll).toHaveBeenCalledTimes(1);
-  scroll.mockClear();
-  await act(async () => { await router.navigate(-1); });
-  expect(scroll).toHaveBeenCalledTimes(1);
-  expect(document.activeElement).toBe(focusTarget);
-  scroll.mockClear();
-  await act(async () => { await router.navigate('/', { state: { scrollTo: 'portfolio' } }); });
-  expect(scroll).toHaveBeenCalledTimes(1);
+  expect(document.activeElement).toBe(document.getElementById("results-title"));
 });
 
-test.each(anchorCases)('%s anchor navigation is instant with reduced motion', (slug, hash) => {
-  const query = vi.spyOn(window, 'matchMedia').mockImplementation(() => ({ matches: true }));
+test("member deep links respect reduced motion", () => {
+  const query = vi
+    .spyOn(window, "matchMedia")
+    .mockImplementation(() => ({ matches: true }));
   restore.push(() => query.mockRestore());
-  renderCase(slug, hash);
-  expect(scroll).toHaveBeenCalledWith({ behavior: 'instant', block: 'start' });
+  renderCase("member-automation", "#impact");
+  expect(scroll).toHaveBeenCalledWith({ behavior: "instant", block: "start" });
 });
 
-test('returning to the homepage respects reduced motion despite the global smooth-scroll style', async () => {
-  const query = vi.spyOn(window, 'matchMedia').mockImplementation(() => ({ matches: true }));
+test("returning to the homepage respects reduced motion despite the global smooth-scroll style", async () => {
+  const query = vi
+    .spyOn(window, "matchMedia")
+    .mockImplementation(() => ({ matches: true }));
   restore.push(() => query.mockRestore());
-  const router = renderCase('member-automation', '#system');
+  const router = renderCase("member-automation", "#system");
   scroll.mockClear();
-  await act(async () => { await router.navigate('/', { state: { scrollTo: 'portfolio' } }); });
+  await act(async () => {
+    await router.navigate("/", { state: { scrollTo: "portfolio" } });
+  });
   expect(scroll).toHaveBeenCalledTimes(1);
-  expect(scroll).toHaveBeenCalledWith(expect.objectContaining({ behavior: 'instant' }));
+  expect(scroll).toHaveBeenCalledWith(
+    expect.objectContaining({ behavior: "instant" }),
+  );
 });
 
-test.each(anchorCases)('%s returns to the page top when history removes its anchor', async (slug, hash, label) => {
-  const top = vi.spyOn(window, 'scrollTo');
+test("member returns to the page top when history removes its anchor", async () => {
+  const top = vi.spyOn(window, "scrollTo");
   restore.push(() => top.mockRestore());
-  const router = renderCase(slug);
+  const router = renderCase("member-automation");
   expect(top).toHaveBeenCalledTimes(1);
-  fireEvent.click(screen.getByRole('link', { name: label }));
+  await act(async () => {
+    await router.navigate("/project/member-automation#impact");
+  });
   top.mockClear();
-  await act(async () => { await router.navigate(-1); });
+  await act(async () => {
+    await router.navigate(-1);
+  });
   expect(top).toHaveBeenCalledTimes(1);
   expect(top).toHaveBeenCalledWith(0, 0);
 });

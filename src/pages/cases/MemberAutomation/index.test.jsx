@@ -4,174 +4,126 @@ import { MemoryRouter } from "react-router-dom";
 import { LanguageProvider } from "../../../context/LanguageContext";
 import MemberAutomation from "./index";
 
-const renderCase = () =>
+const renderCase = (hash = "") =>
   render(
-    <MemoryRouter initialEntries={["/project/member-automation"]}>
+    <MemoryRouter initialEntries={["/project/member-automation" + hash]}>
       <LanguageProvider>
         <MemberAutomation />
       </LanguageProvider>
     </MemoryRouter>,
   );
 
-test("the reader separates the decision flow from recovery and keeps complete evidence in its chapter", () => {
+test("approved seven chapters retain full screenshots in their actual business context", () => {
   const { container } = renderCase();
+  expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+    "会员业务自动化",
+  );
   expect(
-    screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent),
+    screen.getAllByRole("heading", { level: 2 }).map((n) => n.textContent),
   ).toEqual([
-    "业务痛点与系统边界取舍",
-    "信息架构重构：将跨模块数据聚合成单一决策流",
-    "跨系统容错设计：数据歧义识别与断点人工接手",
-    "规则解耦与权限前置：让合规校验发生在报价当下",
-    "落地验证、系统边界与演进规划",
+    "一次会员办理，依赖大量人工判断与操作",
+    "在原有系统之上实现业务自动化",
+    "把员工需要记住的规则，交给系统",
+    "让前台只关注买什么、付多少",
+    "从逐笔审批，转向额度内自主优惠",
+    "明确自动化边界，保留人工接续能力",
+    "从业务提效到持续优化",
   ]);
-  const handling = container.querySelector("#solution");
-  const recovery = container.querySelector("#resilience");
-  const discount = container.querySelector("#governance");
-  expect(container.querySelector("#case-cover img")).not.toBeInTheDocument();
-  expect(
-    screen.queryByRole("link", { name: "查看办理设计" }),
-  ).not.toBeInTheDocument();
-  expect(container.querySelector("details")).not.toBeInTheDocument();
-  for (const slot of ["workspace", "upgrade"])
-    expect(
-      handling.querySelector(`[data-visual-slot="${slot}"]`),
-    ).toBeInTheDocument();
-  for (const slot of ["orders", "failure", "success"])
-    expect(
-      recovery.querySelector(`[data-visual-slot="${slot}"]`),
-    ).toBeInTheDocument();
-  expect(
-    discount.querySelector('[data-visual-slot="audit"]'),
-  ).toBeInTheDocument();
-  expect(container.querySelector("[data-case-roles]")).not.toBeInTheDocument();
-  expect(
-    discount.querySelector('[data-visual-slot="quota"]'),
-  ).toBeInTheDocument();
-  const figures = container.querySelectorAll("figure[data-visual-slot]");
-  expect(figures).toHaveLength(7);
-  for (const figure of figures) {
-    const image = within(figure).getByRole("img");
+  expect(container.querySelector("#case-cover img")).toBeNull();
+  const images = [...container.querySelectorAll("main img")];
+  expect(images).toHaveLength(6);
+  expect(images.map((n) => n.closest("section").id)).toEqual([
+    "experience",
+    "experience",
+    "authorization",
+    "exceptions",
+    "exceptions",
+    "exceptions",
+  ]);
+  for (const image of images) {
+    expect(image).toHaveAttribute("width", "3840");
+    expect(image).toHaveAttribute("height", "2160");
     expect(image).toHaveAttribute(
       "src",
-      expect.stringContaining(`/member/${figure.dataset.visualSlot}-full.jpg`),
+      expect.stringMatching(/\/member\/approved\/.*\.png$/),
     );
-    expect(image).not.toHaveAttribute("style");
-    expect(image.parentElement.style.aspectRatio).toBe("2400 / 1350");
-    expect(figure.querySelector("figcaption")).toHaveTextContent(image.alt);
-    expect(within(figure).getAllByRole("button")).toHaveLength(1);
   }
-  expect(
-    screen.queryByText(/查看完整界面|查看完整页面/),
-  ).not.toBeInTheDocument();
-  expect(screen.getByText(/前台回原系统查账并办理/)).toBeInTheDocument();
-  expect(container).not.toHaveTextContent(/领健|\bODOS\b/i);
   expect(container).not.toHaveTextContent(
-    /旧卡剩余价值|门诊、岗位额度|门店现场实测|日终批处理/,
+    /内部实施|编辑备注|素材准备中|约 3 天/,
   );
-  expect(screen.queryByText("素材准备中")).not.toBeInTheDocument();
 });
 
-test("clicking a screenshot enlarges the same complete image", async () => {
+test("business diagrams keep the judgment dimensions, allocation comparison and observation limits", () => {
+  const { container } = renderCase();
+  const rules = container.querySelector("#rules");
+  [
+    "现有卡种",
+    "目标卡种",
+    "有效状态与剩余权益",
+    "A 门店：¥1,500",
+    "B 门店：¥6,000",
+    "业务逻辑示意，不代表实际会计分录。",
+  ].forEach((text) => expect(rules).toHaveTextContent(text));
+  expect(container.querySelector("#authorization")).toHaveTextContent(
+    "¥3,499 − ¥3,400 = ¥99",
+  );
+  expect(container.querySelector("#authorization")).toHaveTextContent(
+    "剩余可用额度为 ¥80，超额时无法确认。",
+  );
+  expect(container.querySelector("#results")).toHaveTextContent(
+    "依据多门店现场观察及一线员工反馈估算",
+  );
+  expect(container.querySelector("#results")).toHaveTextContent(
+    "尚未完全自动化",
+  );
+  expect(container.querySelector("#results")).toHaveTextContent(
+    "我通过 AI 辅助编程实现门店直接录入",
+  );
+});
+
+test("all six screenshots enlarge the same full source and restore focus on Escape", async () => {
   const user = userEvent.setup();
   renderCase();
-  const triggers = screen.getAllByRole("button", {
-    name: /^放大截图：/,
-  });
-  expect(triggers).toHaveLength(7);
+  const triggers = screen.getAllByRole("button", { name: /^放大查看：/ });
+  expect(triggers).toHaveLength(6);
   for (const trigger of triggers) {
     const thumbnail = within(trigger).getByRole("img");
     await user.click(trigger);
-    const enlarged = within(screen.getByRole("dialog")).getByRole("img");
-    expect(enlarged).toHaveAttribute("src", thumbnail.getAttribute("src"));
-    expect(enlarged).not.toHaveAttribute("style");
-    expect(enlarged.parentElement.style.aspectRatio).toBe("2400 / 1350");
+    const dialog = screen.getByRole("dialog");
+    expect(within(dialog).getByRole("img")).toHaveAttribute(
+      "src",
+      thumbnail.getAttribute("src"),
+    );
+    expect(document.body.style.overflow).toBe("hidden");
+    expect(screen.getByRole("button", { name: "关闭图片预览" })).toHaveFocus();
+    await user.tab({ shift: true });
+    expect(dialog.contains(document.activeElement)).toBe(true);
     await user.keyboard("{Escape}");
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(trigger).toHaveFocus();
     expect(document.body.style.overflow).not.toBe("hidden");
   }
 });
 
-test("screens can be enlarged and dismissed by keyboard or button with focus restored", async () => {
-  const user = userEvent.setup();
+test("unavailable screenshot keeps the adjacent design explanation and error feedback", () => {
   renderCase();
-  const trigger = screen.getByRole("button", {
-    name: "放大截图：会员升级选卡界面",
-  });
-  trigger.focus();
-  await user.keyboard("{Enter}");
-  const dialog = screen.getByRole("dialog", {
-    name: "会员升级选卡界面",
-  });
-  expect(within(dialog).getByRole("img")).toHaveAttribute(
-    "src",
-    expect.stringMatching(/upgrade-full\.jpg$/),
-  );
-  const close = within(dialog).getByRole("button", { name: "关闭大图" });
-  expect(within(dialog).getAllByRole("button")).toEqual([close]);
-  expect(within(dialog).queryByRole("link")).not.toBeInTheDocument();
-  expect(close).toHaveFocus();
-  await user.tab();
-  expect(close).toHaveFocus();
-  await user.tab({ shift: true });
-  expect(close).toHaveFocus();
-  await user.keyboard("{Escape}");
-  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-  expect(trigger).toHaveFocus();
-  await user.keyboard("{Enter}");
-  await user.click(screen.getByRole("button", { name: "关闭大图" }));
-  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-  expect(trigger).toHaveFocus();
-});
-
-test("an unavailable screenshot keeps its explanation and the viewer remains dismissible", async () => {
-  const user = userEvent.setup();
-  renderCase();
-  const image = screen.getByRole("img", {
-    name: "会员升级选卡界面",
-  });
-  const figure = within(image.closest("figure"));
-  fireEvent.error(image);
+  fireEvent.error(screen.getByRole("img", { name: /会员办理完整页面/ }));
   expect(screen.getByRole("status")).toHaveTextContent(
-    "会员升级选卡界面暂未加载",
+    /会员办理完整页面.*暂时无法加载/,
   );
-  expect(figure.getByText("会员升级选卡界面")).toBeInTheDocument();
+  expect(screen.getByText("左侧：确认购买内容")).toBeInTheDocument();
   expect(
-    screen.getByText(/选定目标卡后，同步展示新权益与折扣/),
+    screen.getByText("同时展示卡种与权益，避免仅凭卡名选择会员卡。"),
   ).toBeInTheDocument();
-  await user.click(
-    figure.getByRole("button", {
-      name: "放大截图：会员升级选卡界面",
-    }),
-  );
-  const dialog = screen.getByRole("dialog");
-  fireEvent.error(within(dialog).getByRole("img"));
-  expect(within(dialog).getByRole("status")).toHaveTextContent(
-    "会员升级选卡界面暂未加载",
-  );
-  await user.click(within(dialog).getByRole("button", { name: "关闭大图" }));
-  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-  expect(document.body.style.overflow).not.toBe("hidden");
 });
 
-test("each contents link reaches a labelled chapter, including the new recovery chapter", async () => {
-  const user = userEvent.setup();
-  const { container } = renderCase();
-  const nav = screen.getByRole("navigation", { name: "章节目录" });
-  expect(within(nav).getAllByRole("link")).toHaveLength(5);
-  const link = within(nav).getByRole("link", {
-    name: "策略二：跨系统容错设计",
-  });
-  await user.click(link);
-  const recovery = container.querySelector("#resilience");
-  expect(recovery).toHaveFocus();
-  expect(link).toHaveAttribute("aria-current", "location");
-  for (const item of within(nav).getAllByRole("link")) {
-    const id = item.getAttribute("href").split("#")[1];
-    const chapter = container.querySelector(`#${id}`);
-    expect(chapter).toHaveAttribute("aria-labelledby", `${id}-title`);
-    expect(within(chapter).getByRole("heading", { level: 2 })).toHaveAttribute(
-      "id",
-      `${id}-title`,
-    );
-  }
+test("legacy deep links still reach the corresponding labelled chapter", () => {
+  renderCase("#resilience");
+  expect(document.activeElement).toBe(
+    document.getElementById("exceptions-title"),
+  );
+  expect(screen.getByRole("link", { name: /返回主页/ })).toHaveAttribute(
+    "href",
+    "/",
+  );
 });

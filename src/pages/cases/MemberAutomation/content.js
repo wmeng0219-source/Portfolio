@@ -1,305 +1,352 @@
-// 2026-11-18 按用户指定的五章叙事与图文方案重组；证据边界见案例底稿。
+// Display copy transcribed from the approved final Figma 800:4405.
+// Business background and evidence boundaries remain in content.md.
 export const caseContent = {
   hero: {
-    title: {
-      zh: "会员自动化与财务治理",
-      en: "Member Automation & Financial Governance",
-    },
-    summary: {
-      zh: "为连锁儿童齿科重构会员办理流程。在保留原系统底层收费能力的前提下，将割裂的卡、券、账单数据聚合为单一决策流，并把现场额外让价从事后补批改为月度额度前置校验，让办理提效与优惠授权同时落地。",
-      en: "",
-    },
-    role: "负责一线调研、业务规则梳理、产品方案、流程交互与界面设计，并参与推进门店落地。",
-    roleTags: [
-      "一线调研",
-      "业务规则梳理",
-      "产品方案",
-      "流程交互与界面设计",
-      "参与门店落地",
+    eyebrow: "连锁医疗 · 企业内部系统",
+    title: "会员业务自动化",
+    intro:
+      "将复杂的会员业务规则、费用计算与账单操作交给系统，减少一线重复操作，同时规范优惠管理。",
+    metrics: [
+      {
+        value: "4–5 → 1 分钟",
+        label: "会员升级平均办理耗时",
+      },
+      {
+        value: "20+ 家",
+        label: "门店推广范围",
+      },
+      {
+        value: "优惠额度授权",
+        label: "替代逐笔额外优惠审批",
+      },
     ],
-    roles: {
-      zh: [
-        "我负责跟前台核对实际操作痛点，与财务敲定计费、账单及优惠授权规则，并将其转化为产品方案与界面交互；整体改造范围由团队共同拍板，研发完成系统开发。",
-      ],
-      en: [],
-    },
+    role: "角色：产品经理 / 产品设计",
+    responsibility: "核心职责：业务调研、规则梳理、产品与交互设计、落地及迭代",
   },
-  sections: [
+  chapters: [
     {
-      id: "overview",
-      navTitle: "业务背景与架构取舍",
-      title: {
-        zh: "业务痛点与系统边界取舍",
-        en: "Context & Constraints",
-      },
-      zh: [{ type: "narrative", kind: "overview" }],
+      id: "background",
+      eyebrow: "01 / 业务背景",
+      title: "一次会员办理，依赖大量人工判断与操作",
     },
     {
-      id: "solution",
-      navTitle: "策略一：信息架构重构",
-      title: {
-        zh: "信息架构重构：将跨模块数据聚合成单一决策流",
-        en: "Membership Handling",
-      },
-      zh: [{ type: "narrative", kind: "solution" }],
+      id: "scope",
+      eyebrow: "02 / 建设范围",
+      title: "在原有系统之上实现业务自动化",
     },
     {
-      id: "resilience",
-      navTitle: "策略二：跨系统容错设计",
-      title: {
-        zh: "跨系统容错设计：数据歧义识别与断点人工接手",
-        en: "Cross-system Recovery",
-      },
-      zh: [{ type: "narrative", kind: "resilience" }],
+      id: "rules",
+      eyebrow: "03 / 业务规则",
+      title: "把员工需要记住的规则，交给系统",
     },
     {
-      id: "governance",
-      navTitle: "策略三：风控前置治理",
-      title: {
-        zh: "规则解耦与权限前置：让合规校验发生在报价当下",
-        en: "Discount Authorization",
-      },
-      zh: [{ type: "narrative", kind: "governance" }],
+      id: "experience",
+      eyebrow: "04 / 办理体验",
+      title: "让前台只关注买什么、付多少",
     },
     {
-      id: "impact",
-      navTitle: "落地验证与演进",
-      title: {
-        zh: "落地验证、系统边界与演进规划",
-        en: "Outcomes & Boundaries",
-      },
-      zh: [{ type: "narrative", kind: "impact" }],
+      id: "authorization",
+      eyebrow: "05 / 优惠授权",
+      title: "从逐笔审批，转向额度内自主优惠",
+    },
+    {
+      id: "exceptions",
+      eyebrow: "06 / 异常处理",
+      title: "明确自动化边界，保留人工接续能力",
+    },
+    {
+      id: "results",
+      eyebrow: "07 / 成果与迭代",
+      title: "从业务提效到持续优化",
     },
   ],
-};
-
-export const screenshots = {
-  workspace: {
-    title: "会员办理工作台",
-    width: 2400,
-    height: 1350,
-    caption: "左侧看患者身份，中间看旧卡状态，右侧直接查剩余服务次数。",
-  },
-  upgrade: {
-    title: "会员升级选卡界面",
-    width: 2400,
-    height: 1350,
-    caption:
-      "弹窗内直接选新卡，同屏核对新旧权益变化与系统算出的应付金额（图中金额为示例）。",
-  },
-  orders: {
-    title: "手动选择退费账单",
-    width: 2400,
-    height: 1350,
-    caption:
-      "浮层中三笔示例账单均实付 ¥1,000，前台可结合具体的收费时间和备注认出真正的原账单。",
-  },
-  failure: {
-    title: "升级中断提示",
-    width: 2400,
-    height: 1350,
-    caption: "原账单已找到、退费已完成，标红事项仍需回原系统处理。",
-  },
-  quota: {
-    title: "手动优惠超额提示",
-    width: 2400,
-    height: 1350,
-    caption:
-      "右侧浮层中，示例优惠 ¥99 超过剩余额度 ¥80，确认按钮直接置灰锁死。",
-  },
-  success: {
-    title: "升级成功反馈",
-    width: 2400,
-    height: 1350,
-    caption: "全部顺利走完时，成功反馈逐项列出系统已完成的收费和会员变更。",
-  },
-  audit: {
-    title: "会员操作日志界面",
-    width: 2400,
-    height: 1350,
-    caption:
-      "记录升级、冻结与有效期等会员变更；这张图支持卡状态追查，不展示优惠使用记录。",
-  },
-};
-
-// 既有英文暂存；恢复入口前需按本轮中文结构重新审核。
-const retainedEnglish = {
-  hero: {
-    title: "Member Automation & Financial Governance",
-    summary:
-      "In a pediatric dental group, membership-card handling depended on front-desk staff memorizing rules: multi-tier cards, separated coupons, and complex variables led to slow, error-prone calculations. The project built an automation and governance layer atop the clinic system, turning scattered rules into an executable and traceable workflow.",
-    roles: [
-      "I researched front-desk operations to identify gaps and edge cases in cashier handbooks; co-defined upgrade calculation rules with finance; and led product solution modeling, interaction, and UI design through rollout.",
-      "The core focus: automate standard arithmetic, enforce explicit human stops for ambiguous exceptions, and shift discounts from verbal post-hoc approvals to upfront quota governance.",
+  background: {
+    intro: [
+      "家长购买会员卡后，孩子可以在有效期内享受相应的牙科服务与折扣。",
+      "以会员升级为例，家长只需要补交差价，但前台需要判断升级条件、计算费用，并分别处理收费账单、会员卡及相关权益。",
+      "由于原系统中这些信息缺少业务关联，整个办理过程依赖员工对规则的理解和人工操作。",
     ],
-  },
-  sections: {
-    overview: [
+    scenario: "家长希望升级会员卡",
+    operations: [
       {
-        type: "paragraph",
-        text: "In a pediatric dental group, membership cards are the primary prepaid customer-retention mechanism. Families pay upfront for preventive care, treatment discounts, and benefits across a dozen active card types tiered by age. Around expiration, staff handle renewals (new purchases) or upgrades (refunding residual value to offset a longer card).",
+        title: "会员卡",
+        body: ["核对卡种", "判断升级条件", "调整有效期"],
       },
       {
-        type: "paragraph",
-        text: "Prior to the project, operations relied on manual staff calculations across disconnected modules without system validation. Disconnected approvals created audit blind spots. The project built an automation and governance layer atop the clinic system, turning scattered rules into an executable and traceable workflow.",
+        title: "收费账单",
+        body: ["查找原账单", "计算差价", "处理退费与收费"],
       },
       {
-        type: "heading",
-        text: "Front-desk multitasking and mental arithmetic under pressure",
-        level: 3,
-      },
-      {
-        type: "paragraph",
-        text: "Front-desk operators juggle multiple tasks concurrently: check-ins, card setups, billing printouts, and sales inquiries with restless kids waiting in line. Though a printed handbook existed, nobody had time to consult it mid-checkout, and the legacy clinic system enforced zero rule checks on pricing.",
-      },
-      {
-        type: "heading",
-        text: "Problem 1: Cards and coupons were isolated data silos",
-        level: 3,
-      },
-      {
-        type: "paragraph",
-        text: "Single-year card benefits were split between the card record and separate coupon packs; pre-purchased cards were issued purely as coupons; multi-year cards bundled benefits inside the card. Lacking unified mapping, refunds required manual coupon searching across disconnected screens, causing frequent omissions.",
-      },
-      {
-        type: "heading",
-        text: "Problem 2: Compounding variables caused constant billing discrepancies",
-        level: 3,
-      },
-      {
-        type: "paragraph",
-        text: "A child turning 6 triggered age-tier shifts; historical coupon deductibility lacked standards; cross-clinic upgrades required coordinating refunds and additions across two sites. Seasoned staff took 4–5 minutes while new hires could take over 10 minutes, generating recurring billing errors and reconciliation friction.",
-      },
-      {
-        type: "heading",
-        text: "Problem 3: Disconnected approvals left regulatory blind spots",
-        level: 3,
-      },
-      {
-        type: "paragraph",
-        text: "Discounts formally ran through DingTalk, but long approval queues forced desks to seek verbal phone sign-offs before applying manual discounts, submitting paperwork post-hoc. This created unlinked audit gaps where finance struggled to verify compliance during monthly reconciliations.",
-      },
-      {
-        type: "paragraph",
-        text: "These issues forced operators to act as calculators, reconcilers, and compliance judges all at once. The transformation needed to redraw systemic boundaries rather than simply restyle screens.",
+        title: "会员权益",
+        body: ["核对服务项目", "处理原有卡券", "变更新卡权益"],
       },
     ],
-    solution: [
+    problems: [
       {
-        type: "paragraph",
-        text: "The system creates reliable underlying mappings between cards, coupon bundles, and orders, establishing a 4-step decision pipeline: verify card status, penetrate asset valuations, calculate target differences, and check quota rules. Standard flows run automatically with one-click execution; ambiguous exceptions stop for human verification; and failures identify the steps requiring manual handling in the clinic system.",
+        title: "财务端：核对与监管成本高",
+        body: [
+          "每月底需要核对会员收入与退费，并通过随机抽查账单排查不规范收费行为。",
+        ],
       },
       {
-        type: "paragraph",
-        text: "Under high-pressure front-desk environments, interface design prioritized cognitive clarity. The selection dialog brings target cards, benefits, coupons, and the payable amount together for front-desk confirmation.",
+        title: "门店端：办理繁琐，容易出错",
+        body: [
+          "新人需要学习大量业务规则，实际操作中容易出现账单开错、有效期调整遗漏、年龄对应卡种未及时切换等问题，甚至影响患者权益。",
+        ],
+      },
+    ],
+    opportunity: {
+      title: "项目契机",
+      body: "项目从财务需求切入，同时希望通过业务自动化减轻一线工作负担，让管理者与实际使用者共同受益。",
+    },
+  },
+  scope: {
+    intro:
+      "团队曾考虑自主建设收费系统，但全面重建涉及大量医疗收费与经营规则，建设成本高、增量收益难以预估。因此，本次改造选择聚焦会员业务，复用原系统的基础能力。",
+    evaluation: [
+      {
+        title: "建设成本高",
+        body: [
+          "医疗收费、会员、卡券与市场活动等业务都需重新梳理，短期内难以完成。",
+        ],
       },
       {
-        type: "heading",
-        text: "System boundary and division of duties",
-        level: 3,
+        title: "增量收益难预估",
+        body: ["原系统仍能支撑正常经营，投入大量资源后的收益尚不明确。"],
       },
       {
-        type: "heading",
-        text: "Key trade-offs and engineering pragmatism",
-        level: 3,
+        title: "业务变更成本高",
+        body: ["既有规则和门店操作流程需要重新梳理，一线员工也需重新适应。"],
+      },
+    ],
+    systems: [
+      {
+        label: "新增会员办理入口",
+        title: "ODOS 自建系统",
+        body: "业务判断 · 费用计算 · 流程组织",
+        note: "前台在此办理会员业务",
       },
       {
-        type: "paragraph",
-        text: "Why not replace the whole clinic billing system? Clinic billing is entangled with clinical treatments, prophylaxis, and orthodontics. The new system shipped rapidly to resolve calculation bottlenecks and discount leaks, at the deliberate operational cost of having operators bridge two screens.",
+        label: "复用既有业务能力",
+        title: "原有收费系统",
+        body: "收费、退费、会员及权益操作",
+        note: "保留其他医疗业务能力",
+      },
+    ],
+    interfaceLabel: "接口",
+    conclusion:
+      "将建设范围聚焦于会员业务，在不替换原系统的前提下，优先解决价值明确的问题。",
+  },
+  rules: {
+    intro:
+      "收银手册已有明确规范，但前台很难在每笔交易中逐条核对。我先理解规则，再结合财务核对与门店实际操作，判断哪些规则需要保留、哪些需要与财务协商调整。",
+    research: [
+      {
+        title: "学习规范",
+        body: ["研读收银手册"],
       },
       {
-        type: "paragraph",
-        text: "Why avoid real-time cross-clinic fund transfers? For cross-clinic upgrades, the system links cards, coupons, and differential bills into a traceable trail. However, inter-store financial reconciliation remains on the core system's batch settlement. Knowing where to stop technical ambition is key to delivery.",
+        title: "核对业务",
+        body: ["与财务补充场景"],
+      },
+      {
+        title: "体验现场",
+        body: ["访谈、观察、亲自操作"],
+      },
+      {
+        title: "确认规则",
+        body: ["与财务校准差异"],
+      },
+    ],
+    judgmentTitle: "升级与续卡判断",
+    dimensions: ["现有卡种", "目标卡种", "有效状态与剩余权益"],
+    judgmentBody: "系统判断是否符合升级条件，并执行对应的升级或续卡规则。",
+    branches: [
+      {
+        title: "升级：",
+        body: ["原卡实付参与补差", "处理原账单", "按升级规则调整权益"],
+      },
+      {
+        title: "续卡：",
+        body: ["按续卡规则计算费用", "按续卡规则处理有效期与权益"],
+      },
+    ],
+    judgmentNote: "核心判断维度示意，非完整收银规则表。",
+    moneyTitle: "为什么升级不是简单收取差价？",
+    moneyIntro:
+      "跨门店升级时，直接收取差价可能导致资金归属不符合财务规则。因此，系统需要处理原账单退费、新账单收费及原款补入，而不是简单新增一笔差价账单。",
+    exampleLabel: "示例条件：",
+    example: "A 门店原卡实付 ¥1,500，B 门店目标卡价格 ¥6,000。",
+    comparison: [
+      {
+        title: "直接收取差价：",
+        amounts: ["A 门店：¥1,500", "B 门店：¥4,500"],
+        note: "原卡金额仍归属于 A 门店，可能不符合财务规则。",
+      },
+      {
+        title: "退原账单，建立新账单：",
+        amounts: ["A 门店：¥0", "B 门店：¥6,000"],
+        note: "按财务规则重新处理账单归属。",
+      },
+    ],
+    parentPays: "两种方式下，家长实际补交金额均为 ¥4,500。",
+    moneyNote: "业务逻辑示意，不代表实际会计分录。",
+    conclusion:
+      "将明确的规则与重复操作交给系统，同时建立会员卡、卡券和收费账单之间的关联。",
+  },
+  experience: {
+    intro:
+      "办理会员业务时，前台首先需要确认患者当前拥有哪些会员卡及权益，再决定本次购买内容。因此，我将原本分散的会员信息集中到同一个工作台，减少跨模块查找与核对。",
+    workspaceCaption: "会员管理工作台",
+    handlingTitle: "按实际办理顺序组织页面",
+    handlingIntro:
+      "前台首先需要核对购买的卡种及对应权益，再与家长确认优惠和最终费用。",
+    regions: [
+      {
+        title: "左侧：确认购买内容",
+        body: ["同时展示卡种与权益，避免仅凭卡名选择会员卡。"],
+      },
+      {
+        title: "右侧：确认交易金额",
+        body: ["集中处理优惠券、额外优惠与应付金额。"],
+      },
+    ],
+    conclusion: "前台确认业务意图，系统处理背后的规则、计算与账单操作。",
+  },
+  authorization: {
+    intro:
+      "额外优惠原本需要逐笔审批，门店为了及时完成交易，有时会先办理、后补审批。我与项目负责人共同提出个人优惠额度机制，并与老板、财务确认可行性。",
+    comparison: [
+      {
+        title: "原来：逐笔申请",
+        body: ["每次额外让价都要确认授权，审批节奏与现场谈价存在冲突。"],
+      },
+      {
+        title: "现在：按月授权",
+        body: [
+          "与现有会员销售目标绑定，员工在个人总额度内自主分配，月底清零。",
+        ],
       },
     ],
     decisions: [
       {
-        type: "paragraph",
-        text: "Fragmented rules forced desks to recalculate manually; ambiguities led to frequent billing errors.",
+        title: "为什么采用总额度？",
+        body: [
+          "并非每笔订单都需要额外优惠。通过个人总额度，让员工自主分配有限的优惠资源，而不是形成每单降价的习惯。",
+        ],
       },
       {
-        type: "paragraph",
-        text: "Encode standard rules into a 4-step pipeline; halt immediately on missing/multiple orders or frozen cards.",
-      },
-      {
-        type: "paragraph",
-        text: "Exception paths must be explicit; ambiguous data should stop for confirmation, never be guessed.",
-      },
-      {
-        type: "screenshot",
-        slotId: "orders",
-      },
-      {
-        type: "screenshot",
-        slotId: "failure",
+        title: "为什么按月发放？",
+        body: [
+          "复用现有的月度会员销售目标，避免额外建立额度分配及跨周期结转机制。额度按月发放，到期清零。",
+        ],
       },
     ],
-    governance: [
+    mechanism: [
       {
-        type: "paragraph",
-        text: "DingTalk queues forced verbal phone sign-offs with delayed submissions, leaving audit blind spots.",
+        title: "事前授权",
+        body: ["按月发放个人额度"],
       },
       {
-        type: "paragraph",
-        text: "Allocate monthly quotas by clinic and role; grant autonomous desk discounts within quota; block strictly when exhausted.",
+        title: "事中控制",
+        body: ["超额时限制确认"],
       },
       {
-        type: "paragraph",
-        text: "Removing approvals does not eliminate scrutiny; upfront quotas paired with full audit logs close the loophole.",
-      },
-      {
-        type: "screenshot",
-        slotId: "quota",
-      },
-      {
-        type: "screenshot",
-        slotId: "audit",
+        title: "事后追溯",
+        body: ["关联具体收费账单"],
       },
     ],
-    impact: [
+    manualTitle: "输入成交价，而不是优惠金额",
+    manualIntro:
+      "前台与家长通常讨论的是最终成交价。因此，让员工直接输入目标收费金额，由系统反向计算优惠，并校验剩余额度，减少额外计算。",
+    caption: "手动优惠 · 超额状态",
+    equation: "¥3,499 − ¥3,400 = ¥99",
+    limit: "剩余可用额度为 ¥80，超额时无法确认。",
+    boundary:
+      "活动优惠券不占用个人额度。会员业务原则上通过新系统办理，特殊情况需报备；额度控制无法完全阻止绕过系统的操作。",
+  },
+  exceptions: {
+    intro:
+      "在复用原系统的过程中，历史数据无法准确匹配、业务执行中断等情况难以完全避免。因此，系统不仅需要实现自动化，也需要为人工处理提供明确的依据和操作路径。",
+    matchingTitle: "无法确定原账单时，交由人工确认",
+    matchingIntro:
+      "历史会员卡与收费账单没有直接关联。通过会员卡与收费项目的映射关系查询历史账单，只有找到可靠依据才能继续自动处理。",
+    mapping: ["当前会员卡", "对应收费项目", "查询历史账单"],
+    matching: [
       {
-        type: "heading",
-        text: "Key results",
-        level: 3,
+        title: "唯一匹配",
+        body: ["系统自动关联"],
       },
       {
-        type: "heading",
-        text: "Rollout and boundaries",
-        level: 3,
+        title: "多个候选",
+        body: ["由前台核对选择"],
       },
       {
-        type: "paragraph",
-        text: "Piloted in 6 clinics before rolling out to over 20 clinics nationwide.",
+        title: "无匹配",
+        body: ["转原系统人工处理"],
       },
     ],
+    billCaption: "原收费账单选择窗口",
+    basisTitle: "提供人工判断依据",
+    basis:
+      "展示收费时间、门店、实付金额、就诊信息与备注，帮助员工确认原账单，降低错误退费的风险。",
+    recoveryTitle: "操作中断时，保留已经完成的步骤",
+    recoveryIntro:
+      "自动化执行中断，并不意味着整笔业务需要重新办理。系统逐项反馈处理结果，告知员工哪些操作已经完成，以及后续应从哪里继续，避免重复操作。",
+    success: {
+      title: "全部完成",
+      body: "展示系统已经完成的全部业务操作。",
+    },
+    failure: {
+      title: "执行中断",
+      body: "区分已完成与待处理的操作，引导员工继续完成剩余业务。",
+    },
+  },
+  results: {
+    intro:
+      "结合前期调研、定向邀请与主动招募，从六家试点门店逐步推广至全公司二十多家门店。",
+    efficiencyTitle: "一线办理效率",
+    timeBefore: {
+      label: "改造前：",
+      value: "约 4–5 分钟",
+    },
+    timeAfter: {
+      label: "改造后：",
+      value: "约 1 分钟",
+    },
+    timeNote: "会员升级平均办理耗时，依据多门店现场观察及一线员工反馈估算。",
+    auditTitle: "财务合规核查",
+    audit: [
+      {
+        title: "改造前：随机抽检",
+        body: ["从原系统中随机抽取账单，人工排查不规范收费。"],
+      },
+      {
+        title: "改造后：定向核查",
+        body: [
+          "通过看板定位未经过新系统办理的会员账单，财务只需针对这些记录进行核查。",
+        ],
+      },
+    ],
+    auditNote: "收入确认仍有部分未匹配数据需要人工核对，尚未完全自动化。",
+    reflectionTitle: "自动化之后，数据如何持续更新？",
+    reflectionIntro:
+      "上线后发现，会员办理虽然实现了自动化，但支撑业务运行的基础数据仍存在人工维护成本。",
+    iterations: [
+      {
+        title: "市场活动｜优化推进中",
+        body: [
+          "市场优惠规则已经结构化进入系统，但后续更新仍依赖人工维护。目前正在推进活动数据自动同步。",
+        ],
+      },
+      {
+        title: "月度额度｜已实现改进",
+        body: [
+          "为减少月度目标在门店、人事与 IT 之间反复流转，我通过 AI 辅助编程实现门店直接录入。同一份数据同时用于优惠额度计算、目标达成看板及业绩核算。",
+        ],
+      },
+    ],
+    conclusion:
+      "业务自动化不仅要关注执行环节，还需要考虑上游数据如何产生、维护和更新。",
   },
 };
-caseContent.hero.summary.en = retainedEnglish.hero.summary;
-caseContent.hero.roles.en = retainedEnglish.hero.roles;
-caseContent.legacySections = [
-  {
-    id: "overview",
-    navTitle: "Project Overview",
-    title: { en: "Project Overview" },
-  },
-  {
-    id: "solution",
-    navTitle: "Solution in Practice",
-    title: { en: "Solution in Practice" },
-  },
-  {
-    id: "decisions",
-    navTitle: "Automation Boundaries",
-    title: { en: "Automation Boundaries" },
-  },
-  {
-    id: "governance",
-    navTitle: "Discount Governance",
-    title: { en: "Discount Governance" },
-  },
-  {
-    id: "impact",
-    navTitle: "Outcomes & Boundaries",
-    title: { en: "Outcomes & Boundaries" },
-  },
-].map((section) => ({ ...section, en: retainedEnglish.sections[section.id] }));

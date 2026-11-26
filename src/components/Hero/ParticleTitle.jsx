@@ -7,6 +7,8 @@ export default function ParticleTitle() {
 
   useEffect(() => {
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let mounted = true;
+    let fontReady = !document.fonts?.load;
     let supported = false;
     if (
       typeof window.CanvasRenderingContext2D === "function" &&
@@ -19,10 +21,21 @@ export default function ParticleTitle() {
         supported = false;
       }
     }
-    const update = () => setActive(supported && !motion.matches);
+    const update = () => {
+      if (mounted) setActive(supported && fontReady && !motion.matches);
+    };
     update();
+    if (supported && document.fonts?.load) {
+      document.fonts.load('400 232px "Anton"', "WEN MENG").catch(() => {}).then(() => {
+        fontReady = true;
+        update();
+      });
+    }
     motion.addEventListener?.("change", update);
-    return () => motion.removeEventListener?.("change", update);
+    return () => {
+      mounted = false;
+      motion.removeEventListener?.("change", update);
+    };
   }, []);
 
   return (

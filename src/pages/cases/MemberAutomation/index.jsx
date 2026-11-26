@@ -1,566 +1,476 @@
 import React, { useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
-import { Link, useLocation } from "react-router-dom";
-import { useLanguage } from "../../../context/LanguageContext";
-import { caseContent, screenshots } from "./content";
-import { Narrative } from "./Narrative";
+import { useLocation } from "react-router-dom";
+import { caseContent as copy } from "./content";
+import { Evidence, Lightbox } from "../Orthodontics/Evidence";
+import { useCaseMotion } from "../Orthodontics/motion";
+import { CaseReaderHeader } from "../shared/CaseReaderHeader";
 import styles from "./MemberAutomation.module.css";
 
-const SECTION_ALIASES = { problem: "overview" };
-
-function InlineText({ text }) {
-  return text
-    .split(/(\*\*.*?\*\*)/g)
-    .map((part, index) =>
-      part.startsWith("**") ? (
-        <strong key={index}>{part.slice(2, -2)}</strong>
-      ) : (
-        part
-      ),
-    );
-}
-
-function InterfaceImage({ slot, label, language, lazy = false }) {
-  const [failed, setFailed] = useState(false);
+const base = import.meta.env.BASE_URL + "images/member/approved/";
+const media = Object.fromEntries(
+  ["workspace", "membership", "discount", "bill", "success", "failure"].map(
+    (name) => [name, { src: base + name + ".png", width: 3840, height: 2160 }],
+  ),
+);
+const aliases = {
+  overview: "background",
+  problem: "background",
+  system: "scope",
+  solution: "experience",
+  decisions: "exceptions",
+  resilience: "exceptions",
+  governance: "authorization",
+  impact: "results",
+};
+function Paragraphs({ items }) {
   return (
-    <span
-      className={styles.imageWindow}
-      style={{ aspectRatio: `${slot.width} / ${slot.height}` }}
-    >
-      {failed ? (
-        <span role="status" className={styles.imageFailure}>
-          {language === "zh" ? `${slot.title}暂未加载。` : "Image unavailable."}
-        </span>
-      ) : (
-        <img
-          src={`${import.meta.env.BASE_URL}images/member/${slot.id}-full.jpg`}
-          alt={label}
-          width={slot.width}
-          height={slot.height}
-          loading={lazy ? "lazy" : undefined}
-          decoding="async"
-          onError={() => setFailed(true)}
-        />
-      )}
-    </span>
-  );
-}
-
-function ImageViewer({ view: { slot, label }, onClose, language }) {
-  const dialog = useRef(null);
-  const close = useRef(null);
-  const imageArea = useRef(null);
-  useEffect(() => {
-    const previousFocus = document.activeElement;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const node = dialog.current;
-    if (node.showModal) node.showModal();
-    else node.setAttribute("open", "");
-    close.current.focus();
-    return () => {
-      // Close before restoring focus so StrictMode's effect replay releases
-      // the native modal's inert background before the next setup.
-      if (node.open && node.showModal) node.close();
-      else node.removeAttribute("open");
-      document.body.style.overflow = previousOverflow;
-      previousFocus?.focus();
-    };
-  }, []);
-  return createPortal(
-    <dialog
-      ref={dialog}
-      lang={language === "zh" ? "zh-CN" : "en"}
-      aria-label={label}
-      aria-modal="true"
-      className={styles.imageDialog}
-      onCancel={(event) => {
-        event.preventDefault();
-        onClose();
-      }}
-      onClick={(event) => {
-        if (
-          event.target === event.currentTarget ||
-          event.target === imageArea.current
-        )
-          onClose();
-      }}
-      onKeyDown={(event) => {
-        if (event.key === "Escape") {
-          event.preventDefault();
-          onClose();
-        }
-        if (event.key === "Tab") {
-          event.preventDefault();
-          close.current.focus();
-        }
-      }}
-    >
-      <button
-        ref={close}
-        type="button"
-        className={styles.viewerClose}
-        onClick={onClose}
-        aria-label={language === "zh" ? "关闭大图" : "Close image"}
-      >
-        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
-          <path
-            d="m6 6 12 12M18 6 6 18"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-        </svg>
-      </button>
-      <div ref={imageArea} className={styles.viewerImage}>
-        <div
-          className={styles.viewerCanvas}
-          style={{
-            "--image-width": `${slot.width}px`,
-            "--image-ratio": slot.width / slot.height,
-          }}
-        >
-          <InterfaceImage slot={slot} label={label} language={language} />
-        </div>
-      </div>
-    </dialog>,
-    document.body,
-  );
-}
-
-function Screenshot({
-  slotId,
-  language,
-  onOpen,
-  editorial = false,
-  explained = false,
-}) {
-  const slot = { ...screenshots[slotId], id: slotId };
-  const zh = language === "zh";
-  const label = zh ? slot.title : "Membership interface";
-  const action = zh ? "放大截图" : "Enlarge screenshot";
-
-  return (
-    <figure
-      className={
-        editorial
-          ? `${styles.evidence} ${styles.editorialEvidence}`
-          : styles.evidence
-      }
-      data-visual-slot={slotId}
-    >
-      <button
-        type="button"
-        className={styles.imageButton}
-        aria-label={`${action}：${label}`}
-        title={action}
-        onClick={() => onOpen({ slot, label })}
-      >
-        <InterfaceImage slot={slot} label={label} language={language} lazy />
-      </button>
-      <figcaption className={styles.imageCaption}>
-        {zh ? (
-          <>
-            <strong>{label}</strong>
-            {!explained && <span>{slot.caption}</span>}
-          </>
-        ) : (
-          "Interface design; displayed data is fictional."
-        )}
-      </figcaption>
-    </figure>
-  );
-}
-
-function ChapterHeading({ section, index, language }) {
-  if (language === "zh")
-    return (
-      <h2
-        className={styles.caseHeading}
-        id={`${section.id}-title`}
-        tabIndex={-1}
-      >
-        {section.title.zh.split(/(?<=：)/).map((phrase) => (
-          <span key={phrase}>{phrase}</span>
-        ))}
-      </h2>
-    );
-
-  return (
-    <div className={styles.headingGroup}>
-      <span className={styles.chapterIndex} aria-hidden="true">
-        {index}
-      </span>
-      <div className={styles.headingCopy}>
-        <p className={styles.chapterEyebrow} lang="en" aria-hidden="true">
-          {section.title.en}
-        </p>
-        <h2 id={`${section.id}-title`} tabIndex={-1}>
-          {section.title[language]}
-        </h2>
-      </div>
+    <div className={styles.stack16}>
+      {items.map((text) => (
+        <p key={text}>{text}</p>
+      ))}
     </div>
   );
 }
-
-function RenderBlocks({ section, language, onOpen }) {
-  return section[language].map((block, index) => {
-    const key = `${section.id}-${index}`;
-    if (block.type === "narrative")
-      return (
-        <Narrative
-          key={key}
-          kind={block.kind}
-          evidence={(slotId, options = {}) => (
-            <Screenshot
-              slotId={slotId}
-              language={language}
-              onOpen={onOpen}
-              explained={options.explained}
-              editorial
-            />
-          )}
-        />
-      );
-    if (block.type === "paragraph")
-      return (
-        <p key={key} className={styles.paragraph}>
-          <InlineText text={block.text} />
-        </p>
-      );
-    if (block.type === "heading")
-      return (
-        <h3 key={key} className={styles.subheading}>
-          {block.text}
-        </h3>
-      );
-    if (block.type === "list")
-      return (
-        <ul key={key} className={styles.list}>
-          {block.items.map((item) => (
-            <li key={item}>
-              <InlineText text={item} />
-            </li>
-          ))}
-        </ul>
-      );
-    if (block.type === "roles")
-      return (
-        <div key={key} className={styles.roles} data-case-roles>
-          <h3 className={styles.roleTitle}>
-            {language === "zh" ? "我的职责与协作" : "My role & collaboration"}
+function Columns({ items, three = false, accentLast = false, small = false }) {
+  return (
+    <div className={three ? styles.threeColumns : styles.twoColumns}>
+      {items.map((item, index) => (
+        <div className={styles.stack16} key={item.title}>
+          <hr
+            className={
+              styles.rule +
+              (accentLast && index === items.length - 1
+                ? " " + styles.accentRule
+                : "")
+            }
+          />
+          <h3 className={small ? styles.smallHeading : undefined}>
+            {item.title}
           </h3>
-          {caseContent.hero.roles[language].map((text) => (
+          {item.body.map((text) => (
             <p key={text}>{text}</p>
           ))}
         </div>
-      );
-    if (block.type === "screenshot")
-      return (
-        <Screenshot
-          key={key}
-          slotId={block.slotId}
-          language={language}
-          onOpen={onOpen}
-        />
-      );
-    if (block.type === "pipeline")
-      return (
-        <ol
-          key={key}
-          className={styles.pipeline}
-          aria-label="常规升级的规则判断链"
-        >
-          {block.items.map((step, i) => (
-            <li key={step.title}>
-              <span>{i + 1}</span>
-              <h3>{step.title}</h3>
-              <p>{step.text}</p>
+      ))}
+    </div>
+  );
+}
+function Flow({ items, mapping = false }) {
+  return (
+    <ol className={styles.flow + (mapping ? " " + styles.mappingFlow : "")}>
+      {items.map((item, index) => (
+        <React.Fragment key={item.title}>
+          {index > 0 && (
+            <li className={styles.arrow} aria-hidden="true">
+              →
             </li>
-          ))}
-        </ol>
-      );
-    if (block.type === "outcomes")
-      return (
-        <figure key={key} className={styles.outcomes} data-evidence="measured">
-          <p className={styles.outcomeLabel}>{block.label}</p>
-          <div className={styles.outcomeComparison}>
-            <div>
-              <span>改造前</span>
-              <strong>{block.before}</strong>
-            </div>
-            <span aria-hidden="true">→</span>
-            <div>
-              <span>改造后</span>
-              <strong>{block.after}</strong>
-            </div>
-          </div>
-          <figcaption>{block.source}</figcaption>
-        </figure>
-      );
-    // 仅用于保留的英文资料；中文采用上方已确认的实测口径。
-    if (block.type === "table")
-      return (
-        <div key={key} className={styles.legacyTable}>
-          {block.rows.map((row) => (
-            <p key={row[0]}>{row.join(" · ")}</p>
-          ))}
-        </div>
-      );
-    return null;
-  });
+          )}
+          <li className={styles.flowStep}>
+            <h4>{item.title}</h4>
+            {item.body?.map((text) => (
+              <p className={styles.note} key={text}>
+                {text}
+              </p>
+            ))}
+          </li>
+        </React.Fragment>
+      ))}
+    </ol>
+  );
+}
+function Section({ index, children }) {
+  const chapter = copy.chapters[index];
+  const split =
+    chapter.id === "experience" ? chapter.title.indexOf("买什么") : -1;
+  return (
+    <section
+      id={chapter.id}
+      data-member-chapter
+      className={styles.section + (index % 2 ? " " + styles.alternate : "")}
+      aria-labelledby={chapter.id + "-title"}
+    >
+      <div className={styles.container + " " + styles.stack40}>
+        <header className={styles.chapterHead} data-case-motion="heading">
+          <p className={styles.eyebrow}>{chapter.eyebrow}</p>
+          <h2 id={chapter.id + "-title"} tabIndex={-1}>
+            {split > 0 ? (
+              <>
+                {chapter.title.slice(0, split)}
+                <span className={styles.mobileTitle}>
+                  {chapter.title.slice(split)}
+                </span>
+              </>
+            ) : (
+              chapter.title
+            )}
+          </h2>
+        </header>
+        {children}
+      </div>
+    </section>
+  );
+}
+function Amount({ text }) {
+  const split = text.indexOf("¥");
+  return (
+    <p className={styles.amount}>
+      <span>{text.slice(0, split)}</span>
+      {text.slice(split)}
+    </p>
+  );
+}
+function Duration({ item, after = false }) {
+  const parts = item.value.split(" ");
+  return (
+    <div className={styles.stack12}>
+      <p className={styles.note}>{item.label}</p>
+      <p className={after ? styles.timeAfter : styles.timeBefore}>
+        <span>{parts[0]} </span>
+        {parts[1]}
+        <span> {parts[2]}</span>
+      </p>
+    </div>
+  );
 }
 export default function MemberAutomationCase() {
-  const { language, toggleLanguage, englishEnabled } = useLanguage();
-  const { hash, key: locationKey } = useLocation();
-  const previousHash = useRef(hash);
-  const [activeSection, setActiveSection] = useState("overview");
-  const [lightHeader, setLightHeader] = useState(false);
-  const sections =
-    language === "en" ? caseContent.legacySections : caseContent.sections;
-  const focusSection = (id) => {
-    const node = document.getElementById(SECTION_ALIASES[id] || id);
-    node?.scrollIntoView?.({
+  const root = useRef(null),
+    close = useRef(null),
+    trigger = useRef(null);
+  const [lightbox, setLightbox] = useState(null);
+  const location = useLocation();
+  const previousHash = useRef(location.hash);
+  useCaseMotion(root);
+  const open = (item, element) => {
+    trigger.current = element;
+    setLightbox(item);
+  };
+  useEffect(() => {
+    const hash = decodeURIComponent(location.hash.slice(1));
+    if (!hash) {
+      if (previousHash.current) window.scrollTo(0, 0);
+      previousHash.current = "";
+      return;
+    }
+    previousHash.current = location.hash;
+    const element = document.getElementById(aliases[hash] || hash);
+    if (!element) return;
+    element.scrollIntoView?.({
       behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
         ? "instant"
         : "smooth",
       block: "start",
     });
-    node?.focus({ preventScroll: true });
-  };
-
+    (element.querySelector("h1,h2") || element).focus({ preventScroll: true });
+  }, [location.hash, location.key]);
   useEffect(() => {
-    if (hash) focusSection(hash.slice(1));
-    else if (previousHash.current) {
-      window.scrollTo(0, 0);
-      setActiveSection("overview");
-    }
-    previousHash.current = hash;
-  }, [hash, locationKey]);
-
-  useEffect(() => {
-    const onScroll = () => {
-      if (window.scrollY < 100) setActiveSection("overview");
+    if (!lightbox) return;
+    const previous = document.body.style.overflow,
+      button = trigger.current;
+    const key = (event) => {
+      if (event.key === "Escape") setLightbox(null);
     };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    const cover = document.getElementById("case-cover");
-    if (!cover || typeof IntersectionObserver === "undefined") return undefined;
-    const observer = new IntersectionObserver(
-      ([entry]) => setLightHeader(!entry.isIntersecting),
-      { rootMargin: "-64px 0px 0px 0px", threshold: 0 },
-    );
-    observer.observe(cover);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (typeof IntersectionObserver === "undefined") return undefined;
-    const visible = new Set();
-    let observer;
-    const observe = () => {
-      observer?.disconnect();
-      visible.clear();
-      const top = Math.min(96, Math.floor(window.innerHeight * 0.15));
-      const bottom = Math.max(0, window.innerHeight - top - 128);
-      observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) visible.add(entry.target.id);
-            else visible.delete(entry.target.id);
-          });
-          const current = [...sections]
-            .reverse()
-            .find((section) => visible.has(section.id));
-          if (current) setActiveSection(current.id);
-        },
-        {
-          rootMargin: "-" + top + "px 0px -" + bottom + "px 0px",
-          threshold: 0,
-        },
-      );
-      sections.forEach(({ id }) => {
-        const node = document.getElementById(id);
-        if (node) observer.observe(node);
-      });
-    };
-    observe();
-    window.addEventListener("resize", observe);
+    document.body.style.overflow = "hidden";
+    close.current?.focus();
+    document.addEventListener("keydown", key);
     return () => {
-      observer.disconnect();
-      window.removeEventListener("resize", observe);
+      document.body.style.overflow = previous;
+      document.removeEventListener("keydown", key);
+      button?.focus({ preventScroll: true });
     };
-  }, [sections]);
-
-  const [openImage, setOpenImage] = useState(null);
-  const { pathname } = useLocation();
-  const zh = language === "zh";
-  const contentsClick = (event, id) => {
-    if (
-      hash === `#${id}` &&
-      !event.ctrlKey &&
-      !event.metaKey &&
-      !event.shiftKey &&
-      !event.altKey &&
-      event.button === 0
-    ) {
-      event.preventDefault();
-      focusSection(id);
-    }
-    setActiveSection(id);
-  };
-
+  }, [lightbox]);
+  const {
+    hero,
+    background: bg,
+    scope,
+    rules,
+    experience: ex,
+    authorization: auth,
+    exceptions: err,
+    results,
+  } = copy;
+  const screenshot = (slot, title, caption = null) => (
+    <Evidence
+      image={media[slot]}
+      slot={slot}
+      title={title}
+      alt={title}
+      onZoom={open}
+      caption={caption}
+      imageClassName={styles.fullScreen}
+    />
+  );
   return (
     <article
       id="member-automation-page"
-      className={zh ? `${styles.root} ${styles.caseStudy}` : styles.root}
-      lang={zh ? "zh-CN" : "en"}
+      className={styles.root}
+      lang="zh-CN"
+      ref={root}
     >
-      <header
-        className={`${styles.topbar} ${lightHeader ? styles.lightHeader : ""}`}
+      <div
+        inert={lightbox ? "" : undefined}
+        aria-hidden={lightbox ? true : undefined}
       >
-        <Link to="/" state={{ scrollTo: "portfolio" }} className={styles.back}>
-          <span aria-hidden="true">←</span>{" "}
-          {language === "zh" ? "返回作品" : "Back to work"}
-        </Link>
-        {zh && lightHeader && (
-          <span className={styles.readerTitle}>
-            {caseContent.hero.title.zh}
-          </span>
-        )}
-        {englishEnabled && (
-          <button
-            type="button"
-            className={styles.language}
-            onClick={toggleLanguage}
-            aria-label={language === "zh" ? "Switch to English" : "切换到中文"}
+        <CaseReaderHeader title={hero.title} />
+        <main>
+          <section
+            id="case-cover"
+            className={styles.cover}
+            aria-labelledby="case-title"
           >
-            {language === "zh" ? "EN" : "中文"}
-          </button>
-        )}
-      </header>
-      <section
-        id="case-cover"
-        aria-labelledby="case-title"
-        tabIndex={-1}
-        className={styles.cover}
-      >
-        <div className={styles.coverInner} data-case-intro>
-          <div className={styles.coverCopy}>
-            <h1 id="case-title" tabIndex={-1} className={styles.title}>
-              {caseContent.hero.title[language]}
-            </h1>
-            <p className={styles.summary}>
-              {caseContent.hero.summary[language]}
-            </p>
-            {zh && (
-              <>
-                <dl className={styles.heroFacts}>
-                  <div data-evidence="observed">
-                    <dt>办理效率</dt>
-                    <dd>
-                      <span>约 4–5 分钟 →</span>约 1 分钟
-                    </dd>
-                  </div>
-                  <div data-evidence="capability">
-                    <dt>财务治理</dt>
-                    <dd>
-                      <span>事后补审批 →</span>月度额度前置风控
-                    </dd>
-                  </div>
-                  <div data-evidence="rollout">
-                    <dt>落地范围</dt>
-                    <dd>
-                      <span>6 家试点 →</span>20+ 门店
-                    </dd>
-                  </div>
+            <div className={styles.container + " " + styles.stack40}>
+              <div className={styles.stack24} data-case-intro>
+                <p className={styles.coverEyebrow}>{hero.eyebrow}</p>
+                <h1 id="case-title" className={styles.title} tabIndex={-1}>
+                  {hero.title}
+                </h1>
+                <p className={styles.coverLede}>{hero.intro}</p>
+                <hr className={styles.coverDivider} />
+                <dl className={styles.heroMetrics}>
+                  {hero.metrics.map((item) => (
+                    <div className={styles.stack16} key={item.value}>
+                      <dt>{item.value}</dt>
+                      <dd>{item.label}</dd>
+                    </div>
+                  ))}
                 </dl>
-                <div className={styles.heroRole}>
-                  <strong>我的职责</strong>
-                  <ul aria-label="我的职责">
-                    {caseContent.hero.roleTags.map((role) => (
-                      <li key={role}>{role}</li>
-                    ))}
-                  </ul>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      </section>
-      <div className={styles.readerLayout}>
-        <aside className={styles.toc}>
-          <nav aria-label={language === "zh" ? "章节目录" : "Contents"}>
-            {sections.map((section, index) => (
-              <Link
-                key={section.id}
-                to={`${pathname}#${section.id}`}
-                aria-label={zh ? section.navTitle : undefined}
-                aria-current={
-                  activeSection === section.id ? "location" : undefined
-                }
-                onClick={(event) => contentsClick(event, section.id)}
-              >
-                {!zh && <span>{index + 1}</span>}
-                {zh
-                  ? section.navTitle.split(/(?<=：)/).map((phrase) => (
-                      <span className={styles.navPhrase} key={phrase}>
-                        {phrase}
-                      </span>
-                    ))
-                  : section.title.en}
-              </Link>
-            ))}
-          </nav>
-        </aside>
-        <main className={styles.reading}>
-          {sections.map((section, index) => (
-            <section
-              key={section.id}
-              id={section.id}
-              aria-labelledby={`${section.id}-title`}
-              tabIndex={-1}
-              className={styles.chapter}
+              </div>
+              <div className={styles.roles} data-case-roles>
+                <p>
+                  <strong>{hero.role}</strong>
+                </p>
+                <p>{hero.responsibility}</p>
+              </div>
+            </div>
+          </section>
+          <Section index={0}>
+            <div className={styles.stack40}>
+              <Paragraphs items={bg.intro} />
+              <div className={styles.stack24}>
+                <h3 className={styles.scenario}>{bg.scenario}</h3>
+                <Columns three items={bg.operations} />
+              </div>
+              <Columns items={bg.problems} />
+              <div className={styles.stack12}>
+                <h3 className={styles.opportunity}>{bg.opportunity.title}</h3>
+                <p>{bg.opportunity.body}</p>
+              </div>
+            </div>
+          </Section>
+          <Section index={1}>
+            <p>{scope.intro}</p>
+            <Columns three items={scope.evaluation} accentLast />
+            <figure
+              className={styles.systems}
+              aria-label="会员业务自动化的双系统关系"
             >
-              <ChapterHeading
-                section={section}
-                index={index + 1}
-                language={language}
-              />
-              <RenderBlocks
-                section={section}
-                language={language}
-                onOpen={setOpenImage}
-              />
-              {language === "en" && index === 0 && (
-                <div data-case-roles className={styles.roles}>
-                  <h3 className={styles.roleTitle}>My role & collaboration</h3>
-                  {caseContent.hero.roles.en.map((text) => (
-                    <p key={text}>{text}</p>
+              {scope.systems.map((system, index) => (
+                <React.Fragment key={system.title}>
+                  {index > 0 && (
+                    <div className={styles.interface}>
+                      <p aria-hidden="true">⇄</p>
+                      <p>{scope.interfaceLabel}</p>
+                    </div>
+                  )}
+                  <div className={styles.system}>
+                    <p className={styles.systemLabel}>{system.label}</p>
+                    <h3>{system.title}</h3>
+                    <p>{system.body}</p>
+                    <p className={styles.note}>{system.note}</p>
+                  </div>
+                </React.Fragment>
+              ))}
+            </figure>
+            <p className={styles.conclusion}>{scope.conclusion}</p>
+          </Section>
+          <Section index={2}>
+            <p>{rules.intro}</p>
+            <Flow items={rules.research} />
+            <div className={styles.stack24}>
+              <h3>{rules.judgmentTitle}</h3>
+              <div className={styles.threeColumns}>
+                {rules.dimensions.map((text) => (
+                  <div className={styles.stack16} key={text}>
+                    <h4 className={styles.smallHeading}>{text}</h4>
+                    <hr className={styles.rule} />
+                  </div>
+                ))}
+              </div>
+              <p>{rules.judgmentBody}</p>
+              <Columns items={rules.branches} />
+              <p className={styles.note}>{rules.judgmentNote}</p>
+            </div>
+            <figure className={styles.stack24} aria-label={rules.moneyTitle}>
+              <h3>{rules.moneyTitle}</h3>
+              <p>{rules.moneyIntro}</p>
+              <div className={styles.stack8}>
+                <p className={styles.exampleLabel}>{rules.exampleLabel}</p>
+                <p>{rules.example}</p>
+              </div>
+              <div className={styles.twoColumns}>
+                {rules.comparison.map((item, index) => (
+                  <div
+                    className={
+                      styles.stack16 + (index ? " " + styles.newAllocation : "")
+                    }
+                    key={item.title}
+                  >
+                    <hr
+                      className={
+                        styles.rule + (index ? " " + styles.accentRule : "")
+                      }
+                    />
+                    <h4 className={styles.smallHeading}>{item.title}</h4>
+                    {item.amounts.map((text) => (
+                      <Amount text={text} key={text} />
+                    ))}
+                    <p>{item.note}</p>
+                  </div>
+                ))}
+              </div>
+              <p className={styles.conclusion}>{rules.parentPays}</p>
+              <figcaption className={styles.note}>{rules.moneyNote}</figcaption>
+            </figure>
+            <p className={styles.conclusion}>{rules.conclusion}</p>
+          </Section>
+          <Section index={3}>
+            <p>{ex.intro}</p>
+            {screenshot("workspace", "会员管理工作台", ex.workspaceCaption)}
+            <div className={styles.stack24}>
+              <h3>{ex.handlingTitle}</h3>
+              <p>{ex.handlingIntro}</p>
+              <div className={styles.stack12}>
+                {screenshot(
+                  "membership",
+                  "会员办理完整页面：背景工作台、遮罩与会员办理弹窗",
+                )}
+                <div className={styles.regions}>
+                  {ex.regions.map((item) => (
+                    <div className={styles.stack16} key={item.title}>
+                      <h4>{item.title}</h4>
+                      <Paragraphs items={item.body} />
+                    </div>
                   ))}
                 </div>
+              </div>
+              <p className={styles.conclusion}>{ex.conclusion}</p>
+            </div>
+          </Section>
+          <Section index={4}>
+            <p>{auth.intro}</p>
+            <Columns items={auth.comparison} accentLast />
+            <Columns items={auth.decisions} />
+            <div className={styles.threeColumns}>
+              {auth.mechanism.map((item) => (
+                <div className={styles.stack8} key={item.title}>
+                  <h4>{item.title}</h4>
+                  {item.body.map((text) => (
+                    <p className={styles.note} key={text}>
+                      {text}
+                    </p>
+                  ))}
+                </div>
+              ))}
+            </div>
+            <div className={styles.stack24}>
+              <h3>{auth.manualTitle}</h3>
+              <p>{auth.manualIntro}</p>
+              {screenshot(
+                "discount",
+                "手动优惠完整页面：工作台、会员办理弹窗与优惠浮层",
+                auth.caption,
               )}
-            </section>
-          ))}
-          <footer id="reader-end" className={styles.footer}>
-            <Link to="/" state={{ scrollTo: "portfolio" }}>
-              {language === "zh" ? "返回作品" : "Back to work"}
-              <span aria-hidden="true"> ↗</span>
-            </Link>
-          </footer>
+              <p className={styles.equation}>{auth.equation}</p>
+              <p>{auth.limit}</p>
+            </div>
+            <p className={styles.note}>{auth.boundary}</p>
+          </Section>
+          <Section index={5}>
+            <p>{err.intro}</p>
+            <div className={styles.stack24}>
+              <h3>{err.matchingTitle}</h3>
+              <p>{err.matchingIntro}</p>
+              <Flow mapping items={err.mapping.map((title) => ({ title }))} />
+              <Columns three items={err.matching} accentLast />
+              <div className={styles.stack16}>
+                {screenshot(
+                  "bill",
+                  "手动选择退费账单完整页面",
+                  err.billCaption,
+                )}
+                <div className={styles.stack16}>
+                  <h3>{err.basisTitle}</h3>
+                  <p>{err.basis}</p>
+                </div>
+              </div>
+            </div>
+            <div className={styles.stack24}>
+              <h3>{err.recoveryTitle}</h3>
+              <p>{err.recoveryIntro}</p>
+              <div className={styles.stack40}>
+                {["success", "failure"].map((slot) => (
+                  <div className={styles.stack12} key={slot}>
+                    {screenshot(
+                      slot,
+                      slot === "success"
+                        ? "会员升级成功完整页面"
+                        : "会员升级失败完整页面",
+                    )}
+                    <div className={styles.stack4}>
+                      <h4>{err[slot].title}</h4>
+                      <p className={styles.note}>{err[slot].body}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Section>
+          <Section index={6}>
+            <p>{results.intro}</p>
+            <div className={styles.twoColumns}>
+              <div className={styles.stack24}>
+                <h3>{results.efficiencyTitle}</h3>
+                <div
+                  className={
+                    styles.twoColumns + " " + styles.durationComparison
+                  }
+                >
+                  <Duration item={results.timeBefore} />
+                  <Duration item={results.timeAfter} after />
+                </div>
+                <p className={styles.note}>{results.timeNote}</p>
+              </div>
+              <div className={styles.stack24}>
+                <h3>{results.auditTitle}</h3>
+                {results.audit.map((item, index) => (
+                  <div className={styles.stack8} key={item.title}>
+                    <h4
+                      className={
+                        styles.smallHeading +
+                        (index ? " " + styles.auditAfter : "")
+                      }
+                    >
+                      {item.title}
+                    </h4>
+                    <Paragraphs items={item.body} />
+                  </div>
+                ))}
+                <p className={styles.note}>{results.auditNote}</p>
+              </div>
+            </div>
+            <div className={styles.stack24}>
+              <h3>{results.reflectionTitle}</h3>
+              <p>{results.reflectionIntro}</p>
+              <Columns items={results.iterations} />
+            </div>
+            <p className={styles.conclusion}>{results.conclusion}</p>
+          </Section>
         </main>
       </div>
-      {openImage && (
-        <ImageViewer
-          view={openImage}
-          onClose={() => setOpenImage(null)}
-          language={language}
-        />
-      )}
+      <Lightbox
+        item={lightbox}
+        onClose={() => setLightbox(null)}
+        closeRef={close}
+      />
     </article>
   );
 }

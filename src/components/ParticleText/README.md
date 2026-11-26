@@ -16,3 +16,5 @@ Fullscreen intro patch: fullScreen uses the surrounding section as the canvas su
 Click burst strength: Hero sets burstStrength=1.8 to increase click force and radius; hover physics remain unchanged.
 
 Scroll scatter patch: optional `scrollScatter` maps the hero's progress out of the viewport to a reversible outward offset, so the title disperses on scroll and gathers on return. The offset is biased upward to keep the lede readable, and a fullscreen-only canvas mask fades the cloud near the hero edge. Hero enables it; reduced motion keeps the settled text. The progress calculation lives in `layout.js` (`scrollScatterProgress`) and is covered by `layout.test.js`.
+
+Loading and rendering: Hero retains its readable fallback until Anton loads. Particle sampling waits only for its own font, rather than every font on the page. `timing.js` caps idle drift at 30 fps and interaction at 60 fps; offscreen or hidden pages stop drawing. Particle density and interaction physics are unchanged.

@@ -1,862 +1,351 @@
-.root,
-.imageDialog {
-  --cjk: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
-}
-
-/* Shared case-reader tokens; screenshot treatment is specific to this case. */
+/* Approved final Figma 800:4405: 1440px canvas, 1080px content. */
 .root {
-  --paper: #fff;
-  --ink: #171717;
-  --prose: #363636;
-  --muted: #5c5c5c;
-  --line: #e7e7e7;
-  --action: #624595;
-  --soft: #f3f3f3;
-  --soft-action: #eee7fa;
-  --case-evidence-radius: 8px;
-  --structural: "Hanken Grotesk", var(--cjk);
-  --utility: "IBM Plex Mono", var(--cjk);
-  min-width: 0;
-  background: var(--paper);
-  color: var(--ink);
-  font: 400 16px/1.75 var(--cjk);
-  overflow-wrap: normal;
-  word-break: normal;
-  letter-spacing: 0;
-  line-break: strict;
-  text-indent: 0;
+  composes: root from "../Orthodontics/Orthodontics.module.css";
 }
-:global(body:has(#member-automation-page)) {
-  background: #fff;
+.container {
+  composes: container from "../Orthodontics/Orthodontics.module.css";
 }
-:global(body:has(#member-automation-page[lang="zh-CN"]) .grain-overlay) {
-  display: none;
+.section {
+  composes: section from "../Orthodontics/Orthodontics.module.css";
 }
-.root *,
-.root *::before,
-.root *::after {
-  box-sizing: border-box;
-}
-.root :where(h1, h2, h3, h4, p, figure, dl, ol, ul) {
-  margin: 0;
-}
-.root a {
-  color: var(--action);
-  text-decoration: none;
-}
-.root strong {
-  font-weight: 600;
-}
-.root button {
-  font: inherit;
-  cursor: pointer;
-}
-.root :is(a, button):focus-visible {
-  outline: 2px solid var(--action);
-  outline-offset: 4px;
-}
-.root :is(section[id], h2[id], h3[id]) {
-  scroll-margin-top: 112px;
-}
-.root [tabindex="-1"]:focus {
-  outline: none;
-}
-.topbar {
-  position: fixed;
-  inset: 0 0 auto;
-  z-index: 30;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-inline: 48px;
-  color: #b8b8b8;
-  background: #080808;
-  border-bottom: 1px solid #2b2b2b; /* taste-skill-ignore: shared case-reader chrome */
-  font-family: var(--structural);
-  transition:
-    background 180ms ease,
-    color 180ms ease;
-}
-.topbar .back,
-.topbar .language {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  color: inherit;
-  font-size: 15px;
-}
-.back {
-  gap: 10px;
-}
-.topbar .language {
-  border: 0;
-  background: transparent;
-  padding: 8px 12px;
-}
-.topbar :is(a, button):hover {
-  color: #d0bcff;
-}
-.lightHeader {
-  color: var(--muted);
-  background: var(--paper);
-  border-color: var(--line);
-}
-.lightHeader :is(a, button):hover {
-  color: var(--action);
+.alternate {
+  composes: alternate from "../Orthodontics/Orthodontics.module.css";
 }
 .cover {
-  background: #080808;
-  color: #b8b8b8;
-  padding: 100px 0 52px;
+  composes: cover from "../Orthodontics/Orthodontics.module.css";
 }
-.coverInner,
-.readerLayout {
-  display: grid;
-  grid-template-columns: 180px minmax(0, 1fr);
-  column-gap: 48px;
-  row-gap: 0;
-  max-width: 1320px;
-  margin-inline: auto;
-  padding-inline: 48px;
+.chapterHead {
+  composes: chapterHead from "../Orthodontics/Orthodontics.module.css";
 }
-.coverInner > * {
-  grid-column: 2;
-  width: 100%;
-  max-width: 672px;
+.eyebrow {
+  composes: eyebrow from "../Orthodontics/Orthodontics.module.css";
 }
-.title {
-  margin-top: 24px !important;
-  font: 700 clamp(36px, 3.5vw, 50px)/1.25 var(--cjk);
-  color: #ffd8e4;
-  text-wrap: wrap;
+.coverDivider {
+  composes: coverDivider from "../Orthodontics/Orthodontics.module.css";
 }
-.summary {
-  margin-top: 24px !important;
-  max-width: 672px;
-  font-size: clamp(16px, 1.5vw, 19px);
-  line-height: 1.8;
-  text-align: justify;
-  text-align-last: left;
+.note {
+  composes: note from "../Orthodontics/Orthodontics.module.css";
 }
-.readerLayout {
-  padding-block: 64px 96px;
+.stack16 {
+  composes: stack16 from "../Orthodontics/Orthodontics.module.css";
 }
-.toc {
-  align-self: start;
-  position: sticky;
-  top: 100px;
-  max-height: calc(100dvh - 132px);
-  overflow-y: auto;
+.stack24 {
+  composes: stack24 from "../Orthodontics/Orthodontics.module.css";
 }
-.toc a {
-  display: grid;
-  grid-template-columns: 22px minmax(0, 1fr);
-  gap: 10px;
-  min-height: 44px;
-  padding: 10px 12px;
-  border-left: 2px solid transparent;
-  color: var(--muted);
-  font-size: 15px;
-  line-height: 1.6;
+.stack40 {
+  composes: stack40 from "../Orthodontics/Orthodontics.module.css";
 }
-.toc a span {
-  color: var(--action);
-  font: 400 12px/2 var(--utility);
-}
-.toc a:hover,
-.toc a[aria-current] {
-  color: var(--action);
-  background: var(--soft-action);
-}
-.toc a[aria-current] {
-  border-left-color: var(--action);
-}
-.reading {
-  min-width: 0;
-  max-width: 938px;
-}
-.chapter {
+.stack4,
+.stack8,
+.stack12 {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
 }
-.chapter + .chapter {
-  margin-top: 52px;
-  padding-top: 18px;
-  border-top: 1px solid var(--line); /* taste-skill-ignore: shared case-reader chapter rhythm */
+.stack4 {
+  gap: 4px;
 }
-.headingGroup {
-  --chapter-title-size: 28px;
-  --chapter-number-extra: 23px;
-  display: grid;
-  grid-template-columns: max-content minmax(0, 1fr);
-  column-gap: 16px;
-  align-items: start;
-  margin-bottom: 18px;
+.stack8 {
+  gap: 8px;
 }
-.chapterIndex {
-  display: block;
-  font-family: "Anton", sans-serif;
-  font-size: calc(
-    var(--chapter-title-size) * 1.3 + var(--chapter-number-extra)
-  );
-  font-weight: 400;
-  line-height: 0.95;
-  letter-spacing: -0.025em;
-  font-variant-numeric: tabular-nums;
-  color: var(--action);
+.stack12 {
+  gap: 12px;
 }
-.headingCopy {
-  min-width: 0;
+.root .cover h1.title {
+  font-size: 48px;
+  line-height: 62px;
 }
-.chapterEyebrow {
-  margin-bottom: 6px !important;
-  color: var(--action);
-  font: 500 12px/1.3 var(--utility);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  overflow-wrap: normal;
-}
-.headingGroup h2 {
-  font-size: var(--chapter-title-size);
-  line-height: 1.3;
+.coverEyebrow {
+  color: #d3ccde;
+  font-size: 14px;
+  line-height: 22px;
   font-weight: 700;
-  text-wrap: wrap;
-  color: var(--ink);
 }
-.paragraph,
-.roles p,
-.list {
-  margin-bottom: 16px !important;
-  color: var(--prose);
-  font-size: 16px;
-  line-height: 28px;
-  text-align: justify;
-  text-align-last: left;
-  text-wrap: wrap;
-}
-.list {
-  list-style: disc outside;
-  padding-inline-start: 1.25em;
-  text-indent: 0;
-}
-.list li {
-  padding-inline-start: 0;
-  margin-bottom: 8px;
-}
-.roleTitle,
-.subheading {
-  margin: 28px 0 8px !important;
-  font-size: clamp(18px, 1.4vw, 20px);
-  font-weight: 600;
-  line-height: 1.5;
+.coverLede,
+.roles,
+.heroMetrics dd {
+  color: #d3ccde;
 }
 .roles {
-  margin-block: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
-.root:lang(zh) .roles p {
-  max-width: 42em;
-  text-align: left;
+.roles strong {
+  color: #fff;
 }
-.pipeline {
-  list-style: none;
+.heroMetrics,
+.threeColumns,
+.twoColumns {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
-  padding: 24px 0;
-  margin-block: 28px !important;
-  border-block: 1px solid var(--line);
-}
-.pipeline li > span {
-  color: var(--action);
-  font: 400 12px/1.6 var(--utility);
-}
-.pipeline h3 {
-  margin-block: 4px 6px;
-  font-size: 17px;
-  font-weight: 600;
-}
-.pipeline p {
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.65;
-}
-.evidence {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  row-gap: 10px;
-  margin-block: 16px 24px !important;
-}
-.imageButton {
-  display: block;
-  width: 100%;
-  padding: 0;
-  border: 1px solid var(--line); /* taste-skill-ignore: screenshot outline; DESIGN.md 4.4 */
-  border-radius: var(--case-evidence-radius);
-  background: var(--soft);
-  color: var(--ink);
-  text-align: left;
-  cursor: zoom-in;
-  overflow: hidden;
-}
-.imageWindow img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-.imageWindow {
-  display: block;
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-}
-.imageFailure {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-  color: var(--muted);
-  font-size: 14px;
-  text-align: center;
-}
-.imageCaption {
-  margin: 0;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.65;
-}
-
-.editorialEvidence {
-  grid-template-rows: auto 1fr;
-  gap: 0;
+  gap: 48px;
+  align-items: start;
   min-width: 0;
-  margin: 0 !important;
-  border: 1px solid var(--line); /* taste-skill-ignore: approved evidence image and caption frame */
-  border-radius: var(--case-evidence-radius);
-  background: var(--soft);
-  overflow: hidden;
 }
-
-.editorialEvidence .imageButton {
-  border: 0;
-  border-radius: 0;
+.heroMetrics,
+.threeColumns {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
-
-.root .editorialEvidence .imageButton:focus-visible {
-  outline-offset: -3px;
+.twoColumns {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
-
-.editorialEvidence .imageCaption {
-  display: grid;
-  align-content: start;
-  gap: 4px;
-  padding: 12px 16px 14px;
-  border-top: 1px solid var(--line); /* taste-skill-ignore: separates screenshot pixels from its caption */
-}
-
-.editorialEvidence .imageCaption strong {
-  color: var(--ink);
+.heroMetrics dt {
+  font-size: 36px;
+  line-height: 46px;
   font-weight: 700;
 }
-
-.outcomes figcaption {
-  margin-top: 10px;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.65;
+.heroMetrics > *,
+.twoColumns > *,
+.threeColumns > * {
+  min-width: 0;
 }
-.outcomes {
-  margin-block: 28px 36px !important;
-  padding-block: 28px;
-  border-block: 1px solid var(--line);
+.rule {
+  width: 100%;
+  height: 1px;
+  border: 0;
+  background: var(--line);
+  flex-shrink: 0;
 }
-.outcomeLabel {
-  font-size: 14px;
-  color: var(--muted);
+.accentRule {
+  background: var(--action);
 }
-.outcomeComparison {
-  display: flex;
+.root .smallHeading,
+.root .scenario {
+  font-size: 20px;
+  line-height: 30px;
+  font-weight: 700;
+}
+.root .scenario {
+  color: var(--action);
+}
+.root .opportunity {
+  font-size: 18px;
+  line-height: 28px;
+}
+.conclusion {
+  font-size: 20px;
+  line-height: 32px;
+  font-weight: 700;
+}
+.systems {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 48px minmax(0, 1fr);
+  gap: 48px;
   align-items: center;
-  gap: 36px;
-  margin-block: 20px;
 }
-.outcomeComparison > div {
+.system {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  padding: 24px;
+  min-width: 0;
+  background: #f6f5f7;
 }
-.outcomeComparison span {
-  color: var(--muted);
+.system:first-child {
+  background: var(--tint);
+}
+.systemLabel,
+.exampleLabel {
   font-size: 14px;
+  font-weight: 700;
+  line-height: 22px;
 }
-.outcomeComparison strong {
-  font: 600 clamp(26px, 3vw, 40px)/1.3 var(--structural);
+.systemLabel {
+  color: var(--action);
 }
-.legacyTable {
-  margin-block: 24px;
+.interface {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+  color: var(--action);
+  font-size: 14px;
+  line-height: 22px;
 }
-.footer {
-  margin-top: 80px;
-  padding-top: 24px;
-  border-top: 1px solid var(--line); /* taste-skill-ignore: shared case-reader close */
+.interface > p:first-child {
+  font-size: 24px;
+  line-height: 34px;
 }
-.footer a {
-  font-size: 15px;
+.flow {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
 }
-
-/* Normal Chinese line breaking; never inherit the global pretty/balance rules. */
-.root :is(p, li, dd, blockquote, h1, h2, h3, h4, figcaption) {
-  text-wrap: wrap;
-  word-break: normal;
-  overflow-wrap: normal;
-  line-break: strict;
-  letter-spacing: 0;
-  text-indent: 0;
+.flowStep {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  padding: 16px;
 }
-.root .pipeline {
-  text-align: left;
+.arrow {
+  flex: 0 0 24px;
+  font-size: 24px;
+  line-height: 34px;
+  color: var(--action);
 }
-.root .pipeline p,
-.root figcaption {
-  text-align: left;
-  text-align-last: auto;
+.mappingFlow .flowStep {
+  background: #f6f5f7;
 }
-.root:lang(en) :is(.paragraph, .roles p, .list, .summary) {
-  text-align: left;
-  text-align-last: auto;
+.mappingFlow .flowStep:last-child {
+  background: var(--tint);
 }
-.toc a[aria-current] {
-  font-weight: 600;
+.amount {
+  font-size: 36px;
+  line-height: 46px;
+  font-weight: 700;
+  color: #49474f;
 }
-.outcomeComparison strong {
+.amount span {
+  line-height: 0;
+  font-size: 24px;
+}
+.newAllocation .amount {
+  color: var(--action);
+}
+/* The approved screenshots have square corners and no added frame. */
+.root .fullScreen {
+  border-radius: 0;
+  background: transparent;
+  overflow: visible;
+  aspect-ratio: 1080 / 608;
+  display: grid;
+  align-content: center;
+}
+.root .fullScreen::after {
+  content: none;
+}
+.regions {
+  display: grid;
+  grid-template-columns: minmax(0, 378fr) minmax(0, 412fr);
+  column-gap: 25px;
+  width: calc(815 / 1080 * 100%);
+  align-items: center;
+}
+.equation {
+  font-size: 28px;
+  line-height: 40px;
+  font-weight: 700;
+  color: var(--action);
+}
+.timeBefore,
+.timeAfter {
+  font-size: 48px;
+  font-weight: 700;
   white-space: nowrap;
 }
-.imageDialog {
-  --viewer-top: 64px;
-  --viewer-gutter: 24px;
-  position: fixed;
-  inset: 0;
-  margin: 0;
-  width: 100vw;
-  height: 100dvh;
-  max-width: none;
-  max-height: none;
-  padding: var(--viewer-top) var(--viewer-gutter) var(--viewer-gutter);
-  border: 0;
-  border-radius: 0;
-  background: rgb(8 8 8 / 96%);
-  overflow: hidden;
-  font-family: var(--cjk);
+.timeBefore {
+  line-height: 66px;
+  color: #49474f;
 }
-.imageDialog::backdrop {
-  background: #080808;
+.timeAfter {
+  font-size: 64px;
+  line-height: 76px;
+  color: var(--action);
 }
-.viewerClose {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 1;
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: #1a1a1a;
-  color: #f5f5f5;
-  cursor: pointer;
-}
-.viewerClose:focus-visible {
-  outline: 2px solid #d0bcff;
-  outline-offset: 3px;
-}
-.viewerImage {
-  display: grid;
-  grid-template: minmax(0, 1fr) / minmax(0, 1fr);
-  place-items: safe center;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-}
-.viewerCanvas {
-  width: min(
-    100%,
-    var(--image-width),
-    calc(
-      (100dvh - var(--viewer-top) - var(--viewer-gutter)) * var(--image-ratio)
-    )
-  );
-}
-.viewerImage .imageFailure {
-  color: #f5f5f5;
+.timeBefore span,
+.timeAfter span {
+  line-height: 0;
+  font-size: 24px;
 }
 @media (max-width: 1100px) {
-  .coverInner,
-  .readerLayout {
-    grid-template-columns: minmax(0, 1fr);
-    padding-inline: 32px;
+  .twoColumns,
+  .threeColumns,
+  .heroMetrics,
+  .systems {
+    gap: 32px;
   }
-  .coverInner > * {
-    grid-column: 1;
-  }
-  .toc {
-    position: static;
-    max-height: none;
-    margin-bottom: 32px;
-  }
-  .toc nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px 8px;
-  }
-  .reading {
-    max-width: none;
-  }
-}
-@media (max-width: 760px) {
-  .topbar {
-    padding-inline: 20px;
-  }
-  .coverInner,
-  .readerLayout {
-    padding-inline: 20px;
-  }
-  .cover {
-    padding: 80px 0 40px;
-  }
-  .readerLayout {
-    padding-block: 40px 56px;
-  }
-  .chapter + .chapter {
-    margin-top: 48px;
-    padding-top: 20px;
-  }
-  .headingGroup {
-    --chapter-title-size: 26px;
-    --chapter-number-extra: 18px;
-    margin-bottom: 20px;
-  }
-  .chapterEyebrow {
-    font-size: 10px;
-    margin-bottom: 4px !important;
-  }
-  .pipeline {
-    grid-template-columns: 1fr;
-  }
-  .outcomeComparison {
-    gap: 20px;
-  }
-  .imageDialog {
-    --viewer-top: 60px;
-    --viewer-gutter: 12px;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .topbar {
-    transition: none;
-  }
-}
-.root .chapterEyebrow {
-  letter-spacing: 0.08em;
-}
-
-/* Chinese edition follows the approved single-column reader sample. */
-.caseStudy {
-  --case-prose: 672px;
-  --case-grid-width: 720px;
-  --case-evidence-width: min(944px, calc(50vw + 296px));
-}
-
-.caseStudy .topbar {
-  position: sticky;
-  top: 0;
-  border: 0;
-  font-family: inherit;
-}
-
-.caseStudy .lightHeader {
-  border-bottom: 1px solid var(--line); /* taste-skill-ignore: separates the sticky navigation from article text */
-}
-
-.readerTitle {
-  position: absolute;
-  inset-inline: 110px;
-  margin: auto;
-  width: fit-content;
-  max-width: calc(100% - 220px);
-  text-align: center;
-  color: var(--ink);
-  font: 800 20px/1.2 var(--cjk);
-}
-
-.caseStudy .cover {
-  padding: 36px 0 44px;
-}
-
-.caseStudy .coverCopy {
-  min-width: 0;
-  width: var(--case-evidence-width);
-  max-width: none;
-}
-
-.caseStudy .title {
-  max-width: var(--case-prose);
-  margin-top: 0 !important;
-  font-size: clamp(36px, 4.45vw, 64px);
-  line-height: 1.16;
-  text-wrap: balance;
-}
-
-.caseStudy .summary {
-  margin-top: 12px !important;
-  text-align: left;
-}
-
-.heroFacts {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-  margin: 26px 0 24px !important;
-  color: #f5f5f5;
-}
-
-.heroFacts dt,
-.caseStudy .heroRole {
-  color: #b8b8b8;
-  font-size: 14px;
-  line-height: 1.65;
-}
-
-.heroFacts dd {
-  margin: 3px 0 0;
-  font: 600 clamp(22px, 1.9vw, 28px)/1.4 var(--cjk);
-  font-variant-numeric: tabular-nums;
-}
-
-.heroFacts > div {
-  min-width: 0;
-}
-
-.heroFacts dd span {
-  display: block;
-  margin-bottom: 4px;
-  font-size: 20px;
-  font-weight: 400;
-}
-
-.caseStudy .heroRole {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--spacing-xs) var(--spacing-sm);
-  margin: 0 !important;
-  text-align: left;
-}
-
-.heroRole strong {
-  color: #f5f5f5;
-}
-
-.heroRole ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-xs) var(--spacing-sm);
-  padding: 0;
-  list-style: none;
-}
-
-.caseStudy .coverInner,
-.caseStudy .readerLayout {
-  grid-template-columns:
-    minmax(0, 1fr) minmax(0, var(--case-grid-width))
-    minmax(0, 1fr);
-  column-gap: 64px;
-  max-width: none;
-}
-
-.caseStudy .readerLayout {
-  padding: 32px 48px 72px;
-}
-
-.caseStudy .reading {
-  grid-column: 2;
-  max-width: var(--case-prose);
-}
-
-.caseStudy .toc {
-  top: 84px;
-  margin-left: -20px;
-}
-
-.caseStudy .toc nav {
-  display: grid;
-  gap: 4px;
-}
-
-.caseStudy .toc a {
-  display: block;
-  min-height: 38px;
-  padding: 7px 14px;
-  border: 0;
-  background: transparent;
-  font-size: 16px;
-}
-
-.caseStudy .toc a[aria-current] {
-  color: var(--ink);
-  font-weight: 700;
-}
-
-.caseStudy .toc .navPhrase {
-  display: inline;
-  color: inherit;
-  font: inherit;
-}
-
-@media (min-width: 1101px) and (max-width: 1360px) {
-  .caseStudy .toc .navPhrase {
-    display: block;
-  }
-}
-
-.caseStudy .chapter + .chapter,
-.caseStudy .footer {
-  border: 0;
-}
-
-.caseStudy .chapter + .chapter {
-  padding-top: 0;
-  margin-top: 52px;
-}
-
-.caseStudy .caseHeading {
-  width: min(var(--case-grid-width), calc(100% + 48px));
-  margin: 0 0 18px;
-  color: var(--ink);
-  font: 800 clamp(28px, 3.06vw, 44px)/1.6 var(--cjk);
-  text-wrap: balance;
-}
-
-.caseStudy .caseHeading span {
-  display: block;
-  max-width: 100%;
-}
-
-.caseStudy .chapter:global(#solution) .caseHeading {
-  font-size: clamp(30px, 3.06vw, 44px);
-  letter-spacing: -0.01em;
-  text-wrap: wrap;
-}
-
-.caseStudy .roles {
-  margin: 18px 0 0;
-}
-
-.caseStudy .roles h3 {
-  margin: 0 0 8px !important;
-  font: 700 16.8px/1.6 var(--cjk);
-}
-
-.caseStudy .roles p {
-  font: 400 16px/28px var(--cjk);
-  text-align: left;
-  margin-bottom: 8px !important;
-}
-
-.caseStudy .roles p:last-child {
-  margin-bottom: 0 !important;
-}
-
-@media (min-width: 1101px) {
-  .caseStudy .chapter + .chapter {
-    margin-top: var(--spacing-2xl);
-  }
-
-  :global(body:has(#member-automation-page[lang="zh-CN"])) {
-    background: var(--color-bg-primary);
-  }
-
-  .caseStudy {
-    margin: 16px;
-    border-radius: 22px;
-    overflow: clip;
-  }
-}
-
-@media (max-width: 1100px) {
-  .caseStudy .coverInner,
-  .caseStudy .readerLayout {
-    grid-template-columns: minmax(0, 1fr);
-    max-width: 768px;
-    padding-inline: 24px;
-  }
-
-  .caseStudy .readerLayout {
-    gap: 24px;
-  }
-
-  .caseStudy .coverCopy {
+  .regions {
     width: 100%;
   }
-
-  .caseStudy .reading {
-    grid-column: 1;
-    width: 100%;
-    margin-inline: auto;
-  }
-
-  .caseStudy .caseHeading {
-    width: 100%;
-  }
-
-  .caseStudy .toc {
-    margin: 0;
-    justify-self: center;
-    width: min(100%, var(--case-prose));
-  }
-
-  .caseStudy .toc nav {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .caseStudy .toc a {
-    padding-inline: 0;
-    margin-right: 18px;
-    font-size: 15px;
+  .durationComparison {
+    gap: 16px;
   }
 }
-
-@media (max-width: 560px) {
-  .caseStudy .topbar,
-  .caseStudy .coverInner,
-  .caseStudy .readerLayout {
-    padding-inline: 20px;
-  }
-
-  .caseStudy .topbar .back {
-    font-size: 14px;
-  }
-
-  .readerTitle {
-    inset-inline: auto 20px;
-    max-width: calc(100% - 124px);
-    font-size: 15px;
-  }
-
-  .caseStudy .cover {
-    padding-block: 18px 32px;
-  }
-
-  .heroFacts {
+@media (max-width: 900px) {
+  .threeColumns,
+  .systems {
     grid-template-columns: 1fr;
     gap: 24px;
-    margin-top: 20px !important;
   }
-
-  .caseStudy .toc nav {
-    display: grid;
+  .flow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .flowStep {
+    flex: none;
+  }
+  .arrow {
+    flex: none;
+    align-self: center;
+    transform: rotate(90deg);
+  }
+  .interface {
+    align-items: center;
+  }
+  .interface > p:first-child {
+    transform: rotate(90deg);
+  }
+  .durationComparison {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .root .container {
+    width: calc(100% - 40px);
+  }
+  .root .cover h1.title {
+    font-size: 36px;
+    line-height: 46px;
+  }
+  .heroMetrics,
+  .twoColumns,
+  .regions {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .regions {
+    width: 100%;
+  }
+  .durationComparison {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .timeBefore {
+    font-size: 36px;
+  }
+  .timeAfter {
+    font-size: 48px;
+  }
+  .timeBefore span,
+  .timeAfter span {
+    font-size: 18px;
+  }
+  .amount {
+    font-size: 32px;
+  }
+  .equation {
+    font-size: 24px;
+    line-height: 36px;
+  }
+}
+
+.roles > p:last-child {
+  max-width: 1000px;
+}
+
+.root .auditAfter {
+  color: var(--action);
+}
+
+.exampleLabel {
+  color: var(--muted);
+}
+
+@media (max-width: 600px) {
+  .mobileTitle {
+    display: block;
   }
 }

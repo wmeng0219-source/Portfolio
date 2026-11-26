@@ -90,12 +90,12 @@ test("renders homepage sections with updated responsibilities and portfolio emph
 
 test.each([
   ["/", "WEN MENG"],
-  ["/project/member-automation", "会员自动化与财务治理"],
+  ["/project/member-automation", "会员业务自动化"],
   ["/project/orthodontics", "咬合筛查与正畸前期协作流程"],
   ["/project/pacs-ai", "PACS 影像读片与 AI 辅助"],
 ])(
   "English is paused on %s even with a saved English preference",
-  (route, title) => {
+  async (route, title) => {
     localStorage.setItem("language", "en");
     render(
       <MemoryRouter initialEntries={[route]}>
@@ -104,7 +104,7 @@ test.each([
         </LanguageProvider>
       </MemoryRouter>,
     );
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(title);
+    expect(await screen.findByRole("heading", { level: 1 })).toHaveTextContent(title);
     expect(
       screen.queryByRole("button", { name: /^(EN|中文|Switch to English)$/ }),
     ).not.toBeInTheDocument();
@@ -112,7 +112,7 @@ test.each([
   },
 );
 
-test("renders case studies and handles invalid project ID 404 fallback", () => {
+test("renders case studies and handles invalid project ID 404 fallback", async () => {
   const { unmount } = render(
     <MemoryRouter initialEntries={["/project/member-automation"]}>
       <LanguageProvider>
@@ -121,7 +121,7 @@ test("renders case studies and handles invalid project ID 404 fallback", () => {
     </MemoryRouter>,
   );
   expect(
-    screen.getByRole("heading", { level: 1, name: "会员自动化与财务治理" }),
+    await screen.findByRole("heading", { level: 1, name: "会员业务自动化" }),
   ).toBeInTheDocument();
   unmount();
 
@@ -133,7 +133,7 @@ test("renders case studies and handles invalid project ID 404 fallback", () => {
     </MemoryRouter>,
   );
   expect(
-    screen.getByRole("heading", {
+    await screen.findByRole("heading", {
       level: 1,
       name: /咬合筛查与正畸\s*前期协作流程/,
     }),
@@ -147,5 +147,5 @@ test("renders case studies and handles invalid project ID 404 fallback", () => {
       </LanguageProvider>
     </MemoryRouter>,
   );
-  expect(screen.getByText("未找到该案例")).toBeInTheDocument();
+  expect(await screen.findByText("未找到该案例")).toBeInTheDocument();
 });

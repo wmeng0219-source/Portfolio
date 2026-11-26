@@ -88,11 +88,11 @@ test("orthodontics presents the verified rollout, ownership, iteration decision,
 test("member automation follows confirmed rules and explains manual failure handling without rollback claims", () => {
   const { container } = renderProjectDetail("/project/member-automation");
 
-  expect(screen.getByText(/在用卡有效期及待开通卡状态/)).toBeInTheDocument();
-  expect(screen.getByText(/前后未做统一计时/)).toBeInTheDocument();
-  expect(screen.getByText(/原账单已找到、退费已完成/)).toBeInTheDocument();
-  expect(container).not.toHaveTextContent(/门店现场实测|日终批处理/);
-  expect(container).not.toHaveTextContent(/原子|回退|保留原卡与原权益|约 3 天/);
+  expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("会员业务自动化");
+  expect(screen.getByText("有效状态与剩余权益")).toBeInTheDocument();
+  expect(screen.getByText(/依据多门店现场观察及一线员工反馈估算/)).toBeInTheDocument();
+  expect(screen.getByText(/告知员工哪些操作已经完成/)).toBeInTheDocument();
+  expect(container).not.toHaveTextContent(/门店现场实测|日终批处理|原子|回退|保留原卡与原权益|约 3 天/);
 });
 
 test("pre-visit engine renders panoramic views, tooth quadrant ergonomics and structured task bundles", () => {

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import ProjectDetail from './pages/ProjectDetail';
 import ScrollToTop from './components/ScrollToTop';
+
+const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
+const MembershipExperiment = lazy(() => import('./pages/DesignExperiment/Membership'));
 
 function GrainOverlay() {
   return (
@@ -29,10 +31,19 @@ function App() {
     <>
       <GrainOverlay />
       <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/project/:id" element={<ProjectDetail />} />
-      </Routes>
+      <Suspense
+        fallback={<div role="status" style={{ padding: '96px 32px' }}>正在加载…</div>}
+      >
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/project/:id" element={<ProjectDetail />} />
+          {/* 独立视觉实验路由：只服务「会员办理流程重构」一章，不接入案例页模板。 */}
+          <Route
+            path="/design-experiment/membership"
+            element={<MembershipExperiment />}
+          />
+        </Routes>
+      </Suspense>
     </>
   );
 }

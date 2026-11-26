@@ -13,7 +13,7 @@
 | 咬合筛查与正畸协作 | `/project/orthodontics` · 首页精选 02 | [内容](pages/orthodontics/content.md) | [记录](pages/orthodontics/design.md) |
 | PACS 读片与 AI 辅助 | `/project/pacs-ai` · 首页精选 03 | [内容](pages/pacs-ai/content.md) | [记录](pages/pacs-ai/design.md) |
 | 接诊预习 | `/project/pre-visit-engine` · 候选，不进首页 | [内容](pages/pre-visit-engine/content.md) | [记录](pages/pre-visit-engine/design.md) |
-| 会员视觉实验 | 本地 `/design-experiment/membership` · 源码与实验路由保留本地，不纳入正式提交 | 复用会员材料 | [实验记录](pages/design-experiment-membership/design.md) |
+| 会员视觉实验 | `/design-experiment/membership` · 实验路由，仅供直达查看，不进首页 | 复用会员材料 | [实验记录](pages/design-experiment-membership/design.md) |
 
 ## 按需查阅
 

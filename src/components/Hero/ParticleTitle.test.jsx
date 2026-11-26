@@ -51,3 +51,24 @@ test("a live reduced-motion preference replaces particles with a readable headin
     expect.any(Function),
   );
 });
+
+test("keeps the readable name until its own font is ready", async () => {
+  vi.stubGlobal("CanvasRenderingContext2D", function CanvasContext() {});
+  vi.stubGlobal("ResizeObserver", function ResizeObserver() {});
+  vi.stubGlobal("IntersectionObserver", function IntersectionObserver() {});
+  vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue({});
+  let finishFont;
+  const load = vi.fn(() => new Promise((resolve) => { finishFont = resolve; }));
+  const previous = Object.getOwnPropertyDescriptor(document, "fonts");
+  Object.defineProperty(document, "fonts", { configurable: true, value: { load } });
+  try {
+    render(<ParticleTitle />);
+    expect(screen.getByRole("heading", { name: "WEN MENG" })).toHaveTextContent("WEN MENG");
+    expect(screen.queryByTestId("particles")).not.toBeInTheDocument();
+    await act(async () => { finishFont([]); });
+    expect(screen.getByTestId("particles")).toBeInTheDocument();
+  } finally {
+    if (previous) Object.defineProperty(document, "fonts", previous);
+    else delete document.fonts;
+  }
+});

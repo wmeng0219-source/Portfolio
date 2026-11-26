@@ -5,6 +5,7 @@ import './ParticleText.css';
 import { selectParticleTargets } from './sampling';
 import { phaseHighlight } from './colors';
 import { particleFrame, scrollScatterProgress } from './layout';
+import { shouldDrawParticleFrame } from './timing';
 
 const INHERIT = /^(currentcolor|inherit)$/i;
 const TONES = 12;
@@ -48,8 +49,6 @@ const waitForFonts = async font => {
   try {
     await document.fonts.load(font);
   } catch {}
-
-  await document.fonts.ready;
 };
 
 const ParticleText = ({
@@ -542,7 +541,7 @@ const ParticleText = ({
 
     const frame = now => {
       raf = 0;
-      if (!alive) return;
+      if (!alive || !visible || document.hidden) return;
       const s = settingsRef.current;
       if (s) {
         const key = layoutKey(s);
@@ -552,12 +551,17 @@ const ParticleText = ({
           sampledText = s.text;
         }
       }
+      const interacting = gathering || bursting || pointer.active || Math.abs(scrollTarget - scrollSpread) > 0.001;
+      if (!shouldDrawParticleFrame(now, last, interacting)) {
+        raf = requestAnimationFrame(frame);
+        return;
+      }
       const busy = step(now);
       if (busy && visible && alive) raf = requestAnimationFrame(frame);
     };
 
     function wake() {
-      if (raf || !visible || !alive) return;
+      if (raf || !visible || !alive || document.hidden) return;
       last = 0;
       raf = requestAnimationFrame(frame);
     }
@@ -826,6 +830,16 @@ const ParticleText = ({
     });
     intersectionObserver.observe(container);
 
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        if (raf) cancelAnimationFrame(raf);
+        raf = 0;
+      } else {
+        wake();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
     const themeObserver = new MutationObserver(wake);
     for (const node of [document.documentElement, document.body]) {
       if (node) themeObserver.observe(node, { attributes: true, attributeFilter: ['class', 'style', 'data-theme'] });
@@ -841,6 +855,7 @@ const ParticleText = ({
       wakeRef.current = () => {};
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       themeObserver.disconnect();
       schemeQuery?.removeEventListener?.('change', wake);
       motionQuery?.removeEventListener?.('change', handleReduceMotionChange);
